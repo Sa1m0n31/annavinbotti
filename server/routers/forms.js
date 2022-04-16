@@ -49,7 +49,7 @@ router.delete('/delete-input', (request, response) => {
    }
 });
 
-router.get('/order', (request, response) => {
+router.get('/filled-form-for-order', (request, response) => {
    const id = request.query.id;
 
    if(id) {
