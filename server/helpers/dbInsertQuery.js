@@ -4,14 +4,10 @@ const dbInsertQuery = (query, values, response) => {
     try {
         db.query(query, values, (err, res) => {
             if(res) {
-                response.send({
-                    result: 1
-                });
+                response.status(201).end();
             }
             else {
-                response.send({
-                    result: 0
-                });
+                response.status(500).end();
             }
         });
     }
