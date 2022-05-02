@@ -52,6 +52,7 @@ const init = (passport) => {
                    return done(null, false, { message: 'Niepoprawna nazwa użytkownika lub hasło' });
                }
                else {
+                   
                    return done(null, admin);
                }
            }
@@ -69,8 +70,7 @@ const init = (passport) => {
 
     passport.serializeUser((user, done) => {
         if(user) {
-            if(user.name || user.provider) done(null, user); /* Facebook or Google */
-            else done(null, user.id); /* Local */
+            done(null, user.id);
         }
         else done(null, null);
     });

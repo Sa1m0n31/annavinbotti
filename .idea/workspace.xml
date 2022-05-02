@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -20,11 +23,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/server/routers/addons.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routers/images.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminTop.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/client/LoadingPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/helpers/admin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/helpers/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AdminLogin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AdminStart.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/addons.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/contact-form.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/home.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/logout.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/newsletter.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/order.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/padlock.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/products.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/profile-picture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/settings.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/stack.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/terms-and-conditions.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/types.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/writer.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/writing.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/settings.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/style/admin.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/style/mobile-admin.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/helpers/dbInsertQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/helpers/dbInsertQuery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/stocks.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/stocks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/passport.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/passport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/forms.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/forms.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +64,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -49,12 +80,17 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../draft4u" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/static/img" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\routers" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\helpers" />
     </key>
@@ -68,7 +104,9 @@
       <option name="presentableId" value="Default" />
       <updated>1650104264502</updated>
       <workItem from="1650104265794" duration="8639000" />
-      <workItem from="1650736508549" duration="5484000" />
+      <workItem from="1650736508549" duration="5489000" />
+      <workItem from="1651110274946" duration="161000" />
+      <workItem from="1651490286768" duration="9624000" />
     </task>
     <servers />
   </component>
@@ -85,19 +123,37 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1650739920845">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1651493341516">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1650739920845" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651143048435" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1651493341516" />
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1651493490860">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1651493490860" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1651493490860">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1651493490860" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1651493490860">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1651493490860" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1651493490860">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1651493490860" />
     <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1650738829986">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1650738829986" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1650739529911">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1651500548202">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1650739529911" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1651500548202" />
   </component>
 </project>

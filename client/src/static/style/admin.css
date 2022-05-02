@@ -1,0 +1,330 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.container--adminLogin {
+    background: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin__login {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-30px);
+}
+
+.btn--adminLogin {
+    width: 300px;
+    height: 45px;
+    border-radius: 45px;
+}
+
+.admin__login .input {
+    width: 300px;
+    height: 50px;
+    margin-bottom: 15px;
+}
+
+.admin__login .input::placeholder {
+    color: rgba(255, 255, 255, .5);
+}
+
+.admin__login__logo {
+    width: 400px;
+    height: auto;
+}
+
+.admin__login__header {
+    margin: 30px auto 60px;
+    color: #fff;
+    text-align: center;
+}
+
+.panelMenu {
+    width: 20%;
+    background: transparent;
+    height: calc(100vh - 100px);
+    overflow-y: scroll;
+    position: relative;
+    border-right: 2px solid var(--secondary);
+    z-index: 2;
+}
+
+.panelMenu__list {
+    list-style-type: none;
+    padding-top: 20px;
+}
+
+.panelMenu__list__item__link {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+    color: #D4D4D4;
+    background: transparent;
+    padding: 10px 40px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: .2s all;
+}
+
+.panelMenu__list__item__link:hover {
+    background: var(--secondary);
+    color: #fff;
+}
+
+.panelMenu__list__item__link:hover .panelMenu__list__item__icon {
+    filter: brightness(0) invert(1);
+}
+
+.panelMenu__list__item__icon {
+    width: 20px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.panelMenu__submenu {
+    background: transparent;
+    padding-left: 20%;
+}
+
+.panelMenu__submenu__link {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50px;
+    color: #fff;
+    font-size: 18px;
+    padding: 35px 0 35px 5%;
+    transition: .2s all;
+}
+
+.panelMenu__submenu__link:hover {
+    background: var(--secondary);
+    color: #fff;
+}
+
+.panelMenu__list__item__link--selected {
+    background: var(--secondary);
+    color: #fff;
+}
+
+.panelMenu__list__item__link--selected .panelMenu__list__item__icon {
+    filter: brightness(0) invert(1);
+}
+
+.adminTop {
+    position: relative;
+    z-index: 3;
+    background: transparent;
+    width: 100%;
+    height: 100px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: visible;
+    border-bottom: 1px solid var(--secondary);
+}
+
+.adminTop__right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+.adminTop__logoWrapper {
+    display: block;
+    width: 270px;
+    height: auto;
+    margin-top: 10px;
+}
+
+.adminTop__header {
+    font-size: 17px;
+}
+
+.adminTop__header__key {
+    color: #D4D4D4;
+    font-weight: 400;
+}
+
+.adminTop__header__value {
+    font-weight: 700;
+    padding-left: 10px;
+}
+
+.adminTop__right .profileMenu::before {
+    right: 10%;
+}
+
+.adminTop__right .siteHeader__player__btn {
+    margin-left: 30px;
+}
+
+.profileMenu {
+    position: absolute;
+    bottom: -10px;
+    right: 0;
+    transform: translate(0, 100%);
+    background: #fff;
+    width: 200px;
+    padding: 15px 0;
+}
+
+.profileMenu::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 17%;
+    transform: translateY(-100%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid #fff;
+    background: transparent;
+    z-index: 3;
+}
+
+.profileMenu--admin {
+    bottom: -25px;
+}
+
+.profileMenu--club::before {
+    border-bottom-color: var(--secondary);
+}
+
+.profileMenu--club {
+    background: var(--secondary);
+}
+
+.profileMenu__list {
+    list-style-type: none;
+}
+
+.profileMenu__list__link {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background: transparent;
+    width: 100%;
+    font-size: 16px;
+    transition: .2s all;
+}
+
+.profileMenu--club .profileMenu__list__link {
+    color: #fff;
+}
+
+.profileMenu--club .profileMenu__list__link:hover {
+    opacity: .5;
+}
+
+.profileMenu__list__img {
+    width: 30px;
+    height: auto;
+    min-height: 100%;
+    margin-right: 25px;
+}
+
+.siteHeader__player {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    height: 70px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.siteHeader__player--club {
+    background: #3D3D3D;
+}
+
+.siteHeader__player__btn {
+    background: transparent;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 15px;
+    position: relative;
+}
+
+.siteHeader__player__btn__img {
+    width: 100%;
+}
+
+.img--envelope {
+    margin-bottom: -12px;
+}
+
+.siteHeader__player--club .img--envelope {
+    margin-bottom: 0;
+}
+
+.siteHeader__player__btn--profile {
+    width: 55px;
+    height: 55px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid #707070;
+}
+
+.siteHeader__player__btn--profile__img {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.scroll::-webkit-scrollbar-button {
+    width: 5px;
+    height: 5px;
+}
+.scroll::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border: none;
+    border-radius: 31px;
+}
+.scroll::-webkit-scrollbar-track {
+    background: var(--primary);
+    border: none;
+    border-radius: 5px;
+}
+.scroll::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.panelMenu__submenu__link--special {
+    color: #fff;
+    width: 100%;
+    text-align: left;
+}
