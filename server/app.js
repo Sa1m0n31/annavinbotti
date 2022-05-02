@@ -267,6 +267,8 @@ app.get("/regulaminy-angielski", (req, res) => {
 
 /* Routers */
 const orderRouter = require('./routers/order');
+const productRouter = require('./routers/products');
+const addonRouter = require('./routers/addons');
 // const authRouter = require("./routers/auth");
 // const imageRouter = require("./routers/image");
 // const videoRouter = require("./routers/video");
@@ -286,6 +288,8 @@ const orderRouter = require('./routers/order');
 // const chatRouter = require("./routers/chat");
 
 app.use('/orders', orderRouter);
+app.use('/products', productRouter);
+app.use('/addons', addonRouter);
 // app.use("/auth", authRouter);
 // app.use("/image", imageRouter); // only / not restricted (display image)
 // app.use("/video", videoRouter); // only /get not restricted (display video)

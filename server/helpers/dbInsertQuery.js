@@ -7,11 +7,13 @@ const dbInsertQuery = (query, values, response) => {
                 response.status(201).end();
             }
             else {
+                console.log(err);
                 response.status(500).end();
             }
         });
     }
     catch(err) {
+        console.log(err);
         response
             .status(500)
             .end();

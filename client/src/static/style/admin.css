@@ -57,7 +57,9 @@
     background: transparent;
     height: calc(100vh - 100px);
     overflow-y: scroll;
-    position: relative;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     border-right: 2px solid var(--secondary);
     z-index: 2;
 }
@@ -65,6 +67,10 @@
 .panelMenu__list {
     list-style-type: none;
     padding-top: 20px;
+}
+
+.panelMenu__list__item {
+    border-bottom: 1px solid var(--secondary);
 }
 
 .panelMenu__list__item__link {
@@ -134,9 +140,11 @@
 }
 
 .adminTop {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 3;
-    background: transparent;
+    background: var(--primary);
     width: 100%;
     height: 100px;
     padding: 10px 20px;
@@ -327,4 +335,290 @@
     color: #fff;
     width: 100%;
     text-align: left;
+}
+
+.admin__main {
+    position: relative;
+    padding: 50px 30px 30px 50px;
+    width: 80%;
+    margin: 100px 0 0 20%;
+}
+
+.admin__main__header {
+    color: var(--secondary);
+    text-transform: uppercase;
+}
+
+.container--addProduct .input {
+    width: 100%;
+    height: 50px;
+    display: block;
+    margin-top: 5px;
+}
+
+.container--addProduct label {
+    color: #fff;
+    margin: 30px 15vw 30px 0;
+    font-size: 13px;
+    display: block;
+}
+
+.container--addProduct .flex {
+    justify-content: flex-start;
+}
+
+.rdw-editor-wrapper {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.rdw-editor-wrapper,
+.rdw-editor-wrapper * {
+    color: #000;
+}
+
+.editor {
+    background: #fff;
+    margin-top: 0;
+    color: #000;
+    padding: 0 15px;
+    min-height: 200px;
+}
+
+.btn--admin {
+    width: 100%;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.btn--choose {
+    border-radius: 4px;
+    width: 200px;
+    margin: 15px 25px 0 0;
+    height: 40px;
+    background: transparent;
+    border: 2px solid var(--secondary) !important;
+}
+
+.btn--choose:hover {
+    opacity: .8;
+    background: transparent;
+}
+
+.btn--choose--selected {
+    background: var(--secondary) !important;
+}
+
+.btn--choose--selected:hover {
+    opacity: 1;
+}
+
+.btn--addOption {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 36px;
+    font-weight: 700;
+    margin-left: 30px;
+}
+
+.optionsHeader {
+    margin: 40px 0;
+    padding-top: 40px;
+    border-top: 2px dashed var(--secondary);
+}
+
+.singleOption {
+    margin-top: -25px;
+}
+
+.singleOption .input {
+    width: 250px;
+}
+
+.singleOption__number {
+    margin-right: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--secondary);
+    color: #fff;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+}
+
+.singleOption:last-of-type {
+    margin-bottom: 50px;
+}
+
+.admin__label__imgUpload__updateImg,
+.dzu-previewContainer img {
+    width: 200px;
+    height: auto;
+}
+
+.dzu-dropzone > label {
+    margin-top: 5px;
+    color: transparent;
+}
+
+.dzu-dropzone > label > input {
+    color: #fff;
+}
+
+.singleOption > label {
+    margin-right: 3vw;
+    position: relative;
+}
+
+.admin__label__imgUpload__trashBtn {
+    position: absolute;
+    top: -10px;
+    right: -20px;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    font-size: 36px;
+    font-weight: 500;
+    border-radius: 50%;
+    background: var(--secondary);
+    z-index: 2;
+}
+
+.dzu-previewStatusContainer {
+    display: none;
+}
+
+.colorModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, .6);
+    transition: .4s all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+
+.colorModal__inner {
+    width: 450px;
+    height: 500px;
+    max-width: 90vw;
+    max-height: 100vh;
+    background: var(--primary);
+    border-radius: 15px;
+    border: 1px solid #313131;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.colorModal__inner label {
+    margin: 0;
+}
+
+.btn--openColorModal {
+    height: 40px;
+    width: 150px;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+
+.colorModal__header {
+    color: var(--secondary);
+    margin-bottom: 25px;
+}
+
+.btn--changeColor {
+    width: 200px;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.colorModal__close {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    background: transparent;
+    color: #fff;
+    font-size: 36px;
+    font-weight: 500;
+}
+
+.showColor {
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin-left: 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 2px solid var(--secondary);
+}
+
+.deleteOptionBtn {
+    background: var(--secondary);
+    margin-left: 50px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-top: 15px;
+    transition: .2s all;
+}
+
+.deleteOptionBtn:hover {
+    background: var(--hover);
+}
+
+.deleteOptionBtn .btn__img {
+    width: 40%;
+}
+
+.dzu-inputLabel {
+    margin-right: 0 !important;
+}
+
+.dzu-input {
+    margin-left: -185px;
+}
+
+.container--addProduct .admin__flex {
+    margin-right: 0;
+}
+
+.admin__status {
+    position: absolute;
+    top: 50px;
+    left: 400px;
+}
+
+.admin__status__inner {
+    width: auto;
+    padding: 5px 15px;
+    font-size: 15px;
+    color: #fff;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.admin__status--success {
+    background: green;
+}
+
+.admin__status--error {
+    background: #d83b27;
+}
+
+div[data-testid=three-dots-loading] {
+    justify-content: center;
+    align-items: center;
 }

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './static/style/style.css'
 import './static/style/admin.css'
 import './static/style/mobile.css'
+import './static/style/mobile-admin.css'
 
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminWrapper from "./components/admin/AdminWrapper";
@@ -20,6 +21,15 @@ function App() {
     </Route>
     <Route path="/panel">
       <AdminWrapper page={1} />
+    </Route>
+    <Route path="/dodaj-produkt">
+      <AdminWrapper page={2} />
+    </Route>
+    <Route path="/lista-produktow">
+      <AdminWrapper page={3} />
+    </Route>
+    <Route path="/dodaj-dodatek">
+      <AdminWrapper page={4} />
     </Route>
   </Router>
 }

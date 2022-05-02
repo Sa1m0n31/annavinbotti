@@ -68,3 +68,18 @@ a {
     border: none;
     outline: none;
 }
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hidden {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    display: block;
+    z-index: -100;
+}

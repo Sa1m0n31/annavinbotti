@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/db");
+const got = require('got');
 const { v4: uuidv4 } = require('uuid');
 const multer  = require('multer')
 const upload = multer({ dest: 'media/addons' })
@@ -8,35 +9,57 @@ const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 
 router.post('/add', (request, response) => {
-   const { addonName, addonType } = request.body;
+   const { namePl, nameEn, type, options } = request.body;
 
-   const query = `INSERT INTO addons VALUES (nextval('addons_seq'), $1, $2) RETURNING id`;
-   const values = [addonName, addonType];
+   const query = `INSERT INTO addons VALUES (nextval('addons_seq'), $1, $2, $3, FALSE) RETURNING id`;
+   const values = [namePl, nameEn, type];
 
-   dbInsertQuery(query, values, response);
+   db.query(query, values, (err, res) => {
+       console.log(err);
+       if(res) {
+           if(res.rows) {
+               const id = res.rows[0].id;
+               if(id) {
+                   response.status(201);
+                   response.send({
+                       result: id
+                   });
+               }
+               else {
+                   response.status(500).end();
+               }
+           }
+           else {
+               response.status(500).end();
+           }
+       }
+       else {
+           response.status(500).end();
+       }
+   })
 });
 
 router.post('/add-option', upload.single('image'), (request, response) => {
-    const { addon, option, color } = request.body;
+    const { addon, namePl, nameEn, color } = request.body;
 
     let filename;
     if(request.file) {
         filename = request.file.filename;
 
-        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3)`;
-        const values = [addon, option, filename];
+        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE)`;
+        const values = [namePl, nameEn, addon, filename];
 
         dbInsertQuery(query, values, response);
     }
     else if(color) {
-        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3)`;
-        const values = [addon, option, color];
+        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE)`;
+        const values = [namePl, nameEn, addon, color];
 
         dbInsertQuery(query, values, response);
     }
     else {
-        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, NULL)`;
-        const values = [addon, option]
+        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, NULL, FALSE)`;
+        const values = [namePl, nameEn, addon]
 
         dbInsertQuery(query, values, response);
     }
