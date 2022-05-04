@@ -66,35 +66,35 @@ router.post('/add-option', upload.single('image'), (request, response) => {
 });
 
 router.patch('/update', (request, response) => {
-   const { id, name, type } = request.body;
+   const { id, namePl, nameEn, type } = request.body;
 
-   const query = 'UPDATE addons SET name = $1, type = $2 WHERE id = $3';
-   const values = [name, type, id];
+   const query = 'UPDATE addons SET name_pl = $1, name_en = $2, addon_type = $3 WHERE id = $4';
+   const values = [namePl, nameEn, type, id];
 
    dbInsertQuery(query, values, response);
 });
 
-router.patch('/update-addon', upload.single("image"), (request, response) => {
-    const { id, addon, option, color } = request.body;
+router.patch('/update-option', upload.single("image"), (request, response) => {
+    const { id, addon, namePl, nameEn, color } = request.body;
 
     let filename;
     if(request.file) {
         filename = request.file.filename;
 
-        const query = `UPDATE addons_options SET addon = $1, name = $2, image = $3 WHERE id = $4`;
-        const values = [addon, option, filename, id];
+        const query = `UPDATE addons_options SET addon = $1, name_pl = $2, name_en = $3, image = $4 WHERE id = $5`;
+        const values = [addon, namePl, nameEn, filename, id];
 
         dbInsertQuery(query, values, response);
     }
     else if(color) {
-        const query = `UPDATE addons_options SET addon = $1, name = $2, image = $3 WHERE id = $4`;
-        const values = [addon, option, color, id];
+        const query = `UPDATE addons_options SET addon = $1, name_pl = $2, name_en = $3, image = $4 WHERE id = $5`;
+        const values = [addon, namePl, nameEn, color, id];
 
         dbInsertQuery(query, values, response);
     }
     else {
-        const query = `UPDATE addons_options SET addon = $1, name = $2, image = NULL WHERE id = $4`;
-        const values = [addon, option, id];
+        const query = `UPDATE addons_options SET addon = $1, name_pl = $2, name_en = $3, image = NULL WHERE id = $4`;
+        const values = [addon, namePl, nameEn, id];
 
         dbInsertQuery(query, values, response);
     }
@@ -103,7 +103,11 @@ router.patch('/update-addon', upload.single("image"), (request, response) => {
 router.get('/get-options-by-addon', (request, response) => {
    const id = request.query.id;
 
-   const query = 'SELECT ao.id, ao.name, ao,image FROM addons_options ao JOIN addons a ON a.id = ao.addon WHERE a.id = $1';
+   const query = `SELECT ao.id, ao.name_pl, ao.name_en, ao,image 
+                    FROM addons_options ao 
+                    JOIN addons a ON a.id = ao.addon 
+                    WHERE a.id = $1 AND ao.hidden = FALSE 
+                    ORDER BY ao.id`;
    const values = [id];
 
    dbSelectQuery(query, values, response);
@@ -123,7 +127,7 @@ router.get('/get-addons-by-product', (request, response) => {
 });
 
 router.get('/all', (request, response) => {
-   const query = 'SELECT * FROM addons WHERE hidden = FALSE';
+   const query = 'SELECT * FROM addons WHERE hidden = FALSE ORDER BY id';
 
    dbSelectQuery(query, [], response);
 });
@@ -150,6 +154,34 @@ router.get('/get-option', (request, response) => {
     const values = [id];
 
     dbSelectQuery(query, values, response);
+});
+
+router.delete('/delete', (request, response) => {
+    const id = request.query.id;
+
+    if(id) {
+        const query = 'UPDATE addons SET hidden = TRUE WHERE id = $1';
+        const values = [id];
+
+        dbInsertQuery(query, values, response);
+    }
+    else {
+        response.status(400).end();
+    }
+});
+
+router.delete('/delete-addon-options', (request, response) => {
+    const id = request.query.id;
+
+    if(id) {
+        const query = 'UPDATE addons_options SET hidden = TRUE WHERE addon = $1';
+        const values = [id];
+
+        dbInsertQuery(query, values, response);
+    }
+    else {
+        response.status(400).end();
+    }
 });
 
 module.exports = router;

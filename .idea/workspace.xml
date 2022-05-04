@@ -23,27 +23,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/ColorModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/Loader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/ProductListItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/helpers/products.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/ProductList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/pen.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routers/products.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminDeleteModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AddonList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/admin/ProductListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/ProductListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/products.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile-admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile-admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/helpers/dbInsertQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/helpers/dbInsertQuery.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routers/addons.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/addons.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +58,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/components/admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../draft4u" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -97,7 +85,8 @@
       <workItem from="1650104265794" duration="8639000" />
       <workItem from="1650736508549" duration="5489000" />
       <workItem from="1651110274946" duration="161000" />
-      <workItem from="1651490286768" duration="24225000" />
+      <workItem from="1651490286768" duration="24291000" />
+      <workItem from="1651675198336" duration="4419000" />
     </task>
     <servers />
   </component>
@@ -117,34 +106,40 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1651518741157">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1651675778274">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651143048435" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651675778274" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1651518741157" />
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1651493490860">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1651533138607">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1651493490860" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1651493490860">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1651533138607" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1651533138607">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1651493490860" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1651493490860">
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1651533138607" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1651533138607">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1651493490860" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1651493490860">
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1651533138607" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1651533138607">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1651493490860" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1651533138607" />
     <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1650738829986">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1650738829986" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1651531935176">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1651675634393">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651675634393" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1651678431054">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651678431054" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1651531935176" />
   </component>
 </project>

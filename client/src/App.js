@@ -31,6 +31,12 @@ function App() {
     <Route path="/dodaj-dodatek">
       <AdminWrapper page={4} />
     </Route>
+    <Route path="/lista-dodatkow">
+      <AdminWrapper page={5} />
+    </Route>
+    <Route path="/edytuj-dodatek">
+      <AdminWrapper page={6} />
+    </Route>
   </Router>
 }
 

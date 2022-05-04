@@ -6,12 +6,20 @@ import trashIcon from '../../static/img/trash.svg'
 import Dropzone from "react-dropzone-uploader";
 import { SketchPicker } from "react-color";
 import ColorModal from "../../components/admin/ColorModal";
-import {addAddon, addAddonOption} from "../../helpers/products";
+import {
+    addAddon,
+    addAddonOption,
+    deleteAddonOptions,
+    getAddonById,
+    getOptionsByAddon,
+    updateAddon
+} from "../../helpers/products";
 import Loader from "../../components/admin/Loader";
 import Waiting from "../../components/admin/Loader";
 import {scrollToTop} from "../../helpers/others";
 
 const AddAddon = () => {
+    const [id, setId] = useState(0);
     const [namePl, setNamePl] = useState("");
     const [nameEn, setNameEn] = useState("");
     const [addonType, setAddonType] = useState(0);
@@ -28,6 +36,7 @@ const AddAddon = () => {
     const [currentOption, setCurrentOption] = useState(-1);
     const [status, setStatus] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [updateMode, setUpdateMode] = useState(false);
 
     const addNewOption = () => {
         setOptions([...options, {
@@ -50,6 +59,55 @@ const AddAddon = () => {
             }
         }));
     }
+
+    useEffect(() => {
+        const id = new URLSearchParams(window.location.search).get('id');
+
+        if(id) {
+            setUpdateMode(true);
+            getAddonById(id)
+                .then((res) => {
+                    if(res?.status === 200) {
+                        const result = res?.data?.result[0];
+                        if(result) {
+                            setId(result.id);
+                            setNamePl(result.name_pl);
+                            setNameEn(result.name_en);
+                            setAddonType(result.addon_type);
+
+                            const addonTypeToUpdate = result.addon_type;
+
+                            getOptionsByAddon(result.id)
+                                .then((res) => {
+                                    if(res.status === 200) {
+                                        const result = res?.data?.result;
+                                        if(result) {
+                                            setOptions(result?.map((item) => {
+                                                return {
+                                                    namePl: item.name_pl,
+                                                    nameEn: item.name_en,
+                                                    image: item.image === 'null' || !item.image || addonTypeToUpdate === 3 ? null : item.image,
+                                                    color: addonTypeToUpdate === 3 ? item.image : '',
+                                                    updateImage: item.image !== 'null' && addonTypeToUpdate !== 3
+                                                }
+                                            }));
+                                        }
+                                    }
+                                })
+                                .catch(() => {
+                                    window.location = '/panel';
+                                })
+                        }
+                        else {
+                            window.location = '/panel';
+                        }
+                    }
+                })
+                .catch(() => {
+                    window.location = '/';
+                });
+        }
+    }, []);
 
     useEffect(() => {
         if(status) {
@@ -100,48 +158,84 @@ const AddAddon = () => {
         }));
     }
 
-    const createNewAddon = () => {
-        if(addonType && namePl && nameEn) {
-            setLoading(true);
-            addAddon(namePl, nameEn, addonType)
+    const createAddonOptions = () => {
+        options.forEach((item, index, array) => {
+            addAddonOption(id, item.namePl, item.nameEn, addonType === 3 ? item.color : null, addonType === 2 ? item.image?.file : null)
                 .then((res) => {
-                   if(res.status === 201) {
-                       const id = res?.data?.result;
-                       if(id) {
-                           options.forEach((item, index, array) => {
-                               addAddonOption(id, item.namePl, item.nameEn, addonType === 3 ? item.color : null, addonType === 2 ? item.image?.file : null)
-                                   .then((res) => {
-                                        if(res.status === 201) {
-                                            if(index === array.length-1) {
-                                                setStatus(1);
-                                                scrollToTop();
-                                            }
-                                        }
-                                        else {
-                                            setStatus(-2);
-                                            scrollToTop();
-                                        }
-                                   })
-                                   .catch(() => {
-                                       setStatus(-2);
-                                       scrollToTop();
-                                   });
-                           });
-                       }
-                       else {
-                           setStatus(-2);
-                           scrollToTop();
-                       }
-                   }
-                   else {
-                       setStatus(-2);
-                       scrollToTop();
-                   }
+                    if(res.status === 201) {
+                        if(index === array.length-1) {
+                            setStatus(1);
+                            scrollToTop();
+                        }
+                    }
+                    else {
+                        setStatus(-2);
+                        scrollToTop();
+                    }
                 })
                 .catch(() => {
                     setStatus(-2);
                     scrollToTop();
                 });
+        });
+    }
+
+    const createNewAddon = () => {
+        if(addonType && namePl && nameEn) {
+            setLoading(true);
+
+            if(updateMode) {
+                deleteAddonOptions(id)
+                    .then((res) => {
+                        if(res?.status === 201) {
+                            updateAddon(id, namePl, nameEn, addonType)
+                                .then((res) => {
+                                    if(res?.status === 201) {
+                                        createAddonOptions();
+                                    }
+                                    else {
+                                        setStatus(-2);
+                                        scrollToTop();
+                                    }
+                                })
+                                .catch(() => {
+                                    setStatus(-2);
+                                    scrollToTop();
+                                });
+                        }
+                        else {
+                            setStatus(-2);
+                            scrollToTop();
+                        }
+                    })
+                    .catch(() => {
+                        setStatus(-2);
+                        scrollToTop();
+                    });
+            }
+            else {
+                addAddon(namePl, nameEn, addonType)
+                    .then((res) => {
+                        if(res.status === 201) {
+                            const id = res?.data?.result;
+                            if(id) {
+                                createAddonOptions();
+                            }
+                            else {
+                                setStatus(-2);
+                                scrollToTop();
+                            }
+                        }
+                        else {
+                            setStatus(-2);
+                            scrollToTop();
+                        }
+                    })
+                    .catch(() => {
+                        setStatus(-2);
+                        scrollToTop();
+                    });
+            }
         }
         else {
             setStatus(-1);
@@ -179,7 +273,7 @@ const AddAddon = () => {
                         </span> : (status === -2) ? <span className="admin__status__inner admin__status--error">
                             Coś poszło nie tak... Skontaktuj się z administratorem systemu
                         </span> : <span className="admin__status__inner admin__status--success">
-                            Dodatek został dodany
+                            {updateMode ? 'Dodatek został zaktualizowany' : 'Dodatek został dodany'}
                         </span>}
                 </span> : ""}
 
