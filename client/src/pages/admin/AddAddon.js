@@ -17,6 +17,7 @@ import {
 import Loader from "../../components/admin/Loader";
 import Waiting from "../../components/admin/Loader";
 import {scrollToTop} from "../../helpers/others";
+import ImagePreview from "../../components/admin/ImagePreview";
 
 const AddAddon = () => {
     const [id, setId] = useState(0);
@@ -37,6 +38,7 @@ const AddAddon = () => {
     const [status, setStatus] = useState(0);
     const [loading, setLoading] = useState(false);
     const [updateMode, setUpdateMode] = useState(false);
+    const [initialFiles, setInitialFiles] = useState([]);
 
     const addNewOption = () => {
         setOptions([...options, {
@@ -82,20 +84,39 @@ const AddAddon = () => {
                                     if(res.status === 200) {
                                         const result = res?.data?.result;
                                         if(result) {
-                                            setOptions(result?.map((item) => {
+                                            let initialFilesArray = [];
+                                            const optionsArray = result?.map((item, index, array) => {
+
+                                                (async () => {
+                                                    let response = await fetch(`${settings.API_URL}/image?url=media/addons/${item.image}`);
+                                                    let data = await response.blob();
+                                                    let metadata = {
+                                                        type: 'image/jpeg'
+                                                    };
+                                                    let file = await new File([data], item.name_pl, metadata);
+                                                    await initialFilesArray.push([file]);
+
+                                                    if(index === array.length-1) {
+                                                        await console.log(initialFilesArray);
+                                                        await setInitialFiles(initialFilesArray);
+                                                    }
+                                                })();
+
                                                 return {
                                                     namePl: item.name_pl,
                                                     nameEn: item.name_en,
-                                                    image: item.image === 'null' || !item.image || addonTypeToUpdate === 3 ? null : item.image,
+                                                    image: initialFiles[index],
                                                     color: addonTypeToUpdate === 3 ? item.image : '',
                                                     updateImage: item.image !== 'null' && addonTypeToUpdate !== 3
                                                 }
-                                            }));
+                                            });
+                                            setOptions(optionsArray);
                                         }
                                     }
                                 })
-                                .catch(() => {
-                                    window.location = '/panel';
+                                .catch((err) => {
+                                    console.log(err);
+                                    // window.location = '/panel';
                                 })
                         }
                         else {
@@ -108,6 +129,10 @@ const AddAddon = () => {
                 });
         }
     }, []);
+
+    useEffect(() => {
+        console.log(options);
+    }, [options]);
 
     useEffect(() => {
         if(status) {
@@ -130,17 +155,19 @@ const AddAddon = () => {
     const deleteImgFromAddon = (i) => {
         setOptions(options?.map((item, index) => {
             if(i === index) {
-                if(item.image) {
-                    item.image.remove();
+                if(item?.image) {
+                    console.log(item.image);
+                    console.log('REMOVE');
+                    item.image?.remove();
                 }
-                item.image = null;
                 item.updateImage = false;
+                item.image = null;
                 return item;
             }
             else {
                 return item;
             }
-        }))
+        }));
     }
 
     const changeCurrentOptionColor = (color, event) => {
@@ -158,9 +185,9 @@ const AddAddon = () => {
         }));
     }
 
-    const createAddonOptions = () => {
+    const createAddonOptions = (insertedId = null) => {
         options.forEach((item, index, array) => {
-            addAddonOption(id, item.namePl, item.nameEn, addonType === 3 ? item.color : null, addonType === 2 ? item.image?.file : null)
+            addAddonOption(insertedId ? insertedId : id, item.namePl, item.nameEn, addonType === 3 ? item.color : null, addonType === 2 ? item.image?.file : null)
                 .then((res) => {
                     if(res.status === 201) {
                         if(index === array.length-1) {
@@ -219,7 +246,7 @@ const AddAddon = () => {
                         if(res.status === 201) {
                             const id = res?.data?.result;
                             if(id) {
-                                createAddonOptions();
+                                createAddonOptions(id);
                             }
                             else {
                                 setStatus(-2);
@@ -247,10 +274,15 @@ const AddAddon = () => {
         console.log(img);
     }
 
+    useEffect(() => {
+        console.log(initialFiles);
+    }, [initialFiles]);
+
     const handleChangeStatus = (i, status) => {
+        console.log('HANDLE CHANGE STATUS');
         setOptions(options?.map((item, index) => {
             if(i === index) {
-                item.image = status;
+                if(status.remove) item.image = status;
                 return item;
             }
             else {
@@ -353,9 +385,6 @@ const AddAddon = () => {
                             </span>
 
                             <span className={addonType !== 2 ? 'hidden' : "admin__label__imgUpload"}>
-                                {item.updateImage ? <figure className="admin__label__imgUpload__updateImgWrapper">
-                                    <img className="admin__label__imgUpload__updateImg" src={`${settings.API_URL}/image?url=/media/blog/${item.updateImage}`} alt="foto" />
-                                </figure> : ""}
                                 {item.updateImage || item.image ? <button className="admin__label__imgUpload__trashBtn" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImgFromAddon(index); }}>
                                     &times;
                                 </button> : ""}
@@ -364,6 +393,9 @@ const AddAddon = () => {
                                     getUploadParams={getUploadImage}
                                     onChangeStatus={(status) => { handleChangeStatus(index, status); }}
                                     accept="image/*"
+                                    PreviewComponent={ImagePreview}
+                                    multiple={false}
+                                    initialFiles={initialFiles[index]}
                                     maxFiles={1} />
                             </span>
                         </label>

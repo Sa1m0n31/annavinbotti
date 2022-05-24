@@ -716,3 +716,11 @@ div[data-testid=three-dots-loading] {
 .admin__main__notification__item--addon .admin__main__notification__item__col {
     flex-basis: 30%;
 }
+
+.imagePreview {
+    max-width: 250px;
+}
+
+.img {
+    width: 100%;
+}

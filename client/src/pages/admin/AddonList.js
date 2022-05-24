@@ -45,6 +45,16 @@ const AddonList = () => {
             });
     }
 
+    useEffect(() => {
+        if(deleteStatus !== 0) {
+            setTimeout(() => {
+                setDeleteStatus(0);
+                setDeleteCandidate(0);
+                setDeleteCandidateName("");
+            }, 2000);
+        }
+    }, [deleteStatus]);
+
     return <div className="container container--admin container--addProduct">
         <AdminTop />
 

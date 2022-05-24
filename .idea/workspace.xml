@@ -23,16 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminDeleteModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AddonList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/admin/ImagePreview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/ProductListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/ProductListItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/products.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddonList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddonList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/addons.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/addons.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +55,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../draft4u" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../custom-video-editor" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -86,7 +83,9 @@
       <workItem from="1650736508549" duration="5489000" />
       <workItem from="1651110274946" duration="161000" />
       <workItem from="1651490286768" duration="24291000" />
-      <workItem from="1651675198336" duration="4419000" />
+      <workItem from="1651675198336" duration="4840000" />
+      <workItem from="1651704737076" duration="595000" />
+      <workItem from="1653335853785" duration="7048000" />
     </task>
     <servers />
   </component>
@@ -106,11 +105,11 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1651675778274">
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1653383441054">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651143048435" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651675778274" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653383441054" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1651518741157" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1651533138607">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -136,10 +135,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651675634393" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1651678431054">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1653384015883">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651678431054" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653384015883" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1651531935176" />
   </component>
 </project>

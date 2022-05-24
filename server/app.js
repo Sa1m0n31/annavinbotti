@@ -270,7 +270,7 @@ const orderRouter = require('./routers/order');
 const productRouter = require('./routers/products');
 const addonRouter = require('./routers/addons');
 // const authRouter = require("./routers/auth");
-// const imageRouter = require("./routers/image");
+const imageRouter = require("./routers/images");
 // const videoRouter = require("./routers/video");
 // const customFieldRouter = require("./routers/customField");
 // const notificationRouter = require("./routers/notification");
@@ -291,7 +291,7 @@ app.use('/orders', orderRouter);
 app.use('/products', productRouter);
 app.use('/addons', addonRouter);
 // app.use("/auth", authRouter);
-// app.use("/image", imageRouter); // only / not restricted (display image)
+app.use("/image", imageRouter); // only / not restricted (display image)
 // app.use("/video", videoRouter); // only /get not restricted (display video)
 // app.use("/custom-field", basicAuth, customFieldRouter);
 // app.use("/notification", basicAuth, notificationRouter);
