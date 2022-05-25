@@ -2,9 +2,7 @@ import React, {useEffect, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import settings from "../../static/settings";
-import trashIcon from '../../static/img/trash.svg'
 import Dropzone from "react-dropzone-uploader";
-import { SketchPicker } from "react-color";
 import ColorModal from "../../components/admin/ColorModal";
 import {
     addAddon,
@@ -14,7 +12,6 @@ import {
     getOptionsByAddon,
     updateAddon
 } from "../../helpers/products";
-import Loader from "../../components/admin/Loader";
 import Waiting from "../../components/admin/Loader";
 import {scrollToTop} from "../../helpers/others";
 import ImagePreview from "../../components/admin/ImagePreview";
@@ -30,7 +27,7 @@ const AddAddon = () => {
             nameEn: '',
             image: null,
             color: '',
-            updateImage: false
+            oldImage: ''
         }
     ]);
     const [colorModal, setColorModal] = useState(false);
@@ -38,7 +35,6 @@ const AddAddon = () => {
     const [status, setStatus] = useState(0);
     const [loading, setLoading] = useState(false);
     const [updateMode, setUpdateMode] = useState(false);
-    const [initialFiles, setInitialFiles] = useState([]);
 
     const addNewOption = () => {
         setOptions([...options, {
@@ -46,7 +42,7 @@ const AddAddon = () => {
             nameEn: '',
             image: null,
             color: '',
-            updateImage: false
+            oldImage: ''
         }]);
     }
 
@@ -84,39 +80,20 @@ const AddAddon = () => {
                                     if(res.status === 200) {
                                         const result = res?.data?.result;
                                         if(result) {
-                                            let initialFilesArray = [];
-                                            const optionsArray = result?.map((item, index, array) => {
-
-                                                (async () => {
-                                                    let response = await fetch(`${settings.API_URL}/image?url=media/addons/${item.image}`);
-                                                    let data = await response.blob();
-                                                    let metadata = {
-                                                        type: 'image/jpeg'
-                                                    };
-                                                    let file = await new File([data], item.name_pl, metadata);
-                                                    await initialFilesArray.push([file]);
-
-                                                    if(index === array.length-1) {
-                                                        await console.log(initialFilesArray);
-                                                        await setInitialFiles(initialFilesArray);
-                                                    }
-                                                })();
-
+                                            setOptions(result?.map((item, index, array) => {
                                                 return {
                                                     namePl: item.name_pl,
                                                     nameEn: item.name_en,
-                                                    image: initialFiles[index],
+                                                    image: null,
                                                     color: addonTypeToUpdate === 3 ? item.image : '',
-                                                    updateImage: item.image !== 'null' && addonTypeToUpdate !== 3
+                                                    oldImage: addonTypeToUpdate === 2 ? item.image : null
                                                 }
-                                            });
-                                            setOptions(optionsArray);
+                                            }));
                                         }
                                     }
                                 })
                                 .catch((err) => {
-                                    console.log(err);
-                                    // window.location = '/panel';
+                                    window.location = '/panel';
                                 })
                         }
                         else {
@@ -129,10 +106,6 @@ const AddAddon = () => {
                 });
         }
     }, []);
-
-    useEffect(() => {
-        console.log(options);
-    }, [options]);
 
     useEffect(() => {
         if(status) {
@@ -156,11 +129,9 @@ const AddAddon = () => {
         setOptions(options?.map((item, index) => {
             if(i === index) {
                 if(item?.image) {
-                    console.log(item.image);
-                    console.log('REMOVE');
                     item.image?.remove();
                 }
-                item.updateImage = false;
+                item.oldImage = null;
                 item.image = null;
                 return item;
             }
@@ -185,12 +156,13 @@ const AddAddon = () => {
         }));
     }
 
-    const createAddonOptions = (insertedId = null) => {
-        options.forEach((item, index, array) => {
-            addAddonOption(insertedId ? insertedId : id, item.namePl, item.nameEn, addonType === 3 ? item.color : null, addonType === 2 ? item.image?.file : null)
+    const createAddonOptions = async (insertedId = null) => {
+        for(let i=0; i<options.length; i++) {
+            const item = options[i];
+            await addAddonOption(insertedId ? insertedId : id, item.namePl, item.nameEn, addonType === 3 ? item.color : null, addonType === 2 ? item.image?.file : null, item.oldImage)
                 .then((res) => {
                     if(res.status === 201) {
-                        if(index === array.length-1) {
+                        if(i === options.length-1) {
                             setStatus(1);
                             scrollToTop();
                         }
@@ -204,7 +176,7 @@ const AddAddon = () => {
                     setStatus(-2);
                     scrollToTop();
                 });
-        });
+        }
     }
 
     const createNewAddon = () => {
@@ -274,12 +246,7 @@ const AddAddon = () => {
         console.log(img);
     }
 
-    useEffect(() => {
-        console.log(initialFiles);
-    }, [initialFiles]);
-
     const handleChangeStatus = (i, status) => {
-        console.log('HANDLE CHANGE STATUS');
         setOptions(options?.map((item, index) => {
             if(i === index) {
                 if(status.remove) item.image = status;
@@ -372,10 +339,10 @@ const AddAddon = () => {
                                    value={item.nameEn}
                                    onChange={(e) => { updateOptions(index, 'nameEn', e); }} />
                         </label>
-                        <label className={addonType === 1 ? 'hidden' : "admin__label admin__flex"}>
+                        <div className={addonType === 1 ? 'hidden' : "admin__label admin__flex"}>
                             {addonType === 3 ? 'Kolor' : (addonType === 2 ? 'Zdjęcie' : '')}
                             <span className={addonType !== 3 ? 'hidden' : "admin__label__color flex"}>
-                                <button className="btn btn--openColorModal" onClick={() => { setCurrentOption(index); }}>
+                                <button className={addonType === 3 ? "btn btn--openColorModal" : 'd-none'} onClick={(e) => { e.stopPropagation(); e.preventDefault(); setCurrentOption(index); }}>
                                     Zmień kolor
                                 </button>
                                 <span className="showColor" style={{
@@ -385,20 +352,25 @@ const AddAddon = () => {
                             </span>
 
                             <span className={addonType !== 2 ? 'hidden' : "admin__label__imgUpload"}>
-                                {item.updateImage || item.image ? <button className="admin__label__imgUpload__trashBtn" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImgFromAddon(index); }}>
+                                {/* Delete image button */}
+                                {item.image || item.oldImage ? <button className="admin__label__imgUpload__trashBtn" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImgFromAddon(index); }}>
                                     &times;
                                 </button> : ""}
-                                <Dropzone
+                                {/* File dropzone */}
+                                {!item.oldImage ? <Dropzone
                                     canRemove={true}
                                     getUploadParams={getUploadImage}
                                     onChangeStatus={(status) => { handleChangeStatus(index, status); }}
                                     accept="image/*"
                                     PreviewComponent={ImagePreview}
                                     multiple={false}
-                                    initialFiles={initialFiles[index]}
-                                    maxFiles={1} />
+                                    maxFiles={1} /> : ''}
+                                {/* Old image preview */}
+                                {item.oldImage ? <div className="admin__label__oldImagePreviewWrapper">
+                                    <img className="img" src={`${settings.API_URL}/image?url=/media/addons/${item.oldImage}`} alt="img" />
+                                </div> : ''}
                             </span>
-                        </label>
+                        </div>
                     </div>
                 })}
 
@@ -408,7 +380,7 @@ const AddAddon = () => {
                 /> : ""}
 
                 {!loading ? <button className="btn btn--admin" onClick={() => { createNewAddon(); }}>
-                    Dodaj dodatek
+                    {updateMode ? "Zaktualizuj dodatek" : "Dodaj dodatek"}
                 </button> : <Waiting />}
             </main>
         </div>

@@ -5,6 +5,8 @@ import AddProduct from "../../pages/admin/AddProduct";
 import ProductList from "../../pages/admin/ProductList";
 import AddAddon from "../../pages/admin/AddAddon";
 import AddonList from "../../pages/admin/AddonList";
+import AddType from "../../pages/admin/AddType";
+import TypesList from "../../pages/admin/TypesList";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -29,6 +31,12 @@ const AdminWrapper = ({page}) => {
                 break;
             case 6:
                 setRenderPage(<AddAddon update={true} />);
+                break;
+            case 9:
+                setRenderPage(<AddType />);
+                break;
+            case 10:
+                setRenderPage(<TypesList />);
                 break;
             default:
                 window.location = '/';

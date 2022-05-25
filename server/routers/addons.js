@@ -40,7 +40,7 @@ router.post('/add', (request, response) => {
 });
 
 router.post('/add-option', upload.single('image'), (request, response) => {
-    const { addon, namePl, nameEn, color } = request.body;
+    const { addon, namePl, nameEn, color, oldImage } = request.body;
 
     let filename;
     if(request.file) {
@@ -48,6 +48,12 @@ router.post('/add-option', upload.single('image'), (request, response) => {
 
         const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE)`;
         const values = [namePl, nameEn, addon, filename];
+
+        dbInsertQuery(query, values, response);
+    }
+    else if(oldImage && oldImage?.toString() !== 'null') {
+        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE)`;
+        const values = [namePl, nameEn, addon, oldImage];
 
         dbInsertQuery(query, values, response);
     }
@@ -103,7 +109,7 @@ router.patch('/update-option', upload.single("image"), (request, response) => {
 router.get('/get-options-by-addon', (request, response) => {
    const id = request.query.id;
 
-   const query = `SELECT ao.id, ao.name_pl, ao.name_en, ao,image 
+   const query = `SELECT ao.id, ao.name_pl, ao.name_en, ao.image 
                     FROM addons_options ao 
                     JOIN addons a ON a.id = ao.addon 
                     WHERE a.id = $1 AND ao.hidden = FALSE 
@@ -116,7 +122,7 @@ router.get('/get-options-by-addon', (request, response) => {
 router.get('/get-addons-by-product', (request, response) => {
     const id = request.query.id;
 
-    const query = `SELECT a.name as addon_name, ao.name as option_name, ao.image as option_image 
+    const query = `SELECT a.id, a.name as addon_name, ao.name as option_name, ao.image as option_image 
                     FROM addons a 
                     LEFT OUTER JOIN addons_options ao ON a.id = ao.addon 
                     LEFT OUTER JOIN addons_for_products afp ON afp.option = ao.id 

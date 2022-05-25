@@ -4,7 +4,7 @@ const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 
 router.get('/all', (request, response) => {
-   const query = 'SELECT * FROM types';
+   const query = 'SELECT * FROM types WHERE hidden = FALSE';
 
    dbSelectQuery(query, [], response);
 });
@@ -13,7 +13,7 @@ router.get('/get', (request, response) => {
     const id = request.query.id;
 
     if(id) {
-        const query = 'SELECT * FROM types WHERE id = $1';
+        const query = 'SELECT * FROM types WHERE id = $1 AND hidden = FALSE';
         const values = [id];
 
         dbSelectQuery(query, values, response);
@@ -27,7 +27,7 @@ router.post('/add', (request, response) => {
     const { namePl, nameEn } = request.body;
 
     if(namePl && nameEn) {
-        const query = 'INSERT INTO types VALUES (nextval("types_seq"), $1, $2, FALSE)';
+        const query = `INSERT INTO types VALUES (nextval('type_seq'), $1, $2, FALSE)`;
         const values = [namePl, nameEn];
 
         dbInsertQuery(query, values, response);

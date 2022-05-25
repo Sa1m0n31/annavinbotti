@@ -36,9 +36,10 @@ const addAddon = (namePl, nameEn, type, options) => {
     });
 }
 
-const addAddonOption = (addon, namePl, nameEn, color, img) => {
+const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '') => {
     let formData = new FormData();
 
+    formData.append('oldImage', oldImage)
     formData.append('image', img);
     formData.append('addon', addon);
     formData.append('namePl', namePl);
@@ -91,6 +92,47 @@ const getOptionsByAddon = (id) => {
     });
 }
 
+const getAddonsByProduct = (id) => {
+    return axios.get(`/addons/get-addons-by-product`, {
+        params: {
+            id
+        }
+    });
+}
+
+const getAllTypes = () => {
+    return axios.get('/types/all');
+}
+
+const getTypeById = (id) => {
+    return axios.get('/types/get', {
+        params: {
+            id
+        }
+    });
+}
+
+const addType = (namePl, nameEn) => {
+    return axios.post('/types/add', {
+        namePl, nameEn
+    });
+}
+
+const updateType = (id, namePl, nameEn) => {
+    return axios.put('/types/update', {
+        id, namePl, nameEn
+    });
+}
+
+const deleteType = (id) => {
+    return axios.delete('/types/delete', {
+        params: {
+            id
+        }
+    });
+}
+
 export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById,
-        deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions
+        deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct,
+    getAllTypes, deleteType, updateType, addType, getTypeById
 }
