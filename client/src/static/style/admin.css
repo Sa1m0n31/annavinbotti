@@ -143,7 +143,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: 100;
     background: var(--primary);
     width: 100%;
     height: 100px;
@@ -734,8 +734,8 @@ div[data-testid=three-dots-loading] {
 }
 
 .addProduct__addonsSection {
-    margin: 40px 0;
-    padding: 30px 0;
+    margin: 40px 0 10px;
+    padding: 30px 0 10px;
     border-top: 2px dashed #A8905A;
 }
 
@@ -777,4 +777,127 @@ div[data-testid=three-dots-loading] {
 .btn--admin--type {
     margin-right: 15vw;
     width: calc(100% - 15vw);
+}
+
+.uploadGalleryWrapper {
+    margin-top: 30px;
+}
+
+.rug .rug-handle:before {
+    border: 2px dashed #fff !important;
+}
+
+.rug-handle-info span,
+.rug-handle-drop-text {
+    color: #fff !important;
+}
+
+.rug-handle svg {
+    filter: brightness(0) invert(1);
+}
+
+.editor__mainImageWrapper {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+}
+
+.editor__mainImage__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    border: 2px dashed #d8d8d8;
+    z-index: 44;
+}
+
+.deleteOldImg {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 24px;
+    padding: 0;
+    border: 1px solid #313131;
+    outline: none;
+    z-index: 50;
+    cursor: pointer;
+    transition: .2s all;
+}
+
+.deleteOldImg:hover {
+    background: #313131;
+    color: #fff;
+}
+
+.editor__video {
+    display: block;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+}
+
+.editor__files__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.oldImgWrapper {
+    position: relative;
+    height: 300px;
+    border: 2px dashed #fff;
+    z-index: 8;
+    transition: .2s all;
+}
+
+.editor__videoWrapper__placeholderContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.editor__videoWrapper__icon {
+    width: 80px;
+    height: auto;
+    filter: brightness(0) invert(1);
+    opacity: .8;
+}
+
+.editor__videoWrapper__placeholderContent__text {
+    color: #fff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.z-index-0 {
+    /*z-index: 0;*/
+}
+
+.z-index-1000 {
+    z-index: 99;
 }

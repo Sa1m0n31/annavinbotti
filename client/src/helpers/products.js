@@ -1,4 +1,5 @@
 import axios from "axios";
+import { convertToRaw } from 'draft-js';
 
 const getAllProducts = () => {
     return axios.get('/products/get-all');
@@ -12,9 +13,34 @@ const getProductDetails = (id) => {
     })
 }
 
-const addProduct = () => {
-    return axios.post('/products/add', {
+const getProductGallery = (id) => {
+    return axios.get(`/products/get-product-gallery`, {
+        params: {
+            id
+        }
+    });
+}
 
+const addProduct = (formData, mainImage, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, type) => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    formData.append('namePl', namePl);
+    formData.append('nameEn', nameEn);
+    formData.append('price', price);
+    formData.append('type', type);
+    formData.append('mainImage', mainImage);
+    formData.append('descPl', descPl ? JSON.stringify(convertToRaw(descPl?.getCurrentContent())) : '');
+    formData.append('descEn', descPl ? JSON.stringify(convertToRaw(descEn?.getCurrentContent())) : '');
+    formData.append('detailsPl', detailsPl ? JSON.stringify(convertToRaw(detailsPl?.getCurrentContent())) : '');
+    formData.append('detailsEn', detailsEn ? JSON.stringify(convertToRaw(detailsEn?.getCurrentContent())) : '');
+
+    return axios.post('/products/add', formData, config);
+}
+
+const deleteProduct = (id) => {
+    return axios.delete('/products/delete', {
+        params: {
+            id
+        }
     });
 }
 
@@ -134,5 +160,5 @@ const deleteType = (id) => {
 
 export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById,
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct,
-    getAllTypes, deleteType, updateType, addType, getTypeById
+    getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery
 }

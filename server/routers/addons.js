@@ -122,7 +122,7 @@ router.get('/get-options-by-addon', (request, response) => {
 router.get('/get-addons-by-product', (request, response) => {
     const id = request.query.id;
 
-    const query = `SELECT a.id, a.name as addon_name, ao.name as option_name, ao.image as option_image 
+    const query = `SELECT a.id, a.name_pl as addon_name, ao.name_pl as option_name, ao.image as option_image 
                     FROM addons a 
                     LEFT OUTER JOIN addons_options ao ON a.id = ao.addon 
                     LEFT OUTER JOIN addons_for_products afp ON afp.option = ao.id 

@@ -5,6 +5,7 @@ import './static/style/admin.css'
 import './static/style/mobile.css'
 import './static/style/mobile-admin.css'
 
+import 'react-upload-gallery/dist/style.css'
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminWrapper from "./components/admin/AdminWrapper";
 
