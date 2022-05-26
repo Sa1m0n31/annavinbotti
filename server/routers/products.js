@@ -97,6 +97,18 @@ router.delete('/delete', (request, response) => {
    else {
       response.status(400).end();
    }
-})
+});
+
+router.post('/add-addons-for-product', (request, response) => {
+   const { product, addons } = request.body;
+
+   const addonsList = JSON.parse(addons);
+
+
+});
+
+router.delete('/delete-addons-for-product', (request, response) => {
+
+});
 
 module.exports = router;

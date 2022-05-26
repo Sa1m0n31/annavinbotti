@@ -611,6 +611,10 @@
     left: 400px;
 }
 
+.admin__status--stock {
+    left: 500px;
+}
+
 .admin__status__inner {
     width: auto;
     padding: 5px 15px;
@@ -619,7 +623,6 @@
     text-transform: uppercase;
     border: none;
     border-radius: 5px;
-    color: #fff;
 }
 
 .admin__status--success {

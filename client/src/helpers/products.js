@@ -158,7 +158,11 @@ const deleteType = (id) => {
     });
 }
 
+const getAllAddonsOptions = () => {
+    return axios.get('/addons/get-all-addons-options');
+}
+
 export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById,
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct,
-    getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery
+    getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions
 }

@@ -7,6 +7,8 @@ import AddAddon from "../../pages/admin/AddAddon";
 import AddonList from "../../pages/admin/AddonList";
 import AddType from "../../pages/admin/AddType";
 import TypesList from "../../pages/admin/TypesList";
+import AddStock from "../../pages/admin/AddStock";
+import StockList from "../../pages/admin/StockList";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -32,10 +34,22 @@ const AdminWrapper = ({page}) => {
             case 6:
                 setRenderPage(<AddAddon update={true} />);
                 break;
+            case 7:
+                setRenderPage(<AddStock type={0} />);
+                break;
+            case 8:
+                setRenderPage(<AddStock type={1} />);
+                break;
             case 9:
-                setRenderPage(<AddType />);
+                setRenderPage(<StockList type={0} />);
                 break;
             case 10:
+                setRenderPage(<StockList type={1} />);
+                break;
+            case 11:
+                setRenderPage(<AddType />);
+                break;
+            case 12:
                 setRenderPage(<TypesList />);
                 break;
             default:

@@ -38,17 +38,23 @@ function App() {
     <Route path="/edytuj-dodatek">
       <AdminWrapper page={6} />
     </Route>
-    <Route path="/dodaj-stan-magazynowy">
+    <Route path="/dodaj-stan-magazynowy-produktow">
       <AdminWrapper page={7} />
     </Route>
-    <Route path="/lista-stanow-magazynowych">
+    <Route path="/dodaj-stan-magazynowy-dodatkow">
       <AdminWrapper page={8} />
     </Route>
-    <Route path="/dodaj-kategorie">
+    <Route path="/lista-stanow-magazynowych-produktow">
       <AdminWrapper page={9} />
     </Route>
-    <Route path="/lista-kategorii">
+    <Route path="/lista-stanow-magazynowych-dodatkow">
       <AdminWrapper page={10} />
+    </Route>
+    <Route path="/dodaj-kategorie">
+      <AdminWrapper page={11} />
+    </Route>
+    <Route path="/lista-kategorii">
+      <AdminWrapper page={12} />
     </Route>
   </Router>
 }

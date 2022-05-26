@@ -17,7 +17,7 @@ const AdminMenu = ({menuOpen}) => {
 
     const menu = [
         { name: 'Start', icon: home },
-        { name: 'Produkty', icon: products },
+        { name: 'Modele', icon: products },
         { name: 'Dodatki', icon: addons },
         { name: 'Stany magazynowe', icon: stack },
         { name: 'Typy', icon: types },
@@ -33,16 +33,18 @@ const AdminMenu = ({menuOpen}) => {
     const submenus = [
         [],
         [
-            {name: 'Dodaj produkt', link: '/dodaj-produkt'},
-            {name: 'Lista produktów', link: '/lista-produktow'}
+            {name: 'Dodaj model', link: '/dodaj-produkt'},
+            {name: 'Lista modeli', link: '/lista-produktow'}
         ],
         [
             {name: 'Dodaj dodatek', link: '/dodaj-dodatek'},
             {name: 'Lista dodatków', link: '/lista-dodatkow'}
         ],
         [
-            {name: 'Dodaj stan magazynowy', link: '/dodaj-stan-magazynowy'},
-            {name: 'Stany magazynowe', link: '/lista-stanow-magazynowych'}
+            {name: 'Dodaj stan modeli', link: '/dodaj-stan-magazynowy-produktow'},
+            {name: 'Dodaj stan dodatków', link: '/dodaj-stan-magazynowy-dodatkow'},
+            {name: 'Modele', link: '/lista-stanow-magazynowych-produktow'},
+            {name: 'Dodatki', link: '/lista-stanow-magazynowych-dodatkow'}
         ],
         [
             {name: 'Dodaj typy', link: '/dodaj-kategorie'},

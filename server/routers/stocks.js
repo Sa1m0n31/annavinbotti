@@ -4,14 +4,20 @@ const db = require("../database/db");
 const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 
+router.get('/get-all-stocks', (request, response) => {
+    const query = `SELECT * FROM stocks`;
+
+    dbSelectQuery(query, [], response);
+});
+
 router.get('/get-all-products-stocks', (request, response) => {
-   const query = `SELECT * FROM stocks s JOIN products_stocks ps ON s.id = ps.stock`;
+   const query = `SELECT s.id, s.name, s.counter FROM stocks s JOIN products_stocks ps ON s.id = ps.stock GROUP BY(s.id, s.name, s.counter)`;
 
    dbSelectQuery(query, [], response);
 });
 
 router.get('/get-all-addons-stocks', (request, response) => {
-    const query = `SELECT * FROM stocks s JOIN addons_stocks as ON s.id = as.stock`;
+    const query = `SELECT s.id, s.name, s.counter FROM stocks s JOIN addons_stocks ast ON s.id = ast.stock GROUP BY(s.id, s.name, s.counter)`;
 
     dbSelectQuery(query, [], response);
 });
@@ -19,12 +25,12 @@ router.get('/get-all-addons-stocks', (request, response) => {
 router.get('/get-product-stock-details', (request, response) => {
    const id = request.query.id;
 
-   const query = `SELECT s.id, s.name, s.counter, p.name as product_name 
+   const query = `SELECT s.id, p.id as product_id, s.name, s.counter, p.name_pl as product_name 
                     FROM stocks s 
                     JOIN products_stocks ps ON s.id = ps.stock 
                     JOIN products p ON ps.product = p.id  
                     WHERE s.id = $1`;
-   const values = [id];
+   const values = [parseInt(id[0])];
 
    dbSelectQuery(query, values, response);
 });
@@ -32,10 +38,10 @@ router.get('/get-product-stock-details', (request, response) => {
 router.get('/get-addon-stock-details', (request, response) => {
     const id = request.query.id;
 
-    const query = `SELECT s.id, s.name, s.counter, ao.name as addon_option_name, a.name as addon_name  
+    const query = `SELECT s.id, s.name, s.counter, ao.name_pl as addon_option_name, a.name_pl as addon_name, ao.id as product_id   
                     FROM stocks s 
-                    JOIN addons_stocks as ON s.id = as.stock 
-                    JOIN addons_options ao ON as.addon_option = ao.id 
+                    JOIN addons_stocks ast ON s.id = ast.stock 
+                    JOIN addons_options ao ON ast.addon_option = ao.id 
                     JOIN addons a ON ao.addon = a.id  
                     WHERE s.id = $1`;
     const values = [id];
@@ -49,8 +55,8 @@ router.post('/add-product-stock', (request, response) => {
    if(products) {
        const productsArray = products.split(';');
 
-       const query = 'INSERT INTO stocks VALUES (nextval("stocks_seq"), $1, $2) RETURNING id';
-       const values = [stockName, counter];
+       const query = `INSERT INTO stocks VALUES (nextval('stocks_seq'), $1, $2) RETURNING id`;
+       const values = [counter, stockName];
 
        try {
            db.query(query, values, (err, res) => {
@@ -60,7 +66,7 @@ router.post('/add-product-stock', (request, response) => {
                    const query = 'INSERT INTO products_stocks VALUES ($1, $2)';
                    let values = [];
 
-                   productsArray.forEach(async (item, index, array) => {
+                   JSON.parse(productsArray).forEach(async (item, index, array) => {
                        values = [parseInt(item), stockId];
 
                        if(index === array.length-1) {
@@ -98,22 +104,25 @@ router.post('/add-addons-stock', (request, response) => {
     if(addonsOptions) {
         const addonsOptionsArray = addonsOptions.split(';');
 
-        const query = 'INSERT INTO stocks VALUES (nextval("stocks_seq"), $1, $2) RETURNING id';
-        const values = [stockName, counter];
+        const query = `INSERT INTO stocks VALUES (nextval('stocks_seq'), $1, $2) RETURNING id`;
+        const values = [counter, stockName];
 
         try {
             db.query(query, values, (err, res) => {
+                console.log(err);
                 if(res) {
                     const stockId = res.rows[0].id;
 
                     const query = 'INSERT INTO addons_stocks VALUES ($1, $2)';
                     let values = [];
 
-                    addonsOptionsArray.forEach(async (item, index, array) => {
+                    JSON.parse(addonsOptionsArray).forEach(async (item, index, array) => {
                         values = [parseInt(item), stockId];
+                        console.log(item);
 
                         if(index === array.length-1) {
                             db.query(query, values, (err, res) => {
+                                console.log(err);
                                 if(res) {
                                     response.status(201).end();
                                 }
@@ -269,15 +278,15 @@ router.put('/decrement-stock-by-addon', (request, response) => {
     if(decrement) {
         query = `UPDATE stocks s 
                 SET counter = counter - $1 
-                FROM addons_stocks as  
-                WHERE s.id = as.stock AND as.addon_option = $2`;
+                FROM addons_stocks ast  
+                WHERE s.id = ast.stock AND ast.addon_option = $2`;
         values = [decrement, addonOption];
     }
     else {
         query = `UPDATE stocks s 
                 SET counter = counter - 1 
-                FROM addons_stocks as  
-                WHERE s.id = as.stock AND as.addon_option = $1`;
+                FROM addons_stocks ast  
+                WHERE s.id = ast.stock AND ast.addon_option = $1`;
         values = [addonOption];
     }
 

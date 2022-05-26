@@ -119,6 +119,12 @@ router.get('/get-options-by-addon', (request, response) => {
    dbSelectQuery(query, values, response);
 });
 
+router.get('/get-all-addons-options', (request, response) => {
+    const query = 'SELECT a.name_pl as addon_name, ao.name_pl as addon_option_name, ao.id FROM addons_options ao JOIN addons a ON ao.addon = a.id WHERE ao.hidden = FALSE';
+
+    dbSelectQuery(query, [], response);
+})
+
 router.get('/get-addons-by-product', (request, response) => {
     const id = request.query.id;
 
