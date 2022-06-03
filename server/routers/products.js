@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/db");
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const multer  = require('multer')
 const upload = multer({ dest: 'media/products' })
@@ -41,13 +42,88 @@ const addGallery = (gallery, id, response) => {
       const values = [item.filename, id];
       const query = `INSERT INTO images VALUES (nextval('image_seq'), $1, $2)`;
       db.query(query, values, (err, res) => {
-         console.log(err);
          if(index === array.length-1) {
-            response.status(201).end();
+            response.send({
+               result: id
+            });
          }
       });
    });
 }
+
+const deleteProductGallery = (productId) => {
+   return new Promise((resolve, reject) => {
+      const query = 'SELECT path FROM images WHERE product = $1';
+      const values = [productId];
+
+      db.query(query, values, (err, res) => {
+         if(res) {
+            const rows = res.rows;
+            if(rows) {
+               rows.forEach((item, index, array) => {
+                  console.log(item);
+                  fs.unlink(`./media/products/${item.path}`, (err) => {
+                     console.log(err);
+                  });
+                  if(index === array.length-1) {
+                     const query = 'DELETE FROM images WHERE product = $1';
+                     const values = [productId];
+
+                     db.query(query, values, (err, res) => {
+                        resolve();
+                     });
+                  }
+               });
+            }
+            else {
+               resolve();
+            }
+         }
+         else {
+            resolve();
+         }
+      });
+   })
+}
+
+router.patch('/update', upload.fields([
+   { name: 'gallery', maxCount: 10 },
+   { name: 'mainImage', maxCount: 1 }
+]), (request, response) => {
+   const { id, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, type, price } = request.body;
+
+   const files = request.files;
+   let mainImageName;
+
+   if(files.mainImage) {
+      if(files.mainImage[0]) {
+         mainImageName = files.mainImage[0].filename;
+      }
+   }
+
+   const query = `UPDATE products SET type = $1, name_pl = $2, name_en = $3, description_pl = $4, description_en = $5, details_pl = $6, details_en = $7, price = $8, main_image = COALESCE($9, main_image) WHERE id = $10`;
+   const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, id];
+
+   db.query(query, values, (err, res) => {
+      if(res) {
+         console.log('update');
+         if(files.gallery) {
+            console.log('files.gallery');
+            deleteProductGallery(id)
+                .then(() => {
+                   addGallery(files.gallery, id, response);
+                });
+         }
+         else {
+            response.status(201).end();
+         }
+      }
+      else {
+         console.log(err);
+         response.status(500).end();
+      }
+   });
+});
 
 router.post('/add', upload.fields([
    { name: 'gallery', maxCount: 10 },
@@ -58,8 +134,6 @@ router.post('/add', upload.fields([
    const files = request.files;
    const mainImageName = files.mainImage[0].filename;
 
-   console.log(files);
-
    const query = `INSERT INTO products VALUES (nextval('product_seq'), $1, $2, $3, $4, $5, $6, $7, $8, $9, FALSE) RETURNING id`;
    const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName];
 
@@ -68,10 +142,13 @@ router.post('/add', upload.fields([
          const id = res.rows[0]?.id;
          if(id) {
             if(files.gallery) {
+               console.log(files.gallery);
                addGallery(files.gallery, id, response);
             }
             else {
-               response.status(201).end();
+               response.send({
+                  result: id
+               });
             }
          }
          else {
@@ -104,11 +181,44 @@ router.post('/add-addons-for-product', (request, response) => {
 
    const addonsList = JSON.parse(addons);
 
+   if(addonsList?.length) {
+      addonsList.forEach((item, index, array) => {
+         const query = `INSERT INTO addons_for_products VALUES ($1, $2, $3, $4)`;
+         const values = [product, item.addon, item.ifAddon, item.isEqual];
 
+         db.query(query, values, (err, res) => {
+            if(index === array.length-1) {
+               if(res) {
+                  response.status(201).send();
+               }
+               else {
+                  response.status(500).end();
+               }
+            }
+         });
+      });
+   }
+   else {
+      response.status(400).end();
+   }
+});
+
+router.get('/get-addons-conditions-by-product', (request, response) => {
+   const id = request.query.id;
+
+   const query = 'SELECT * FROM addons_conditions WHERE product = $1';
+   const values = [id];
+
+   dbSelectQuery(query, values, response);
 });
 
 router.delete('/delete-addons-for-product', (request, response) => {
+   const id = request.query.id;
 
+   const query = 'DELETE FROM addons_for_products WHERE product = $1';
+   const values = [id];
+
+   dbInsertQuery(query, values, response);
 });
 
 module.exports = router;

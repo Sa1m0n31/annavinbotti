@@ -8,14 +8,18 @@ const upload = multer({ dest: 'media/addons' })
 const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 
-router.post('/add', (request, response) => {
-   const { namePl, nameEn, type, options } = request.body;
+router.post('/add', upload.single('image'), (request, response) => {
+   const { namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, type } = request.body;
 
-   const query = `INSERT INTO addons VALUES (nextval('addons_seq'), $1, $2, $3, FALSE) RETURNING id`;
-   const values = [namePl, nameEn, type];
+   let filename = null;
+   if(request.file) {
+       filename = request.file.filename;
+   }
+
+   const query = `INSERT INTO addons VALUES (nextval('addons_seq'), $1, $2, $3, $4, $5, $6, $7, $8, FALSE) RETURNING id`;
+   const values = [namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, filename, type];
 
    db.query(query, values, (err, res) => {
-       console.log(err);
        if(res) {
            if(res.rows) {
                const id = res.rows[0].id;
@@ -71,11 +75,19 @@ router.post('/add-option', upload.single('image'), (request, response) => {
     }
 });
 
-router.patch('/update', (request, response) => {
-   const { id, namePl, nameEn, type } = request.body;
+router.patch('/update', upload.single('image'), (request, response) => {
+   const { id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type } = request.body;
 
-   const query = 'UPDATE addons SET name_pl = $1, name_en = $2, addon_type = $3 WHERE id = $4';
-   const values = [namePl, nameEn, type, id];
+   let query, values;
+   if(request.file) {
+       const filename = request.file.filename;
+       query = 'UPDATE addons SET name_pl = $1, name_en = $2, info_pl = $3, info_en = $4, tooltip_pl = $5, tooltip_en = $6, image = $7, addon_type = $8 WHERE id = $9';
+       values = [namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, filename, type, id];
+   }
+   else {
+       query = 'UPDATE addons SET name_pl = $1, name_en = $2, info_pl = $3, info_en = $4, tooltip_pl = $5, tooltip_en = $6, addon_type = $7 WHERE id = $8';
+       values = [namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, type, id];
+   }
 
    dbInsertQuery(query, values, response);
 });
@@ -120,7 +132,7 @@ router.get('/get-options-by-addon', (request, response) => {
 });
 
 router.get('/get-all-addons-options', (request, response) => {
-    const query = 'SELECT a.name_pl as addon_name, ao.name_pl as addon_option_name, ao.id FROM addons_options ao JOIN addons a ON ao.addon = a.id WHERE ao.hidden = FALSE';
+    const query = 'SELECT a.id as addon_id, a.name_pl as addon_name, ao.name_pl as addon_option_name, ao.id FROM addons_options ao JOIN addons a ON ao.addon = a.id WHERE ao.hidden = FALSE AND a.hidden = FALSE';
 
     dbSelectQuery(query, [], response);
 })
@@ -128,10 +140,9 @@ router.get('/get-all-addons-options', (request, response) => {
 router.get('/get-addons-by-product', (request, response) => {
     const id = request.query.id;
 
-    const query = `SELECT a.id, a.name_pl as addon_name, ao.name_pl as option_name, ao.image as option_image 
+    const query = `SELECT a.id, a.name_pl as addon_name, afp.show_if, afp.is_equal  
                     FROM addons a 
-                    LEFT OUTER JOIN addons_options ao ON a.id = ao.addon 
-                    LEFT OUTER JOIN addons_for_products afp ON afp.option = ao.id 
+                    LEFT OUTER JOIN addons_for_products afp ON afp.addon = a.id 
                     WHERE afp.product = $1`;
     const values = [id];
 

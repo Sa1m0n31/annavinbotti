@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import settings from "../../static/settings";
@@ -15,11 +15,16 @@ import {
 import Waiting from "../../components/admin/Loader";
 import {scrollToTop} from "../../helpers/others";
 import ImagePreview from "../../components/admin/ImagePreview";
+import imageIcon from "../../static/img/image-gallery.svg";
 
 const AddAddon = () => {
     const [id, setId] = useState(0);
     const [namePl, setNamePl] = useState("");
     const [nameEn, setNameEn] = useState("");
+    const [infoPl, setInfoPl] = useState("");
+    const [infoEn, setInfoEn] = useState("");
+    const [tooltipPl, setTooltipPl] = useState("");
+    const [tooltipEn, setTooltipEn] = useState("");
     const [addonType, setAddonType] = useState(0);
     const [options, setOptions] = useState([
         {
@@ -33,8 +38,13 @@ const AddAddon = () => {
     const [colorModal, setColorModal] = useState(false);
     const [currentOption, setCurrentOption] = useState(-1);
     const [status, setStatus] = useState(0);
+    const [mainImage, setMainImage] = useState(null);
+    const [mainImageFile, setMainImageFile] = useState(null);
+    const [oldMainImage, setOldMainImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [updateMode, setUpdateMode] = useState(false);
+
+    const inputRef = useRef(null);
 
     const addNewOption = () => {
         setOptions([...options, {
@@ -58,6 +68,14 @@ const AddAddon = () => {
         }));
     }
 
+    const handleMainImageUpload = (e) => {
+        const file = e.target.files[0];
+        const fileUrl = window.URL.createObjectURL(file);
+        setOldMainImage(null);
+        setMainImageFile(file);
+        setMainImage(fileUrl);
+    }
+
     useEffect(() => {
         const id = new URLSearchParams(window.location.search).get('id');
 
@@ -71,6 +89,11 @@ const AddAddon = () => {
                             setId(result.id);
                             setNamePl(result.name_pl);
                             setNameEn(result.name_en);
+                            setInfoPl(result.info_pl);
+                            setInfoEn(result.info_en);
+                            setTooltipPl(result.tooltip_pl);
+                            setTooltipEn(result.tooltip_en);
+                            setOldMainImage(result.image);
                             setAddonType(result.addon_type);
 
                             const addonTypeToUpdate = result.addon_type;
@@ -187,7 +210,7 @@ const AddAddon = () => {
                 deleteAddonOptions(id)
                     .then((res) => {
                         if(res?.status === 201) {
-                            updateAddon(id, namePl, nameEn, addonType)
+                            updateAddon(id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, mainImageFile, addonType)
                                 .then((res) => {
                                     if(res?.status === 201) {
                                         createAddonOptions();
@@ -213,7 +236,7 @@ const AddAddon = () => {
                     });
             }
             else {
-                addAddon(namePl, nameEn, addonType)
+                addAddon(namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, mainImageFile, addonType)
                     .then((res) => {
                         if(res.status === 201) {
                             const id = res?.data?.result;
@@ -290,6 +313,67 @@ const AddAddon = () => {
                            value={nameEn}
                            onChange={(e) => { setNameEn(e.target.value); }} />
                 </label>
+                <label>
+                    Info (polski)
+                    <textarea className="input input--textarea"
+                           placeholder="Informacja po polsku"
+                           value={infoPl}
+                           onChange={(e) => { setInfoPl(e.target.value); }} />
+                </label>
+                <label>
+                    Info (angielski)
+                    <textarea className="input input--textarea"
+                              placeholder="Informacja po angielsku"
+                              value={infoEn}
+                              onChange={(e) => { setInfoEn(e.target.value); }} />
+                </label>
+                <label>
+                    Tekst po najechaniu myszką (polski)
+                    <textarea className="input input--textarea"
+                              placeholder="Tekst po najechaniu myszką (polski)"
+                              value={tooltipPl}
+                              onChange={(e) => { setTooltipPl(e.target.value); }} />
+                </label>
+                <label>
+                    Tekst po najechaniu myszką (angielski)
+                    <textarea className="input input--textarea"
+                              placeholder="Tekst po najechaniu myszką (angielski)"
+                              value={tooltipEn}
+                              onChange={(e) => { setTooltipEn(e.target.value); }} />
+                </label>
+
+                <h3 className="addAddon--imageHeader">
+                    Zdjęcie po najechaniu myszką
+                </h3>
+                <div className="uploadGalleryWrapper">
+                    <div className="editor__mainImageWrapper">
+                        {oldMainImage ? <div className="oldImgWrapper z-index-1000">
+                                <button className="deleteOldImg" onClick={() => { setOldMainImage(null); }}>
+                                    &times;
+                                </button>
+                                <img className="editor__video" src={`${settings.API_URL}/image?url=/media/addons/${oldMainImage}`} alt="placeholder" />
+                            </div>
+                            : <div className="oldImgWrapper z-index-0">
+                                {mainImage ? <button className="deleteOldImg" onClick={() => { setOldMainImage(null); setMainImageFile(null); setMainImage(null); }}>
+                                    &times;
+                                </button> : ''}
+                                <img className={mainImage ? "editor__video" : "editor__video opacity-0"} src={mainImage} alt="placeholder" />
+                            </div>}
+
+                        {!mainImage ? <span className="editor__mainImage__placeholder">
+                                <input type="file" className="editor__files__input" ref={inputRef} multiple={false}
+                                       onChange={(e) => { handleMainImageUpload(e); }} />
+                               <div className="editor__videoWrapper__placeholderContent">
+                                    <p className="editor__videoWrapper__placeholderContent__text">
+                                        Kliknij tutaj lub upuść plik aby dodać zdjęcie
+                                    </p>
+                                    <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
+                            </div>
+                        </span> : <input type="file" className="editor__files__input" ref={inputRef} multiple={false}
+                                         onChange={(e) => { handleMainImageUpload(e); }} />}
+                    </div>
+                </div>
+
                 <label>
                     Typ dodatku (co będzie wybierał klient)
                     <span className="flex">

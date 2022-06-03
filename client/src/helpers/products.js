@@ -36,6 +36,22 @@ const addProduct = (formData, mainImage, namePl, nameEn, descPl, descEn, details
     return axios.post('/products/add', formData, config);
 }
 
+const updateProduct = (formData, id, mainImage, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, type) => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    formData.append('id', id);
+    formData.append('namePl', namePl);
+    formData.append('nameEn', nameEn);
+    formData.append('price', price);
+    formData.append('type', type);
+    formData.append('mainImage', mainImage);
+    formData.append('descPl', descPl ? JSON.stringify(convertToRaw(descPl?.getCurrentContent())) : '');
+    formData.append('descEn', descPl ? JSON.stringify(convertToRaw(descEn?.getCurrentContent())) : '');
+    formData.append('detailsPl', detailsPl ? JSON.stringify(convertToRaw(detailsPl?.getCurrentContent())) : '');
+    formData.append('detailsEn', detailsEn ? JSON.stringify(convertToRaw(detailsEn?.getCurrentContent())) : '');
+
+    return axios.patch('/products/update', formData, config);
+}
+
 const deleteProduct = (id) => {
     return axios.delete('/products/delete', {
         params: {
@@ -56,10 +72,20 @@ const getAddonById = (id) => {
     });
 }
 
-const addAddon = (namePl, nameEn, type, options) => {
-    return axios.post('/addons/add', {
-        namePl, nameEn, type
-    });
+const addAddon = (namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type) => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    let formData = new FormData();
+
+    formData.append('namePl', namePl);
+    formData.append('nameEn', nameEn);
+    formData.append('infoPl', infoPl);
+    formData.append('infoEn', infoEn);
+    formData.append('tooltipPl', tooltipPl);
+    formData.append('tooltipEn', tooltipEn);
+    formData.append('image', image);
+    formData.append('type', type);
+
+    return axios.post('/addons/add', formData, config);
 }
 
 const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '') => {
@@ -75,10 +101,21 @@ const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '') => {
     return axios.post('/addons/add-option', formData);
 }
 
-const updateAddon = (id, namePl, nameEn, type) => {
-    return axios.patch('/addons/update', {
-        id, namePl, nameEn, type
-    });
+const updateAddon = (id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type) => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    let formData = new FormData();
+
+    formData.append('id', id);
+    formData.append('namePl', namePl);
+    formData.append('nameEn', nameEn);
+    formData.append('infoPl', infoPl);
+    formData.append('infoEn', infoEn);
+    formData.append('tooltipPl', tooltipPl);
+    formData.append('tooltipEn', tooltipEn);
+    formData.append('image', image);
+    formData.append('type', type);
+
+    return axios.patch('/addons/update', formData, config);
 }
 
 const updateAddonOption = (id, addon, namePl, nameEn, color, img) => {
@@ -162,7 +199,28 @@ const getAllAddonsOptions = () => {
     return axios.get('/addons/get-all-addons-options');
 }
 
+const addAddonsForProduct = (product, addons) => {
+    return axios.post('/products/add-addons-for-product', {
+        product, addons: JSON.stringify(addons)
+    });
+}
+
+const addAddonsConditionsForProduct = (product, conditions) => {
+    return axios.post('/products/add-addons-conditions-for-product', {
+        product, conditions: JSON.stringify(conditions)
+    });
+}
+
+const deleteAddonsForProduct = (id) => {
+    return axios.delete('/products/delete-addons-for-product', {
+        params: {
+            id
+        }
+    });
+}
+
 export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById,
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct,
-    getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions
+    getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
+    addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct
 }

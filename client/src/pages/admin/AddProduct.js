@@ -5,12 +5,14 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import {
-    addProduct,
+    addAddonsConditionsForProduct,
+    addAddonsForProduct,
+    addProduct, deleteAddonsForProduct,
     getAddonsByProduct,
-    getAllAddons,
-    getAllTypes,
+    getAllAddons, getAllAddonsOptions,
+    getAllTypes, getOptionsByAddon,
     getProductDetails,
-    getProductGallery
+    getProductGallery, updateProduct
 } from "../../helpers/products";
 import RUG from 'react-upload-gallery'
 import settings from "../../static/settings";
@@ -37,6 +39,8 @@ const AddProduct = () => {
     const [initialGallery, setInitialGallery] = useState([]);
     const [galleryLoaded, setGalleryLoaded] = useState(false);
     const [id, setId] = useState(-1);
+    const [conditions, setConditions] = useState([]);
+    const [currentAddonOptions, setCurrentAddonOptions] = useState([]);
 
     const inputRef = useRef(null);
 
@@ -109,16 +113,86 @@ const AddProduct = () => {
                     if(res?.status === 200) {
                         const addonsLocal = res?.data?.result;
                         setAddons(addonsLocal);
-                        getAddonsByProduct(id)
+
+                        getAllAddonsOptions()
                             .then((res) => {
-                                const result = res?.data?.result;
-                                const idArray = result?.map((item) => {
-                                    return item.id;
-                                });
-                                if(result) {
-                                    setSelectedAddons(addonsLocal?.map((item) => {
-                                        return isElementInArray(item.id, idArray);
-                                    }));
+                                const allOptions = res?.data?.result;
+                                if(allOptions) {
+
+                                    getAddonsByProduct(idParam)
+                                        .then((res) => {
+                                            const result = res?.data?.result;
+                                            const idArray = result?.map((item) => {
+                                                return item.id;
+                                            });
+
+                                            if(result) {
+                                                setSelectedAddons(addonsLocal?.map((item) => {
+                                                    return isElementInArray(item.id, idArray);
+                                                }));
+                                                
+                                                const conditionsLocal = addonsLocal?.map((item) => {
+                                                    return {
+                                                        active: isElementInArray(item.id, result?.filter((item) => {
+                                                            return item.show_if;
+                                                        })?.map((item) => {
+                                                            return item.id;
+                                                        })),
+                                                        ifAddon: result?.find((itemChild) => {
+                                                            return item.id === itemChild.id;
+                                                        })?.show_if,
+                                                        isEqual: result?.find((itemChild) => {
+                                                            return item.id === itemChild.id;
+                                                        })?.is_equal,
+                                                        thenShow: item.id
+                                                    }
+                                                });
+
+                                                if(result.length) {
+                                                    setConditions(conditionsLocal);
+                                                    setCurrentAddonOptions(conditionsLocal?.map((item) => {
+                                                        return getAddonOptionsFromOptionsList(item.ifAddon);
+                                                    }));
+                                                }
+                                                else {
+                                                   setConditions(conditionsLocal?.map((item) => {
+                                                       return {...item, ifAddon: null, isEqual: null};
+                                                   }));
+                                                   getOptionsWrapper(addonsLocal);
+                                                }
+
+                                                const smallestId = (el) => {
+                                                    return allOptions.filter((item) => {
+                                                        return el.id <= item.id
+                                                    })?.length >= 1;
+                                                }
+
+                                                const getAddonOptionsFromOptionsList = (addonId) => {
+                                                    if(addonId) {
+                                                        return allOptions.filter((item) => {
+                                                            return item.addon_id === addonId;
+                                                        })?.map((item) => {
+                                                            return {...item, name_pl: item.addon_option_name}
+                                                        });
+                                                    }
+                                                    else {
+                                                        return allOptions.filter((item) => {
+                                                            return smallestId(item);
+                                                        }).map((item) => {
+                                                            return {...item, name_pl: item.addon_option_name}
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                setConditions(addonsLocal.map((item) => ({
+                                                    active: false,
+                                                    ifAddon: null,
+                                                    isEqual: null,
+                                                    thenShow: item.id
+                                                })));
+                                            }
+                                        });
                                 }
                             });
                     }
@@ -132,8 +206,15 @@ const AddProduct = () => {
             getAllAddons()
                 .then((res) => {
                     if(res?.status === 200) {
-                        setAddons(res?.data?.result);
-                        setSelectedAddons(res?.data?.result?.map((item) => {
+                        const addonsLocal = res?.data?.result;
+                        setAddons(addonsLocal);
+                        setConditions(addonsLocal?.map((item) => ({
+                            active: false,
+                            ifAddon: null,
+                            isEqual: null,
+                            thenShow: item.id
+                        })));
+                        setSelectedAddons(addonsLocal?.map((item) => {
                             return false;
                         }));
                     }
@@ -145,16 +226,107 @@ const AddProduct = () => {
     }, []);
 
     useEffect(() => {
+        console.log(conditions);
+    }, [conditions]);
+
+    useEffect(() => {
+        console.log(selectedAddons);
+    }, [selectedAddons]);
+
+    const getOptionsWrapper = (addonsArray = null) => {
+        getOptionsByAddon(addonsArray ? addonsArray[0]?.id : addons[0]?.id)
+            .then((res) => {
+                const result = res?.data?.result;
+                if(result) {
+                    let arr = addonsArray ? addonsArray : addons;
+                    setCurrentAddonOptions(arr?.map(() => {
+                        return result;
+                    }));
+                    if(!updateMode && !addonsArray) {
+                        setConditions(conditions?.map((item) => {
+                            return {
+                                active: item.active,
+                                ifAddon: addons[0]?.id,
+                                isEqual: result[0]?.id,
+                                thenShow: item.thenShow
+                            }
+                        }));
+                    }
+                }
+            });
+    }
+
+    useEffect(() => {
+        if(addons?.length) {
+            getOptionsWrapper();
+        }
+    }, [addons]);
+
+    useEffect(() => {
         if(initialGallery?.length) {
             setGalleryLoaded(true);
         }
     }, [initialGallery]);
+
+    useEffect(() => {
+        if(status) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    }, [status]);
+
+    const toggleCondition = (i) => {
+        setConditions(conditions?.map((item, index) => {
+            if(index === i) return {...item, active: !item?.active}
+            else return item;
+        }));
+    }
 
     const updateSelectedAddons = (i) => {
         setSelectedAddons(selectedAddons?.map((item, index) => {
             return index === i ? !item : item;
         }));
     }
+
+    const getAddonOptions = (addonIndex, addonId) => {
+        getOptionsByAddon(addonId)
+            .then((res) => {
+                const result = res?.data?.result;
+                if(result) {
+                    setCurrentAddonOptions(currentAddonOptions?.map((item, index) => {
+                        if(index === addonIndex) {
+                            return result;
+                        }
+                        else {
+                            return item;
+                        }
+                    }))
+                }
+            });
+    }
+
+    const updateConditions = (i, property, value) => {
+        setConditions(conditions?.map((item, index) => {
+            if(index === i) {
+                if(property === 'ifAddon') {
+                    getAddonOptions(i, value);
+                    return {...item, ifAddon: value};
+                }
+                else if(property === 'isEqual') {
+                    return {...item, isEqual: value};
+                }
+                else {
+                    return item;
+                }
+            }
+            else {
+                return item;
+            }
+        }));
+    }
+
 
     const createNewProduct = () => {
         let formData = new FormData();
@@ -170,17 +342,86 @@ const AddProduct = () => {
                 }
                 if(i === gallery.length-1) {
                     if(updateMode) {
+                        updateProduct(formData, id, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
+                            .then((res) => {
 
+                                deleteAddonsForProduct(id)
+                                    .then((res) => {
+                                        if(res) {
+                                            console.log(conditions);
+                                            console.log(addons?.filter((item, index) => {
+                                                return selectedAddons[index];
+                                            })?.map((item, index) => {
+                                                console.log(item);
+                                                return {
+                                                    addon: item.id,
+                                                        ifAddon: conditions[index]?.active ? conditions[index].ifAddon : null,
+                                                    isEqual: conditions[index]?.active ? conditions[index].isEqual : null
+                                                }}
+                                            ));
+
+
+                                            addAddonsForProduct(id, addons?.filter((item, index) => {
+                                                return selectedAddons[index];
+                                            })?.map((item, index) => ({
+                                                addon: item.id,
+                                                ifAddon: conditions[index]?.active ? conditions[index].ifAddon : null,
+                                                isEqual: conditions[index]?.active ? conditions[index].isEqual : null
+                                            })))
+                                                .then((res) => {
+                                                    if(res?.status === 201) {
+                                                        setStatus(1);
+                                                    }
+                                                    else {
+                                                        setStatus(-2);
+                                                    }
+                                                })
+                                                .catch(() => {
+                                                    setStatus(-2);
+                                                })
+                                        }
+                                        else {
+                                            setStatus(-2);
+                                        }
+                                    })
+                                    .catch(() => {
+                                        setStatus(-2);
+                                    });
+                            })
+                            .catch(() => {
+                                setStatus(-2);
+                            });
                     }
                     else {
                         addProduct(formData, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
                             .then((res) => {
-                                if(res?.data?.result) {
-                                    setStatus(1);
+                                const productId = res?.data?.result;
+                                if(productId) {
+                                    addAddonsForProduct(productId, addons?.filter((item, index) => {
+                                        return selectedAddons[index];
+                                    })?.map((item, index) => ({
+                                        addon: item.id,
+                                        ifAddon: conditions[index]?.active ? conditions[index].ifAddon : null,
+                                        isEqual: conditions[index]?.active ? conditions[index].isEqual : null
+                                    })))
+                                        .then((res) => {
+                                            if(res?.status === 201) {
+                                                setStatus(1);
+                                            }
+                                            else {
+                                                setStatus(-2);
+                                            }
+                                        })
+                                        .catch(() => {
+                                            setStatus(-2);
+                                        })
                                 }
                                 else {
-                                    setStatus(0);
+                                    setStatus(-2);
                                 }
+                            })
+                            .catch(() => {
+                                setStatus(-2);
                             });
                     }
                 }
@@ -271,20 +512,53 @@ const AddProduct = () => {
                         />
                     </label>
                 <div className="addProduct__addonsSection">
-                    <h3 className="addProduct__addonsSection__header">
+                    <h3 className="addProduct__addonsSection__header addProduct__addonsSection__header--addons">
                         Wybierz dodatki do wyboru dla klienta
                     </h3>
                     <div className="addProduct__addonsSection__main">
                         {addons?.map((item, index) => {
-                            return <label className="addProduct__addonsSection__label">
-                                <button className={selectedAddons[index] ? "addProduct__addonsSection__btn addProduct__addonsSection__btn--selected" : "addProduct__addonsSection__btn"}
-                                        onClick={() => { updateSelectedAddons(index); }}>
+                            return <>
+                                <div className="addProduct__addonsSection__main__item flex">
+                                    <label className="addProduct__addonsSection__label">
+                                        <button className={selectedAddons[index] ? "addProduct__addonsSection__btn addProduct__addonsSection__btn--selected" : "addProduct__addonsSection__btn"}
+                                                onClick={() => { updateSelectedAddons(index); }}>
 
-                                </button>
-                                <span>
+                                        </button>
+                                        <span>
                                     {item.name_pl}
                                 </span>
-                            </label>
+                                    </label>
+
+                                    <button className="addProduct__addonsSection__addCondition" onClick={() => { toggleCondition(index); }}>
+                                        {conditions[index]?.active ? 'Usuń warunek' : 'Dodaj warunek'}
+                                    </button>
+                                </div>
+
+                                {conditions[index]?.active ? <div className="addProduct__addonsSection__condition">
+                                    Pokazuj ten dodatek jeśli dodatek:
+                                    <label>
+                                        <select value={conditions[index]?.ifAddon}
+                                                onChange={(e) => { updateConditions(index, 'ifAddon', e.target.value); }}>
+                                            {addons?.map((item, index) => {
+                                                return <option key={index} value={item.id}>
+                                                    {item.name_pl}
+                                                </option>
+                                            })}
+                                        </select>
+                                    </label>
+                                    jest równy:
+                                    <label>
+                                        <select value={conditions[index]?.isEqual}
+                                                onChange={(e) => { updateConditions(index, 'isEqual', e.target.value); }}>
+                                            {currentAddonOptions[index]?.map((item, index) => {
+                                                return <option key={index} value={item.id}>
+                                                    {item.name_pl}
+                                                </option>
+                                            })}
+                                        </select>
+                                    </label>
+                                </div> : ''}
+                            </>
                         })}
                     </div>
                 </div>
