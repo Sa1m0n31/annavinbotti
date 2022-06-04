@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import {
     addAddonsConditionsForProduct,
@@ -130,7 +129,7 @@ const AddProduct = () => {
                                                 setSelectedAddons(addonsLocal?.map((item) => {
                                                     return isElementInArray(item.id, idArray);
                                                 }));
-                                                
+
                                                 const conditionsLocal = addonsLocal?.map((item) => {
                                                     return {
                                                         active: isElementInArray(item.id, result?.filter((item) => {

@@ -38,7 +38,7 @@ router.post('/add', upload.single('image'), (request, response) => {
     let filename;
     if(request.file) {
         filename = request.file.filename;
-        const query = `INSERT INTO images VALUES (nextval('images_seq'), $1) RETURNING id`;
+        const query = `INSERT INTO images VALUES (nextval('image_seq'), $1) RETURNING id`;
         const values = [filename];
 
         db.query(query, values, (err, res) => {
@@ -51,6 +51,7 @@ router.post('/add', upload.single('image'), (request, response) => {
                     dbInsertQuery(query, values, response);
                 }
                 else {
+                    console.log(err);
                     response.status(500).end();
                 }
             }
@@ -68,19 +69,19 @@ router.post('/add', upload.single('image'), (request, response) => {
 });
 
 router.put("/update", upload.single("image"), (request, response) => {
-    const { id, imgUpdate, titlePl, titleEn, excerptPl, excerptEn, contentPl, contentEn } = request.body;
+    const { id, titlePl, titleEn, excerptPl, excerptEn, contentPl, contentEn } = request.body;
 
     let filename;
     if(request.file) {
         filename = request.file.filename;
-        const query = `INSERT INTO images VALUES (nextval('images_seq'), $1) RETURNING id`;
+        const query = `INSERT INTO images VALUES (nextval('image_seq'), $1) RETURNING id`;
         const values = [filename];
 
         db.query(query, values, (err, res) => {
             if(res) {
                 if(res.rows) {
                     const imageId = res.rows[0].id;
-                    const query = `UPDATE articles SET title_pl = $1, title_en = $2, content_pl = $3, content_en = $4, excerpt_pl = $5, excerpt_en = $6, image = $7
+                    const query = `UPDATE articles SET title_pl = $1, title_en = $2, content_pl = $3, content_en = $4, excerpt_pl = $5, excerpt_en = $6, main_image = $7
                                     WHERE id = $8`;
                     const values = [titlePl, titleEn, contentPl, contentEn, excerptPl, excerptEn, imageId, id];
 
@@ -96,15 +97,8 @@ router.put("/update", upload.single("image"), (request, response) => {
         });
     }
     else {
-        let query = '';
-        if(imgUpdate === 'delete') {
-            query = `UPDATE articles SET title_pl = $1, title_en = $2, content_pl = $3, content_en = $4, excerpt_pl = $5, excerpt_en = $6, image = NULL 
+        let query = `UPDATE articles SET title_pl = $1, title_en = $2, content_pl = $3, content_en = $4, excerpt_pl = $5, excerpt_en = $6 
                             WHERE id = $7`;
-        }
-        else {
-            query = `UPDATE articles SET title_pl = $1, title_en = $2, content_pl = $3, content_en = $4, excerpt_pl = $5, excerpt_en = $6 
-                            WHERE id = $7`;
-        }
 
         const values = [titlePl, titleEn, contentPl, contentEn, excerptPl, excerptEn, id];
 

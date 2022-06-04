@@ -6,6 +6,7 @@ import './static/style/mobile.css'
 import './static/style/mobile-admin.css'
 
 import 'react-upload-gallery/dist/style.css'
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminWrapper from "./components/admin/AdminWrapper";
 
@@ -55,6 +56,21 @@ function App() {
     </Route>
     <Route path="/lista-kategorii">
       <AdminWrapper page={12} />
+    </Route>
+    <Route path="/dodaj-artykul">
+      <AdminWrapper page={13} />
+    </Route>
+    <Route path="/lista-artykulow">
+      <AdminWrapper page={14} />
+    </Route>
+    <Route path="/newsletter">
+      <AdminWrapper page={15} />
+    </Route>
+    <Route path="/regulaminy-polski">
+      <AdminWrapper page={16} />
+    </Route>
+    <Route path="/regulaminy-angielski">
+      <AdminWrapper page={17} />
     </Route>
   </Router>
 }

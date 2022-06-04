@@ -9,6 +9,11 @@ import AddType from "../../pages/admin/AddType";
 import TypesList from "../../pages/admin/TypesList";
 import AddStock from "../../pages/admin/AddStock";
 import StockList from "../../pages/admin/StockList";
+import AddPost from "../../pages/admin/AddPost";
+import PostList from "../../pages/admin/PostList";
+import AdminTermsPl from "../../pages/admin/AdminTermsPl";
+import AdminNewsletter from "../../pages/admin/AdminNewsletter";
+import AdminTermsEn from "../../pages/admin/AdminTermsEn";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -51,6 +56,21 @@ const AdminWrapper = ({page}) => {
                 break;
             case 12:
                 setRenderPage(<TypesList />);
+                break;
+            case 13:
+                setRenderPage(<AddPost />);
+                break;
+            case 14:
+                setRenderPage(<PostList />);
+                break;
+            case 15:
+                setRenderPage(<AdminNewsletter />);
+                break;
+            case 16:
+                setRenderPage(<AdminTermsPl />);
+                break;
+            case 17:
+                setRenderPage(<AdminTermsEn />);
                 break;
             default:
                 window.location = '/';

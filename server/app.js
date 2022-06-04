@@ -273,6 +273,9 @@ const addonRouter = require('./routers/addons');
 const imageRouter = require("./routers/images");
 const typesRouter  = require("./routers/types");
 const stocksRouter = require('./routers/stocks');
+const blogRouter = require('./routers/blog');
+const newsletterRouter = require('./routers/newsletter');
+const contentRouter = require('./routers/content');
 // const videoRouter = require("./routers/vid ..eo");
 // const customFieldRouter = require("./routers/customField");
 // const notificationRouter = require("./routers/notification");
@@ -295,6 +298,9 @@ app.use('/addons', addonRouter);
 app.use('/types', typesRouter);
 app.use('/stocks', stocksRouter);
 // app.use("/auth", authRouter);
+app.use('/blog', blogRouter);
+app.use('/newsletter', newsletterRouter);
+app.use('/content', contentRouter);
 app.use("/image", imageRouter); // only / not restricted (display image)
 // app.use("/video", videoRouter); // only /get not restricted (display video)
 // app.use("/custom-field", basicAuth, customFieldRouter);

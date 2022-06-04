@@ -611,6 +611,11 @@
     left: 400px;
 }
 
+.admin__status--right {
+    left: unset;
+    right: 10%;
+}
+
 .admin__status--stock {
     left: 500px;
 }
@@ -951,4 +956,136 @@ div[data-testid=three-dots-loading] {
     font-size: 12px;
     font-weight: 400;
     margin-bottom: -15px;
+}
+
+.editorWrapper__header {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 40px;
+}
+
+.btn--marginTop {
+    margin-top: 30px;
+}
+
+.adminBlog__images > div {
+    width: 45%;
+}
+
+.admin__label__imgUpload {
+    display: block;
+    width: 100%;
+    height: 300px;
+    border: 2px dashed #fff;
+    position: relative;
+}
+
+.admin__label--imageForLink input {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    z-index: 100;
+}
+
+.modal__inner {
+    background: var(--primary);
+    width: 700px;
+    height: 400px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 36px;
+}
+
+.modal__header {
+    color: #fff;
+}
+
+.modal__link {
+    color: #fff;
+    font-size: 15px;
+    margin: 30px auto;
+}
+
+.modal__btn {
+    background: var(--secondary);
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    transition: .2s all;
+}
+
+.modal__btn:hover {
+    background: var(--hover);
+}
+
+.adminBlog__images > div > .admin__label {
+    margin-bottom: 0;
+}
+
+.adminBlog__images .admin__label__imgUpload__trashBtn {
+    width: 35px;
+    height: 35px;
+    top: -10px;
+    background: var(--secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.adminBlog__images .admin__label__imgUpload__trashBtn .img {
+    width: 45%;
+}
+
+.adminBlog__images .dzu-previewContainer img {
+    max-width: 100%;
+    max-height: 300px;
+    height: 100%;
+    width: auto;
+}
+
+.newsletterList__item:first-of-type {
+    margin-top: 30px;
+}
+
+.newsletterList__item {
+    color: #fff;
+    margin: 10px 0;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--secondary);
+    font-size: 21px;
 }

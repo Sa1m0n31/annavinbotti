@@ -16,7 +16,7 @@ router.post("/add", upload.single("image"), (request, response) => {
     let filename;
     if(request.file) {
         filename = request.file.filename;
-        const query = `INSERT INTO images VALUES (nextval('images_seq'), $1) RETURNING id`;
+        const query = `INSERT INTO images VALUES (nextval('image_seq'), $1) RETURNING id`;
         const values = [filename];
 
         db.query(query, values, (err, res) => {

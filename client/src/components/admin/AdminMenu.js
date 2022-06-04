@@ -22,7 +22,6 @@ const AdminMenu = ({menuOpen}) => {
         { name: 'Stany magazynowe', icon: stack },
         { name: 'Typy', icon: types },
         { name: 'Zamówienia', icon: orders },
-        { name: 'Formularze', icon: forms },
         { name: 'Blog', icon: blog },
         { name: 'Newsletter', icon: newsletter },
         { name: 'Regulaminy', icon: terms },
@@ -54,12 +53,12 @@ const AdminMenu = ({menuOpen}) => {
             {name: 'Lista zamówień', link: '/lista-zamowien'},
             {name: 'Waitlista', link: '/waitlista'}
         ],
-        [
-            { name: 'Dodaj pole', link: '/dodaj-pole' },
-            { name: 'Dodaj formularz', link: '/dodaj-formularz' },
-            { name: 'Lista pól', link: '/lista-pol' },
-            { name: 'Lista formularzy', link: '/lista-formularzy' }
-        ],
+        // [
+        //     { name: 'Dodaj pole', link: '/dodaj-pole' },
+        //     { name: 'Dodaj formularz', link: '/dodaj-formularz' },
+        //     { name: 'Lista pól', link: '/lista-pol' },
+        //     { name: 'Lista formularzy', link: '/lista-formularzy' }
+        // ],
         [
             { name: "Dodaj artykuł", link: '/dodaj-artykul' },
             { name: "Lista artykułów", link: '/lista-artykulow' }
