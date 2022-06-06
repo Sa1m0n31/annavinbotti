@@ -63,9 +63,6 @@ const AddProduct = () => {
         getAllTypes()
             .then((res) => {
                 setTypes(res?.data?.result);
-            })
-            .catch((err) => {
-                console.log(err);
             });
 
         if(idParam) {
@@ -117,81 +114,50 @@ const AddProduct = () => {
                             .then((res) => {
                                 const allOptions = res?.data?.result;
                                 if(allOptions) {
+                                    const firstAddonOption = allOptions[0]?.id;
+                                    const firstAddon = allOptions[0].addon;
 
-                                    getAddonsByProduct(idParam)
-                                        .then((res) => {
-                                            const result = res?.data?.result;
-                                            const idArray = result?.map((item) => {
-                                                return item.id;
-                                            });
-
-                                            if(result) {
-                                                setSelectedAddons(addonsLocal?.map((item) => {
-                                                    return isElementInArray(item.id, idArray);
-                                                }));
-
-                                                const conditionsLocal = addonsLocal?.map((item) => {
-                                                    return {
-                                                        active: isElementInArray(item.id, result?.filter((item) => {
-                                                            return item.show_if;
-                                                        })?.map((item) => {
-                                                            return item.id;
-                                                        })),
-                                                        ifAddon: result?.find((itemChild) => {
-                                                            return item.id === itemChild.id;
-                                                        })?.show_if,
-                                                        isEqual: result?.find((itemChild) => {
-                                                            return item.id === itemChild.id;
-                                                        })?.is_equal,
-                                                        thenShow: item.id
-                                                    }
-                                                });
-
-                                                if(result.length) {
-                                                    setConditions(conditionsLocal);
-                                                    setCurrentAddonOptions(conditionsLocal?.map((item) => {
-                                                        return getAddonOptionsFromOptionsList(item.ifAddon);
-                                                    }));
-                                                }
-                                                else {
-                                                   setConditions(conditionsLocal?.map((item) => {
-                                                       return {...item, ifAddon: null, isEqual: null};
-                                                   }));
-                                                   getOptionsWrapper(addonsLocal);
-                                                }
-
-                                                const smallestId = (el) => {
-                                                    return allOptions.filter((item) => {
-                                                        return el.id <= item.id
-                                                    })?.length >= 1;
-                                                }
-
-                                                const getAddonOptionsFromOptionsList = (addonId) => {
-                                                    if(addonId) {
-                                                        return allOptions.filter((item) => {
-                                                            return item.addon_id === addonId;
-                                                        })?.map((item) => {
-                                                            return {...item, name_pl: item.addon_option_name}
-                                                        });
-                                                    }
-                                                    else {
-                                                        return allOptions.filter((item) => {
-                                                            return smallestId(item);
-                                                        }).map((item) => {
-                                                            return {...item, name_pl: item.addon_option_name}
-                                                        });
-                                                    }
-                                                }
-                                            }
-                                            else {
-                                                setConditions(addonsLocal.map((item) => ({
-                                                    active: false,
-                                                    ifAddon: null,
-                                                    isEqual: null,
-                                                    thenShow: item.id
-                                                })));
-                                            }
+                                    const getOptionsByAddonId = (ad) => {
+                                        return allOptions?.filter((item) => {
+                                            return item.addon === ad;
                                         });
+                                    }
+
+                                    const firstOptions = allOptions.filter((item) => {
+                                        return item.addon === firstAddon;
+                                    });
+
+                                    if(firstAddonOption) {
+
+                                        getAddonsByProduct(idParam)
+                                            .then((res) => {
+                                                const addonsForProduct = res?.data?.result;
+
+                                                const getAddonConditionInfo = (i) => {
+                                                    return addonsForProduct?.find((item) => {
+                                                        return item.id === i;
+                                                    });
+                                                }
+
+                                                setAddons(addonsLocal?.map((item) => {
+                                                    const currentAddonConditionInfo = getAddonConditionInfo(item.id);
+
+                                                    return {
+                                                        id: item.id,
+                                                        active: !!currentAddonConditionInfo,
+                                                        name: item.name_pl,
+                                                        conditionActive: !!currentAddonConditionInfo && currentAddonConditionInfo?.is_equal !== null,
+                                                        conditionIf: currentAddonConditionInfo?.show_if ? currentAddonConditionInfo?.show_if : addonsLocal[0]?.id,
+                                                        conditionThen: currentAddonConditionInfo?.is_equal ? currentAddonConditionInfo?.is_equal : firstAddonOption,
+                                                    }
+                                                }));
+                                                setCurrentAddonOptions(addonsLocal?.map((item) => {
+                                                    const currentAddonConditionInfo = getAddonConditionInfo(item.id);
+
+                                                    return currentAddonConditionInfo?.show_if ? getOptionsByAddonId(currentAddonConditionInfo.show_if) : firstOptions
+                                                }));
+                                            });
+                                    }
                                 }
                             });
                     }
@@ -201,21 +167,41 @@ const AddProduct = () => {
                 });
         }
         else {
+            /* NEW PRODUCT */
             setGalleryLoaded(true);
             getAllAddons()
                 .then((res) => {
                     if(res?.status === 200) {
                         const addonsLocal = res?.data?.result;
-                        setAddons(addonsLocal);
-                        setConditions(addonsLocal?.map((item) => ({
-                            active: false,
-                            ifAddon: null,
-                            isEqual: null,
-                            thenShow: item.id
-                        })));
-                        setSelectedAddons(addonsLocal?.map((item) => {
-                            return false;
-                        }));
+
+                        getAllAddonsOptions()
+                            .then((res) => {
+                                const r = res?.data?.result;
+                                if(r) {
+                                    const firstAddonOption = r[0]?.id;
+                                    const firstAddon = r[0].addon;
+
+                                    const firstOptions = r.filter((item) => {
+                                        return item.addon === firstAddon;
+                                    });
+
+                                    if(firstAddonOption) {
+                                        setAddons(addonsLocal?.map((item) => {
+                                            return {
+                                                id: item.id,
+                                                active: false,
+                                                name: item.name_pl,
+                                                conditionActive: false,
+                                                conditionIf: addonsLocal[0]?.id,
+                                                conditionThen: firstAddonOption,
+                                            }
+                                        }));
+                                        setCurrentAddonOptions(addonsLocal?.map((item) => {
+                                            return firstOptions;
+                                        }));
+                                    }
+                                }
+                            })
                     }
                 })
                 .catch(() => {
@@ -224,42 +210,11 @@ const AddProduct = () => {
         }
     }, []);
 
-    useEffect(() => {
-        console.log(conditions);
-    }, [conditions]);
-
-    useEffect(() => {
-        console.log(selectedAddons);
-    }, [selectedAddons]);
-
-    const getOptionsWrapper = (addonsArray = null) => {
-        getOptionsByAddon(addonsArray ? addonsArray[0]?.id : addons[0]?.id)
-            .then((res) => {
-                const result = res?.data?.result;
-                if(result) {
-                    let arr = addonsArray ? addonsArray : addons;
-                    setCurrentAddonOptions(arr?.map(() => {
-                        return result;
-                    }));
-                    if(!updateMode && !addonsArray) {
-                        setConditions(conditions?.map((item) => {
-                            return {
-                                active: item.active,
-                                ifAddon: addons[0]?.id,
-                                isEqual: result[0]?.id,
-                                thenShow: item.thenShow
-                            }
-                        }));
-                    }
-                }
-            });
-    }
-
-    useEffect(() => {
-        if(addons?.length) {
-            getOptionsWrapper();
-        }
-    }, [addons]);
+    // useEffect(() => {
+    //     if(addons?.length) {
+    //         getOptionsWrapper();
+    //     }
+    // }, [addons]);
 
     useEffect(() => {
         if(initialGallery?.length) {
@@ -277,15 +232,15 @@ const AddProduct = () => {
     }, [status]);
 
     const toggleCondition = (i) => {
-        setConditions(conditions?.map((item, index) => {
-            if(index === i) return {...item, active: !item?.active}
+        setAddons(addons?.map((item, index) => {
+            if(index === i) return {...item, conditionActive: !item?.conditionActive}
             else return item;
         }));
     }
 
     const updateSelectedAddons = (i) => {
-        setSelectedAddons(selectedAddons?.map((item, index) => {
-            return index === i ? !item : item;
+        setAddons(addons?.map((item, index) => {
+            return index === i ? {...item, active: !item.active} : item;
         }));
     }
 
@@ -306,15 +261,15 @@ const AddProduct = () => {
             });
     }
 
-    const updateConditions = (i, property, value) => {
-        setConditions(conditions?.map((item, index) => {
+    const updateAddons = (i, property, value) => {
+        setAddons(addons?.map((item, index) => {
             if(index === i) {
-                if(property === 'ifAddon') {
+                if(property === 'conditionIf') {
                     getAddonOptions(i, value);
-                    return {...item, ifAddon: value};
+                    return {...item, conditionIf: value};
                 }
-                else if(property === 'isEqual') {
-                    return {...item, isEqual: value};
+                else if(property === 'conditionThen') {
+                    return {...item, conditionThen: value};
                 }
                 else {
                     return item;
@@ -324,6 +279,27 @@ const AddProduct = () => {
                 return item;
             }
         }));
+    }
+
+    const addAddonsForProductWrapper = (productId) => {
+        addAddonsForProduct(productId, addons?.filter((item, index) => {
+            return item.active;
+        })?.map((item) => ({
+            addon: item.id,
+            ifAddon: item.conditionActive ? item.conditionIf : null,
+            isEqual: item.conditionActive ? item.conditionThen : null
+        })))
+            .then((res) => {
+                if(res?.status === 201) {
+                    setStatus(1);
+                }
+                else {
+                    setStatus(-2);
+                }
+            })
+            .catch(() => {
+                setStatus(-2);
+            });
     }
 
 
@@ -347,37 +323,7 @@ const AddProduct = () => {
                                 deleteAddonsForProduct(id)
                                     .then((res) => {
                                         if(res) {
-                                            console.log(conditions);
-                                            console.log(addons?.filter((item, index) => {
-                                                return selectedAddons[index];
-                                            })?.map((item, index) => {
-                                                console.log(item);
-                                                return {
-                                                    addon: item.id,
-                                                        ifAddon: conditions[index]?.active ? conditions[index].ifAddon : null,
-                                                    isEqual: conditions[index]?.active ? conditions[index].isEqual : null
-                                                }}
-                                            ));
-
-
-                                            addAddonsForProduct(id, addons?.filter((item, index) => {
-                                                return selectedAddons[index];
-                                            })?.map((item, index) => ({
-                                                addon: item.id,
-                                                ifAddon: conditions[index]?.active ? conditions[index].ifAddon : null,
-                                                isEqual: conditions[index]?.active ? conditions[index].isEqual : null
-                                            })))
-                                                .then((res) => {
-                                                    if(res?.status === 201) {
-                                                        setStatus(1);
-                                                    }
-                                                    else {
-                                                        setStatus(-2);
-                                                    }
-                                                })
-                                                .catch(() => {
-                                                    setStatus(-2);
-                                                })
+                                            addAddonsForProductWrapper(id);
                                         }
                                         else {
                                             setStatus(-2);
@@ -396,24 +342,7 @@ const AddProduct = () => {
                             .then((res) => {
                                 const productId = res?.data?.result;
                                 if(productId) {
-                                    addAddonsForProduct(productId, addons?.filter((item, index) => {
-                                        return selectedAddons[index];
-                                    })?.map((item, index) => ({
-                                        addon: item.id,
-                                        ifAddon: conditions[index]?.active ? conditions[index].ifAddon : null,
-                                        isEqual: conditions[index]?.active ? conditions[index].isEqual : null
-                                    })))
-                                        .then((res) => {
-                                            if(res?.status === 201) {
-                                                setStatus(1);
-                                            }
-                                            else {
-                                                setStatus(-2);
-                                            }
-                                        })
-                                        .catch(() => {
-                                            setStatus(-2);
-                                        })
+                                    addAddonsForProductWrapper(productId);
                                 }
                                 else {
                                     setStatus(-2);
@@ -519,36 +448,36 @@ const AddProduct = () => {
                             return <>
                                 <div className="addProduct__addonsSection__main__item flex">
                                     <label className="addProduct__addonsSection__label">
-                                        <button className={selectedAddons[index] ? "addProduct__addonsSection__btn addProduct__addonsSection__btn--selected" : "addProduct__addonsSection__btn"}
+                                        <button className={item?.active ? "addProduct__addonsSection__btn addProduct__addonsSection__btn--selected" : "addProduct__addonsSection__btn"}
                                                 onClick={() => { updateSelectedAddons(index); }}>
 
                                         </button>
                                         <span>
-                                    {item.name_pl}
+                                    {item.name}
                                 </span>
                                     </label>
 
                                     <button className="addProduct__addonsSection__addCondition" onClick={() => { toggleCondition(index); }}>
-                                        {conditions[index]?.active ? 'Usuń warunek' : 'Dodaj warunek'}
+                                        {item?.conditionActive ? 'Usuń warunek' : 'Dodaj warunek'}
                                     </button>
                                 </div>
 
-                                {conditions[index]?.active ? <div className="addProduct__addonsSection__condition">
+                                {item?.conditionActive ? <div className="addProduct__addonsSection__condition">
                                     Pokazuj ten dodatek jeśli dodatek:
                                     <label>
-                                        <select value={conditions[index]?.ifAddon}
-                                                onChange={(e) => { updateConditions(index, 'ifAddon', e.target.value); }}>
-                                            {addons?.map((item, index) => {
-                                                return <option key={index} value={item.id}>
-                                                    {item.name_pl}
+                                        <select value={item?.conditionIf}
+                                                onChange={(e) => { updateAddons(index, 'conditionIf', e.target.value); }}>
+                                            {addons?.map((itemChild, index) => {
+                                                return <option key={index} value={itemChild.id} disabled={item.id === itemChild.id}>
+                                                    {itemChild.name}
                                                 </option>
                                             })}
                                         </select>
                                     </label>
                                     jest równy:
                                     <label>
-                                        <select value={conditions[index]?.isEqual}
-                                                onChange={(e) => { updateConditions(index, 'isEqual', e.target.value); }}>
+                                        <select value={item?.conditionThen}
+                                                onChange={(e) => { updateAddons(index, 'conditionThen', e.target.value); }}>
                                             {currentAddonOptions[index]?.map((item, index) => {
                                                 return <option key={index} value={item.id}>
                                                     {item.name_pl}

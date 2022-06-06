@@ -23,28 +23,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/BlogListItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/helpers/blog.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/helpers/content.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/helpers/newsletter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AddPost.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AdminNewsletter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AdminTermsEn.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/AdminTermsPl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/PostList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routers/content.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routers/newsletter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/products.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/blog.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/blog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/images.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/images.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/addons.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/addons.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +90,8 @@
       <workItem from="1654021384096" duration="4038000" />
       <workItem from="1654171150532" duration="74000" />
       <workItem from="1654181490967" duration="21215000" />
-      <workItem from="1654368837399" duration="12311000" />
+      <workItem from="1654368837399" duration="12936000" />
+      <workItem from="1654522472992" duration="7732000" />
     </task>
     <servers />
   </component>
@@ -135,26 +118,26 @@
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654253285146" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1653423069471" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1654370016352" />
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1654373859030">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1654448990629">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653572912268" />
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1654373859030" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1654373859030">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990629" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1654448990629">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653572912268" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1654373859030" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1654373859030">
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990629" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1654448990628">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653572912267" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1654373859030" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1654373859030">
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990628" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1654448990629">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653572912268" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1654373859030" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990629" />
     <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1653598166354">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -164,11 +147,11 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651675634393" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1654382783946">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1654526191371">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654190661365" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654216235242" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654526191371" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1654382783946" />
   </component>
 </project>

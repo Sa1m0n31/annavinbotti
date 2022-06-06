@@ -64,6 +64,10 @@ const getAllAddons = () => {
     return axios.get('/addons/all');
 }
 
+const getAllAddonsOptions = () => {
+    return axios.get('/addons/all-options');
+}
+
 const getAddonById = (id) => {
     return axios.get('/addons/get', {
         params: {
@@ -193,10 +197,6 @@ const deleteType = (id) => {
             id
         }
     });
-}
-
-const getAllAddonsOptions = () => {
-    return axios.get('/addons/get-all-addons-options');
 }
 
 const addAddonsForProduct = (product, addons) => {

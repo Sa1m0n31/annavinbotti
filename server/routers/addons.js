@@ -135,7 +135,7 @@ router.get('/get-all-addons-options', (request, response) => {
     const query = 'SELECT a.id as addon_id, a.name_pl as addon_name, ao.name_pl as addon_option_name, ao.id FROM addons_options ao JOIN addons a ON ao.addon = a.id WHERE ao.hidden = FALSE AND a.hidden = FALSE';
 
     dbSelectQuery(query, [], response);
-})
+});
 
 router.get('/get-addons-by-product', (request, response) => {
     const id = request.query.id;
@@ -156,7 +156,7 @@ router.get('/all', (request, response) => {
 });
 
 router.get('/all-options', (request, response) => {
-    const query = 'SELECT * FROM addons_options WHERE hidden = FALSE';
+    const query = 'SELECT * FROM addons_options WHERE hidden = FALSE ORDER BY addon';
 
     dbSelectQuery(query, [], response);
 });
@@ -186,7 +186,16 @@ router.delete('/delete', (request, response) => {
         const query = 'UPDATE addons SET hidden = TRUE WHERE id = $1';
         const values = [id];
 
-        dbInsertQuery(query, values, response);
+        const queryForOptions = 'UPDATE addons_options SET hidden = TRUE WHERE addon = $1';
+
+        db.query(query, values, (err, res) => {
+           if(res) {
+               dbInsertQuery(queryForOptions, values, response);
+           }
+           else {
+               response.status(500).end();
+           }
+        });
     }
     else {
         response.status(400).end();
