@@ -14,6 +14,9 @@ import PostList from "../../pages/admin/PostList";
 import AdminTermsPl from "../../pages/admin/AdminTermsPl";
 import AdminNewsletter from "../../pages/admin/AdminNewsletter";
 import AdminTermsEn from "../../pages/admin/AdminTermsEn";
+import Waitlist from "../../pages/admin/Waitlist";
+import OrderList from "../../pages/admin/OrderList";
+import WaitlistDetails from "../../pages/admin/WaitlistDetails";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -71,6 +74,15 @@ const AdminWrapper = ({page}) => {
                 break;
             case 17:
                 setRenderPage(<AdminTermsEn />);
+                break;
+            case 18:
+                setRenderPage(<Waitlist />);
+                break;
+            case 19:
+                setRenderPage(<OrderList />);
+                break;
+            case 20:
+                setRenderPage(<WaitlistDetails />);
                 break;
             default:
                 window.location = '/';

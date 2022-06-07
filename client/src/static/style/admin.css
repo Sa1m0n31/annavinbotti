@@ -507,7 +507,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9;
+    z-index: 999;
 }
 
 .colorModal__inner {
@@ -1088,4 +1088,39 @@ div[data-testid=three-dots-loading] {
     padding: 10px 0;
     border-bottom: 1px dashed var(--secondary);
     font-size: 21px;
+}
+
+.addProduct__addonsSection__labelForInput {
+    width: 140px;
+    margin-right: 10px !important;
+    color: #fff;
+    font-style: italic;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.addProduct__addonsSection__input::-webkit-outer-spin-button,
+.addProduct__addonsSection__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.addProduct__addonsSection__input {
+    -moz-appearance: textfield;
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 700;
+    margin-left: 10px;
+    text-align: center;
 }

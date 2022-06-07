@@ -140,7 +140,7 @@ router.get('/get-all-addons-options', (request, response) => {
 router.get('/get-addons-by-product', (request, response) => {
     const id = request.query.id;
 
-    const query = `SELECT a.id, a.name_pl as addon_name, afp.show_if, afp.is_equal  
+    const query = `SELECT a.id, a.name_pl as addon_name, afp.priority, afp.show_if, afp.is_equal  
                     FROM addons a 
                     LEFT OUTER JOIN addons_for_products afp ON afp.addon = a.id 
                     WHERE afp.product = $1`;

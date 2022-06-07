@@ -18,7 +18,7 @@ router.get('/get', (request, response) => {
    const id = request.query.id;
 
    if(id) {
-      const query = 'SELECT * FROM products WHERE id = $1 AND hidden = FALSE';
+      const query = 'SELECT * FROM products WHERE id = $1';
       const values = [id];
 
       dbSelectQuery(query, values, response);
@@ -183,8 +183,8 @@ router.post('/add-addons-for-product', (request, response) => {
 
    if(addonsList?.length) {
       addonsList.forEach((item, index, array) => {
-         const query = `INSERT INTO addons_for_products VALUES ($1, $2, $3, $4)`;
-         const values = [product, item.addon, item.ifAddon, item.isEqual];
+         const query = `INSERT INTO addons_for_products VALUES ($1, $2, $3, $4, $5)`;
+         const values = [product, item.addon, item.ifAddon, item.isEqual, item.priority];
 
          db.query(query, values, (err, res) => {
             if(index === array.length-1) {
@@ -199,7 +199,7 @@ router.post('/add-addons-for-product', (request, response) => {
       });
    }
    else {
-      response.status(400).end();
+      response.status(201).end();
    }
 });
 
@@ -219,6 +219,23 @@ router.delete('/delete-addons-for-product', (request, response) => {
    const values = [id];
 
    dbInsertQuery(query, values, response);
+});
+
+router.get('/get-all-waitlists', (request, response) => {
+   const query = `SELECT COUNT(*) as waitlist_size, p.id, p.name_pl as product_name FROM products p 
+                  JOIN waitlist w ON p.id = w.product
+                  GROUP BY (p.id, p.name_pl)`;
+
+   dbSelectQuery(query, [], response);
+});
+
+router.get('/get-waitlist-by-product-id', (request, response) => {
+   const id = request.query.id;
+
+   const query = 'SELECT email, date FROM waitlist WHERE product = $1';
+   const values = [id];
+
+   dbSelectQuery(query, values, response);
 });
 
 module.exports = router;

@@ -132,6 +132,7 @@ const AddProduct = () => {
                                         getAddonsByProduct(idParam)
                                             .then((res) => {
                                                 const addonsForProduct = res?.data?.result;
+                                                console.log(addonsForProduct);
 
                                                 const getAddonConditionInfo = (i) => {
                                                     return addonsForProduct?.find((item) => {
@@ -149,6 +150,7 @@ const AddProduct = () => {
                                                         conditionActive: !!currentAddonConditionInfo && currentAddonConditionInfo?.is_equal !== null,
                                                         conditionIf: currentAddonConditionInfo?.show_if ? currentAddonConditionInfo?.show_if : addonsLocal[0]?.id,
                                                         conditionThen: currentAddonConditionInfo?.is_equal ? currentAddonConditionInfo?.is_equal : firstAddonOption,
+                                                        priority: currentAddonConditionInfo?.priority ? currentAddonConditionInfo?.priority : null
                                                     }
                                                 }));
                                                 setCurrentAddonOptions(addonsLocal?.map((item) => {
@@ -194,6 +196,7 @@ const AddProduct = () => {
                                                 conditionActive: false,
                                                 conditionIf: addonsLocal[0]?.id,
                                                 conditionThen: firstAddonOption,
+                                                priority: null
                                             }
                                         }));
                                         setCurrentAddonOptions(addonsLocal?.map((item) => {
@@ -271,6 +274,9 @@ const AddProduct = () => {
                 else if(property === 'conditionThen') {
                     return {...item, conditionThen: value};
                 }
+                else if(property === 'priority') {
+                    return {...item, priority: value}
+                }
                 else {
                     return item;
                 }
@@ -287,9 +293,11 @@ const AddProduct = () => {
         })?.map((item) => ({
             addon: item.id,
             ifAddon: item.conditionActive ? item.conditionIf : null,
-            isEqual: item.conditionActive ? item.conditionThen : null
+            isEqual: item.conditionActive ? item.conditionThen : null,
+            priority: item.priority
         })))
             .then((res) => {
+                console.log(res);
                 if(res?.status === 201) {
                     setStatus(1);
                 }
@@ -447,6 +455,13 @@ const AddProduct = () => {
                         {addons?.map((item, index) => {
                             return <>
                                 <div className="addProduct__addonsSection__main__item flex">
+                                    <label className="addProduct__addonsSection__labelForInput">
+                                        Kolejność:
+                                        <input className="addProduct__addonsSection__input"
+                                               value={item.priority}
+                                               onChange={(e) => { updateAddons(index, 'priority', e.target.value); }}
+                                               type="number" />
+                                    </label>
                                     <label className="addProduct__addonsSection__label">
                                         <button className={item?.active ? "addProduct__addonsSection__btn addProduct__addonsSection__btn--selected" : "addProduct__addonsSection__btn"}
                                                 onClick={() => { updateSelectedAddons(index); }}>
@@ -554,8 +569,8 @@ const AddProduct = () => {
                                 setGallery(images);
                             }}
                             autoUpload={false}
+                            sorting={true}
                             initialState={initialGallery}
-                            action={`http://localhost:5000/save/1`} // upload route
                             source={response => response.source} // response image source
                         /> : ''}
                     </div>
@@ -563,7 +578,7 @@ const AddProduct = () => {
 
 
                 <button className="btn btn--admin" onClick={() => { createNewProduct(); }}>
-                    Dodaj produkt
+                    {updateMode ? "Aktualizuj produkt" : "Dodaj produkt"}
                 </button>
             </main>
         </div>

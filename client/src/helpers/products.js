@@ -219,8 +219,20 @@ const deleteAddonsForProduct = (id) => {
     });
 }
 
+const getAllWaitlists = () => {
+    return axios.get('/products/get-all-waitlists');
+}
+
+const getWaitlistByProductId = (id) => {
+    return axios.get('/products/get-waitlist-by-product-id', {
+        params: {
+            id
+        }
+    });
+}
+
 export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById,
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct,
     getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
-    addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct
+    addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId
 }
