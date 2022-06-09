@@ -1124,3 +1124,198 @@ div[data-testid=three-dots-loading] {
     margin-left: 10px;
     text-align: center;
 }
+
+.admin__main__notification__item__value > span {
+    display: block;
+    text-align: center;
+}
+
+.admin__order__left {
+    width: 30%;
+    padding-right: 30px;
+    border-right: 2px dashed var(--secondary);
+}
+
+.orderStatus {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 40px 0;
+    background: transparent;
+}
+
+.orderStatus__number {
+    background: var(--secondary);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #313131;
+    opacity: .5;
+    transition: .2s all;
+    font-size: 21px;
+    font-weight: 700;
+    position: relative;
+}
+
+.orderStatus__number--currentStatus {
+    opacity: 1;
+}
+
+.orderStatus__number--currentStatus::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 125%;
+    height: 125%;
+    background: transparent;
+    border: 1px solid var(--secondary);
+    border-radius: 50%;
+}
+
+.orderStatus__text {
+    width: calc(100% - 60px);
+    text-transform: uppercase;
+    font-size: 19px;
+    color: var(--secondary);
+    margin-left: 25px;
+    text-align: left;
+}
+
+.btn--orderStatus {
+    font-size: 15px;
+    height: 45px;
+    border-radius: 45px;
+}
+
+.info--orderStatus {
+    text-align: center;
+    display: block;
+    width: 100%;
+    color: #fff;
+}
+
+.admin__order__right {
+    width: 60%;
+    padding-left: 40px;
+}
+
+.admin__order__right__header {
+    text-transform: uppercase;
+    color: var(--secondary);
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.admin__order__right__text > span {
+    display: block;
+    color: #fff;
+}
+
+.admin__order__right__text > span > span {
+    font-style: italic;
+    padding-right: 10px;
+}
+
+.admin__main__order {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 50px;
+}
+
+.admin__order__right > .flex {
+    align-items: flex-start;
+}
+
+.admin__order__cart {
+    width: 100%;
+    margin-top: 60px;
+}
+
+.admin__order__cart__header {
+    background: var(--secondary);
+}
+
+.admin__order__cart__header,
+.admin__order__cart__item {
+    color: #fff;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 50px;
+}
+
+.admin__order__cart > div > span {
+    flex-basis: 24%;
+    text-align: center;
+}
+
+.admin__order__cart__item {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--secondary);
+}
+
+.admin__order__cart__item__btn {
+    background: transparent;
+    width: 25px;
+}
+
+.admin__order__cart__item__details {
+    width: 100%;
+    margin: 25px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.admin__order__cart__item__details__addon {
+    color: #fff;
+    padding-left: 5%;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.admin__order__cart__item__details__addons,
+.admin__order__cart__item__details__buttons {
+    width: 48%;
+}
+
+.admin__order__cart__item__details__btn {
+    background: var(--secondary);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .2s all;
+}
+
+.admin__order__cart__item__details__btn:hover {
+    background: var(--hover);
+}
+
+.o-5 {
+    opacity: .3;
+    pointer-events: none;
+}
+
+.admin__order__cart__item__btn .btn__img {
+    opacity: .7;
+    transition: .2s all;
+}
+
+.admin__order__cart__item__btn .btn__img:hover {
+    opacity: 1;
+}

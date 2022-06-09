@@ -81,6 +81,9 @@ function App() {
     <Route path="/szczegoly-waitlisty">
       <AdminWrapper page={20} />
     </Route>
+    <Route path="/szczegoly-zamowienia">
+      <AdminWrapper page={21} />
+    </Route>
   </Router>
 }
 
