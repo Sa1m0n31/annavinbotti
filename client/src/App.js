@@ -84,6 +84,9 @@ function App() {
     <Route path="/szczegoly-zamowienia">
       <AdminWrapper page={21} />
     </Route>
+    <Route path="/formularz">
+      <AdminWrapper page={22} />
+    </Route>
   </Router>
 }
 

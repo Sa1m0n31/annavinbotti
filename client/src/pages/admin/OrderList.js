@@ -63,7 +63,7 @@ const OrderList = () => {
         <AdminTop />
 
         {deleteCandidate ? <AdminDeleteModal id={deleteCandidate}
-                                             header="Usuwanie typu"
+                                             header="Usuwanie zamówienia"
                                              text={`Czy na pewno chcesz usunąć zamówienie ${deleteCandidateName}?`}
                                              btnText="Usuń"
                                              success="Zamówienie został usunięty"

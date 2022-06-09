@@ -18,6 +18,7 @@ import Waitlist from "../../pages/admin/Waitlist";
 import OrderList from "../../pages/admin/OrderList";
 import WaitlistDetails from "../../pages/admin/WaitlistDetails";
 import OrderDetails from "../../pages/admin/OrderDetails";
+import FormDetails from "../../pages/admin/FormDetails";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -87,6 +88,9 @@ const AdminWrapper = ({page}) => {
                 break;
             case 21:
                 setRenderPage(<OrderDetails />);
+                break;
+            case 22:
+                setRenderPage(<FormDetails />);
                 break;
             default:
                 window.location = '/';

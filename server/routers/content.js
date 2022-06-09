@@ -42,4 +42,41 @@ router.put('/update-terms-en', (request, response) => {
     dbInsertQuery(query, values, response);
 });
 
+router.get('/get-newsletter-stats', (request, response) => {
+   const query = 'SELECT COUNT(*) as counter FROM newsletter WHERE active = TRUE';
+
+   dbSelectQuery(query, [], response);
+});
+
+router.get('/get-orders-stats', (request, response) => {
+    const query = 'SELECT COUNT(*) as counter FROM orders';
+
+    dbSelectQuery(query, [], response);
+});
+
+router.get('/get-clients-stats', (request, response) => {
+   const query = 'SELECT COUNT(*) as counter FROM users WHERE active = TRUE';
+
+   dbSelectQuery(query, [], response);
+});
+
+router.get('/get-products-stats', (request, response) => {
+   const query = 'SELECT COUNT(*) as counter FROM products WHERE hidden = FALSE';
+
+   dbSelectQuery(query, [], response);
+});
+
+router.get('/get-blog-stats', (request, response) => {
+    const query = 'SELECT COUNT(*) as counter FROM articles WHERE hidden = FALSE';
+
+    dbSelectQuery(query, [], response);
+});
+
+router.get('/get-waitlist-stats', (request, response) => {
+    const query = 'SELECT COUNT(*) as counter FROM waitlist';
+
+    dbSelectQuery(query, [], response);
+});
+
+
 module.exports = router;

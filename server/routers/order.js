@@ -84,9 +84,52 @@ router.delete('/delete', (request, response) => {
 });
 
 router.get('/get-order-statuses', (request, response) => {
-   const query = 'SELECT * FROM order_statuses';
+   const query = 'SELECT * FROM order_statuses ORDER BY id';
 
    dbSelectQuery(query, [], response);
 });
+
+router.get('/get-form-details', (request, response) => {
+    const form = request.query.form;
+    const sell = request.query.sell;
+
+    const query = `SELECT ff.form_data, p.name_pl as product, o.id as order_id FROM filled_forms ff
+                    JOIN sells s ON s.id = ff.sell
+                    JOIN orders o ON o.id = s.order
+                    JOIN products p ON p.id = s.product
+                    WHERE ff.form = $1 AND ff.sell = $2`;
+    const values = [form, sell];
+
+    dbSelectQuery(query, values, response);
+});
+
+router.get('/get-form-info', (request, response) => {
+    const form = request.query.form;
+    const sell = request.query.sell;
+});
+
+router.post('/set-status', (req, res) => {
+    const { v1, v2, v3, v4, v5, v6, v7, v8 } = req.body;
+
+    const q1 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 1';
+    const q2 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 2';
+    const q3 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 3';
+    const q4 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 4';
+    const q5 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 5';
+    const q6 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 6';
+    const q7 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 7';
+    const q8 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 8';
+
+    console.log(req.body);
+
+    db.query(q1, [v1]);
+    db.query(q2, [v2]);
+    db.query(q3, [v3]);
+    db.query(q4, [v4]);
+    db.query(q5, [v5]);
+    db.query(q6, [v6]);
+    db.query(q7, [v7]);
+    db.query(q8, [v8]);
+})
 
 module.exports = router;

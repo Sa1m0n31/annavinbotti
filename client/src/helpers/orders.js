@@ -38,4 +38,12 @@ const getOrderStatuses = () => {
     return axios.get('/orders/get-order-statuses');
 }
 
-export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, getOrderStatuses }
+const getFormDetails = (form, sell) => {
+    return axios.get('/orders/get-form-details', {
+        params: {
+            form, sell
+        }
+    });
+}
+
+export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, getOrderStatuses, getFormDetails }

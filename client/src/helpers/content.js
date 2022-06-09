@@ -23,4 +23,8 @@ const updateTermsEn = (terms, policy) => {
     });
 }
 
-export { getTermsPl, getTermsEn, updateTermsPl, updateTermsEn }
+const getStats = (name) => {
+    return axios.get(`/content/get-${name}-stats`);
+}
+
+export { getTermsPl, getTermsEn, updateTermsPl, updateTermsEn, getStats }

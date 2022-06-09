@@ -1,5 +1,5 @@
 import React from 'react';
-import penIcon from '../../static/img/pen.svg'
+import eyeIcon from '../../static/img/eye.svg'
 import trashIcon from '../../static/img/trash.svg'
 
 const OrderListItem = ({index, id, name, date, openDeleteModal}) => {
@@ -38,11 +38,11 @@ const OrderListItem = ({index, id, name, date, openDeleteModal}) => {
                 Akcje
             </h3>
             <section className="admin__main__notification__item__buttons">
-                <button className="admin__main__notification__item__btn admin__main__notification__item__btn--block" onClick={() => { openDeleteModal(id, name); }}>
+                <button className="admin__main__notification__item__btn admin__main__notification__item__btn--block" onClick={() => { openDeleteModal(id, id); }}>
                     <img className="btn__img" src={trashIcon} alt="zablokuj" />
                 </button>
                 <a className="admin__main__notification__item__btn" href={`/szczegoly-zamowienia?id=${id}`}>
-                    <img className="btn__img" src={penIcon} alt="edytuj" />
+                    <img className="btn__img" src={eyeIcon} alt="edytuj" />
                 </a>
             </section>
         </section>

@@ -23,18 +23,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminOrderCart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminOrderInfo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/DisplayAddress.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/OrderListItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/helpers/orders.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/FormDetails.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/admin/OrderDetails.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminQuickMenu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/admin/ContactWithSupport.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/admin/StatsSection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/admin/OrderListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/OrderListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/orders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AdminStart.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AdminStart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/FormDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/FormDetails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/admin/OrderList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/OrderList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/admin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/helpers/dbSelectQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/helpers/dbSelectQuery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/content.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routers/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/order.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,15 +71,15 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\components\admin" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\media\forms" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\routers" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\helpers" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -106,7 +110,7 @@
       <workItem from="1654684110825" duration="726000" />
       <workItem from="1654705731276" duration="4172000" />
       <workItem from="1654772768348" duration="3115000" />
-      <workItem from="1654778512457" duration="5647000" />
+      <workItem from="1654778512457" duration="13386000" />
     </task>
     <servers />
   </component>
@@ -153,20 +157,20 @@
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653572912268" />
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990629" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1653598166354">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1654788678950">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653598166354" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654788678950" />
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1650738829986" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1651675634393">
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1654796971486">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1651675634393" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1654779405666">
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654796971486" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1654797801475">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654190661365" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654779405666" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654797801475" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1654382783946" />
   </component>
 </project>

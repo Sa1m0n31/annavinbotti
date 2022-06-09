@@ -1319,3 +1319,150 @@ div[data-testid=three-dots-loading] {
 .admin__order__cart__item__btn .btn__img:hover {
     opacity: 1;
 }
+
+.admin__form {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.admin__form__section {
+    width: 47%;
+}
+
+.admin__form__field {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.admin__form__field > span {
+    color: #fff;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.admin__form__field__value {
+    padding: 10px 15px;
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
+    color: #fff;
+}
+
+.admin__form__field__imageWrapper {
+    width: 300px;
+    height: auto;
+}
+
+.admin__form {
+    border-top: 2px dashed var(--secondary);
+    margin-top: 30px;
+}
+
+.admin__form__section > .admin__order__right__header {
+    margin-top: 30px;
+    padding: 10px 0;
+}
+
+.admin__form__section:first-of-type {
+    padding-right: 5%;
+    border-right: 1px dashed var(--secondary);
+}
+
+.admin__form__field__openInNewTabBtn {
+    color: #fff;
+    padding-left: 20px;
+    font-size: 13px;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.admin__main__subheader {
+    color: #fff;
+}
+
+.admin__main__subheader:first-of-type {
+    margin: 20px 0 8px;
+}
+
+.admin__main__subheader > span {
+    font-weight: 400;
+    font-style: italic;
+    padding-right: 8px;
+}
+
+.admin__start__section {
+    border: 1px solid var(--secondary);
+    border-radius: 15px;
+    padding: 20px;
+    width: 46%;
+}
+
+.admin__start__section:first-child {
+    margin-right: 4%;
+}
+
+.admin__start__section__header {
+    color: #fff;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.admin__start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.admin__start__stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px 0 10px;
+    width: 30%;
+}
+
+.admin__start__stats > span {
+    color: #fff;
+}
+
+.admin__start__stats__value {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.admin__start__stats__key {
+    font-size: 12px;
+}
+
+.admin__start__statsWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.quickImg {
+    width: 25px;
+}
+
+.admin__start__section--100 {
+    width: 96%;
+    margin-top: 40px;
+}
+
+.admin__start__section--100 .admin__start__section__header {
+    margin-bottom: 10px;
+}
+
+.contactWithSupportText {
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+    font-style: italic;
+    margin: 10px 0 20px;
+}

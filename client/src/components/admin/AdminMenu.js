@@ -25,8 +25,8 @@ const AdminMenu = ({menuOpen}) => {
         { name: 'Blog', icon: blog },
         { name: 'Newsletter', icon: newsletter },
         { name: 'Regulaminy', icon: terms },
-        { name: 'Treści', icon: content },
-        { name: 'Ustawienia', icon: settings }
+        // { name: 'Treści', icon: content },
+        // { name: 'Ustawienia', icon: settings }
     ]
 
     const submenus = [
@@ -70,13 +70,13 @@ const AdminMenu = ({menuOpen}) => {
             { name: "Wersja polska", link: '/regulaminy-polski' },
             { name: "Wersja angielska", link: '/regulaminy-angielski' }
         ],
-        [
-            { name: "Wersja polska", link: '/tresci-polski' },
-            { name: "Wersja angielska", link: '/tresci-angielski' }
-        ],
-        [
-            { name: "Ustawienia", link: '/ustawienia' }
-        ]
+        // [
+        //     { name: "Wersja polska", link: '/tresci-polski' },
+        //     { name: "Wersja angielska", link: '/tresci-angielski' }
+        // ],
+        // [
+        //     { name: "Ustawienia", link: '/ustawienia' }
+        // ]
     ]
 
     return <menu className="panelMenu scroll">
