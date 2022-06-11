@@ -16,6 +16,7 @@ import {
 import RUG from 'react-upload-gallery'
 import settings from "../../static/settings";
 import imageIcon from '../../static/img/image-gallery.svg'
+import Waiting from "../../components/admin/Loader";
 
 const AddProduct = () => {
     const [namePl, setNamePl] = useState("");
@@ -38,16 +39,10 @@ const AddProduct = () => {
     const [initialGallery, setInitialGallery] = useState([]);
     const [galleryLoaded, setGalleryLoaded] = useState(false);
     const [id, setId] = useState(-1);
-    const [conditions, setConditions] = useState([]);
     const [currentAddonOptions, setCurrentAddonOptions] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const inputRef = useRef(null);
-
-    const isElementInArray = (el, arr) => {
-        return arr.findIndex((item) => {
-            return item === el;
-        }) !== -1;
-    }
 
     const handleMainImageUpload = (e) => {
         const file = e.target.files[0];
@@ -213,12 +208,6 @@ const AddProduct = () => {
         }
     }, []);
 
-    // useEffect(() => {
-    //     if(addons?.length) {
-    //         getOptionsWrapper();
-    //     }
-    // }, [addons]);
-
     useEffect(() => {
         if(initialGallery?.length) {
             setGalleryLoaded(true);
@@ -227,6 +216,7 @@ const AddProduct = () => {
 
     useEffect(() => {
         if(status) {
+            setLoading(false);
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -312,6 +302,7 @@ const AddProduct = () => {
 
 
     const createNewProduct = () => {
+        setLoading(true);
         let formData = new FormData();
         for(let i=0; i<gallery.length; i++) {
             const item = gallery[i];
@@ -577,9 +568,9 @@ const AddProduct = () => {
                 </div>
 
 
-                <button className="btn btn--admin" onClick={() => { createNewProduct(); }}>
+                {loading ? <Waiting /> : <button className="btn btn--admin" onClick={() => { createNewProduct(); }}>
                     {updateMode ? "Aktualizuj produkt" : "Dodaj produkt"}
-                </button>
+                </button>}
             </main>
         </div>
     </div>

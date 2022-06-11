@@ -46,7 +46,7 @@ const AdminMenu = ({menuOpen}) => {
             {name: 'Dodatki', link: '/lista-stanow-magazynowych-dodatkow'}
         ],
         [
-            {name: 'Dodaj typy', link: '/dodaj-kategorie'},
+            {name: 'Dodaj typ', link: '/dodaj-kategorie'},
             {name: 'Lista typów', link: '/lista-kategorii'}
         ],
         [

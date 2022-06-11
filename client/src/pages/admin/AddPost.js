@@ -30,6 +30,16 @@ const AddPost = () => {
 
     const inputRef = useRef(null);
     const linkModal = useRef(null);
+    const addImageToArticlePlaceholder = useRef(null);
+
+    useEffect(() => {
+        if(imgForLink) {
+            addImageToArticlePlaceholder.current.style.visibility = 'hidden';
+        }
+        else {
+            addImageToArticlePlaceholder.current.style.visibility = 'visible';
+        }
+    }, [imgForLink]);
 
     useEffect(() => {
         const idParam = new URLSearchParams(window.location.search).get('id');
@@ -55,10 +65,15 @@ const AddPost = () => {
     }, []);
 
     useEffect(() => {
-        if(generatedLink) {
-            linkModal.current.style.visibility = 'visible';
+        if(linkModal?.current) {
+            if(generatedLink && imgForLink) {
+                linkModal.current.style.visibility = 'visible';
+            }
+            else {
+                linkModal.current.style.visibility = 'hidden';
+            }
         }
-    }, [generatedLink]);
+    }, [generatedLink, imgForLink]);
 
     const deleteImgForLink = () => {
         imgForLink.remove();
@@ -261,7 +276,7 @@ const AddPost = () => {
                                 {imgForLink ? <button className="admin__label__imgUpload__trashBtn" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImgForLink(); }}>
                                     <img className="img" src={trashIcon} alt="usun" />
                                 </button> : ""}
-                                <div className="editor__videoWrapper__placeholderContent">
+                                <div className="editor__videoWrapper__placeholderContent" ref={addImageToArticlePlaceholder}>
                                     <p className="editor__videoWrapper__placeholderContent__text">
                                         Kliknij tutaj lub upuść plik aby dodać zdjęcie
                                     </p>

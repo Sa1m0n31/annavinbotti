@@ -23,23 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/AdminQuickMenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/ContactWithSupport.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/admin/StatsSection.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routers/others.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/OrderListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/OrderListItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AdminStart.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AdminStart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/FormDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/FormDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/OrderList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/OrderList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/admin/ContactWithSupport.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/ContactWithSupport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddPost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/helpers/dbSelectQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/helpers/dbSelectQuery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +58,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../brunchbox" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -110,7 +103,9 @@
       <workItem from="1654684110825" duration="726000" />
       <workItem from="1654705731276" duration="4172000" />
       <workItem from="1654772768348" duration="3115000" />
-      <workItem from="1654778512457" duration="13386000" />
+      <workItem from="1654778512457" duration="13924000" />
+      <workItem from="1654807637795" duration="675000" />
+      <workItem from="1654966908277" duration="5680000" />
     </task>
     <servers />
   </component>
@@ -130,13 +125,13 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1654775908134">
-      <screen x="-1920" y="0" width="1920" height="1040" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1654968171225">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654181613996" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654775908134" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654799513803" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1653423069471" />
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1654370016352" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1654968171225" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1654448990629">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -166,11 +161,11 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654796971486" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1654797801475">
-      <screen x="-1920" y="0" width="1920" height="1040" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1654972397191">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654190661365" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654797801475" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1654382783946" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1654972397191" />
   </component>
 </project>

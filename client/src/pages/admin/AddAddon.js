@@ -281,6 +281,25 @@ const AddAddon = () => {
         }))
     }
 
+    useEffect(() => {
+        if(options?.length) {
+            const allOptionsImgLabels = Array.from(document.querySelectorAll('.admin__label__imgUpload'));
+            const imagesPlaceholders = Array.from(document.querySelectorAll('.admin__label__imgUpload__placeholder'));
+            if(allOptionsImgLabels.length === options.length && allOptionsImgLabels.length === imagesPlaceholders.length) {
+                options.forEach((item, index) => {
+                    if(item.oldImage || item.image) {
+                        imagesPlaceholders[index].style.visibility = 'hidden';
+                        allOptionsImgLabels[index].style.height = 'auto';
+                    }
+                    else {
+                        imagesPlaceholders[index].style.visibility = 'visible';
+                        allOptionsImgLabels[index].style.height = '200px';
+                    }
+                });
+            }
+        }
+    }, [options]);
+
     return <div className="container container--admin container--addProduct">
         <AdminTop />
         <div className="admin">
@@ -436,6 +455,12 @@ const AddAddon = () => {
                             </span>
 
                             <span className={addonType !== 2 ? 'hidden' : "admin__label__imgUpload"}>
+                                {/* Image placeholder */}
+                                <span className="admin__label__imgUpload__placeholder">
+                                    <img className="img" src={imageIcon} alt="image" />
+                                    Przeciągnij zdjęcie lub kliknij aby dodać je do danej opcji
+                                </span>
+
                                 {/* Delete image button */}
                                 {item.image || item.oldImage ? <button className="admin__label__imgUpload__trashBtn" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImgFromAddon(index); }}>
                                     &times;
