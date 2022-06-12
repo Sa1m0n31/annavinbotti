@@ -33,9 +33,6 @@ const AdminTop = () => {
 
         <section className="adminTop__right">
             <h4 className="adminTop__header">
-                <span className="adminTop__header__key">
-                    Zalogowany:
-                </span>
                 <span className="adminTop__header__value">
                     {username}
                 </span>

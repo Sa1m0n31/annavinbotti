@@ -87,8 +87,12 @@ const AdminMenu = ({menuOpen}) => {
                             onClick={() => { if(submenu !== index) setSubmenu(index); else setSubmenu(-1); }}>
                         <img className="panelMenu__list__item__icon" src={item.icon} alt={item.name} />
                         {index === 0 ? <a className="panelMenu__submenu__link--special" href="/panel">
+                            <span className="d-900">
+                                {item.name}
+                            </span>
+                        </a> : <span className="d-900">
                             {item.name}
-                        </a> : item.name}
+                        </span>}
                     </button>
                     {submenu === index || menuOpen === index ? <ul className="panelMenu__submenu">
                         {submenus[index].map((item, index) => {

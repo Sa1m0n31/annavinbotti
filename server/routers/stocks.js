@@ -25,12 +25,13 @@ router.get('/get-all-addons-stocks', (request, response) => {
 router.get('/get-product-stock-details', (request, response) => {
    const id = request.query.id;
 
+
    const query = `SELECT s.id, p.id as product_id, s.name, s.counter, p.name_pl as product_name 
                     FROM stocks s 
                     JOIN products_stocks ps ON s.id = ps.stock 
                     JOIN products p ON ps.product = p.id  
                     WHERE s.id = $1`;
-   const values = [parseInt(id[0])];
+   const values = [parseInt(id)];
 
    dbSelectQuery(query, values, response);
 });
@@ -51,6 +52,8 @@ router.get('/get-addon-stock-details', (request, response) => {
 
 router.post('/add-product-stock', (request, response) => {
    const { stockName, counter, products } = request.body;
+
+   console.log(products);
 
    if(products) {
        const productsArray = products.split(';');
@@ -75,21 +78,38 @@ router.post('/add-product-stock', (request, response) => {
                                   response.status(201).end();
                               }
                               else {
-                                  response.status(500).end();
+                                  if(parseInt(err?.code) === 23505) {
+                                      response.status(503).end();
+                                  }
+                                  else {
+                                      response.status(500).end();
+                                  }
                               }
-                           });
+                           })
+                               ?.catch((err) => {
+                                   if(parseInt(err.code) === 23505) {
+                                       response.status(503).end();
+                                   }
+                               });
                        }
                        else {
-                           await db.query(query, values);
+                           await db.query(query, values)
+                               ?.catch((err) => {
+                                   if(parseInt(err.code) === 23505) {
+                                       response.status(503).end();
+                                   }
+                               });
                        }
                    });
                }
                else {
+                   console.log('stocks error');
                    response.status(500).end();
                }
            });
        }
        catch(err) {
+           console.log(err);
            response.status(500).end();
        }
    }
@@ -109,7 +129,6 @@ router.post('/add-addons-stock', (request, response) => {
 
         try {
             db.query(query, values, (err, res) => {
-                console.log(err);
                 if(res) {
                     const stockId = res.rows[0].id;
 
@@ -118,21 +137,34 @@ router.post('/add-addons-stock', (request, response) => {
 
                     JSON.parse(addonsOptionsArray).forEach(async (item, index, array) => {
                         values = [parseInt(item), stockId];
-                        console.log(item);
 
                         if(index === array.length-1) {
                             db.query(query, values, (err, res) => {
-                                console.log(err);
                                 if(res) {
                                     response.status(201).end();
                                 }
                                 else {
-                                    response.status(500).end();
+                                    if(parseInt(err?.code) === 23505) {
+                                        response.status(503).end();
+                                    }
+                                    else {
+                                        response.status(500).end();
+                                    }
                                 }
-                            });
+                            })
+                                ?.catch((err) => {
+                                    if(parseInt(err.code) === 23505) {
+                                        response.status(503).end();
+                                    }
+                                });
                         }
                         else {
-                            await db.query(query, values);
+                            await db.query(query, values)
+                                ?.catch((err) => {
+                                    if(parseInt(err.code) === 23505) {
+                                        response.status(503).end();
+                                    }
+                                });
                         }
                     });
                 }

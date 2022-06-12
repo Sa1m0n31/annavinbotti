@@ -42,6 +42,8 @@ const addGallery = (gallery, id, response) => {
       const values = [item.filename, id];
       const query = `INSERT INTO images VALUES (nextval('image_seq'), $1, $2)`;
       db.query(query, values, (err, res) => {
+         console.log('add image ' + item.filename);
+         console.log(err);
          if(index === array.length-1) {
             response.send({
                result: id
@@ -106,11 +108,10 @@ router.patch('/update', upload.fields([
 
    db.query(query, values, (err, res) => {
       if(res) {
-         console.log('update');
          if(files.gallery) {
-            console.log('files.gallery');
             deleteProductGallery(id)
                 .then(() => {
+                   console.log(files.gallery);
                    addGallery(files.gallery, id, response);
                 });
          }
@@ -119,7 +120,6 @@ router.patch('/update', upload.fields([
          }
       }
       else {
-         console.log(err);
          response.status(500).end();
       }
    });

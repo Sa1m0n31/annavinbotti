@@ -395,7 +395,7 @@ const AddAddon = () => {
 
                 <label>
                     Typ dodatku (co będzie wybierał klient)
-                    <span className="flex">
+                    <span className="flex flex--addonType">
                         <button className={addonType === 1 ? "btn btn--choose btn--choose--selected" : "btn btn--choose"}
                             onClick={() => { setAddonType(1); }}>
                             Tekst

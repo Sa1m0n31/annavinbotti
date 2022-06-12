@@ -7,12 +7,20 @@
 
 @media(max-width: 1400px) {
     .singleOption {
-        transform: scale(.85);
-        transform-origin: top left;
+        /*transform: scale(.85);*/
+        /*transform-origin: top left;*/
+    }
+
+    .btn--admin--type {
+        width: 100%;
     }
 
     .singleOption__number {
         display: none;
+    }
+
+    .container--addProduct label {
+        margin-right: 0;
     }
 }
 
@@ -36,7 +44,33 @@
 }
 
 @media(max-width: 1200px) {
+    .admin__main__header {
+        font-size: 19px;
+    }
 
+    .admin__start {
+        margin-top: 25px;
+    }
+
+    .contactWithSupportText {
+        font-size: 12px;
+    }
+
+    .admin__start__section__header {
+        font-size: 14px;
+    }
+
+    .admin__start__stats__value {
+        font-size: 24px;
+    }
+
+    .admin__start__stats__key {
+        font-size: 10px;
+    }
+
+    .btn--admin {
+        font-size: 15px;
+    }
 }
 
 @media(max-width: 996px) {
@@ -76,5 +110,230 @@
 
     .btn--choose {
         font-size: 13px;
+    }
+
+    .admin__start__section {
+        width: 100%;
+        margin: 0 0 20px 0 !important;
+    }
+
+    .d-900 {
+        display: none;
+    }
+
+    .panelMenu {
+        height: calc(100vh - 85px);
+        width: 60px;
+    }
+
+    .panelMenu__list__item__link {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .panelMenu__submenu__link--special {
+        justify-content: center;
+        position: relative;
+    }
+
+    .panelMenu__list__item__icon~.panelMenu__submenu__link--special  {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .panelMenu__list__item__icon {
+        margin-right: 0;
+    }
+
+    .panelMenu__list {
+        padding-top: 0;
+    }
+
+    .admin__main {
+        width: calc(100% - 80px);
+        margin-left: 80px;
+        padding-left: 5px;
+        margin-top: 70px;
+    }
+
+    .admin__main__notification__item__btn {
+        margin: 15px 8px 0;
+        width: 15px;
+    }
+
+    .admin__main__notification__item__key {
+        font-size: 12px;
+    }
+
+    .admin__main__notification__item__value {
+        font-size: 14px;
+    }
+
+    .adminTop {
+        height: 70px;
+    }
+
+    .container--addProduct label {
+        font-size: 10px;
+        margin-bottom: 10px;
+        margin-top: 20px;
+    }
+
+    .container--addProduct .input {
+        height: 40px;
+        font-size: 12px;
+    }
+
+    .addProduct__addonsSection__header {
+        font-size: 15px;
+    }
+
+    .rug .rug-handle {
+        height: 240px !important;
+    }
+
+    .rug .rug-handle .rug-handle-info .rug-handle-button {
+        max-width: 80% !important;
+        font-size: 13px !important;
+    }
+
+    .rug .rug-handle svg.rug-handle-icon {
+        width: 40px !important;
+    }
+
+    .btn--admin--type {
+        margin-top: 25px;
+    }
+
+    .admin__status {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin: 25px 0;
+        display: block;
+        font-size: 12px;
+    }
+
+    .admin__status span {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    .adminBlog__images .editor__videoWrapper__placeholderContent__text,
+    .editorWrapper__header,
+    .admin__status span {
+        font-size: 12px;
+    }
+
+    .editor__videoWrapper__icon {
+        width: 40px;
+    }
+
+    .oldImgWrapper,
+    .admin__label__imgUpload {
+        height: 200px;
+    }
+
+    .colorModal__header {
+        font-size: 15px;
+    }
+
+    .colorModal__text {
+        font-size: 12px;
+        margin: 5px 0;
+    }
+
+    .colorModal__inner {
+        height: 250px;
+    }
+
+    .newsletterList__item {
+        font-size: 14px;
+    }
+}
+
+@media(max-width: 776px) {
+    .admin__main {
+        padding-top: 20px;
+    }
+
+    .btn--admin--contact {
+        font-size: 10px;
+    }
+
+    .adminTop__logoWrapper {
+        width: 100px;
+    }
+
+    .siteHeader__player__btn--profile {
+        width: 40px;
+        height: 40px;
+        margin-right: 0;
+    }
+
+    .admin__main__notification__item {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px 0;
+    }
+
+    .admin__main__notification__item:first-of-type {
+        margin-top: 25px;
+    }
+
+    .admin__main__notification__item__col {
+        width: 48%;
+        margin-bottom: 25px;
+        flex-basis: 48% !important;
+    }
+
+    .admin__main--addonList .admin__main__notification__item__col {
+        flex-basis: 100% !important;
+        width: 100%;
+    }
+
+    .addProduct__addonsSection__label span {
+        font-size: 13px;
+    }
+
+    .adminBlog__images,
+    .flex--addonType {
+        flex-direction: column;
+    }
+
+    .adminBlog__images > div {
+        width: 100%;
+        margin-right: 0 !important;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .flex--addonType .btn--choose {
+        width: 100%;
+        margin-bottom: 0;
+        margin-right: 0;
+    }
+}
+
+@media(max-width: 576px) {
+    .admin__main__header {
+        font-size: 17px;
+    }
+
+    .admin__contact__textarea {
+        font-size: 12px;
+    }
+
+    .admin__start__stats {
+        width: 48%;
+    }
+
+    .btn--admin {
+        font-size: 12px;
     }
 }

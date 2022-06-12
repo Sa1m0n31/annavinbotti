@@ -23,16 +23,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/server/routers/others.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/ContactWithSupport.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/ContactWithSupport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminTop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/products.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddPost.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddStock.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddStock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddonList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddonList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/StockList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/StockList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/TypesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/TypesList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/Waitlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/Waitlist.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile-admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile-admin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/products.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/stocks.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/stocks.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +110,7 @@
       <workItem from="1654772768348" duration="3115000" />
       <workItem from="1654778512457" duration="13924000" />
       <workItem from="1654807637795" duration="675000" />
-      <workItem from="1654966908277" duration="5680000" />
+      <workItem from="1654966908277" duration="14310000" />
     </task>
     <servers />
   </component>
@@ -152,20 +157,20 @@
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653572912268" />
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990629" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1654788678950">
-      <screen x="-1920" y="0" width="1920" height="1040" />
+    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1654984341727">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654788678950" />
-    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1650738829986" />
+    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1654984341727" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1654796971486">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654796971486" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1654972397191">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1654991782444">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654190661365" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654797801475" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1654972397191" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1654991782444" />
   </component>
 </project>

@@ -77,7 +77,7 @@ const TypesList = () => {
 
         <div className="admin">
             <AdminMenu menuOpen={4} />
-            <main className="admin__main">
+            <main className="admin__main admin__main--addonList">
                 <h2 className="admin__main__header">
                     Lista typów
                 </h2>

@@ -300,6 +300,45 @@ const AddProduct = () => {
             });
     }
 
+    const handleProductSubmit = (formData) => {
+        console.log('handle submit');
+        if(updateMode) {
+            updateProduct(formData, id, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
+                .then((res) => {
+
+                    deleteAddonsForProduct(id)
+                        .then((res) => {
+                            if(res) {
+                                addAddonsForProductWrapper(id);
+                            }
+                            else {
+                                setStatus(-2);
+                            }
+                        })
+                        .catch(() => {
+                            setStatus(-2);
+                        });
+                })
+                .catch(() => {
+                    setStatus(-2);
+                });
+        }
+        else {
+            addProduct(formData, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
+                .then((res) => {
+                    const productId = res?.data?.result;
+                    if(productId) {
+                        addAddonsForProductWrapper(productId);
+                    }
+                    else {
+                        setStatus(-2);
+                    }
+                })
+                .catch(() => {
+                    setStatus(-2);
+                });
+        }
+    }
 
     const createNewProduct = () => {
         setLoading(true);
@@ -309,48 +348,26 @@ const AddProduct = () => {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', item.source, true);
             xhr.responseType = 'blob';
-            xhr.onload = function(e) {
+            xhr.onload = async function(e) {
                 if(this.status == 200) {
                     let myBlob = this.response;
-                    formData.append('gallery', new File([myBlob], 'name'));
-                }
-                if(i === gallery.length-1) {
-                    if(updateMode) {
-                        updateProduct(formData, id, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
-                            .then((res) => {
+                    new Promise((resolve, reject) => {
+                        formData.append('gallery', new File([myBlob], 'name'));
+                        resolve();
+                    })
+                        .then(() => {
+                            if(i === gallery.length-1) {
+                                setTimeout(() => {
+                                    handleProductSubmit(formData);
+                                }, 500);
+                            }
+                        });
 
-                                deleteAddonsForProduct(id)
-                                    .then((res) => {
-                                        if(res) {
-                                            addAddonsForProductWrapper(id);
-                                        }
-                                        else {
-                                            setStatus(-2);
-                                        }
-                                    })
-                                    .catch(() => {
-                                        setStatus(-2);
-                                    });
-                            })
-                            .catch(() => {
-                                setStatus(-2);
-                            });
-                    }
-                    else {
-                        addProduct(formData, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
-                            .then((res) => {
-                                const productId = res?.data?.result;
-                                if(productId) {
-                                    addAddonsForProductWrapper(productId);
-                                }
-                                else {
-                                    setStatus(-2);
-                                }
-                            })
-                            .catch(() => {
-                                setStatus(-2);
-                            });
-                    }
+                }
+                else {
+                    setTimeout(() => {
+                        handleProductSubmit(formData);
+                    }, 500);
                 }
             };
             xhr.send();

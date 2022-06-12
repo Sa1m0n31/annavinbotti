@@ -56,7 +56,7 @@
     width: 20%;
     background: transparent;
     height: calc(100vh - 100px);
-    overflow-y: scroll;
+    overflow-y: auto;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -936,6 +936,7 @@ div[data-testid=three-dots-loading] {
     justify-content: flex-start;
     align-items: center;
     white-space: nowrap;
+    flex-wrap: wrap;
 }
 
 .addProduct__addonsSection__condition select {
@@ -1441,6 +1442,7 @@ div[data-testid=three-dots-loading] {
 
 .admin__start__stats__key {
     font-size: 12px;
+    text-align: center;
 }
 
 .admin__start__statsWrapper {
@@ -1590,4 +1592,13 @@ a.admin__start__stats {
 
 a.admin__start__stats:hover {
     opacity: 1;
+}
+
+.adminBlog__images > div {
+    width: calc(50% - 25px);
+    max-width: 600px;
+}
+
+.adminBlog__images > div:first-of-type {
+    margin-right: 40px;
 }

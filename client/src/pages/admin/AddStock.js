@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {addType, getAllAddonsOptions, getAllProducts, getTypeById, updateType} from "../../helpers/products";
+import {getAllAddonsAndAddonsOptions, getAllAddonsOptions, getAllProducts} from "../../helpers/products";
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import {
@@ -9,12 +9,12 @@ import {
     getAddonStockDetails,
     getProductStockDetails
 } from "../../helpers/stocks";
+import {scrollToTop} from "../../helpers/others";
 
 const AddStock = ({type}) => {
     const [id, setId] = useState(null);
     const [name, setName] = useState("");
     const [counter, setCounter] = useState(0);
-    const [oldSelectedItems, setOldSelectedItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectedItemsSet, setSelectedItemsSet] = useState(false);
     const [allItems, setAllItems] = useState([]);
@@ -43,7 +43,7 @@ const AddStock = ({type}) => {
                 });
         }
         else {
-            getAllAddonsOptions()
+            getAllAddonsAndAddonsOptions()
                 .then((res) => {
                     if(res?.status === 200) {
                         setAllItems(res?.data?.result);
@@ -70,6 +70,7 @@ const AddStock = ({type}) => {
                 func(idParam)
                     .then((res) => {
                         const result = res?.data?.result;
+                        console.log(res?.data);
                         if(result) {
                             setName(result[0].name);
                             setCounter(result[0].counter);
@@ -124,8 +125,13 @@ const AddStock = ({type}) => {
                             setStatus(-1);
                         }
                     })
-                    .catch(() => {
-                        setStatus(-1);
+                    .catch((err) => {
+                        if(err?.response?.status === 503) {
+                            setStatus(-3);
+                        }
+                        else {
+                            setStatus(-1);
+                        }
                     });
             }
             else {
@@ -166,6 +172,15 @@ const AddStock = ({type}) => {
         }
     }
 
+    useEffect(() => {
+        if(status) {
+            setTimeout(() => {
+                setStatus(0);
+            }, 2000);
+            scrollToTop();
+        }
+    }, [status]);
+
     return <div className="container container--admin container--addProduct">
         <AdminTop />
         <div className="admin">
@@ -179,9 +194,11 @@ const AddStock = ({type}) => {
                             Uzupełnij wymagane pola
                         </span> : (status === -1) ? <span className="admin__status__inner admin__status--error">
                             Coś poszło nie tak... Skontaktuj się z administratorem systemu
+                        </span> : (status === -3 ? <span className="admin__status__inner admin__status--error">
+                            Wybrane {type === 0 ? "produkty" : "dodatki"} należą już do innych stanów magazynowych
                         </span> : <span className="admin__status__inner admin__status--success">
                             {updateMode ? 'Stan magazynowy został zaktualizowany' : 'Stan magazynowy został dodany'}
-                        </span>}
+                        </span>)}
                 </span> : ""}
 
                 <label>

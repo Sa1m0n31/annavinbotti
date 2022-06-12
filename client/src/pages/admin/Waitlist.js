@@ -24,7 +24,7 @@ const Waitlist = () => {
 
         <div className="admin">
             <AdminMenu menuOpen={5} />
-            <main className="admin__main">
+            <main className="admin__main admin__main--addonList">
                 <h2 className="admin__main__header">
                     Waitlisty modeli
                 </h2>

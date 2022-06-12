@@ -89,7 +89,7 @@ const StockList = ({type}) => {
             <AdminMenu menuOpen={3} />
             <main className="admin__main">
                 <h2 className="admin__main__header">
-                    Lista stanów magazynowych
+                    Lista stanów magazynowych {type === 0 ? "modeli" : "dodatków"}
                 </h2>
                 {stocks?.map((item, index) => {
                     return <StockListItem index={index}
