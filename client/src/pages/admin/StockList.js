@@ -24,7 +24,6 @@ const StockList = ({type}) => {
         func()
             .then((res) => {
                 if(res.status === 200) {
-                    console.log(res?.data);
                     setStocks(res?.data?.result);
                 }
                 else {

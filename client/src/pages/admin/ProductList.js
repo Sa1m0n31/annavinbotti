@@ -65,10 +65,10 @@ const ProductList = () => {
         <AdminTop />
 
         {deleteCandidate ? <AdminDeleteModal id={deleteCandidate}
-                                             header="Usuwanie produktu"
-                                             text={`Czy na pewno chcesz usunąć produkt ${deleteCandidateName}?`}
+                                             header="Usuwanie modelu"
+                                             text={`Czy na pewno chcesz usunąć model ${deleteCandidateName}?`}
                                              btnText="Usuń"
-                                             success="Produkt został usunięty"
+                                             success="Model został usunięty"
                                              fail="Coś poszło nie tak... Prosimy skontaktować się z administratorem systemu"
                                              deleteStatus={deleteStatus}
                                              deleteFunction={deleteAddonById}
@@ -78,7 +78,7 @@ const ProductList = () => {
             <AdminMenu menuOpen={1} />
             <main className="admin__main">
                 <h2 className="admin__main__header">
-                    Lista produktów
+                    Lista modeli
                 </h2>
                 {products?.map((item, index) => {
                     return <ProductListItem index={index}

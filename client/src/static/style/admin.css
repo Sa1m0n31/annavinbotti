@@ -4,9 +4,23 @@
     padding: 0;
 }
 
+html {
+    height: 100%;
+}
+
 .container {
     position: relative;
     min-height: 100vh;
+}
+
+a, button, label {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .container--adminLogin {
@@ -84,6 +98,7 @@
     padding: 10px 40px;
     font-size: 18px;
     cursor: pointer;
+    position: relative;
     transition: .2s all;
 }
 
@@ -194,7 +209,7 @@
 .profileMenu {
     position: absolute;
     bottom: -10px;
-    right: 0;
+    right: 2px;
     transform: translate(0, 100%);
     background: #fff;
     width: 200px;
@@ -218,7 +233,7 @@
 }
 
 .profileMenu--admin {
-    bottom: -25px;
+    bottom: -35px;
 }
 
 .profileMenu--club::before {
@@ -240,7 +255,7 @@
     align-items: center;
     background: transparent;
     width: 100%;
-    font-size: 16px;
+    font-size: 14px;
     transition: .2s all;
 }
 
@@ -253,10 +268,10 @@
 }
 
 .profileMenu__list__img {
-    width: 30px;
+    width: 25px;
     height: auto;
     min-height: 100%;
-    margin-right: 25px;
+    margin-right: 20px;
 }
 
 .siteHeader__player {
@@ -430,6 +445,8 @@
     font-size: 36px;
     font-weight: 700;
     margin-left: 30px;
+    flex-basis: 20%;
+    max-width: 45px;
 }
 
 .optionsHeader {
@@ -500,6 +517,7 @@
     display: none;
 }
 
+.modalMenu,
 .colorModal {
     position: fixed;
     top: 0;
@@ -514,6 +532,7 @@
     z-index: 999;
 }
 
+.modal__inner,
 .colorModal__inner {
     width: 450px;
     height: 500px;
@@ -927,6 +946,7 @@ div[data-testid=three-dots-loading] {
     color: #fff;
     background: transparent;
     text-decoration: underline;
+    white-space: nowrap;
 }
 
 .addProduct__addonsSection__condition {
@@ -940,7 +960,16 @@ div[data-testid=three-dots-loading] {
 }
 
 .addProduct__addonsSection__condition select {
-    margin: 0 10px;
+    /*margin: 0 10px;*/
+    max-width: 100%;
+}
+
+.space {
+    padding-right: 10px;
+}
+
+.addProduct__addonsSection__condition select option {
+    max-width: 100%;
 }
 
 .addProduct__addonsSection__condition label {
@@ -1004,7 +1033,7 @@ div[data-testid=three-dots-loading] {
     justify-content: center;
     align-items: center;
     visibility: hidden;
-    z-index: 100;
+    z-index: 9999;
 }
 
 .modal__inner {
@@ -1503,9 +1532,24 @@ div[data-testid=three-dots-loading] {
     margin-top: 5px;
 }
 
+.admin__label__color {
+    position: relative;
+    z-index: 5;
+}
+
 .admin__label__imgUpload {
     position: relative;
     width: 300px;
+}
+
+.d-none--margin {
+    padding-bottom: 20px;
+    visibility: hidden;
+    height: 0;
+}
+
+.d-none--margin * {
+    display: none !important;
 }
 
 /*.admin__label__imgUpload .dzu-dropzone::after {*/
@@ -1576,7 +1620,7 @@ div[data-testid=three-dots-loading] {
     filter: brightness(0) invert(1);
 }
 
-.adminBlog__images .admin__label__imgUpload {
+.adminBlog__imagpanelMenu__list__item__linkes .admin__label__imgUpload {
     width: 100%;
     cursor: pointer;
 }
@@ -1601,4 +1645,56 @@ a.admin__start__stats:hover {
 
 .adminBlog__images > div:first-of-type {
     margin-right: 40px;
+}
+
+.modalMenu .modal__inner {
+    height: 300px;
+}
+
+.modal__inner .panelMenu__submenu__item {
+    width: 100%;
+    text-align: center;
+}
+
+.modal__inner .panelMenu__submenu__link:hover,
+.modal__inner .panelMenu__submenu__item:hover {
+    background: transparent;
+}
+
+.modal__inner .panelMenu__submenu__link {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
+}
+
+.modalMenu .modal__header {
+    margin-bottom: 10px;
+}
+
+.addProduct__addonsSection__label span {
+    flex-basis: 80%;
+}
+
+.admin__form__field__imageWrapper {
+    max-width: 100%;
+}
+
+.addProduct__addonsSection__addonOptions {
+    margin-bottom: 15px;
+}
+
+.addProduct__addonsSection__addonOptions i {
+    font-weight: 700;
+}
+
+.addProduct__addonsSection__addonOptions i,
+.addProduct__addonsSection__addonOptions span {
+    color: #fff;
+    font-size: 13px;
+}
+
+.addProduct__addonsSection__addonOptions span {
+    padding-left: 6px;
 }

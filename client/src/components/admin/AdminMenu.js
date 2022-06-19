@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import products from '../../static/img/products.svg'
 import types from '../../static/img/types.svg'
 import addons from '../../static/img/addons.svg'
@@ -14,6 +14,9 @@ import home from '../../static/img/home.svg'
 
 const AdminMenu = ({menuOpen}) => {
     const [submenu, setSubmenu] = useState(-1);
+    const [mobileModal, setMobileModal] = useState(false);
+
+    const panelMenu = useRef(null);
 
     const menu = [
         { name: 'Start', icon: home },
@@ -79,12 +82,35 @@ const AdminMenu = ({menuOpen}) => {
         // ]
     ]
 
-    return <menu className="panelMenu scroll">
+    const mainMenuItemClick = (index) => {
+        if(submenu !== index) {
+            setSubmenu(index);
+        }
+        else {
+            setSubmenu(-1);
+        }
+
+        if(window.innerWidth < 996 && index) {
+            setMobileModal(true);
+        }
+    }
+
+    useEffect(() => {
+        // Safari bug
+        if(!mobileModal) {
+            panelMenu.current.style.overflowY = 'auto';
+        }
+        else {
+            panelMenu.current.style.overflowY = 'visible';
+        }
+    }, [mobileModal]);
+
+    return <menu className="panelMenu scroll" ref={panelMenu}>
         <ul className="panelMenu__list">
             {menu.map((item, index) => {
                 return <li className="panelMenu__list__item" key={index}>
-                    <button className={submenu === index || menuOpen === index ? "panelMenu__list__item__link panelMenu__list__item__link--selected" : "panelMenu__list__item__link"}
-                            onClick={() => { if(submenu !== index) setSubmenu(index); else setSubmenu(-1); }}>
+                    <button className={submenu === index || menuOpen === index && (window.innerWidth > 996) ? "panelMenu__list__item__link panelMenu__list__item__link--selected" : "panelMenu__list__item__link"}
+                            onClick={() => { mainMenuItemClick(index); }}>
                         <img className="panelMenu__list__item__icon" src={item.icon} alt={item.name} />
                         {index === 0 ? <a className="panelMenu__submenu__link--special" href="/panel">
                             <span className="d-900">
@@ -94,7 +120,7 @@ const AdminMenu = ({menuOpen}) => {
                             {item.name}
                         </span>}
                     </button>
-                    {submenu === index || menuOpen === index ? <ul className="panelMenu__submenu">
+                    {submenu === index || menuOpen === index && (index !== 0) ? (window.innerWidth > 996 ? <ul className="panelMenu__submenu">
                         {submenus[index].map((item, index) => {
                             return <li className="panelMenu__submenu__item" key={index}>
                                 <a className="panelMenu__submenu__link" href={item.link}>
@@ -102,7 +128,26 @@ const AdminMenu = ({menuOpen}) => {
                                 </a>
                             </li>
                         })}
-                    </ul> : ""}
+                    </ul>  : (mobileModal ? <div className="modalMenu">
+                        <div className="modal__inner">
+                            <button className="colorModal__close" onClick={() => { setMobileModal(false); }}>
+                                &times;
+                            </button>
+
+                            <h3 className="modal__header">
+                                {menu[submenu]?.name}
+                            </h3>
+                            <ul>
+                                {submenus[submenu].map((item, index) => {
+                                    return <li className="panelMenu__submenu__item" key={index}>
+                                        <a className="panelMenu__submenu__link" href={item.link}>
+                                            {item.name}
+                                        </a>
+                                    </li>
+                                })}
+                            </ul>
+                        </div>
+                    </div> : '')) : ""}
                 </li>
             })}
         </ul>

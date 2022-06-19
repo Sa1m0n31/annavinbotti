@@ -3,6 +3,34 @@
     .panelMenu__list__item__link {
         font-size: 14px;
     }
+
+    .orderStatus__text {
+        font-size: 15px;
+        flex-basis: 75%;
+    }
+
+    .orderStatus__number {
+        width: 40px;
+        height: 40px;
+    }
+
+    .admin__order__right__header {
+        font-size: 17px;
+    }
+
+    .admin__order__cart *,
+    .admin__order__cart__header *,
+    .admin__order__right__text span {
+        font-size: 14px;
+    }
+
+    .admin__order__cart__item__details__addons:first-child {
+        margin-right: 10px;
+    }
+
+    .btn--orderStatus {
+        font-size: 12px;
+    }
 }
 
 @media(max-width: 1400px) {
@@ -21,6 +49,32 @@
 
     .container--addProduct label {
         margin-right: 0;
+    }
+
+    .container--addAddon label {
+        margin-right: 20px;
+    }
+
+    .admin__main__order {
+        flex-direction: column;
+    }
+
+    .admin__main__order > * {
+        width: 100%;
+        border-right: none;
+    }
+
+    .orderStatus:first-of-type {
+        margin-top: 0;
+    }
+
+    .admin__order__left {
+        padding-right: 0;
+        margin-bottom: 30px;
+    }
+
+    .admin__order__right {
+        padding-left: 0;
     }
 }
 
@@ -78,9 +132,66 @@
         margin-right: 0;
     }
 
+    .addProduct__addonsSection__main__item {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .addProduct__addonsSection__main__itemWrapper:not(:last-child) {
+        border-bottom: 1px dashed var(--secondary);
+        padding-bottom: 10px;
+    }
+
+    .addProduct__addonsSection__main__item label:first-of-type {
+        width: 80%;
+        max-width: 110px;
+        order: 1;
+    }
+
+    .addProduct__addonsSection__input {
+        width: 30px;
+        height: 30px;
+    }
+
+    .addProduct__addonsSection__labelForInput {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .addProduct__addonsSection__label span {
+        order: 10;
+    }
+
+    .addProduct__addonsSection__main__item label:last-of-type {
+        order: 3;
+        width: 100%;
+    }
+
+    .addProduct__addonsSection__main__item button {
+        order: 2;
+    }
+
+    .admin__main__subheader {
+        font-size: 14px;
+    }
+
+    .admin__form {
+        flex-direction: column;
+    }
+
+    .admin__form > * {
+        width: 100%;
+    }
+
+    .admin__form__section:first-of-type {
+        border-right: none;
+        border-bottom: 1px solid var(--secondary);
+    }
+
     .btn--addOption {
         width: 35px;
         height: 35px;
+        max-width: 35px;
         margin-left: 15px;
         font-size: 28px;
     }
@@ -121,8 +232,16 @@
         display: none;
     }
 
+    .scroll::-webkit-scrollbar-button,
+    .scroll::-webkit-scrollbar {
+        width: 2px;
+        height: 2px;
+    }
+
     .panelMenu {
-        height: calc(100vh - 85px);
+        top: 70px;
+        bottom: unset;
+        height: calc(100% - 70px);
         width: 60px;
     }
 
@@ -181,9 +300,16 @@
         font-size: 10px;
         margin-bottom: 10px;
         margin-top: 20px;
+        max-width: 100%;
+    }
+
+    .container--addProduct .addProduct__addonsSection__condition label {
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     .container--addProduct .input {
+        max-width: 100%;
         height: 40px;
         font-size: 12px;
     }
@@ -249,11 +375,51 @@
     }
 
     .colorModal__inner {
-        height: 250px;
+        height: 100vh;
+        max-height: 500px;
+    }
+
+    .container--admin > .colorModal .colorModal__inner {
+        max-height: 300px;
     }
 
     .newsletterList__item {
         font-size: 14px;
+    }
+
+    .editor__videoWrapper__placeholderContent__text {
+        font-size: 12px;
+    }
+
+    .singleOption {
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+
+    .optionsHeader {
+        margin-bottom: 10px;
+    }
+
+    .admin__form__field__openInNewTabBtn {
+        display: block;
+        padding-left: 0;
+        padding-top: 5px;
+    }
+
+    .admin__form__field {
+        margin-bottom: 10px;
+    }
+
+    .panelMenu {
+        z-index: 500;
+    }
+
+    .modal__link {
+        font-size: 10px;
+    }
+
+    .modal .modal__inner {
+        padding: 40px 10px;
     }
 }
 
@@ -298,7 +464,7 @@
     }
 
     .addProduct__addonsSection__label span {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .adminBlog__images,
@@ -313,10 +479,57 @@
         margin-top: 10px;
     }
 
+    .addProduct__addonsSection__addonOptions span,
+    .addProduct__addonsSection__addonOptions i {
+        font-size: 11px;
+    }
+
     .flex--addonType .btn--choose {
         width: 100%;
         margin-bottom: 0;
         margin-right: 0;
+    }
+
+    .admin__order__cart__item__details,
+    .admin__order__right > .flex {
+        flex-direction: column;
+    }
+
+    .admin__order__cart__item__details > * {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .admin__order__right > .flex > div:first-of-type {
+        margin-bottom: 20px;
+    }
+
+    .admin__order__cart {
+        margin-top: 30px;
+    }
+
+    .admin__order__cart__item > span,
+    .admin__order__cart__header > span {
+        font-size: 11px;
+    }
+
+    .admin__order__cart__item__details__addons {
+        margin-right: 0 !important;
+    }
+
+    .admin__order__cart__item__details__addon {
+        padding-left: 0;
+        font-size: 12px;
+    }
+
+    .admin__order__cart__item__details__btn {
+        font-size: 12px;
+    }
+
+    .profileMenu {
+        right: -7px;
+        transform: translate(0, 100%) scale(.7);
+        transform-origin: top right;
     }
 }
 
@@ -335,5 +548,37 @@
 
     .btn--admin {
         font-size: 12px;
+    }
+
+    .admin__label__imgUpload {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .orderStatus__text {
+        font-size: 13px;
+        margin-left: 20px;
+    }
+
+    .orderStatus__number {
+        width: 30px;
+        height: 30px;
+        font-size: 17px;
+    }
+
+    .admin__order__right__header {
+        font-size: 16px;
+    }
+
+    .admin__order__right__text > span {
+        font-size: 12px;
+    }
+
+    .admin__order__cart__item__btn > .btn__img {
+        width: 15px;
+    }
+
+    .info {
+        font-size: 13px;
     }
 }

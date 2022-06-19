@@ -50,6 +50,78 @@ router.get('/get-addon-stock-details', (request, response) => {
     dbSelectQuery(query, values, response);
 });
 
+router.get('/check-products-stocks', (request, response) => {
+    let products = request.query.products
+    let excludeStock = request.query.stock;
+
+    if(products) {
+        const query = `SELECT * FROM products_stocks WHERE product = ANY ('{${products}}'::int[]) AND stock != $1`;
+        const values = [excludeStock];
+
+        try {
+            db.query(query, values, (err, res) => {
+                if(res) {
+                    if(res.rowCount) {
+                        response.send({
+                            result: 0
+                        });
+                    }
+                    else {
+                        response.send({
+                            result: 1
+                        });
+                    }
+                }
+                else {
+                    response.status(500).end();
+                }
+            });
+        }
+        catch {
+            response.status(500).end();
+        }
+    }
+    else {
+        response.status(400).end();
+    }
+});
+
+router.get('/check-addons-stocks', (request, response) => {
+    let options = request.query.options;
+    let excludeStock = request.query.stock;
+
+    if(options) {
+        const query = `SELECT * FROM addons_stocks WHERE addon_option = ANY ('{${options}}'::int[]) AND stock != $1`;
+        const values = [excludeStock];
+
+        try {
+            db.query(query, values, (err, res) => {
+                if(res) {
+                    if(res.rowCount) {
+                        response.send({
+                            result: 0
+                        });
+                    }
+                    else {
+                        response.send({
+                            result: 1
+                        });
+                    }
+                }
+                else {
+                    response.status(500).end();
+                }
+            });
+        }
+        catch {
+            response.status(500).end();
+        }
+    }
+    else {
+        response.status(400).end();
+    }
+});
+
 router.post('/add-product-stock', (request, response) => {
    const { stockName, counter, products } = request.body;
 
@@ -103,7 +175,6 @@ router.post('/add-product-stock', (request, response) => {
                    });
                }
                else {
-                   console.log('stocks error');
                    response.status(500).end();
                }
            });

@@ -1,5 +1,21 @@
 import axios from "axios";
 
+const checkAddonsStocks = (options, stock) => {
+    return axios.get('/stocks/check-addons-stocks', {
+        params: {
+            options, stock
+        }
+    });
+}
+
+const checkProductsStocks = (products, stock) => {
+    return axios.get('/stocks/check-products-stocks', {
+        params: {
+            products, stock
+        }
+    });
+}
+
 const getAllStocks = () => {
     return axios.get(`/stocks/get-all-stocks`);
 }
@@ -61,5 +77,5 @@ const addAddonStock = (stockName, counter, addonsOptions) => {
 }
 
 export { getAllStocks, getAllProductStocks, getAllAddonsStocks, deleteProductStock, deleteAddonStock,
-    getProductStockDetails, getAddonStockDetails, addProductStock, addAddonStock
+    getProductStockDetails, getAddonStockDetails, addProductStock, addAddonStock, checkAddonsStocks, checkProductsStocks
 }

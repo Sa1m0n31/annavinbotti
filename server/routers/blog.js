@@ -51,7 +51,6 @@ router.post('/add', upload.single('image'), (request, response) => {
                     dbInsertQuery(query, values, response);
                 }
                 else {
-                    console.log(err);
                     response.status(500).end();
                 }
             }

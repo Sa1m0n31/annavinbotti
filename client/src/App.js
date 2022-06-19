@@ -87,6 +87,9 @@ function App() {
     <Route path="/formularz">
       <AdminWrapper page={22} />
     </Route>
+    <Route path="/zmien-haslo-administratora">
+      <AdminWrapper page={23} />
+    </Route>
   </Router>
 }
 

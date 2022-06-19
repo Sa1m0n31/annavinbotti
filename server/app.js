@@ -17,7 +17,7 @@ const server = http.createServer(app);
 
 /* Redirect http to https */
 // app.enable('trust proxy');
-//
+
 // function redirectWwwTraffic(req, res, next) {
 //     if (req.headers.host.slice(0, 4) === "www.") {
 //         var newHost = req.headers.host.slice(4);
@@ -25,11 +25,10 @@ const server = http.createServer(app);
 //     }
 //     next();
 // }
-//
-// app.use (function (req, res, next) {
+
+// app.use(function (req, res, next) {
 //     if (req.secure) {
 //         // request was via https, so do no special handling
-//         console.log('secure');
 //         next();
 //     } else {
 //         // request was via http, so redirect to https
@@ -79,191 +78,14 @@ const isLoggedIn = (req, res, next) => {
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.get("/moje-konto", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/rozpocznij", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/logowanie", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/weryfikacja", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/zaloz-konto", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/odzyskiwanie-hasla", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/resetowanie-hasla", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/edycja-profilu", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/faq", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/o-nas", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/zawodnik", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/klub", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/mapa", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
-app.get("/dodaj-video", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/zaplac", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/subskrypcja-przedluzona", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/zmien-haslo-zawodnika", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/zmien-haslo-administratora", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/zmien-haslo-klubu", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/wpis/*", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/sztab", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
-app.get("/konto-klubu", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/szukaj-zawodnika", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/szukaj-sztabu", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/profil-zawodnika", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/ulubieni-zawodnicy", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/ulubieni-sztab", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/porownywarka", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/sklady", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/zapisane-druzyny", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/wiadomosci", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/czat", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/powiadomienia", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/notyfikacje", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
-app.get("/zarejestruj-przez-facebooka", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/zarejestruj-przez-google", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
-
-app.get("/admin", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/panel", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/dodaj-powiadomienie", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/lista-powiadomien", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/lista-klubow", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/dodaj-klub", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/lista-artykulow", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/dodaj-artykul", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/lista-mailingowa", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/lista-zawodnikow", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/dodaj-kod", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/lista-kodow", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/edytuj-zawodnika", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
-app.get("/return", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
-app.get("/regulamin", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/polityka-prywatnosci", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/polityka-plikow-cookies", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
-app.get("/polski", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/angielski", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/grafiki-polski", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/grafiki-angielski", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/regulaminy-polski", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-app.get("/regulaminy-angielski", (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+const urls = [
+    'admin', 'panel', 'dodaj-produkt', 'lista-produktow', 'dodaj-dodatek', 'lista-dodatkow',
+    'edytuj-dodatek', 'dodaj-stan-magazynowy-produktow', 'dodaj-stan-magazynowy-dodatkow',
+    'lista-stanow-magazynowych-produktow', 'lista-stanow-magazynowych-dodatkow',
+    'dodaj-kategorie', 'lista-kategorii', 'dodaj-artykul', 'lista-artykulow', 'newsletter',
+    'regulaminy-polski', 'regulaminy-angielski', 'waitlista', 'lista-zamowien', 'szczegoly-waitlisty',
+    'szczegoly-zamowienia', 'formularz', 'zmien-haslo-administratora'
+]
 
 /* Routers */
 const orderRouter = require('./routers/order');
@@ -300,7 +122,7 @@ app.use('/types', typesRouter);
 app.use('/stocks', stocksRouter);
 // app.use("/auth", authRouter);
 app.use('/blog', blogRouter);
-app.use('/newsletter', newsletterRouter);
+app.use('/newsletter-api', newsletterRouter);
 app.use('/content', contentRouter);
 app.use('/others', othersRouter);
 app.use("/image", imageRouter); // only / not restricted (display image)
@@ -319,5 +141,11 @@ app.use("/image", imageRouter); // only / not restricted (display image)
 // app.use("/admin", basicAuth, adminRouter);
 // app.use("/payment", paymentRouter);
 // app.use("/chat", basicAuth, chatRouter);
+
+urls.forEach((item) => {
+    app.get(`/${item}`, (req, res) => {
+        res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    });
+});
 
 server.listen(5000);

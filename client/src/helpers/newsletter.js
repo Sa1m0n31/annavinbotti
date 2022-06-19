@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const getAllNewsletterSubscribers = () => {
-    return axios.get('/newsletter');
+    return axios.get('/newsletter-api');
 }
 
 const registerToNewsletter = (email) => {
-    return axios.post('/newsletter/add', {
+    return axios.post('/newsletter-api/add', {
         email
     });
 }

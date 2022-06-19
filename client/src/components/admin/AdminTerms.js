@@ -4,6 +4,7 @@ import AdminMenu from "../../components/admin/AdminMenu";
 import {Editor} from "react-draft-wysiwyg";
 import {getTermsEn, getTermsPl, updateTermsEn, updateTermsPl} from "../../helpers/content";
 import {convertFromRaw, EditorState} from "draft-js";
+import {scrollToTop} from "../../helpers/others";
 
 const AdminTerms = ({lang}) => {
     const [terms, setTerms] = useState('');
@@ -56,6 +57,12 @@ const AdminTerms = ({lang}) => {
                 setStatus(-1);
             });
     }
+
+    useEffect(() => {
+        if(status) {
+            scrollToTop();
+        }
+    }, [status]);
 
     return <div className="container container--admin container--addProduct">
         <AdminTop />

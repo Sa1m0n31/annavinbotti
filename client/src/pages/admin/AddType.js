@@ -18,7 +18,6 @@ const AddType = () => {
 
             getTypeById(idParam)
                 .then((res) => {
-                    console.log(res?.data);
                     const result = res?.data?.result[0];
                     if(result) {
                         setNamePl(result.name_pl);

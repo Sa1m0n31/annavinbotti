@@ -17,6 +17,7 @@ import RUG from 'react-upload-gallery'
 import settings from "../../static/settings";
 import imageIcon from '../../static/img/image-gallery.svg'
 import Waiting from "../../components/admin/Loader";
+import {scrollToTop} from "../../helpers/others";
 
 const AddProduct = () => {
     const [namePl, setNamePl] = useState("");
@@ -27,7 +28,8 @@ const AddProduct = () => {
     const [detailsEn, setDetailsEn] = useState("");
     const [price, setPrice] = useState(null);
     const [addons, setAddons] = useState([]);
-    const [selectedAddons, setSelectedAddons] = useState([]);
+    const [addonsOptions, setAddonsOptions] = useState([]);
+    const [optionsByAddon, setOptionsByAddon] = useState([]);
     const [types, setTypes] = useState([]);
     const [selectedType, setSelectedType] = useState(-1);
     const [mainImage, setMainImage] = useState(null);
@@ -42,6 +44,7 @@ const AddProduct = () => {
     const [currentAddonOptions, setCurrentAddonOptions] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const containerRef = useRef(null);
     const inputRef = useRef(null);
 
     const handleMainImageUpload = (e) => {
@@ -112,6 +115,8 @@ const AddProduct = () => {
                                     const firstAddonOption = allOptions[0]?.id;
                                     const firstAddon = allOptions[0].addon;
 
+                                    setAddonsOptions(allOptions);
+
                                     const getOptionsByAddonId = (ad) => {
                                         return allOptions?.filter((item) => {
                                             return item.addon === ad;
@@ -127,7 +132,6 @@ const AddProduct = () => {
                                         getAddonsByProduct(idParam)
                                             .then((res) => {
                                                 const addonsForProduct = res?.data?.result;
-                                                console.log(addonsForProduct);
 
                                                 const getAddonConditionInfo = (i) => {
                                                     return addonsForProduct?.find((item) => {
@@ -178,6 +182,8 @@ const AddProduct = () => {
                                     const firstAddonOption = r[0]?.id;
                                     const firstAddon = r[0].addon;
 
+                                    setAddonsOptions(r);
+
                                     const firstOptions = r.filter((item) => {
                                         return item.addon === firstAddon;
                                     });
@@ -207,6 +213,27 @@ const AddProduct = () => {
                 });
         }
     }, []);
+
+    useEffect(() => {
+        if(gallery?.length) {
+
+        }
+        else {
+
+        }
+    }, [gallery, galleryLoaded]);
+
+    useEffect(() => {
+        if(addonsOptions?.length) {
+            const optionsByAddonLocal = {};
+            addonsOptions.forEach((item) => {
+                const addonId = item.addon;
+                const optionName = item.name_pl;
+                optionsByAddonLocal[addonId] = optionsByAddonLocal[addonId]?.concat([optionName]) || [optionName];
+            });
+            setOptionsByAddon(optionsByAddonLocal);
+        }
+    }, [addonsOptions]);
 
     useEffect(() => {
         if(initialGallery?.length) {
@@ -287,7 +314,6 @@ const AddProduct = () => {
             priority: item.priority
         })))
             .then((res) => {
-                console.log(res);
                 if(res?.status === 201) {
                     setStatus(1);
                 }
@@ -301,7 +327,6 @@ const AddProduct = () => {
     }
 
     const handleProductSubmit = (formData) => {
-        console.log('handle submit');
         if(updateMode) {
             updateProduct(formData, id, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
                 .then((res) => {
@@ -342,45 +367,52 @@ const AddProduct = () => {
 
     const createNewProduct = () => {
         setLoading(true);
-        let formData = new FormData();
-        for(let i=0; i<gallery.length; i++) {
-            const item = gallery[i];
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', item.source, true);
-            xhr.responseType = 'blob';
-            xhr.onload = async function(e) {
-                if(this.status == 200) {
-                    let myBlob = this.response;
-                    new Promise((resolve, reject) => {
-                        formData.append('gallery', new File([myBlob], 'name'));
-                        resolve();
-                    })
-                        .then(() => {
-                            if(i === gallery.length-1) {
-                                setTimeout(() => {
-                                    handleProductSubmit(formData);
-                                }, 500);
-                            }
-                        });
+        if(namePl && namePl && price && (selectedType !== -1) && (oldMainImage || mainImage) && gallery?.length) {
+            let formData = new FormData();
+            for(let i=0; i<gallery.length; i++) {
+                const item = gallery[i];
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', item.source, true);
+                xhr.responseType = 'blob';
+                xhr.onload = async function(e) {
+                    if(this.status == 200) {
+                        let myBlob = this.response;
+                        new Promise((resolve, reject) => {
+                            formData.append('gallery', new File([myBlob], 'name'));
+                            resolve();
+                        })
+                            .then(() => {
+                                if(i === gallery.length-1) {
+                                    setTimeout(() => {
+                                        handleProductSubmit(formData);
+                                    }, 500);
+                                }
+                            });
 
-                }
-                else {
-                    setTimeout(() => {
-                        handleProductSubmit(formData);
-                    }, 500);
-                }
-            };
-            xhr.send();
+                    }
+                    else {
+                        setTimeout(() => {
+                            handleProductSubmit(formData);
+                        }, 500);
+                    }
+                };
+                xhr.send();
+            }
+        }
+        else {
+            setStatus(-1);
+            setLoading(false);
+            scrollToTop();
         }
     }
 
-    return <div className="container container--admin container--addProduct">
+    return <div ref={containerRef} className="container container--admin container--addProduct">
         <AdminTop />
         <div className="admin">
             <AdminMenu menuOpen={1} />
             <main className="admin__main">
                 <h2 className="admin__main__header">
-                    Dodaj produkt
+                    Dodaj model
                 </h2>
                 {status ? <span className="admin__status">
                         {status === -1 ? <span className="admin__status__inner admin__status--error">
@@ -388,35 +420,35 @@ const AddProduct = () => {
                         </span> : (status === -2) ? <span className="admin__status__inner admin__status--error">
                             Coś poszło nie tak... Skontaktuj się z administratorem systemu
                         </span> : <span className="admin__status__inner admin__status--success">
-                            {updateMode ? 'Produkt został zaktualizowany' : 'Produkt został dodany'}
+                            {updateMode ? 'Model został zaktualizowany' : 'Model został dodany'}
                         </span>}
                 </span> : ""}
 
                     <label>
-                        Nazwa produktu (polski)
+                        Nazwa modelu (polski)
                         <input className="input"
-                               placeholder="Polska nazwa produktu"
+                               placeholder="Polska nazwa modelu"
                                value={namePl}
                                onChange={(e) => { setNamePl(e.target.value); }} />
                     </label>
                     <label>
-                        Nazwa produktu (angielski)
+                        Nazwa modelu (angielski)
                         <input className="input"
-                               placeholder="Angielska nazwa produktu"
+                               placeholder="Angielska nazwa modelu"
                                value={nameEn}
                                onChange={(e) => { setNameEn(e.target.value); }} />
                     </label>
                     <label>
                         Cena
                         <input className="input input--100"
-                               placeholder="Cena produktu"
+                               placeholder="Cena modelu"
                                type="number"
                                step={0.01}
                                value={price}
                                onChange={(e) => { setPrice(e.target.value); }} />
                     </label>
                     <label>
-                        Opis produktu (polski)
+                        Opis modelu (polski)
                         <Editor
                             editorState={descriptionPl}
                             toolbarClassName="toolbarClassName"
@@ -426,7 +458,7 @@ const AddProduct = () => {
                         />
                     </label>
                     <label>
-                        Opis produktu (angielski)
+                        Opis modelu (angielski)
                         <Editor
                             editorState={descriptionEn}
                             toolbarClassName="toolbarClassName"
@@ -436,7 +468,7 @@ const AddProduct = () => {
                         />
                     </label>
                     <label>
-                        Szczegóły produktu (polski)
+                        Szczegóły modelu (polski)
                         <Editor
                             editorState={detailsPl}
                             toolbarClassName="toolbarClassName"
@@ -446,7 +478,7 @@ const AddProduct = () => {
                         />
                     </label>
                     <label>
-                        Szczegóły produktu (angielski)
+                        Szczegóły modelu (angielski)
                         <Editor
                             editorState={detailsEn}
                             toolbarClassName="toolbarClassName"
@@ -461,7 +493,7 @@ const AddProduct = () => {
                     </h3>
                     <div className="addProduct__addonsSection__main">
                         {addons?.map((item, index) => {
-                            return <>
+                            return <div className="addProduct__addonsSection__main__itemWrapper">
                                 <div className="addProduct__addonsSection__main__item flex">
                                     <label className="addProduct__addonsSection__labelForInput">
                                         Kolejność:
@@ -476,8 +508,8 @@ const AddProduct = () => {
 
                                         </button>
                                         <span>
-                                    {item.name}
-                                </span>
+                                            {item.name}
+                                        </span>
                                     </label>
 
                                     <button className="addProduct__addonsSection__addCondition" onClick={() => { toggleCondition(index); }}>
@@ -485,8 +517,20 @@ const AddProduct = () => {
                                     </button>
                                 </div>
 
+                                <div className="addProduct__addonsSection__addonOptions">
+                                    <i>
+                                        Opcje:
+                                    </i>
+                                    {optionsByAddon[item.id]?.map((item, index, array) => {
+                                        return <span>
+                                            {item}{index === array.length - 1 ? '' : ','}
+                                        </span>
+                                    })}
+                                </div>
+
                                 {item?.conditionActive ? <div className="addProduct__addonsSection__condition">
                                     Pokazuj ten dodatek jeśli dodatek:
+                                    <span className="space"></span>
                                     <label>
                                         <select value={item?.conditionIf}
                                                 onChange={(e) => { updateAddons(index, 'conditionIf', e.target.value); }}>
@@ -497,7 +541,9 @@ const AddProduct = () => {
                                             })}
                                         </select>
                                     </label>
+                                    <span className="space"></span>
                                     jest równy:
+                                    <span className="space"></span>
                                     <label>
                                         <select value={item?.conditionThen}
                                                 onChange={(e) => { updateAddons(index, 'conditionThen', e.target.value); }}>
@@ -509,7 +555,7 @@ const AddProduct = () => {
                                         </select>
                                     </label>
                                 </div> : ''}
-                            </>
+                            </div>
                         })}
                     </div>
                 </div>

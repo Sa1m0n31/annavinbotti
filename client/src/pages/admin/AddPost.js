@@ -9,6 +9,8 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import trashIcon from '../../static/img/trash.svg'
 import {addBlogPost, generateImageLink, getBlogPost, updateBlogPost} from "../../helpers/blog";
 import imageIcon from "../../static/img/image-gallery.svg";
+import {scrollToTop} from "../../helpers/others";
+import Waiting from "../../components/admin/Loader";
 
 const AddPost = () => {
     const [id, setId] = useState(null);
@@ -125,19 +127,23 @@ const AddPost = () => {
     }, [status]);
 
     const handleSubmit = (e) => {
-        if(titlePl && titleEn && excerptPl && excerptEn) {
+        setLoading(true);
+        if(titlePl && titleEn && excerptPl && excerptEn && (mainImageFile || oldMainImage)) {
             if(updateMode) {
                 updateBlogPost(id, titlePl, titleEn, excerptPl, excerptEn, contentPl, contentEn, mainImageFile)
                     .then((res) => {
                         if(res?.status === 201) {
                             setStatus(1);
+                            setLoading(false);
                         }
                         else {
                             setStatus(-1);
+                            setLoading(false);
                         }
                     })
                     .catch(() => {
                         setStatus(-1);
+                        setLoading(false);
                     });
             }
             else {
@@ -145,18 +151,23 @@ const AddPost = () => {
                     .then((res) => {
                         if(res?.status === 201) {
                             setStatus(1);
+                            setLoading(false);
                         }
                         else {
                             setStatus(-1);
+                            setLoading(false);
                         }
                     })
                     .catch(() => {
                         setStatus(-1);
+                        setLoading(false);
                     });
             }
         }
         else {
+            setLoading(false);
             setStatus(-2);
+            scrollToTop();
         }
     }
 
@@ -318,9 +329,9 @@ const AddPost = () => {
                         onEditorStateChange={(text) => { setContentEn(text); }}
                     />
                 </section>
-                <button className="btn btn--admin btn--marginTop" onClick={() => { handleSubmit() }}>
+                {loading ? <Waiting /> : <button className="btn btn--admin btn--marginTop" onClick={() => { handleSubmit() }}>
                     {updateMode ? "Aktualizuj artykuł" : "Dodaj artykuł"}
-                </button>
+                </button>}
             </main>
         </div>
     </div>

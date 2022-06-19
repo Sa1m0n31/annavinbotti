@@ -17,17 +17,9 @@ const getAdminData = () => {
     });
 }
 
-const getClubs = () => {
-    return axios.get(`${API_URL}/admin/get-clubs`);
-}
-
-const getUsers = () => {
-    return axios.get(`${API_URL}/admin/get-users`);
-}
-
-const changeAdminPassword = (oldPassword, newPassword) => {
-    return axios.post(`${API_URL}/admin/change-password`, {
-        oldPassword, newPassword
+const changeAdminPassword = (oldPassword, newPassword, id) => { // TODO: add admin id from passport.js
+    return axios.post(`${API_URL}/others/change-admin-password`, {
+        oldPassword, newPassword, id
     }, {
         withCredentials: true
     });
@@ -122,4 +114,4 @@ const sendInfoAboutTermsUpdate = () => {
     return axios.post(`${API_URL}/admin/send-info-about-terms-update`);
 }
 
-export { getAdminById, getAdminData, getClubs, getUsers, changeAdminPassword, banUser, unlockUser, deleteUser, changeUserName, getUsersVideosNumber, getUsersParametersCompleted, getAdvancedUsersInfo, getCustomFields, updateCustomFields, updateCustomImages, getCustomImages, updateTerms, getTerms, sendInfoAboutTermsUpdate }
+export { getAdminById, getAdminData, changeAdminPassword, banUser, unlockUser, deleteUser, changeUserName, getUsersVideosNumber, getUsersParametersCompleted, getAdvancedUsersInfo, getCustomFields, updateCustomFields, updateCustomImages, getCustomImages, updateTerms, getTerms, sendInfoAboutTermsUpdate }

@@ -25,7 +25,7 @@ const AddAddon = () => {
     const [infoEn, setInfoEn] = useState("");
     const [tooltipPl, setTooltipPl] = useState("");
     const [tooltipEn, setTooltipEn] = useState("");
-    const [addonType, setAddonType] = useState(0);
+    const [addonType, setAddonType] = useState(1);
     const [options, setOptions] = useState([
         {
             namePl: '',
@@ -202,8 +202,14 @@ const AddAddon = () => {
         }
     }
 
+    const validateOptions = () => {
+        return options.findIndex((item) => {
+            return !item.namePl || !item.nameEn;
+        }) === -1;
+    }
+
     const createNewAddon = () => {
-        if(addonType && namePl && nameEn) {
+        if(addonType && namePl && nameEn && validateOptions()) {
             setLoading(true);
 
             if(updateMode) {
@@ -291,16 +297,24 @@ const AddAddon = () => {
                         imagesPlaceholders[index].style.visibility = 'hidden';
                         allOptionsImgLabels[index].style.height = 'auto';
                     }
-                    else {
+                    else if(addonType === 2) {
                         imagesPlaceholders[index].style.visibility = 'visible';
                         allOptionsImgLabels[index].style.height = '200px';
                     }
                 });
             }
+            else {
+                if(addonType === 1 || addonType === 3) {
+                    const spans = Array.from(document.querySelectorAll('.admin__label>.hidden'));
+                    spans.forEach((item) => {
+                        item.style.height = '0';
+                    })
+                }
+            }
         }
-    }, [options]);
+    }, [options, addonType]);
 
-    return <div className="container container--admin container--addProduct">
+    return <div className="container container--admin container--addProduct container--addAddon">
         <AdminTop />
         <div className="admin">
             <AdminMenu menuOpen={2} />
@@ -442,7 +456,7 @@ const AddAddon = () => {
                                    value={item.nameEn}
                                    onChange={(e) => { updateOptions(index, 'nameEn', e); }} />
                         </label>
-                        <div className={addonType === 1 ? 'hidden' : "admin__label admin__flex"}>
+                        <div className={addonType === 1 || addonType === 0 ? 'd-none--margin' : "admin__label admin__flex"}>
                             {addonType === 3 ? 'Kolor' : (addonType === 2 ? 'Zdjęcie' : '')}
                             <span className={addonType !== 3 ? 'hidden' : "admin__label__color flex"}>
                                 <button className={addonType === 3 ? "btn btn--openColorModal" : 'd-none'} onClick={(e) => { e.stopPropagation(); e.preventDefault(); setCurrentOption(index); }}>

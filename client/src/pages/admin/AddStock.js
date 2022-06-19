@@ -4,12 +4,13 @@ import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import {
     addAddonStock,
-    addProductStock, deleteAddonStock,
+    addProductStock, checkAddonsStocks, checkProductsStocks, deleteAddonStock,
     deleteProductStock,
     getAddonStockDetails,
     getProductStockDetails
 } from "../../helpers/stocks";
 import {scrollToTop} from "../../helpers/others";
+import Waiting from "../../components/admin/Loader";
 
 const AddStock = ({type}) => {
     const [id, setId] = useState(null);
@@ -20,6 +21,7 @@ const AddStock = ({type}) => {
     const [allItems, setAllItems] = useState([]);
     const [status, setStatus] = useState(0);
     const [updateMode, setUpdateMode] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const isElementInArray = (el, arr) => {
         return arr.findIndex((item) => {
@@ -70,7 +72,6 @@ const AddStock = ({type}) => {
                 func(idParam)
                     .then((res) => {
                         const result = res?.data?.result;
-                        console.log(res?.data);
                         if(result) {
                             setName(result[0].name);
                             setCounter(result[0].counter);
@@ -106,74 +107,97 @@ const AddStock = ({type}) => {
     }
 
     const createNewStock = () => {
-        if(name) {
-            const itemList = allItems?.filter((item, index) => {
-                return selectedItems[index];
-            })?.map((item) => {
-                return item.id;
-            });
+        setLoading(true);
 
-            if(!updateMode) {
-                const func = type === 0 ? addProductStock : addAddonStock;
+        const itemList = allItems?.filter((item, index) => {
+            return selectedItems[index];
+        })?.map((item) => {
+            return item.id;
+        });
 
-                func(name, counter, itemList)
-                    .then((res) => {
-                        if(res?.status === 201) {
-                            setStatus(1);
-                        }
-                        else {
-                            setStatus(-1);
-                        }
-                    })
-                    .catch((err) => {
-                        if(err?.response?.status === 503) {
-                            setStatus(-3);
-                        }
-                        else {
-                            setStatus(-1);
-                        }
-                    });
-            }
-            else {
-                const deleteFunc = type === 0 ? deleteProductStock : deleteAddonStock;
+        if(name && itemList?.length) {
+            const checkFunc = type === 0 ? checkProductsStocks : checkAddonsStocks;
 
-                const itemList = allItems?.filter((item, index) => {
-                    return selectedItems[index];
-                })?.map((item) => {
-                    return item.id;
-                });
+            checkFunc(itemList, updateMode ? id : null)
+                .then((res) => {
+                    if(res?.data?.result === 1) {
+                        if(!updateMode) {
+                            const func = type === 0 ? addProductStock : addAddonStock;
 
-                deleteFunc(id)
-                    .then((res) => {
-                        if(res?.status === 201) {
-                            const addFunc = type === 0 ? addProductStock : addAddonStock;
-
-                            addFunc(name, counter, itemList)
+                            func(name, counter, itemList)
                                 .then((res) => {
                                     if(res?.status === 201) {
                                         setStatus(1);
+                                        setLoading(false);
                                     }
                                     else {
                                         setStatus(-1);
+                                        setLoading(false);
                                     }
                                 })
-                                .catch(() => {
-                                    setStatus(-1);
+                                .catch((err) => {
+                                    if(err?.response?.status === 503) {
+                                        setStatus(-3);
+                                        setLoading(false);
+                                    }
+                                    else {
+                                        setStatus(-1);
+                                        setLoading(false);
+                                    }
                                 });
                         }
                         else {
-                            setStatus(-1);
+                            const deleteFunc = type === 0 ? deleteProductStock : deleteAddonStock;
+
+                            const itemList = allItems?.filter((item, index) => {
+                                return selectedItems[index];
+                            })?.map((item) => {
+                                return item.id;
+                            });
+
+                            deleteFunc(id)
+                                .then((res) => {
+                                    if(res?.status === 201) {
+                                        const addFunc = type === 0 ? addProductStock : addAddonStock;
+
+                                        addFunc(name, counter, itemList)
+                                            .then((res) => {
+                                                if(res?.status === 201) {
+                                                    setStatus(1);
+                                                    setLoading(false);
+                                                }
+                                                else {
+                                                    setStatus(-1);
+                                                    setLoading(false);
+                                                }
+                                            })
+                                            .catch(() => {
+                                                setStatus(-1);
+                                                setLoading(false);
+                                            });
+                                    }
+                                    else {
+                                        setStatus(-1);
+                                        setLoading(false);
+                                    }
+                                });
                         }
-                    });
-            }
+                    }
+                    else {
+                        setStatus(-3);
+                        setLoading(false);
+                    }
+                });
         }
         else {
             setStatus(-2);
+            setLoading(false);
         }
     }
 
     useEffect(() => {
         if(status) {
+            setLoading(false);
             setTimeout(() => {
                 setStatus(0);
             }, 2000);
@@ -237,9 +261,9 @@ const AddStock = ({type}) => {
                     </div>
                 </div>
 
-                <button className="btn btn--admin btn--admin--type" onClick={() => { createNewStock(); }}>
+                {loading ? <Waiting /> : <button className="btn btn--admin btn--admin--type" onClick={() => { createNewStock(); }}>
                     {updateMode ? "Zaktualizuj stan magazynowy" : "Dodaj stan magazynowy"}
-                </button>
+                </button>}
             </main>
         </div>
     </div>
