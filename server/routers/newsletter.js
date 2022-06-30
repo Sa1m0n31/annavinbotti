@@ -15,7 +15,7 @@ router.get('/', (request, response) => {
 router.post('/add', (request, response) => {
    const { email } = request.body;
 
-   const query = `INSERT INTO newsletter VALUES (next_val('newsletter_seq'), $1, TRUE)`;
+   const query = `INSERT INTO newsletter VALUES (nextval('newsletter_seq'), $1, FALSE)`;
    const values = [email];
 
    dbInsertQuery(query, values, response);

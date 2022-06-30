@@ -76,7 +76,7 @@ const isLoggedIn = (req, res, next) => {
     else res.redirect("/");
 }
 
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../shop/build')));
 
 const urls = [
     'admin', 'panel', 'dodaj-produkt', 'lista-produktow', 'dodaj-dodatek', 'lista-dodatkow',
@@ -144,7 +144,7 @@ app.use("/image", imageRouter); // only / not restricted (display image)
 
 urls.forEach((item) => {
     app.get(`/${item}`, (req, res) => {
-        res.sendFile(path.join(__dirname, '../client/build/index.html'));
+        res.sendFile(path.join(__dirname, '../shop/build/index.html'));
     });
 });
 

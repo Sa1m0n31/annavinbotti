@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React, {useEffect, useState} from "react";
 
 import './static/style/style.css'
 import './static/style/admin.css'
@@ -9,13 +10,44 @@ import 'react-upload-gallery/dist/style.css'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminWrapper from "./components/admin/AdminWrapper";
+import Homepage from "./pages/shop/Homepage";
+import LoadingPage from "./components/shop/LoadingPage";
+import Shop from "./pages/shop/Shop";
+
+const LanguageContext = React.createContext({
+  language: localStorage.getItem('lang') || 'pl',
+  setLanguage: () => {}
+});
+
+const ContentContext = React.createContext(null);
+const StuffContext = React.createContext(null);
 
 function App() {
-  return <Router>
+  const [language, setLanguage] = useState(localStorage.getItem('lang') || 'pl');
+  const [content, setContent] = useState(null);
+  const [render, setRender] = useState(true);
+
+  useEffect(() => {
+    localStorage.setItem('lang', language);
+
+    // TODO
+    // getCustomFields(language)
+    //     .then((res) => {
+    //       const r = res?.data?.result[0];
+    //       if(r) {
+    //         console.log(r);
+    //         setContent(r);
+    //         setRender(true);
+    //       }
+    //     });
+  }, [language]);
+
+  return render ? <ContentContext.Provider value={{content, language, setLanguage}}><Router>
     <Route exact path="/">
-      <div>
-        ...
-      </div>
+      <Homepage />
+    </Route>
+    <Route path="/sklep">
+      <Shop />
     </Route>
     {/* ADMIN */}
     <Route path="/admin">
@@ -91,6 +123,8 @@ function App() {
       <AdminWrapper page={23} />
     </Route>
   </Router>
+  </ContentContext.Provider> : <LoadingPage />
 }
 
 export default App;
+export { LanguageContext, ContentContext }

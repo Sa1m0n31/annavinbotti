@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import AdminStart from "../../pages/admin/AdminStart";
-import LoadingPage from "../client/LoadingPage";
+import LoadingPage from "../shop/LoadingPage";
 import AddProduct from "../../pages/admin/AddProduct";
 import ProductList from "../../pages/admin/ProductList";
 import AddAddon from "../../pages/admin/AddAddon";
