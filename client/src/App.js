@@ -13,6 +13,7 @@ import AdminWrapper from "./components/admin/AdminWrapper";
 import Homepage from "./pages/shop/Homepage";
 import LoadingPage from "./components/shop/LoadingPage";
 import Shop from "./pages/shop/Shop";
+import LoginAndRegister from "./pages/shop/LoginAndRegister";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -48,6 +49,9 @@ function App() {
     </Route>
     <Route path="/sklep">
       <Shop />
+    </Route>
+    <Route path="/moje-konto">
+      <LoginAndRegister />
     </Route>
     {/* ADMIN */}
     <Route path="/admin">

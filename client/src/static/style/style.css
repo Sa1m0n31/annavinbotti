@@ -238,6 +238,11 @@ a {
     opacity: 1;
 }
 
+.pageHeader {
+    position: relative;
+    z-index: 3;
+}
+
 .topHeader__menu {
     justify-content: center;
     margin: 10px 0;
@@ -257,8 +262,62 @@ a {
     opacity: .8;
 }
 
+span.topHeader__menu__item {
+    display: block;
+    position: relative;
+}
+
+.container--home .topHeader__menu__submenu {
+    border-top: 1px solid var(--secondary);
+    padding-top: 15px;
+}
+
+.topHeader__menu__submenu {
+    position: absolute;
+    bottom: -20px;
+    left: -10px;
+    width: 300px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary);
+    padding: 0 15px 15px;
+    transform: translateY(100%);
+    visibility: hidden;
+    opacity: 0;
+    transition: .2s all;
+}
+
+span.topHeader__menu__item:hover {
+    opacity: 1;
+}
+
+span.topHeader__menu__item::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 150%;
+    height: 20px;
+    background: transparent;
+}
+
+.topHeader__menu__submenu .topHeader__menu__item {
+    text-align: left;
+    display: block;
+    width: 100%;
+}
+
+span.topHeader__menu__item:hover .topHeader__menu__submenu,
+.topHeader__menu__submenu:hover {
+    opacity: 1;
+    visibility: visible;
+}
+
 .homepageSlider {
-    height: 700px;
+    height: auto;
     overflow: hidden;
     position: relative;
 }
@@ -354,7 +413,7 @@ a {
 
 .homepageModels__item figure {
     width: 100%;
-    height: 590px;
+    height: auto;
     border-radius: 30px;
     overflow: hidden;
 }
@@ -450,6 +509,10 @@ a {
     font-size: 18px;
 }
 
+.footer__logo {
+    max-width: 100%;
+}
+
 .footer__link {
     font-size: 17px;
     display: block;
@@ -488,7 +551,7 @@ a {
     margin: 50px auto;
 }
 
-.pageHeader {
+.pageHeading {
     color: var(--secondary);
     text-transform: uppercase;
     font-size: 32px;
@@ -597,4 +660,160 @@ a {
 .shop__products__item:hover .shop__products__item__hover {
     opacity: 1;
     z-index: 5;
+}
+
+.loginAndRegister__header {
+    max-width: 300px;
+    margin: 80px auto 40px;
+}
+
+.loginAndRegister__btn {
+    color: var(--secondary);
+    text-transform: uppercase;
+    font-size: 16px;
+    background: transparent;
+}
+
+.loginAndRegister__btn--selected {
+    position: relative;
+}
+
+.loginAndRegister__btn--selected::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -8px;
+    width: 100%;
+    height: 2px;
+    background: var(--secondary);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    max-width: 90vw;
+    margin: 50px auto;
+}
+
+.form .input {
+    width: 500px;
+    max-width: 90vw;
+    height: 55px;
+    margin: 12px 0;
+}
+
+.btn--submit {
+    width: 100%;
+    height: 55px;
+    border-radius: 55px;
+}
+
+.form__addons {
+    margin: 20px auto 30px;
+    width: 100%;
+}
+
+.form__addons__label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.form__check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 17px;
+    height: 17px;
+    border: 1px solid var(--secondary);
+    margin-right: 10px;
+    background: transparent;
+    padding: 0;
+}
+
+.form__check--selected {
+    position: relative;
+}
+
+.form__check--selected::after {
+    content: "";
+    width: 60%;
+    height: 60%;
+    background: var(--secondary);
+    display: block;
+}
+
+.form__passwordReminder {
+    color: var(--secondary);
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.btn__fill {
+    width: 10px;
+    height: 10px;
+    background: var(--secondary);
+}
+
+.form__additionalInfo {
+    margin-top: 35px;
+    flex-direction: column;
+}
+
+.form__additionalInfo__header {
+    font-size: 14px;
+    text-align: center;
+}
+
+.form__additionalInfo__btn {
+    background: transparent;
+    color: var(--secondary);
+    text-decoration: underline;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.form__additionalInfo__btn,
+.form__passwordReminder {
+    transition: .2s all;
+}
+
+.form__additionalInfo__btn:hover,
+.form__passwordReminder:hover {
+    opacity: .8;
+}
+
+.form .info--error {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.consents .form__addons__label {
+    align-items: flex-start;
+    margin: 25px 0;
+}
+
+.consents .form__addons__label .form__check {
+    flex-basis: 17px;
+}
+
+.consents .form__addons__label span {
+    width: calc(100% - 17px);
+    display: block;
+    line-height: 24px;
+    font-size: 14px;
+    margin-top: -4px;
+}
+
+.form .input::placeholder {
+    color: rgba(255, 255, 255, .8);
+}
+
+.form {
+    margin-bottom: 150px;
 }

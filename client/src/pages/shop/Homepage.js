@@ -7,7 +7,7 @@ import NewsletterSection from "../../components/shop/NewsletterSection";
 import Footer from "../../components/shop/Footer";
 
 const Homepage = () => {
-    return <div className="container">
+    return <div className="container container--home">
         <PageHeader />
         <HomepageSlider />
         <HomepageAfterSlider />

@@ -22,7 +22,7 @@ const ShopContent = () => {
 
     return <main className="shop">
         <header className="shop__header w flex">
-            <h1 className="pageHeader">
+            <h1 className="pageHeading">
                 Wszystkie produkty
             </h1>
             <button className="filterBtn">

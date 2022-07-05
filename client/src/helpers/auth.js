@@ -19,7 +19,7 @@ const autoLogin = (userId, identity) => {
 }
 
 const loginUser = (email, password) => {
-    return axios.post(`${API_URL}/auth/login`, {
+    return axios.post(`${API_URL}/user/login`, {
         username: email,
         password: password
     }, {
@@ -39,39 +39,14 @@ const loginAdmin = (login, password) => {
     });
 }
 
-const loginFacebook = () => {
-    return axios.post(`${API_URL}/auth/facebook`, {
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        withCredentials: true
-    });
-}
-
-const loginGoogle = () => {
-    return axios.get(`${API_URL}/auth/google`);
-}
-
-const loginApple = () => {
-    return axios.get(`${API_URL}/auth/apple`);
-}
-
-const registerUser = (email, password, firstName, lastName, sex, birthday, phoneNumber, checkboxObligatory, stuff) => {
-    return axios.post(`${API_URL}/auth/register-local`, {
-        email, password, firstName, lastName, sex, birthday, phoneNumber, checkboxObligatory, stuff
-    });
-}
-
-const registerFromThirdParty = (firstName, lastName, sex, birthday, phoneNumber, checkboxObligatory) => {
-    return axios.post(`${API_URL}/auth/register-from-third-party`, {
-        firstName, lastName, sex, birthday, phoneNumber, checkboxObligatory
-    }, {
-        withCredentials: true
+const registerUser = (login, email, password, newsletter) => {
+    return axios.post(`${API_URL}/user/register`, {
+        login, email, password, newsletter
     });
 }
 
 const verifyUser = (token) => {
-    return axios.get(`${API_URL}/auth/verification`, {
+    return axios.get(`${API_URL}/user/verification`, {
         params: {
             token
         }
@@ -79,7 +54,7 @@ const verifyUser = (token) => {
 }
 
 const logoutUser = () => {
-    return axios.get(`${API_URL}/auth/logout`, {
+    return axios.get(`${API_URL}/user/logout`, {
         headers: {
             'Access-Control-Allow-Origin': API_URL
         },
@@ -87,11 +62,5 @@ const logoutUser = () => {
     });
 }
 
-const registerSecondAccount = () => {
-    return axios.post(`${API_URL}/auth/register-second-type`, {}, {
-        withCredentials: true
-    });
-}
-
-export { isLoggedIn, loginUser, loginAdmin, loginFacebook, loginGoogle, loginApple,
-    registerFromThirdParty, registerUser, verifyUser, logoutUser, registerSecondAccount, autoLogin }
+export { isLoggedIn, loginUser, loginAdmin,
+    registerUser, verifyUser, logoutUser, autoLogin }

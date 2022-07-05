@@ -11,10 +11,6 @@ const Footer = () => {
                 <img className="footer__logo" src={logoWhite} alt="anna-vinbotti" />
 
                 <span>
-                    Adres XYZ 04-567<br/>
-                    Polska
-                </span>
-                <span>
                     office@anna-vinbotti.pl<br/>
                     123 123 123
                 </span>

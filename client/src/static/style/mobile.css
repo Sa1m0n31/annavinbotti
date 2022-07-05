@@ -3,21 +3,159 @@
 }
 
 @media(max-width: 1400px) {
+    .footer__col__header {
+        font-size: 15px;
+        margin-bottom: 15px;
+    }
 
+    .footer__col > span,
+    .footer__link {
+        font-size: 14px;
+        margin: 15px 0;
+    }
+
+    .homepage__header {
+        font-size: 48px;
+    }
+
+    .homepageModels__item {
+        margin-top: 50px;
+    }
+
+    .homepageModels__item__header {
+        font-size: 18px;
+    }
+
+    .afterSlider__item__header {
+        font-size: 26px;
+    }
 }
 
 @media(max-width: 1200px) {
+    .footer__inner {
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
 
+    .footer__col {
+        width: 100%;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .footer__col > span,
+    .footer__link, .footer__col__header {
+        text-align: center;
+        width: 100%;
+        max-width: 250px;
+        margin: 10px 0;
+    }
+
+    .footer__socialMedia {
+        margin-top: 15px;
+    }
+
+    .footer {
+        padding: 20px 0;
+    }
+
+    .topHeader__firstRow__link {
+        width: 250px;
+    }
+
+    .topHeader__menu__item {
+        font-size: 14px;
+    }
 }
 
 @media(max-width: 996px) {
+    .afterSlider > .flex {
+        flex-direction: column;
+    }
 
+    .homepage__header {
+        text-align: center;
+        font-size: 36px;
+    }
+
+    .homepageModels__item__header {
+        height: 50px;
+        border-radius: 50px;
+    }
+
+    .afterSlider {
+        padding: 60px 0 20px;
+    }
 }
 
 @media(max-width: 768px) {
+    .footer__col > span,
+    .footer__link, .footer__col__header {
+        margin: 5px 0;
+    }
 
+    .footer__col__header {
+        font-size: 14px;
+    }
+
+    .footer__col > span,
+    .footer__link {
+        font-size: 12px;
+    }
+
+    .footer__socialMedia {
+        width: 60px;
+    }
+
+    .footer__socialMedia .topBar__socialMedia__link {
+        width: 20px;
+        height: 20px;
+    }
+
+    .homepageModels > .flex {
+        flex-direction: column;
+    }
+
+    .homepageModels__item {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .homepageModels {
+        padding: 40px 0;
+    }
 }
 
 @media(max-width: 576px) {
+    .loginAndRegister__header {
+        max-width: 200px;
+    }
 
+    .consents .form__addons__label span,
+    .form__addons__label {
+        font-size: 12px;
+        line-height: 21px;
+    }
+
+    .form {
+        margin-top: 0;
+        margin-bottom: 60px;
+    }
+
+    .btn--submit,
+    .form .input {
+        height: 45px;
+    }
+
+    .loginAndRegister__btn {
+        font-size: 12px;
+    }
+
+    .loginAndRegister__btn--selected::after {
+        bottom: -5px;
+        height: 1px;
+    }
 }
