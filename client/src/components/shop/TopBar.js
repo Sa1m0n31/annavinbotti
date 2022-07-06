@@ -7,7 +7,7 @@ import {ContentContext} from "../../App";
 const TopBar = () => {
     const { language, setLanguage } = useContext(ContentContext);
 
-    return <aside className="topBar">
+    return <aside className="topBar d-desktop">
         <div className="w flex">
             <div className="flex topBar__socialMedia">
                 <a className="topBar__socialMedia__link" href={constans.FACEBOOK_LINK} target="_blank">

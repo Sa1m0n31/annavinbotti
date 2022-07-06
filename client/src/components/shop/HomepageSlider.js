@@ -13,7 +13,7 @@ const HomepageSlider = () => {
         slidesToScroll: 1,
         draggable: false,
         waitForAnimate: true,
-        autoplay: true,
+        // autoplay: true,
         autoplaySpeed: 3000
     };
 

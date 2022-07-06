@@ -14,6 +14,8 @@ import Homepage from "./pages/shop/Homepage";
 import LoadingPage from "./components/shop/LoadingPage";
 import Shop from "./pages/shop/Shop";
 import LoginAndRegister from "./pages/shop/LoginAndRegister";
+import ClientPanel from "./pages/shop/ClientPanel";
+import ProductPage from "./pages/shop/ProductPage";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -44,6 +46,7 @@ function App() {
   }, [language]);
 
   return render ? <ContentContext.Provider value={{content, language, setLanguage}}><Router>
+    {/* GLOBAL */}
     <Route exact path="/">
       <Homepage />
     </Route>
@@ -53,6 +56,15 @@ function App() {
     <Route path="/moje-konto">
       <LoginAndRegister />
     </Route>
+    <Route path="/produkt/*">
+      <ProductPage />
+    </Route>
+
+    {/* USER */}
+    <Route path="/panel-klienta">
+      <ClientPanel />
+    </Route>
+
     {/* ADMIN */}
     <Route path="/admin">
       <AdminLogin />

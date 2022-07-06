@@ -5,6 +5,10 @@ const getAllProducts = () => {
     return axios.get('/products/get-all');
 }
 
+const getShopPage = () => {
+    return axios.get('/products/get-shop-page');
+}
+
 const getProductDetails = (id) => {
     return axios.get('/products/get', {
         params: {
@@ -235,8 +239,25 @@ const getWaitlistByProductId = (id) => {
     });
 }
 
+const getProductBySlug = (slug) => {
+    return axios.get('/products/get-by-slug', {
+        params: {
+            slug
+        }
+    });
+}
+
+const getProductAddons = (id) => {
+    return axios.get('/products/get-product-addons', {
+        params: {
+            id
+        }
+    });
+}
+
 export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById, getAllAddonsAndAddonsOptions,
-        deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct,
+        deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct, getShopPage,
     getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
-    addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId
+    addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId,
+    getProductBySlug, getProductAddons
 }

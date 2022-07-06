@@ -23,22 +23,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/shop/Loader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/shop/Login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/shop/Register.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/LoginAndRegister.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routers/user.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/shop/ClientPanelStart.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/ClientPanel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/ProductPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/arrow-back.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/arrow-left.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/arrow-right.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/large-image.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/menu.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/poland.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/united-kingdom.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/HomepageSlider.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/HomepageSlider.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/shop/ShopContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/ShopContent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/TopBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/shop/TopHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/TopHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/Homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/products.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/passport.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/passport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/products.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,15 +82,15 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\public" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\components\admin" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\media\forms" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\routers" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -126,7 +132,8 @@
       <workItem from="1655726660920" duration="16000" />
       <workItem from="1656586286995" duration="13954000" />
       <workItem from="1656794719481" duration="609000" />
-      <workItem from="1657049522789" duration="11240000" />
+      <workItem from="1657049522789" duration="11449000" />
+      <workItem from="1657103580771" duration="16028000" />
     </task>
     <servers />
   </component>
@@ -150,13 +157,13 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656589000856" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1657054751315">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1657131774851">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654181613996" />
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656620133453" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1653423069471" />
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1657054751315" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1657131774851" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1654448990629">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -177,21 +184,21 @@
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653572912268" />
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990629" />
-    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1657051453416">
+    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1657132643196">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656610050820" />
-    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657051453416" />
+    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657132643196" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1657058277045">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654796971486" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657058277045" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1657061837262">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1657133660110">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654190661365" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656610860389" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657061837262" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657133660110" />
   </component>
 </project>

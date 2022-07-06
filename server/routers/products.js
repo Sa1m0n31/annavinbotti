@@ -8,8 +8,40 @@ const upload = multer({ dest: 'media/products' })
 const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 
+const createSlug = (name) => {
+   if(name) return name.toLowerCase()
+       .replace(/ /g, "-")
+       .replace(/ą/g, "a")
+       .replace(/ć/g, "c")
+       .replace(/ę/g, "e")
+       .replace(/ł/g, "l")
+       .replace(/ń/g, "n")
+       .replace(/ó/g, "o")
+       .replace(/ś/g, "s")
+       .replace(/ź/g, "z")
+       .replace(/ż/g, "z")
+   else return "";
+}
+
 router.get('/get-all', (request, response) => {
    const query = 'SELECT p.id, t.name_pl as type, p.name_pl, p.name_en, p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image FROM products p JOIN types t ON p.type = t.id WHERE p.hidden = FALSE';
+
+   dbSelectQuery(query, [], response);
+});
+
+router.get('/get-shop-page', (request, response) => {
+   const query = `SELECT p.id, t.name_pl as type, p.slug, p.name_pl, p.name_en, p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image,
+                  s.counter, (SELECT COUNT(*)
+                  FROM addons_for_products afp
+                  LEFT OUTER JOIN addons_options ao ON afp.addon = ao.addon
+                  LEFT OUTER JOIN addons_stocks ad_stocks ON ad_stocks.addon_option = ao.id
+                  LEFT OUTER JOIN stocks s ON s.id = ad_stocks.stock
+                  WHERE afp.product = 25 AND ao.hidden = FALSE AND s.counter <= 0) as addons_not_available
+                  FROM products p 
+                  JOIN types t ON p.type = t.id
+                  JOIN products_stocks ps ON ps.product = p.id
+                  JOIN stocks s ON s.id = ps.stock 
+                  WHERE p.hidden = FALSE`;
 
    dbSelectQuery(query, [], response);
 });
@@ -20,6 +52,20 @@ router.get('/get', (request, response) => {
    if(id) {
       const query = 'SELECT * FROM products WHERE id = $1';
       const values = [id];
+
+      dbSelectQuery(query, values, response);
+   }
+   else {
+      response.status(400).end();
+   }
+});
+
+router.get('/get-by-slug', (request, response) => {
+   const slug = request.query.slug;
+
+   if(slug) {
+      const query = 'SELECT p.id, t.name_pl as type_pl, t.name_en as type_en, p.name_pl, p.name_en, p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image FROM products p JOIN types t ON p.type = t.id WHERE slug = $1';
+      const values = [slug];
 
       dbSelectQuery(query, values, response);
    }
@@ -91,6 +137,7 @@ router.patch('/update', upload.fields([
 ]), (request, response) => {
    const { id, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, type, price } = request.body;
 
+   const slug = createSlug(namePl);
    const files = request.files;
    let mainImageName;
 
@@ -100,15 +147,14 @@ router.patch('/update', upload.fields([
       }
    }
 
-   const query = `UPDATE products SET type = $1, name_pl = $2, name_en = $3, description_pl = $4, description_en = $5, details_pl = $6, details_en = $7, price = $8, main_image = COALESCE($9, main_image) WHERE id = $10`;
-   const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, id];
+   const query = `UPDATE products SET type = $1, name_pl = $2, name_en = $3, description_pl = $4, description_en = $5, details_pl = $6, details_en = $7, price = $8, main_image = COALESCE($9, main_image), slug = $10 WHERE id = $10`;
+   const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, slug, id];
 
    db.query(query, values, (err, res) => {
       if(res) {
          if(files.gallery) {
             deleteProductGallery(id)
                 .then(() => {
-                   console.log(files.gallery);
                    addGallery(files.gallery, id, response);
                 });
          }
@@ -130,9 +176,10 @@ router.post('/add', upload.fields([
 
    const files = request.files;
    const mainImageName = files.mainImage[0].filename;
+   const slug = createSlug(namePl);
 
-   const query = `INSERT INTO products VALUES (nextval('product_seq'), $1, $2, $3, $4, $5, $6, $7, $8, $9, FALSE) RETURNING id`;
-   const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName];
+   const query = `INSERT INTO products VALUES (nextval('product_seq'), $1, $2, $3, $4, $5, $6, $7, $8, $9, FALSE, $10) RETURNING id`;
+   const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, slug];
 
    db.query(query, values, (err, res) => {
       if(res) {
@@ -203,6 +250,20 @@ router.get('/get-addons-conditions-by-product', (request, response) => {
 
    const query = 'SELECT * FROM addons_conditions WHERE product = $1';
    const values = [id];
+
+   dbSelectQuery(query, values, response);
+});
+
+router.get('/get-product-addons', (request, response) => {
+   const product = request.query.id;
+
+   const query = `SELECT ao.id as addon_option_id, ao.name_pl as addon_option_name_pl, ao.name_en as addon_option_name_en, a.id, ao.image,
+                  a.name_pl as addon_name_pl, a.name_en as addon_name_en, afp.priority, afp.show_if, afp.is_equal, a.addon_type   
+                  FROM addons a 
+                  LEFT OUTER JOIN addons_for_products afp ON afp.addon = a.id 
+                  JOIN addons_options ao ON ao.addon = a.id
+                  WHERE afp.product = $1 AND ao.hidden = FALSE`;
+   const values = [product];
 
    dbSelectQuery(query, values, response);
 });
