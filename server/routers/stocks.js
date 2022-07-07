@@ -403,4 +403,15 @@ router.put('/decrement-stock-by-addon', (request, response) => {
     });
 });
 
+router.get('/get-product-stock', (request, response) => {
+    const id = request.query.id;
+
+    const query = `SELECT counter FROM stocks s 
+                JOIN products_stocks ps ON s.id = ps.stock 
+                WHERE ps.product = $1`;
+    const values = [id];
+
+    dbSelectQuery(query, values, response);
+})
+
 module.exports = router;

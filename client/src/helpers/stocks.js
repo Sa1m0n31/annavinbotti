@@ -76,6 +76,15 @@ const addAddonStock = (stockName, counter, addonsOptions) => {
     });
 }
 
+const getProductStock = (id) => {
+    return axios.get('/stocks/get-product-stock', {
+        params: {
+            id
+        }
+    });
+}
+
 export { getAllStocks, getAllProductStocks, getAllAddonsStocks, deleteProductStock, deleteAddonStock,
-    getProductStockDetails, getAddonStockDetails, addProductStock, addAddonStock, checkAddonsStocks, checkProductsStocks
+    getProductStockDetails, getAddonStockDetails, addProductStock, addAddonStock, checkAddonsStocks, checkProductsStocks,
+    getProductStock
 }
