@@ -143,7 +143,7 @@ const TopHeader = () => {
                 <a href="/moje-konto" className="topHeader__firstRow__right__link">
                     <img className="img" src={userIcon} alt="moje-konto" />
                 </a>
-                <a href="/koszyk" className="topHeader__firstRow__right__link">
+                <a href="/zamowienie" className="topHeader__firstRow__right__link">
                     <img className="img" src={cartIcon} alt="koszyk" />
                 </a>
             </div>
@@ -177,7 +177,7 @@ const TopHeader = () => {
             <a className="topHeader__menu--mobile__btn" href="/moje-konto">
                 <img className="img" src={userIcon} alt="moje-konto" />
             </a>
-            <a className="topHeader__menu--mobile__btn" href="/koszyk">
+            <a className="topHeader__menu--mobile__btn" href="/zamowienie">
                 <img className="img" src={cartIcon} alt="koszyk" />
             </a>
         </div>

@@ -345,12 +345,20 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     max-height: 120px;
 }
 
+.slick-arrow {
+    display: none !important;
+}
+
 .slick-active {
     border: 1px solid #000;
     border-radius: 50%;
     display: flex !important;
     justify-content: center;
     align-items: center;
+}
+
+.slick-slide > div {
+    width: 100%;
 }
 
 .slick-dots li button:before {
@@ -1208,12 +1216,12 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     margin: 20px 0 -10px;
 }
 
-.container--order .order * {
+.container--order .order *:not(.form *) {
     color: var(--secondary);
 }
 
 .order__header {
-    margin: 20px auto 100px;
+    margin: 70px auto 100px;
 }
 
 .order__header__h1 {
@@ -1248,6 +1256,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     top: 50%;
     left: 0;
     transform: translateY(-50%);
+    transition: .3s all ease-in-out;
 }
 
 .order__main {
@@ -1259,7 +1268,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 }
 
 .cart__right {
-    width: 32%;
+    width: 30%;
 }
 
 .cart__table__header {
@@ -1289,6 +1298,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 }
 
 .cart__table__row {
+    position: relative;
     padding: 30px 0;
     border-bottom: 1px solid var(--secondary);
 }
@@ -1329,4 +1339,283 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .cart__table__amountChange__btn:hover {
     opacity: .8;
+}
+
+.shipping__header {
+    color: var(--secondary);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 40px 0;
+}
+
+.shipping__method {
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 45px;
+    padding-left: 40px;
+}
+
+.shipping__method__left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.shipping__method__circle {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    border: 2px solid var(--secondary);
+    background: #fff;
+    position: relative;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shipping__method--selected .shipping__method__circle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #000;
+}
+
+.shipping__method__img {
+    width: 70px;
+    height: auto;
+    margin: 0 20px;
+    display: block;
+}
+
+.shipping__method__price,
+.shipping__method__name {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.cart__summary {
+    padding: 30px;
+    border: 1px solid var(--secondary);
+}
+
+.order__main--cart {
+    align-items: flex-start;
+}
+
+.cart__summary__header {
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+.cart__summary__row span {
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+.cart__summary__summaryRow {
+    margin-top: 10px;
+    border-top: 1px solid var(--secondary);
+}
+
+.cart__summary__summaryRow > span {
+    font-size: 20px;
+    font-weight: 600;
+    padding: 20px 0;
+}
+
+.btn--cart {
+    margin: 20px auto;
+    width: 100%;
+    max-width: 305px;
+    color: #fff !important;
+    border-radius: 60px;
+    height: 60px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.cart__table__remove {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: transparent;
+    font-size: 24px;
+    font-weight: 400;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: .2s all;
+}
+
+.cart__table__remove:hover {
+    opacity: .8;
+}
+
+.emptyCart {
+    margin: 200px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptyCart__header {
+    color: var(--secondary);
+    font-size: 32px;
+    font-weight: 500;
+}
+
+.btn--backToShop {
+    color: #fff !important;
+    width: 350px;
+    height: 55px;
+    border-radius: 55px;
+    margin: 30px 0;
+}
+
+.orderContent {
+    transition: .2s all;
+}
+
+.cart__summary__item {
+    margin: 30px 0;
+    justify-content: flex-start;
+}
+
+.cart__summary__item figure {
+    width: 100px;
+    margin-right: 25px;
+}
+
+.cart__summary__item__content > * {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.cart__summary__item__content__header {
+    text-transform: uppercase;
+}
+
+.cart__summary__item__content__amount {
+    margin-top: 35px;
+}
+
+.cart__left .btn--submit {
+    color: #fff !important;
+}
+
+.order__loginForm__header {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 auto 30px;
+    text-transform: uppercase;
+}
+
+.order__main--form {
+    transition: .3s all;
+    align-items: flex-start;
+}
+
+.order__main--form .cart__left {
+    transition: .3s all;
+}
+
+.order__main__loader {
+    width: 100%;
+    padding: 30px 0;
+}
+
+.order__userData__data {
+    align-items: flex-start;
+    max-width: 800px;
+    margin: 50px auto 0;
+}
+
+.container--order .form__addons__label {
+    margin: 20px 0;
+}
+
+.order__checkboxes {
+    border-top: 1px solid var(--secondary);
+    margin: 30px 0;
+    padding: 20px 0;
+}
+
+.order__checkboxes * {
+    color: #fff !important;
+}
+
+.order__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn--order {
+    max-width: 305px;
+    width: 100%;
+    height: 60px;
+    border-radius: 60px;
+    color: #fff !important;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.btn--backToCart {
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+    font-size: 21px;
+    line-height: 21px;
+    text-transform: uppercase;
+    color: #FAF9F8 !important;
+    margin-top: 25px;
+}
+
+.input--order,
+.orderForm label {
+    width: 100%;
+    display: block;
+}
+
+.input--order {
+    margin-top: 5px;
+    height: 55px;
+    border-width: 2px;
+    color: #fff !important;
+}
+
+.orderForm label {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.orderForm > * {
+    margin-bottom: 20px;
+}
+
+.orderForm > div > label {
+    width: 48%;
+}
+
+.orderForm .form__addons__label {
+    flex-direction: row;
+    margin: 25px 0;
 }

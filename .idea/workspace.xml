@@ -53,21 +53,21 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="16.11.41" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../brunchbox" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../custom-video-editor" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\public" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\components\admin" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\media\forms" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\routers" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -111,6 +111,7 @@
       <workItem from="1656794719481" duration="609000" />
       <workItem from="1657049522789" duration="11449000" />
       <workItem from="1657103580771" duration="16510000" />
+      <workItem from="1657190047988" duration="13294000" />
     </task>
     <servers />
   </component>
@@ -134,13 +135,13 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656589000856" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1657138023803">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1657218822653">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654181613996" />
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656620133453" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1653423069471" />
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1657138023803" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1657218822653" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1654448990629">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -171,11 +172,11 @@
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654796971486" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657058277045" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1657133660110">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1657199633038">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654190661365" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656610860389" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657133660110" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657199633038" />
   </component>
 </project>

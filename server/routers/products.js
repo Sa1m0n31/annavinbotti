@@ -64,7 +64,7 @@ router.get('/get-by-slug', (request, response) => {
    const slug = request.query.slug;
 
    if(slug) {
-      const query = 'SELECT p.id, t.name_pl as type_pl, t.name_en as type_en, p.name_pl, p.name_en, p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image FROM products p JOIN types t ON p.type = t.id WHERE slug = $1';
+      const query = 'SELECT p.id, p.slug, t.name_pl as type_pl, t.name_en as type_en, p.name_pl, p.name_en, p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image FROM products p JOIN types t ON p.type = t.id WHERE slug = $1';
       const values = [slug];
 
       dbSelectQuery(query, values, response);

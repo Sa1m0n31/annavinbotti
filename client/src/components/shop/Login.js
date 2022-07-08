@@ -2,9 +2,8 @@ import React, {useContext, useEffect, useState} from 'react';
 import {loginUser} from "../../helpers/auth";
 import {ContentContext} from "../../App";
 import Loader from "./Loader";
-import {isEmail} from "../../helpers/others";
 
-const Login = ({setFormType}) => {
+const Login = ({setFormType, fromCart}) => {
     const { language } = useContext(ContentContext);
 
     const [login, setLogin] = useState("");
@@ -48,7 +47,12 @@ const Login = ({setFormType}) => {
             loginUser(login, password)
                 .then((res) => {
                     if(res?.data?.result) {
-                        window.location = '/logowanie';
+                        if(fromCart) {
+                            window.location = '/zamowienie';
+                        }
+                        else {
+                            window.location = '/logowanie';
+                        }
                     }
                     else {
                         const msg = res?.data?.msg;
@@ -116,7 +120,7 @@ const Login = ({setFormType}) => {
             <span className="form__additionalInfo__header">
                 Nie posiadasz jeszcze konta?
             </span>
-            <button className="form__additionalInfo__btn" onClick={() => { setFormType(1); }}>
+            <button type="button" className="form__additionalInfo__btn" onClick={() => { fromCart ? window.location = '/moje-konto' : setFormType(1); }}>
                 Zarejestruj się
             </button>
         </div>

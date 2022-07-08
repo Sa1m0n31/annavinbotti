@@ -4,7 +4,7 @@ import settings from '../static/settings'
 const { API_URL } = settings;
 
 const isLoggedIn = () => {
-    return axios.get(`${API_URL}/auth/auth`, {
+    return axios.get(`${API_URL}/user/auth`, {
         withCredentials: true
     });
 }

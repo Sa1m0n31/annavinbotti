@@ -106,6 +106,25 @@ router.post("/register", (request, response) => {
     });
 });
 
+router.get('/get-user-info', (request, response) => {
+   const id = request.user;
+
+   console.log(request.user);
+
+   if(!id) {
+       response.status(401).end();
+   }
+   else {
+       const query = `SELECT u.id, u.first_name, u.last_name, u.email, u.login, u.phone_number, a.city, a.street, a.postal_code, a.building, a.flat 
+                    FROM users u
+                    JOIN addresses a ON u.address = a.id
+                    WHERE u.id = $1`;
+       const values = [id];
+
+       dbSelectQuery(query, values, response);
+   }
+});
+
 router.get('/failure', (request, response) => {
     const errorMsg = request.flash().error[0];
     response.send({
@@ -131,5 +150,14 @@ router.post("/login",
         });
     }
 );
+
+router.get("/auth", (request, response) => {
+    if(request.user) {
+        response.status(200).end();
+    }
+    else {
+        response.status(401).end();
+    }
+});
 
 module.exports = router;
