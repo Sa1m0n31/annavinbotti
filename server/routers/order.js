@@ -43,13 +43,161 @@ router.get('/', (request, response) => {
    }
 });
 
-router.post('/add', (request, response) => {
-    const { user, userAddress, deliveryAddress, nip, companyName } = request.body;
-    const id = uuidv4();
-    const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1)';
-    const values = [id, user, userAddress, deliveryAddress, nip, companyName];
+const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sells, addons, response) => {
+    const id = uuidv4().substring(0, 6);
+    let sellsIds = [];
+    const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW())';
+    const values = [id, user.id, userAddress, deliveryAddress, nip, companyName];
 
-    dbInsertQuery(query, values, response);
+    // ADD ORDER
+    await db.query(query, values, (err, res) => {
+        if(res) {
+            sells.forEach(async (item, index, array) => {
+                const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
+                const values = [item.product, id, item.price];
+
+                // ADD SELLS
+                if(index === array.length-1) {
+                    await db.query(query, values, (err, res) => {
+                        if(res) {
+                            sellsIds.push(res.rows[0].id);
+
+                            if(addons?.length) {
+                                // ADD ADDONS
+                                addons.forEach(async (item, indexParent, arrayParent) => {
+                                    const options = item.options;
+                                    const sellIndex = item.sell;
+
+                                    console.log(sellsIds);
+
+                                    await options.forEach(async (item, index, array) => {
+                                        const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
+                                        const values = [sellsIds[sellIndex], item];
+
+                                        if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
+                                            await db.query(query, values, (err, res) => {
+                                                if(res) {
+                                                    response.status(201);
+                                                    response.send({id});
+                                                }
+                                                else {
+                                                    console.log(err);
+                                                    response.status(500).end();
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            dbInsertQuery(query, values);
+                                        }
+                                    });
+                                });
+                            }
+                            else {
+                                response.status(201);
+                                response.send({id});
+                            }
+                        }
+                        else {
+                            console.log(err);
+                            response.status(500).end();
+                        }
+                    });
+                }
+                else {
+                    await db.query(query, values, (err, res) => {
+                        if(res) {
+                            sellsIds.push(res.rows[0].id);
+                        }
+                        else {
+                            console.log(err);
+                            response.status(500).end();
+                        }
+                    })
+                }
+            });
+        }
+        else {
+            console.log(err);
+            response.status(500).end();
+        }
+    })
+}
+
+router.post('/add', (request, response) => {
+    let { user, userAddress, deliveryAddress, nip, companyName, sells, addons } = request.body;
+
+    // userAddress, deliveryAddress: { street, building, flat, postal_code, city } or integer if already exists
+    // sells: { product, price }
+    // addons: { sell, options : [1, 2, 3] }
+
+    if(sells && user && userAddress && deliveryAddress) {
+        try {
+            // ADD ADDRESSES IF NOT EXIST
+            if(isNaN(userAddress)) {
+                const ad = userAddress;
+                const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5) RETURNING id`;
+                const values = [ad.city, ad.postal_code, ad.street, ad.building, ad.flat];
+
+                db.query(query, values, (err, res) => {
+                    if(res?.rows) {
+                        userAddress = res.rows[0].id;
+                        if(isNaN(deliveryAddress)) {
+                            const ad = deliveryAddress;
+                            const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5) RETURNING id`;
+                            const values = [ad.city, ad.postal_code, ad.street, ad.building, ad.flat];
+
+                            db.query(query, values, (err, res) => {
+                                if(res?.rows) {
+                                    deliveryAddress = res.rows[0].id;
+                                    addOrder(user, userAddress, deliveryAddress, nip, companyName, sells, addons, response);
+                                }
+                                else {
+                                    console.log(err);
+                                    response.status(500).end();
+                                }
+                            });
+                        }
+                        else {
+                            addOrder(user, userAddress, deliveryAddress, nip, companyName, sells, addons, response);
+                        }
+                    }
+                    else {
+                        console.log(err);
+                        response.status(500).end();
+                    }
+                });
+            }
+            else {
+                if(isNaN(deliveryAddress)) {
+                    const ad = deliveryAddress;
+                    const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5) RETURNING id`;
+                    const values = [ad.city, ad.postal_code, ad.street, ad.building, ad.flat];
+
+                    db.query(query, values, (err, res) => {
+                        if(res?.rows) {
+                            deliveryAddress = res.rows[0].id;
+                            addOrder(user, userAddress, deliveryAddress, nip, companyName, sells, addons, response);
+                        }
+                        else {
+                            console.log(err);
+                            response.status(500).end();
+                        }
+                    });
+                }
+                else {
+                    console.log('YES');
+                    addOrder(user, userAddress, deliveryAddress, nip, companyName, sells, addons, response);
+                }
+            }
+        }
+        catch(err) {
+            console.log('order err');
+            console.log(err)
+        }
+    }
+    else {
+        response.status(400).end();
+    }
 });
 
 router.put('/change-status', (request, response) => {
@@ -130,6 +278,64 @@ router.post('/set-status', (req, res) => {
     db.query(q6, [v6]);
     db.query(q7, [v7]);
     db.query(q8, [v8]);
-})
+});
+
+router.get('/get-number-of-first-type-forms-by-order', (request, response) => {
+   const id = request.query.id;
+
+   if(id) {
+       const query = `SELECT t.id FROM orders o
+                        JOIN sells s ON o.id = s.order
+                        JOIN products p ON s.product = p.id
+                        JOIN types t ON t.id = p.type
+                        WHERE o.id = $1
+                        GROUP BY t.id`;
+       const values = [id];
+
+       db.query(query, values, (err, res) => {
+           if(res) {
+               const numberOfForms = res.rows.length;
+               response.send({
+                   numberOfForms
+               });
+           }
+           else {
+               response.status(500).end();
+           }
+       })
+   }
+   else {
+       response.status(400).end();
+   }
+});
+
+router.get('/get-number-of-second-type-forms-by-order', (request, response) => {
+    const id = request.query.id;
+
+    if(id) {
+        const query = `SELECT s.product FROM orders o
+                        JOIN sells s ON o.id = s.order
+                        JOIN products p ON s.product = p.id
+                        JOIN types t ON t.id = p.type
+                        WHERE o.id = $1
+                        GROUP BY s.product`;
+        const values = [id];
+
+        db.query(query, values, (err, res) => {
+            if(res) {
+                const numberOfForms = res.rows.length;
+                response.send({
+                    numberOfForms
+                });
+            }
+            else {
+                response.status(500).end();
+            }
+        })
+    }
+    else {
+        response.status(400).end();
+    }
+});
 
 module.exports = router;

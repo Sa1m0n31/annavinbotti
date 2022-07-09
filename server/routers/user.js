@@ -115,7 +115,7 @@ router.get('/get-user-info', (request, response) => {
        response.status(401).end();
    }
    else {
-       const query = `SELECT u.id, u.first_name, u.last_name, u.email, u.login, u.phone_number, a.city, a.street, a.postal_code, a.building, a.flat 
+       const query = `SELECT u.id, u.first_name, u.last_name, u.email, u.login, u.phone_number, u.address, a.city, a.street, a.postal_code, a.building, a.flat 
                     FROM users u
                     JOIN addresses a ON u.address = a.id
                     WHERE u.id = $1`;

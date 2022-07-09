@@ -84,7 +84,19 @@ const getProductStock = (id) => {
     });
 }
 
+const decrementStockByProduct = (product, decrement) => {
+    return axios.put('/stocks/decrement-stock-by-product', {
+        product, decrement
+    });
+}
+
+const decrementStockByAddon = (addonOption, decrement) => {
+    return axios.put('/stocks/decrement-stock-by-product', {
+        addonOption, decrement
+    });
+}
+
 export { getAllStocks, getAllProductStocks, getAllAddonsStocks, deleteProductStock, deleteAddonStock,
     getProductStockDetails, getAddonStockDetails, addProductStock, addAddonStock, checkAddonsStocks, checkProductsStocks,
-    getProductStock
+    getProductStock, decrementStockByAddon, decrementStockByProduct
 }

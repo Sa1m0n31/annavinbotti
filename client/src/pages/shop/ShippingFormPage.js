@@ -27,6 +27,7 @@ const ShippingFormPage = () => {
 
     const [orderStep, setOrderStep] = useState(localStorage.getItem('orderStep') ? parseInt(localStorage.getItem('orderStep')) : 0);
     const [orderStepDisplay, setOrderStepDisplay] = useState(0);
+    const [orderId, setOrderId] = useState(null);
 
     const orderProgress = useRef(null);
     const orderContent = useRef(null);
@@ -46,7 +47,7 @@ const ShippingFormPage = () => {
     }, [cartContent, orderStep]);
 
     useEffect(() => {
-        if(orderStep === 0) {
+        if(orderStep === 0 || orderStep === 2) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -120,7 +121,10 @@ const ShippingFormPage = () => {
 
                 <div className="orderContent" ref={orderContent}>
                     {orderStepDisplay === 0 ? <CartContent nextStep={() => { setOrderStep(1); }} /> :
-                        (orderStepDisplay === 1 ? <OrderForm backToCart={() => { setOrderStep(0); }} /> : <OrderReceived />)}
+                        (orderStepDisplay === 1 ? <OrderForm backToCart={() => { setOrderStep(0); }}
+                                                             nextStep={() => { setOrderStep(2); }}
+                                                             setOrderId={setOrderId}
+                        /> : <OrderReceived orderId={orderId} />)}
                 </div>
             </>}
         </main>

@@ -1,22 +1,26 @@
 const db = require("../database/db");
 
-const dbInsertQuery = (query, values, response) => {
+const dbInsertQuery = (query, values, response = null) => {
     try {
         db.query(query, values, (err, res) => {
-            if(res) {
-                response.status(201).end();
-            }
-            else {
-                console.log(err);
-                response.status(500).end();
+            if(response) {
+                if(res) {
+                    response.status(201).end();
+                }
+                else {
+                    console.log(err);
+                    response.status(500).end();
+                }
             }
         });
     }
     catch(err) {
         console.log(err);
-        response
-            .status(500)
-            .end();
+        if(response) {
+            response
+                .status(500)
+                .end();
+        }
     }
 }
 

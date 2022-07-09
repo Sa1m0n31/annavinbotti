@@ -92,7 +92,8 @@ function App() {
     if(localStorageItem) {
       const newCart = JSON.parse(localStorage.getItem('cart'))
           .filter((item) => {
-            return JSON.stringify(item.product) === JSON.stringify(product) && JSON.stringify(item.addons) === JSON.stringify(addons);
+            console.log(JSON.stringify(item.product) === JSON.stringify(product));
+            return !(JSON.stringify(item.product) === JSON.stringify(product) && JSON.stringify(item.addons) === JSON.stringify(addons));
           });
       setCartContent(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));

@@ -46,4 +46,27 @@ const getFormDetails = (form, sell) => {
     });
 }
 
-export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, getOrderStatuses, getFormDetails }
+const addOrder = (user, userAddress, deliveryAddress, nip, companyName, sells, addons) => {
+    return axios.post('/orders/add', {
+        user, userAddress, deliveryAddress, nip, companyName, sells, addons
+    });
+}
+
+const getNumberOfFirstTypeFormsByOrder = (id) => {
+    return axios.get('/orders/get-number-of-first-type-forms-by-order', {
+        params: {
+            id
+        }
+    });
+}
+
+const getNumberOfSecondTypeFormsByOrder = (id) => {
+    return axios.get('/orders/get-number-of-second-type-forms-by-order', {
+        params: {
+            id
+        }
+    });
+}
+
+export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder,
+    getOrderStatuses, getFormDetails, addOrder, getNumberOfFirstTypeFormsByOrder, getNumberOfSecondTypeFormsByOrder }

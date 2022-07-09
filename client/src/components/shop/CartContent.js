@@ -73,12 +73,33 @@ const CartContent = ({nextStep}) => {
                                 <figure>
                                     <img className="img" src={`${constans.IMAGE_URL}/media/products/${product.main_image}`} alt={product.name_pl} />
                                 </figure>
-                                {language === 'pl' ? product.name_pl : product.name_en}
+                                <span className="d-desktop">
+                                    {language === 'pl' ? product.name_pl : product.name_en}
+                                </span>
+                                <div className="d-mobile">
+                                    {language === 'pl' ? product.name_pl : product.name_en}
+                                    <span className="cart__table__cell cart__table__cell--1">
+                                    {product.price} PLN
+                                    </span>
+                                    <span className="cart__table__cell cart__table__cell--2">
+                                        <div className="cart__table__amountChange flex">
+                                            <button className="cart__table__amountChange__btn" onClick={() => { decrementAmount(product, item.addons, item.amount - 1 > 0 ? item.amount - 1 : -1); }}>
+                                                -
+                                            </button>
+                                            <div className="cart__table__amountChange__amount">
+                                                {item.amount}
+                                            </div>
+                                            <button className="cart__table__amountChange__btn" onClick={() => { incrementAmount(product.slug); }}>
+                                                +
+                                            </button>
+                                        </div>
+                                    </span>
+                                </div>
                             </span>
-                            <span className="cart__table__cell cart__table__cell--1">
+                            <span className="cart__table__cell cart__table__cell--1 d-desktop">
                                 {product.price} PLN
                             </span>
-                            <span className="cart__table__cell cart__table__cell--2">
+                            <span className="cart__table__cell cart__table__cell--2 d-desktop">
                                 <div className="cart__table__amountChange flex">
                                     <button className="cart__table__amountChange__btn" onClick={() => { decrementAmount(product, item.addons, item.amount - 1 > 0 ? item.amount - 1 : -1); }}>
                                         -

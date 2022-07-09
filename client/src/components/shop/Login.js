@@ -3,7 +3,7 @@ import {loginUser} from "../../helpers/auth";
 import {ContentContext} from "../../App";
 import Loader from "./Loader";
 
-const Login = ({setFormType, fromCart}) => {
+const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
     const { language } = useContext(ContentContext);
 
     const [login, setLogin] = useState("");
@@ -48,7 +48,7 @@ const Login = ({setFormType, fromCart}) => {
                 .then((res) => {
                     if(res?.data?.result) {
                         if(fromCart) {
-                            window.location = '/zamowienie';
+                            setUserLoggedIn(true);
                         }
                         else {
                             window.location = '/logowanie';

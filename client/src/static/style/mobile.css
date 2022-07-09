@@ -160,6 +160,10 @@
         margin: -30px 0 30px;
     }
 
+    .order__main--orderReceived .cart__summary--mobileWrapper {
+        margin-top: 50px;
+    }
+
     .btn--backToCart {
         font-size: 16px;
     }
@@ -206,6 +210,50 @@
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .order__main--orderReceived {
+        margin-top: -30px;
+    }
+
+    .orderReceived__header {
+        font-size: 15px;
+    }
+
+    .orderReceived__header > span {
+        font-size: 17px;
+    }
+
+    .orderReceived__info,
+    .info--error {
+        font-size: 14px;
+    }
+
+    .cart__table {
+        margin-top: -50px;
+    }
+
+    .cart__table__cell--0 {
+        flex-basis: 100%;
+    }
+
+    .cart__table__cell--0 .d-mobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .cart__table__cell--0 .d-mobile > * {
+        width: 100%;
+        flex-basis: 100%;
+        margin: 8px 0;
+    }
+
+    .btn--orderReceived {
+        height: 45px;
+        border-radius: 45px;
+        font-size: 15px;
     }
 
     .shipping__method {
