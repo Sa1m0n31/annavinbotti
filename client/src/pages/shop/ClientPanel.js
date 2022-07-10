@@ -3,6 +3,7 @@ import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
 import {logoutUser} from "../../helpers/auth";
 import ClientPanelStart from "../../components/shop/ClientPanelStart";
+import ClientOrders from "../../components/shop/ClientOrders";
 
 const ClientPanel = () => {
     const [menu, setMenu] = useState(-1);
@@ -12,6 +13,9 @@ const ClientPanel = () => {
         switch(menu) {
             case -1:
                 setMainComponent(<ClientPanelStart />);
+                break;
+            case 1:
+                setMainComponent(<ClientOrders />);
                 break;
             default:
                 break;

@@ -6,4 +6,10 @@ const getUserInfo = () => {
     });
 }
 
-export { getUserInfo }
+const getUserOrders = () => {
+    return axios.get('/user/get-user-orders', {
+        withCredentials: true
+    });
+}
+
+export { getUserInfo, getUserOrders }

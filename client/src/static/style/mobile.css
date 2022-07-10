@@ -80,6 +80,10 @@
 }
 
 @media(max-width: 1200px) {
+    .productDetails {
+        max-width: 90vw;
+    }
+
     .cart__table__cell--1 {
         flex-basis: 20%;
     }
@@ -156,6 +160,70 @@
         flex-direction: column;
     }
 
+    .product {
+        flex-direction: column;
+    }
+
+    .product > * {
+        width: 100%;
+    }
+
+    .product__gallery__main {
+        width: 100%;
+    }
+
+    .product__gallery__main__figure {
+        width: 75%;
+        margin: auto;
+    }
+
+    .product__gallery__btn:hover {
+        background: transparent;
+    }
+
+    .product__gallery__btn--next {
+        right: -8px;
+    }
+
+    .product__gallery__btn--prev {
+        left: -8px;
+    }
+
+    .product__gallery__btn {
+        background: transparent;
+    }
+
+    .addon__title,
+    .product__price,
+    .product__shortDesc,
+    .product__title {
+        text-align: center;
+    }
+
+    .product__title {
+        font-weight: 500;
+        font-size: 21px;
+    }
+
+    .product__price {
+        font-size: 16px;
+        margin: 10px auto;
+    }
+
+    .product__shortDesc {
+        font-size: 13px;
+        margin-top: 25px;
+    }
+
+    .product__content {
+        margin-top: 40px;
+    }
+
+    .product__gallery {
+        position: relative;
+        top: unset;
+    }
+
     .cart__summary--mobileWrapper {
         margin: -30px 0 30px;
     }
@@ -205,11 +273,53 @@
     .newsletter__subheader {
         font-size: 16px;
     }
+
+    .productContent__info {
+        margin: auto;
+        text-align: center;
+    }
+
+    .btn--productContent {
+        margin: 30px auto;
+    }
+
+    .productDetails {
+        margin-top: 30px;
+    }
+
+    .product {
+        margin-bottom: 20px;
+    }
+
+    .productDetails__header {
+        margin: 0 auto 30px;
+    }
 }
 
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .productDetails > div * {
+        font-size: 14px;
+    }
+
+    .addon__option {
+        margin-bottom: 10px !important;
+        max-width: 160px;
+    }
+
+    .addon__options {
+        justify-content: center;
+    }
+
+    .addon__option {
+        margin: 0 1%;
+    }
+
+    .product {
+        margin-top: 30px;
     }
 
     .order__main--orderReceived {

@@ -102,7 +102,7 @@ const ProductPage = () => {
             ],
         }),
         {},
-    );
+    )
 
     const prevImage = () => {
         setGalleryIndex(galleryIndex === 0 ? gallery?.length-1 : galleryIndex-1);
@@ -183,7 +183,7 @@ const ProductPage = () => {
         </div> : <main className="product w flex">
             {/* GALLERY */}
             <div className="product__gallery flex">
-                <div className="product__gallery__miniatures">
+                <div className="product__gallery__miniatures d-from-900">
                     {gallery?.map((item, index) => {
                         if(index !== galleryIndex) {
                             return <button className="product__gallery__miniatures__item" onClick={() => { galleryGoTo(index); }}>
@@ -203,7 +203,7 @@ const ProductPage = () => {
                         <img className="img" src={arrowRight} alt="nastepne" />
                     </button>
 
-                    <button className="product__gallery__btn product__gallery__btn--large" onClick={() => { fullScreenGallery(); }}>
+                    <button className="product__gallery__btn product__gallery__btn--large d-from-900" onClick={() => { fullScreenGallery(); }}>
                         <img className="img" src={largeImgIcon} alt="pelny-ekran" />
                     </button>
                 </div>
@@ -271,7 +271,7 @@ const ProductPage = () => {
                     Rezerwuję
                 </button>
 
-                <button className="product__productDetailsBtn" onClick={() => { goToDetails(); }}>
+                <button className="product__productDetailsBtn d-from-900" onClick={() => { goToDetails(); }}>
                     <span className="product__productDetailsBtn__text">
                         Szczegóły produktu
                     </span>

@@ -6,6 +6,10 @@ const sendMessageToSupport = (content) => {
     });
 }
 
+const getDate = (str) => {
+    return str.substring(0, 10);
+}
+
 const scrollToTop = () => {
     window.scrollTo({
         top: 0,
@@ -21,4 +25,58 @@ const isEmail = (email) => {
         );
 };
 
-export { scrollToTop, sendMessageToSupport, isEmail }
+const statusButtons = [
+    {
+        pl: 'Podaj wymiary stopy',
+        en: 'Podaj wymiary stopy',
+        link: '/formularz-mierzenia-stopy'
+    },
+    {
+        pl: 'Opłać zamówienie',
+        en: 'Opłać zamówienie',
+        link: '/oplac-zamowienie'
+    },
+    {
+        pl: 'Szczegóły',
+        en: 'Details',
+        link: '/zamowienie'
+    },
+    {
+        pl: 'Zweryfikuj but na miarę',
+        en: 'Zweryfikuj but na miarę',
+        link: '/formularz-weryfikacji-buta'
+    },
+    {
+        pl: 'Szczegóły',
+        en: 'Details',
+        link: '/zamowienie'
+    },
+    {
+        pl: 'Szczegóły',
+        en: 'Details',
+        link: '/zamowienie'
+    },
+    {
+        pl: 'Szczegóły',
+        en: 'Details',
+        link: '/zamowienie'
+    },
+    {
+        pl: 'Szczegóły',
+        en: 'Details',
+        link: '/zamowienie'
+    }
+]
+
+const groupBy = (items, key) => items.reduce(
+    (result, item) => ({
+        ...result,
+        [item[key]]: [
+            ...(result[item[key]] || []),
+            item,
+        ],
+    }),
+    {},
+);
+
+export { scrollToTop, sendMessageToSupport, isEmail, getDate, statusButtons, groupBy }

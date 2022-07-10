@@ -106,10 +106,28 @@ router.post("/register", (request, response) => {
     });
 });
 
+router.get('/get-user-orders', (request, response) => {
+   const user = request.user;
+
+   if(!user) {
+       response.status(400).end();
+   }
+   else {
+       const query = `SELECT o.id, o.date, o.status, s.product, t.id as type
+                FROM orders o 
+                JOIN users u ON o.user = u.id
+                JOIN sells s ON o.id = s.order
+                JOIN products p ON p.id = s.product
+                JOIN types t ON p.type = t.id
+                WHERE u.id = $1`;
+       const values = [user];
+
+       dbSelectQuery(query, values, response);
+   }
+});
+
 router.get('/get-user-info', (request, response) => {
    const id = request.user;
-
-   console.log(request.user);
 
    if(!id) {
        response.status(401).end();

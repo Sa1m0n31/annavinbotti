@@ -66,7 +66,6 @@ const ShippingFormPage = () => {
     return <div className="container container--order">
         <PageHeader />
         <main className="order w">
-
             {!cartContent || cartContent?.length === 0 ? <div className="emptyCart">
                 <h2 className="emptyCart__header">
                     Twój koszyk jest pusty

@@ -51,7 +51,7 @@ const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
                             setUserLoggedIn(true);
                         }
                         else {
-                            window.location = '/logowanie';
+                            window.location = '/panel-klienta';
                         }
                     }
                     else {
