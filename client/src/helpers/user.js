@@ -1,4 +1,5 @@
 import axios from "axios";
+import {logoutUser} from "./auth";
 
 const getUserInfo = () => {
     return axios.get('/user/get-user-info', {
@@ -12,4 +13,11 @@ const getUserOrders = () => {
     });
 }
 
-export { getUserInfo, getUserOrders }
+const logout = () => {
+    logoutUser()
+        .then((res) => {
+            window.location = '/';
+        });
+}
+
+export { getUserInfo, getUserOrders, logout }

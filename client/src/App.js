@@ -18,6 +18,9 @@ import ClientPanel from "./pages/shop/ClientPanel";
 import ProductPage from "./pages/shop/ProductPage";
 import ShippingFormPage from "./pages/shop/ShippingFormPage";
 import {getProductStock} from "./helpers/stocks";
+import OrderDetails from "./pages/shop/OrderDetails";
+import FormType1 from "./pages/shop/FormType1";
+import FormType2 from "./pages/shop/FormType2";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -136,6 +139,15 @@ function App() {
       </Route>
       <Route path="/zamowienie">
         <ShippingFormPage />
+      </Route>
+      <Route path="/informacje-o-zamowieniu">
+        <OrderDetails />
+      </Route>
+      <Route path="/formularz-mierzania-stopy">
+        <FormType1 />
+      </Route>
+      <Route path="/formularz-weryfikacji-buta">
+        <FormType2 />
       </Route>
 
       {/* USER */}

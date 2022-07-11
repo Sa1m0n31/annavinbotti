@@ -1761,3 +1761,87 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     justify-content: center;
     align-items: center;
 }
+
+.orderDetails__header {
+    font-size: 35px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--secondary);
+}
+
+.orderDetails__mainInfo {
+    border: 1px dashed var(--secondary);
+    padding: 20px 80px;
+    margin: 50px auto;
+    width: 100%;
+}
+
+.orderDetails__mainInfo__section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderDetails__mainInfo__section > span {
+    text-align: center;
+    margin: 5px 0;
+    color: var(--secondary);
+}
+
+.orderDetails__statuses {
+    padding-left: 40px;
+    margin: 60px auto;
+}
+
+.orderDetails__statuses .orderStatus {
+    margin-bottom: 50px;
+}
+
+.orderDetails__statuses .orderStatus > span {
+    position: relative;
+}
+
+.orderDetails__statuses .orderStatus:not(:last-child) > span::before {
+    content: "";
+    position: absolute;
+    bottom: -35px;
+    height: 20px;
+    background: var(--secondary);
+    width: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.orderDetails__statuses .orderStatus:not(:last-child) > .orderStatus__number--currentStatus::before {
+    bottom: -40px;
+}
+
+.orderStatus__buttons {
+    margin: 15px 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.btn--orderDetails {
+    height: 50px;
+    border-radius: 40px;
+    color: #000;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 10px 0;
+    min-width: 300px;
+    max-width: 350px;
+    padding: 5px 15px;
+}
+
+.orderDetails__statuses .orderStatus {
+    align-items: flex-start;
+}
+
+.orderDetails__statuses .orderStatus .orderStatus__text {
+    margin-top: 15px;
+}

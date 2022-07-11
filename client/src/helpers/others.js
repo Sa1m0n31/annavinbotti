@@ -7,7 +7,7 @@ const sendMessageToSupport = (content) => {
 }
 
 const getDate = (str) => {
-    return str.substring(0, 10);
+    return str ? str.substring(0, 10) : '';
 }
 
 const scrollToTop = () => {
@@ -77,6 +77,20 @@ const groupBy = (items, key) => items.reduce(
         ],
     }),
     {},
-);
+)
 
-export { scrollToTop, sendMessageToSupport, isEmail, getDate, statusButtons, groupBy }
+const getNumberOfFirstTypeForms = (cart) => {
+    const groupedByType = Object.entries(groupBy(cart, 'type'));
+    return groupedByType.map((item) => {
+        return item[0];
+    });
+}
+
+const getNumberOfSecondTypeForms = (cart) => {
+    const groupedByModel = Object.entries(groupBy(cart, 'product'));
+    return groupedByModel.map((item) => {
+        return item[0];
+    });
+}
+
+export { scrollToTop, sendMessageToSupport, isEmail, getDate, statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms }

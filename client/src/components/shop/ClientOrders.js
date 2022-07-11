@@ -1,6 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {getUserOrders} from "../../helpers/user";
-import {getDate, groupBy, statusButtons} from "../../helpers/others";
+import {
+    getDate,
+    getNumberOfFirstTypeForms,
+    getNumberOfSecondTypeForms,
+    groupBy,
+    statusButtons
+} from "../../helpers/others";
 import {getOrderStatuses} from "../../helpers/orders";
 import {ContentContext} from "../../App";
 import Loader from "./Loader";
@@ -32,25 +38,11 @@ const ClientOrders = () => {
     useEffect(() => {
         if(orders?.length) {
             setButtons(orders.map((item) => {
-                return setButtonParams(item.id, item[1][0].status, item[1]);
+                return setButtonParams(item[0], item[1][0].status, item[1]);
             }));
             setRender(true);
         }
     }, [orders, statuses]);
-
-    const getNumberOfFirstTypeForms = (cart) => {
-        const groupedByType = Object.entries(groupBy(cart, 'type'));
-        return groupedByType.map((item) => {
-            return item[0];
-        });
-    }
-
-    const getNumberOfSecondTypeForms = (cart) => {
-        const groupedByModel = Object.entries(groupBy(cart, 'product'));
-        return groupedByModel.map((item) => {
-            return item[0];
-        });
-    }
 
     const setButtonParams = (orderId, status, cart) => {
         if(status === 1) {
@@ -85,7 +77,7 @@ const ClientOrders = () => {
                 {
                     pl: 'Szczegóły',
                     en: 'Details',
-                    link: `/szczegoly?id=${orderId}`
+                    link: `/informacje-o-zamowieniu?id=${orderId}`
                 }
             ]
         }
@@ -109,7 +101,7 @@ const ClientOrders = () => {
             </div>
             {orders?.map((item, index) => {
                 return <div className="ordersTable__row flex" key={index}>
-                    <a href={`/zamowienie?id=${item[0]}`} className="ordersTable__row__cell">
+                    <a href={`/informacje-o-zamowieniu?id=${item[0]}`} className="ordersTable__row__cell">
                         #{item[0]}
                     </a>
                     <span className="ordersTable__row__cell">

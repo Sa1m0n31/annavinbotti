@@ -10,6 +10,13 @@ const ClientPanel = () => {
     const [mainComponent, setMainComponent] = useState(null);
 
     useEffect(() => {
+        const section = new URLSearchParams(window.location.search).get('sekcja');
+        if(section === 'zamowienia') {
+            setMenu(1);
+        }
+    }, []);
+
+    useEffect(() => {
         switch(menu) {
             case -1:
                 setMainComponent(<ClientPanelStart />);
