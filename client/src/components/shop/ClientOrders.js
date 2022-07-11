@@ -85,7 +85,7 @@ const ClientOrders = () => {
 
     return <div className="panel__main panel__main--start">
         {render ? <div className="ordersTable">
-            <div className="ordersTable__header flex">
+            <div className="ordersTable__header flex d-desktop">
                 <span className="ordersTable__cell">
                     Numer
                 </span>

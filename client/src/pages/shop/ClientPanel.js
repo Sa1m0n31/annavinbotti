@@ -4,6 +4,7 @@ import Footer from "../../components/shop/Footer";
 import {logoutUser} from "../../helpers/auth";
 import ClientPanelStart from "../../components/shop/ClientPanelStart";
 import ClientOrders from "../../components/shop/ClientOrders";
+import UserData from "../../components/shop/UserData";
 
 const ClientPanel = () => {
     const [menu, setMenu] = useState(-1);
@@ -14,12 +15,18 @@ const ClientPanel = () => {
         if(section === 'zamowienia') {
             setMenu(1);
         }
+        else if(section === 'twoje-dane') {
+            setMenu(0);
+        }
     }, []);
 
     useEffect(() => {
         switch(menu) {
             case -1:
                 setMainComponent(<ClientPanelStart />);
+                break;
+            case 0:
+                setMainComponent(<UserData />);
                 break;
             case 1:
                 setMainComponent(<ClientOrders />);

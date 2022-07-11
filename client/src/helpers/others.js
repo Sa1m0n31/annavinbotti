@@ -7,7 +7,13 @@ const sendMessageToSupport = (content) => {
 }
 
 const getDate = (str) => {
-    return str ? str.substring(0, 10) : '';
+    if(str) {
+        const date = str.substring(0, 10);
+        return date.substring(5, 7) + '.' + date.substring(8, 10) + '.' + date.substring(0, 4);
+    }
+    else {
+        return '';
+    }
 }
 
 const scrollToTop = () => {

@@ -5,6 +5,7 @@ import {getOrderById, getOrderStatuses} from "../../helpers/orders";
 import {logout} from "../../helpers/user";
 import {ContentContext} from "../../App";
 import {getDate, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, groupBy} from "../../helpers/others";
+import constans from "../../helpers/constants";
 
 const OrderDetails = () => {
     const { language, content } = useContext(ContentContext);
@@ -15,6 +16,7 @@ const OrderDetails = () => {
     const [orderSum, setOrderSum] = useState(0);
     const [statuses, setStatuses] = useState([]);
     const [buttons, setButtons] = useState([]);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
         const id = new URLSearchParams(window.location.search).get('id');
@@ -37,6 +39,7 @@ const OrderDetails = () => {
             getOrderById(id)
                 .then((res) => {
                     if(res?.status === 200) {
+                        console.log(res?.data?.result);
                         setOrderInfo(res?.data?.result);
                         const order = res?.data?.result[0];
                         setOrderDetails({
@@ -81,6 +84,12 @@ const OrderDetails = () => {
     }, []);
 
     useEffect(() => {
+        if(cart) {
+            setProducts(Object.entries(groupBy(cart, 'product')));
+        }
+    }, [cart]);
+
+    useEffect(() => {
        if(orderInfo?.length) {
            if(language === 'en') {
                setCart(orderInfo?.map((item) => {
@@ -89,7 +98,8 @@ const OrderDetails = () => {
                        addon: item.addon_name_en,
                        addonOption: item.addon_option_name_en,
                        price: item.price,
-                       type: item.type_id
+                       type: item.type_id,
+                       img: item.main_image
                    }
                }));
            }
@@ -100,7 +110,8 @@ const OrderDetails = () => {
                        addon: item.addon_name,
                        addonOption: item.addon_option_name,
                        price: item.price,
-                       type: item.type_id
+                       type: item.type_id,
+                       img: item.main_image
                    }
                }));
            }
@@ -108,14 +119,8 @@ const OrderDetails = () => {
     }, [orderInfo, language]);
 
     useEffect(() => {
-        console.log(buttons);
-    }, [buttons]);
-
-    useEffect(() => {
         if(orderDetails && cart) {
             if(orderDetails.status === 1) {
-                console.log(cart);
-                console.log(getNumberOfFirstTypeForms(cart));
                 setButtons(getNumberOfFirstTypeForms(cart).map((item) => {
                     return {
                         pl: 'Podaj wymiary stopy',
@@ -162,7 +167,7 @@ const OrderDetails = () => {
                 </h1>
 
                 <div className="panel__menu__menu">
-                    <button className="panel__menu__item" onClick={() => { window.location = '/panel-klienta' }}>
+                    <button className="panel__menu__item" onClick={() => { window.location = '/panel-klienta?sekcja=twoje-dane' }}>
                         Twoje dane
                     </button>
                     <button className="panel__menu__item panel__menu__item--selected" onClick={() => { window.location = '/panel-klienta?sekcja=zamowienia' }}>
@@ -237,6 +242,78 @@ const OrderDetails = () => {
                             </p>
                         </div>
                     })}
+                </section>
+
+                <section className="orderDetails__bottom">
+                    <h3 className="orderDetails__header">
+                        Podsumowanie zamówienia
+                    </h3>
+
+                    {products?.map((item, index) => {
+                        console.log(item);
+                        return <div className="orderDetails__bottom__item flex" key={index}>
+                            <figure className="orderDetails__bottom__item__figure">
+                                <img className="img" src={`${constans.IMAGE_URL}/media/products/${item[1][0].img}`} />
+                            </figure>
+                            <div className="orderDetails__bottom__item__content">
+                                <h4 className="orderDetails__bottom__item__content__header">
+                                    {language === 'pl' ? item[0] : item[1][0].product_name_en}
+                                </h4>
+                                <h5 className="orderDetails__bottom__item__content__price">
+                                    {item[1][0].price} zł
+                                </h5>
+                                <div className="orderDetails__bottom__item__addons" key={index}>
+                                    {item[1]?.map((item, index) => {
+                                        return <p className="orderDetails__bottom__item__addon">
+                                            <span className="orderDetails__bottom__item__key">
+                                                {item.addon}:
+                                            </span>
+                                            <span className="orderDetails__bottom__item__value">
+                                                {item.addonOption}
+                                            </span>
+                                        </p>
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                    })}
+
+                    {orderDetails?.deliveryData ? <section className="orderDetails__bottom__section">
+                        <h5 className="orderDetails__bottom__section__header">
+                            Adres dostawy
+                        </h5>
+                        <p>
+                            {orderDetails.deliveryData.street} {orderDetails.deliveryData.building}{orderDetails.deliveryData.flat ? `/${orderDetails.deliveryData.flat}` : ''}
+                        </p>
+                        <p>
+                            {orderDetails.deliveryData.postalCode} {orderDetails.deliveryData.city}
+                        </p>
+                        <p className="marginTop">
+                            {orderDetails.userData.email}
+                        </p>
+                        <p>
+                            {orderDetails.deliveryData.phoneNumber}
+                        </p>
+                    </section> : ''}
+                    <section className="orderDetails__bottom__section">
+                        <h5 className="orderDetails__bottom__section__header">
+                            Metoda płatności
+                        </h5>
+                        <p>
+                            Płatności internetowe
+                        </p>
+                    </section>
+                    <section className="orderDetails__bottom__section orderDetails__bottom__section--last">
+                        <h5 className="orderDetails__bottom__section__header">
+                            Suma: {orderSum} zł
+                        </h5>
+                        <h5 className="orderDetails__bottom__section__header">
+                            Dostawa: bezpłatna
+                        </h5>
+                        <h5 className="orderDetails__bottom__section__header">
+                            Razem: {orderSum} zł
+                        </h5>
+                    </section>
                 </section>
             </div>
 

@@ -106,6 +106,25 @@ router.post("/register", (request, response) => {
     });
 });
 
+router.put('/update-user-data', (request, response) => {
+    const { id, address, firstName, lastName, email, phoneNumber, street, building, flat, postalCode, city } = request.body;
+
+    const query = `UPDATE addresses SET street = $1, building = $2, flat = $3, postal_code = $4, city = $5 WHERE id = $6`;
+    const values = [street, building, flat, postalCode, city, address];
+
+    db.query(query, values, (err, res) => {
+        if(res) {
+            const query = 'UPDATE users SET first_name = $1, last_name = $2, phone_number = $3, email = $4 WHERE id = $5';
+            const values = [firstName, lastName, phoneNumber, email, id];
+
+            dbInsertQuery(query, values, response);
+        }
+        else {
+            response.status(500).end();
+        }
+    });
+});
+
 router.get('/get-user-orders', (request, response) => {
    const user = request.user;
 

@@ -143,7 +143,7 @@ function App() {
       <Route path="/informacje-o-zamowieniu">
         <OrderDetails />
       </Route>
-      <Route path="/formularz-mierzania-stopy">
+      <Route path="/formularz-mierzenia-stopy">
         <FormType1 />
       </Route>
       <Route path="/formularz-weryfikacji-buta">

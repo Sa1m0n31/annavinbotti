@@ -13,6 +13,13 @@ const getUserOrders = () => {
     });
 }
 
+const updateUser = (id, address, firstName, lastName, email, phoneNumber, street, building, flat, postalCode, city) => {
+    return axios.put('/user/update-user-data', {
+       id, address, firstName, lastName, email, phoneNumber, street, building, flat,
+       postalCode, city
+    });
+}
+
 const logout = () => {
     logoutUser()
         .then((res) => {
@@ -20,4 +27,4 @@ const logout = () => {
         });
 }
 
-export { getUserInfo, getUserOrders, logout }
+export { getUserInfo, getUserOrders, updateUser, logout }

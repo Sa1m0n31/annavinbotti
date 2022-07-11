@@ -7,13 +7,14 @@ import backIcon from '../../static/img/arrow-back.svg'
 import arrowDownIcon from '../../static/img/arrow-down.svg'
 import poland from '../../static/img/poland.png'
 import uk from '../../static/img/united-kingdom.png'
-import {ContentContext} from "../../App";
+import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import facebookIcon from "../../static/img/facebook.svg";
 import instagramIcon from "../../static/img/instagram.svg";
 
 const TopHeader = () => {
     const { language, setLanguage } = useContext(ContentContext);
+    const { cartContent } = useContext(CartContext);
 
     const [mobileSubmenu, setMobileSubmenu] = useState(-1);
 
@@ -145,6 +146,9 @@ const TopHeader = () => {
                 </a>
                 <a href="/zamowienie" className="topHeader__firstRow__right__link">
                     <img className="img" src={cartIcon} alt="koszyk" />
+                    {cartContent?.length ? <span className="cartCounter">
+                        {cartContent.length}
+                    </span> : ''}
                 </a>
             </div>
         </div>
