@@ -20,6 +20,14 @@ const updateUser = (id, address, firstName, lastName, email, phoneNumber, street
     });
 }
 
+const getForm = (type, formType) => {
+    return axios.get('/forms/get-form', {
+        params: {
+            type, formType
+        }
+    });
+}
+
 const logout = () => {
     logoutUser()
         .then((res) => {
@@ -27,4 +35,4 @@ const logout = () => {
         });
 }
 
-export { getUserInfo, getUserOrders, updateUser, logout }
+export { getUserInfo, getUserOrders, updateUser, logout, getForm }

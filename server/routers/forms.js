@@ -200,4 +200,16 @@ router.delete('/delete', (request, response) => {
     }
 });
 
+
+// -------------------
+
+router.get('/get-form', (request, response) => {
+   const { type, formType } = request.query;
+
+   const query = 'SELECT *  FROM forms WHERE type = $1 AND form_type = $2';
+   const values = [type, formType];
+
+   dbSelectQuery(query, values, response);
+});
+
 module.exports = router;

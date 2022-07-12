@@ -100,6 +100,7 @@ const newsletterRouter = require('./routers/newsletter');
 const contentRouter = require('./routers/content');
 const othersRouter = require('./routers/others');
 const userRouter = require('./routers/user');
+const formsRouter = require('./routers/forms');
 // const videoRouter = require("./routers/vid ..eo");
 // const customFieldRouter = require("./routers/customField");
 // const notificationRouter = require("./routers/notification");
@@ -127,6 +128,7 @@ app.use('/newsletter-api', newsletterRouter);
 app.use('/content', contentRouter);
 app.use('/others', othersRouter);
 app.use('/user', userRouter);
+app.use('/forms', formsRouter);
 app.use("/image", imageRouter); // only / not restricted (display image)
 // app.use("/video", videoRouter); // only /get not restricted (display video)
 // app.use("/custom-field", basicAuth, customFieldRouter);

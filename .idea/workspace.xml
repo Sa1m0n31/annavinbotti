@@ -23,19 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/shop/UserData.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/shop/ConfirmForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/ClientOrders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/ClientOrders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/TopHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/TopHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ClientPanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ClientPanel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/FormType1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/FormType1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/OrderDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/OrderDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/forms.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/forms.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,21 +61,21 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="16.11.41" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/server/media/forms" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\media\forms" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\public" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\components\admin" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\media\forms" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\routers" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -129,7 +123,7 @@
       <workItem from="1657305084579" duration="34093000" />
       <workItem from="1657538194385" duration="5682000" />
       <workItem from="1657561242561" duration="11000" />
-      <workItem from="1657564775478" duration="8130000" />
+      <workItem from="1657564775478" duration="16460000" />
     </task>
     <servers />
   </component>
@@ -180,21 +174,21 @@
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1653572912268" />
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990629" />
-    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1657460868681">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1657618634092">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656610050820" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1657618634092" />
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657460868681" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1657577206614">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1657577206614" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657058277045" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1657577209458">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1657620524705">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1654190661365" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1657577209458" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1657620524705" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657547908927" />
   </component>
   <component name="XDebuggerManager">
