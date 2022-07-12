@@ -7,6 +7,8 @@ const nodemailer = require("nodemailer");
 const smtpTransport = require('nodemailer-smtp-transport');
 const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
+const multer  = require('multer')
+const upload = multer({ dest: 'media/filled-forms' })
 
 router.get('/all', (request, response) => {
     const query = `SELECT id, title_pl, type FROM forms
@@ -210,6 +212,91 @@ router.get('/get-form', (request, response) => {
    const values = [type, formType];
 
    dbSelectQuery(query, values, response);
+});
+
+router.post('/send-form', upload.fields([
+    { name: 'images', maxCount: 100 }
+]), (request, response) => {
+   let { formType, orderId, type, formJSON } = request.body;
+
+    const files = request.files;
+
+    const getFileName = (name) => {
+        return files?.images?.find((item) => {
+            return item.originalname === name;
+        });
+    }
+
+    // Map to schema
+    formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
+        return {
+            type: item.type,
+            name: item.name?.replace('-leg0', '')?.replace('-leg1', ''),
+            value: item.type === 'txt' ? item.value : getFileName(item.name)?.filename
+        }
+    }));
+
+    // Divide form by right and left foot
+    const formJSONParsed = JSON.parse(formJSON);
+    const middleIndex = Math.ceil(formJSONParsed.length / 2);
+    const firstHalf = formJSONParsed.splice(0, middleIndex);
+    const secondHalf = formJSONParsed.splice(-middleIndex);
+    formJSON = {
+        right: firstHalf,
+        left: secondHalf
+    };
+    formJSON = JSON.stringify(formJSON);
+
+    if(formType && orderId && type && formJSON) {
+        let query;
+
+        if(parseInt(formType) === 1) {
+            // By type
+            query = `SELECT s.id FROM sells s 
+                   JOIN orders o ON s.order = o.id
+                   JOIN products p ON p.id = s.product
+                   JOIN types t ON p.type = t.id
+                   WHERE t.id = $1 AND o.id = $2`;
+        }
+        else {
+            // By model
+            query = `SELECT s.id FROM sells s 
+                   JOIN orders o ON s.order = o.id
+                   JOIN products p ON p.id = s.product
+                   WHERE p.id = $1 AND o.id = $2`;
+        }
+
+        const values = [type, orderId];
+
+        db.query(query, values, (err, res) => {
+            if(res) {
+                const sells = res?.rows?.map((item) => {
+                    return item.id;
+                });
+
+                sells?.forEach(async (item, index, array) => {
+                    const query = `INSERT INTO filled_forms VALUES ($1, $2, $3)`;
+                    const values = [formType, item, formJSON];
+
+                    await db.query(query, values, (err, res) => {
+                        console.log(err);
+                        if(res) {
+                            if(index === array.length - 1) {
+                                response.status(201).end();
+                            }
+                        }
+                        else {
+                            response.status(500).end();
+                        }
+                    });
+                });
+            }
+            else {
+                console.log(err);
+                response.status(500).end();
+            }
+        });
+    }
 });
 
 module.exports = router;

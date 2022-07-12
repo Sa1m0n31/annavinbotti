@@ -1971,8 +1971,9 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .formPage {
     position: relative;
-    padding: 60px 0;
+    padding: 0 0 60px;
     z-index: 2;
+    width: 80%;
 }
 
 .formPage .pageHeader {
@@ -2064,11 +2065,15 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .formPage__imageWrapper {
     position: relative;
-    height: 300px;
+    height: 200px;
     width: 100%;
     border: 2px dashed #fff;
     margin: 5px 0 30px;
     transition: .2s all;
+}
+
+.formPage__imageWrapper .editor__videoWrapper__icon {
+    width: 40px;
 }
 
 .formPage__imageWrapper:hover {
@@ -2138,4 +2143,63 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 .formPage .info--error {
     color: #d83b27;
     padding-bottom: 20px;
+}
+
+.confirmForm__type2,
+.confirmForm__type1 {
+    margin-bottom: 20px;
+}
+
+.confirmForm__type1__key {
+    font-weight: 700;
+    padding-right: 6px;
+}
+
+.confirmForm__type2 figcaption {
+    font-weight: 700;
+}
+
+.formSection--confirm {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.formSection--confirm:last-of-type {
+    border-bottom: none;
+}
+
+.confirmForm__type2 .img {
+    margin-top: 5px;
+}
+
+.confirmForm__type2 {
+    max-width: 400px;
+}
+
+.formSection--confirm .formSection__header {
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.confirmForm__info {
+    text-align: center;
+    font-size: 15px;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.btn--sendForm {
+    color: #222222;
+    font-size: 18px;
+    font-weight: 600;
+    width: 400px;
+    height: 50px;
+    margin: 30px auto;
+    border-radius: 50px;
+}
+
+.confirmForm .info {
+    margin: 20px auto;
+    max-width: 400px;
 }

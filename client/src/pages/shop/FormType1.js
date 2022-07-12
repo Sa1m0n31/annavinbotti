@@ -1,16 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
-import {getForm} from "../../helpers/user";
+import {getForm, logout} from "../../helpers/user";
 import {ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import imageIcon from "../../static/img/image-gallery.svg";
 import {getTypeById} from "../../helpers/products";
+import ConfirmForm from "../../components/shop/ConfirmForm";
 
 const FormType1 = () => {
     const { language } = useContext(ContentContext);
 
     const [orderId, setOrderId] = useState('');
+    const [typeId, setTypeId] = useState(0);
     const [type, setType] = useState('');
     const [form, setForm] = useState({});
     const [inputs, setInputs] = useState({});
@@ -29,6 +31,7 @@ const FormType1 = () => {
 
         if(order && type) {
             setOrderId(order);
+            setTypeId(parseInt(type));
 
             getTypeById(type)
                 .then((res) => {
@@ -102,27 +105,27 @@ const FormType1 = () => {
 
     const validateForm = () => {
         if(requiredImages !== null && requiredInputs !== null) {
-            if(validateFields(inputs, requiredInputs) && validateFields(images, requiredImages)) {
-                setFormData(form?.sections?.map((item) => {
+            // if(validateFields(inputs, requiredInputs) && validateFields(images, requiredImages)) {
+                setFormData(form?.sections?.map((item, index) => {
                     return item?.fields?.map((item) => {
                         if(item.type === 1) {
                             return {
                                 type: 1,
-                                [item.caption]: inputs[item.caption]
+                                [item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]: inputs[item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]
                             }
                         }
                         else {
                             return {
                                 type: 2,
-                                [item.caption]: images[item.caption]
+                                [item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]: images[item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]
                             }
                         }
                     });
                 }));
-            }
-            else {
+            // }
+            // else {
                 setError(language === 'pl' ? 'Uzupełnij wszystkie pola' : 'Fill all fields');
-            }
+            // }
         }
     }
 
@@ -135,93 +138,119 @@ const FormType1 = () => {
     return <div className="container">
         <PageHeader />
 
-        <main className="formPage w">
-            <h1 className="pageHeader">
-                {form.header}
-            </h1>
-            <div className="formPage__info">
-                <p className="formPage__info__p">
+        <main className="panel w flex">
+            <div className="panel__menu">
+                <h1 className="panel__header">
+                    Konto
+                </h1>
+
+                <div className="panel__menu__menu">
+                    <button className="panel__menu__item" onClick={() => { window.location = '/panel-klienta?sekcja=twoje-dane'; }}>
+                        Twoje dane
+                    </button>
+                    <button className="panel__menu__item panel__menu__item--selected" onClick={() => { window.location = '/panel-klienta?sekcja=zamowienia'; }}>
+                        Zamówienia
+                    </button>
+                    <button className="panel__menu__item" onClick={() => { logout(); }}>
+                        Wyloguj się
+                    </button>
+                </div>
+            </div>
+
+            <main className="formPage">
+                <h1 className="pageHeader">
+                    {!validationSucceed ? form.header : 'Twoje wymiary'}
+                </h1>
+                <div className="formPage__info">
+                    <p className="formPage__info__p">
                     <span>
                         Zamówienie:
                     </span>
                         <span>
                         #{orderId}
                     </span>
-                </p>
-                <p className="formPage__info__p">
+                    </p>
+                    <p className="formPage__info__p">
                     <span>
                         Typ obuwia:
                     </span>
-                    <span>
+                        <span>
                         {type}
                     </span>
-                </p>
-            </div>
+                    </p>
+                </div>
 
-            {form?.sections?.map((item, index) => {
-                return <section key={index}
-                                className={item.border ? "formSection" : "formSection formSection--noBorder"}>
-                    {item.header ? <h2 className="formSection__header">
-                        {item.header}
-                    </h2> : ''}
-                    {item.subheader ? <h3 className="formSection__subheader">
-                        {item.subheader}
-                    </h3> : ''}
+                {!validationSucceed ? <>
+                    {form?.sections?.map((item, sectionIndex) => {
+                        return <section key={sectionIndex}
+                            className={item.border ? "formSection" : "formSection formSection--noBorder"}>
+                            {item.header ? <h2 className="formSection__header">
+                                {item.header}
+                            </h2> : ''}
+                            {item.subheader ? <h3 className="formSection__subheader">
+                                {item.subheader}
+                            </h3> : ''}
 
-                    <div className="formSection__content">
-                        {item.fields?.map((item, index) => {
-                            if(item.type === 1) {
-                                return <label className="formPage__label" key={index}>
-                                    {item.caption}
-                                    <input className="input"
-                                           name={item.caption}
-                                           onChange={(e) => { handleInputUpdate(e, item.caption); }}
-                                           placeholder={item.placeholder} />
-                                </label>
-                            }
-                            else if(item.type === 2) {
-                                return <div className="formPage__label">
-                                    {item.caption}
-                                    {!images[item.caption] ? <span key={index} className="formPage__imageWrapper">
-                                <input type="file" className="formPage__imageInput" multiple={false}
-                                       onChange={(e) => { handleImageUpload(e, item.caption); }} />
-                               <div className="editor__videoWrapper__placeholderContent">
-                                    <p className="editor__videoWrapper__placeholderContent__text">
-                                        Kliknij tutaj lub upuść plik aby dodać zdjęcie
-                                    </p>
-                                    <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
+                            <div className="formSection__content">
+                            {item.fields?.map((item, index) => {
+                                if(item.type === 1) {
+                                    return <label className="formPage__label" key={index}>
+                                        {item.caption}
+                                        <input className="input"
+                                               name={item.caption}
+                                               onChange={(e) => { handleInputUpdate(e, item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }}
+                                               placeholder={item.placeholder} />
+                                    </label>
+                                }
+                                else if(item.type === 2) {
+                                    return <div className="formPage__label">
+                                        {item.caption}
+                                        {!images[item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)] ? <span key={index} className="formPage__imageWrapper">
+                                        <input type="file" className="formPage__imageInput" multiple={false}
+                                               onChange={(e) => { handleImageUpload(e, item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }} />
+                                       <div className="editor__videoWrapper__placeholderContent">
+                                            <p className="editor__videoWrapper__placeholderContent__text">
+                                                Kliknij tutaj lub upuść plik aby dodać zdjęcie
+                                            </p>
+                                            <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
+                                    </div>
+                                </span> : <div className="formPage__imgWrapper">
+                                            <button className="formPage__deleteBtn"
+                                                    onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImg(item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }}>
+                                                &times;
+                                            </button>
+                                            <img className="img" src={images[item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)]?.fileUrl} alt={item.caption} />
+                                        </div>}
+                                    </div>
+                                }
+                            })}
                             </div>
-                        </span> : <div className="formPage__imgWrapper">
-                                        <button className="formPage__deleteBtn"
-                                                onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImg(item.caption); }}>
-                                            &times;
-                                        </button>
-                                        <img className="img" src={images[item.caption]?.fileUrl} alt={item.caption} />
-                                    </div>}
-                                </div>
-                            }
-                        })}
-                    </div>
-                    {item.img ? <figure className="formSection__img">
-                        {item.imgCaption ? <figcaption>
-                            {item.imgCaption}
-                        </figcaption> : ''}
-                        <img className="img" src={`${constans.IMAGE_URL}/media/forms/${item.img}`} alt={item.imgCaption} />
-                    </figure> : ''}
-                </section>
-            })}
+                            {item.img ? <figure className="formSection__img">
+                                    {item.imgCaption ? <figcaption>
+                                        {item.imgCaption}
+                                    </figcaption> : ''}
+                                    <img className="img" src={`${constans.IMAGE_URL}/media/forms/${item.img}`} alt={item.imgCaption} />
+                                </figure> : ''}
+                        </section>
+                    })}
 
-            <p className="formEnd">
-                {form.end}
-            </p>
+                    <p className="formEnd">
+                        {form.end}
+                    </p>
 
-            {error ? <span className="info info--error">
-                {error}
-            </span> : ''}
+                    {error ? <span className="info info--error">
+                        {error}
+                    </span> : ''}
 
-            <button className="btn btn--submit" onClick={() => { validateForm(); }}>
-                Prześlij wymiary
-            </button>
+                    <button className="btn btn--submit" onClick={() => { validateForm(); }}>
+                        Zapisz
+                    </button>
+                </> : <ConfirmForm data={formData}
+                                   formType={1}
+                                   type={typeId}
+                                   orderId={orderId} />}
+            </main>
+
         </main>
 
         <Footer />
