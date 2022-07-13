@@ -65,4 +65,18 @@ router.delete('/delete', (request, response) => {
     }
 });
 
+router.get('/get-type-by-product', (request, response) => {
+   const id = request.query.id;
+
+   if(!id) {
+       response.status(400).end();
+   }
+   else {
+       const query = 'SELECT type FROM products WHERE id = $1';
+       const values = [id];
+
+       dbSelectQuery(query, values, response);
+   }
+});
+
 module.exports = router;

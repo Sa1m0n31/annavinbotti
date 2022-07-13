@@ -131,6 +131,10 @@ const FormType1 = () => {
 
     useEffect(() => {
         if(formData?.length) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
             setValidationSucceed(true);
         }
     }, [formData]);

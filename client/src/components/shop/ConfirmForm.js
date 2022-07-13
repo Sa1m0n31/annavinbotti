@@ -5,10 +5,6 @@ import constans from "../../helpers/constants";
 import {ContentContext} from "../../App";
 
 const ConfirmForm = ({data, formType, type, orderId}) => {
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
-
     const { language } = useContext(ContentContext);
 
     const [loading, setLoading] = useState(false);
@@ -50,14 +46,10 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
                 }
             });
 
-        console.log(gallery);
-
         let formData = new FormData();
         for(let i=0; i<gallery.length; i++) {
             const item = Object.entries(gallery[i])[0][1];
             const itemName = Object.entries(gallery[i])[0][0];
-
-            console.log(item, itemName);
 
             let xhr = new XMLHttpRequest();
             xhr.open('GET', item, true);

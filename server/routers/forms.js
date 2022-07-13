@@ -208,7 +208,7 @@ router.delete('/delete', (request, response) => {
 router.get('/get-form', (request, response) => {
    const { type, formType } = request.query;
 
-   const query = 'SELECT *  FROM forms WHERE type = $1 AND form_type = $2';
+   const query = 'SELECT * FROM forms WHERE type = $1 AND form_type = $2';
    const values = [type, formType];
 
    dbSelectQuery(query, values, response);
@@ -220,6 +220,7 @@ router.post('/send-form', upload.fields([
    let { formType, orderId, type, formJSON } = request.body;
 
     const files = request.files;
+    console.log(files);
 
     const getFileName = (name) => {
         return files?.images?.find((item) => {
@@ -228,23 +229,45 @@ router.post('/send-form', upload.fields([
     }
 
     // Map to schema
-    formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
-        return {
-            type: item.type,
-            name: item.name?.replace('-leg0', '')?.replace('-leg1', ''),
-            value: item.type === 'txt' ? item.value : getFileName(item.name)?.filename
-        }
-    }));
+    if(parseInt(formType) === 1) {
+        formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
+            return {
+                type: item.type,
+                name: item.name?.replace('-leg0', '')?.replace('-leg1', ''),
+                value: item.type === 'txt' ? item.value : getFileName(item.name)?.filename
+            }
+        }));
 
-    // Divide form by right and left foot
-    const formJSONParsed = JSON.parse(formJSON);
-    const middleIndex = Math.ceil(formJSONParsed.length / 2);
-    const firstHalf = formJSONParsed.splice(0, middleIndex);
-    const secondHalf = formJSONParsed.splice(-middleIndex);
-    formJSON = {
-        right: firstHalf,
-        left: secondHalf
-    };
+        // Divide form by right and left foot
+        const formJSONParsed = JSON.parse(formJSON);
+        const middleIndex = Math.ceil(formJSONParsed.length / 2);
+        const firstHalf = formJSONParsed.splice(0, middleIndex);
+        const secondHalf = formJSONParsed.splice(-middleIndex);
+        formJSON = {
+            right: firstHalf,
+            left: secondHalf
+        };
+    }
+    else {
+        console.log(formJSON);
+
+        formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
+            return {
+                question: item.question,
+                answer: item.answer?.map((item) => {
+                    if(typeof item === 'object') {
+                        const objKey = Object.entries(item)[0][0];
+                        console.log(objKey);
+                        return getFileName(objKey)?.filename;
+                    }
+                    else {
+                        return item;
+                    }
+                })
+            }
+        }));
+    }
+
     formJSON = JSON.stringify(formJSON);
 
     if(formType && orderId && type && formJSON) {
@@ -279,10 +302,41 @@ router.post('/send-form', upload.fields([
                     const values = [formType, item, formJSON];
 
                     await db.query(query, values, (err, res) => {
-                        console.log(err);
                         if(res) {
                             if(index === array.length - 1) {
-                                response.status(201).end();
+                                // Check if all forms submitted - if yes: change order status
+                                const query = `SELECT s.id FROM orders o
+                                        JOIN sells s ON o.id = s.order
+                                        WHERE o.id = $1 AND s.id NOT IN (
+                                            SELECT sell FROM filled_forms
+                                        )`;
+                                const values = [orderId];
+
+                                db.query(query, values, (err, res) => {
+                                    if(res) {
+                                        const rows = res?.rows;
+
+                                        // sells in order and not in filled_forms == 0: update status
+                                        if(rows?.length === 0) {
+                                            let query;
+
+                                            if(parseInt(formType) === 1) {
+                                                query = 'UPDATE orders SET status = 2 WHERE id = $1';
+                                            }
+                                            else {
+                                                query = 'UPDATE orders SET status = 6 WHERE id = $1';
+                                            }
+
+                                            dbInsertQuery(query, values, response);
+                                        }
+                                        else {
+                                            response.status(201).end();
+                                        }
+                                    }
+                                    else {
+                                        response.status(500).end();
+                                    }
+                                });
                             }
                         }
                         else {
@@ -296,6 +350,42 @@ router.post('/send-form', upload.fields([
                 response.status(500).end();
             }
         });
+    }
+});
+
+router.get('/get-orders-with-empty-first-type-forms', (request, response) => {
+   const user = request.user;
+
+   if(user) {
+       const query = `SELECT o.id as order_id, p.type FROM orders o
+                    JOIN sells s ON o.id = s.order
+                    JOIN products p ON p.id = s.product
+                    LEFT OUTER JOIN filled_forms ff ON ff.sell = s.id 
+                    WHERE o.user = $1 AND ff.form IS NULL`;
+       const values = [user];
+
+       dbSelectQuery(query, values, response);
+   }
+   else {
+       response.status(400).end();
+   }
+});
+
+router.get('/get-orders-with-empty-second-type-forms', (request, response) => {
+    const user = request.user;
+
+    if(user) {
+        const query = `SELECT o.id as order_id, p.id as type FROM orders o
+                        JOIN sells s ON o.id = s.order
+                        JOIN products p ON p.id = s.product
+                        LEFT OUTER JOIN filled_forms ff ON ff.sell = s.id
+                        WHERE o.user = $1 AND (ff.form IS NULL OR ff.form = 1)`;
+        const values = [user];
+
+        dbSelectQuery(query, values, response);
+    }
+    else {
+        response.status(400).end();
     }
 });
 

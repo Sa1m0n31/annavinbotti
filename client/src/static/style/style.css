@@ -2203,3 +2203,65 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     margin: 20px auto;
     max-width: 400px;
 }
+
+.btn--orderList--hidden {
+    opacity: .6;
+}
+
+.formSection:last-of-type {
+    border-bottom: none;
+}
+
+.formSection__checkbox > label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 20px 0;
+    width: 100%;
+    flex-basis: 100%;
+    cursor: pointer;
+}
+
+.formSection__checkbox > label > span {
+    padding-top: 5px;
+}
+
+.formSection__checkbox > label span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.formSection__checkbox > label .form__check {
+    flex-basis: 100%;
+    width: 30px;
+    max-width: 30px;
+    height: 30px;
+}
+
+.formSection__header--formType2 {
+    margin-bottom: 20px;
+}
+
+.formSection--type2 .formSection__content {
+    width: 100%;
+}
+
+.formSection__imagesMultiple {
+    width: 100%;
+    max-width: 400px;
+}
+
+.input--rendered {
+    margin: 0 20px;
+}
+
+.formSection__checkbox > label input {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+textarea {
+    resize: none;
+}

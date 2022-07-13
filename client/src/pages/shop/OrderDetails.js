@@ -2,10 +2,11 @@ import React, {useContext, useEffect, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
 import {getOrderById, getOrderStatuses} from "../../helpers/orders";
-import {logout} from "../../helpers/user";
+import {getOrdersWithEmptyFirstTypeForms, getOrdersWithEmptySecondTypeForms, logout} from "../../helpers/user";
 import {ContentContext} from "../../App";
 import {getDate, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, groupBy} from "../../helpers/others";
 import constans from "../../helpers/constants";
+import {getFormByStatus, isFormFilled} from "../../components/shop/ClientOrders";
 
 const OrderDetails = () => {
     const { language, content } = useContext(ContentContext);
@@ -17,11 +18,27 @@ const OrderDetails = () => {
     const [statuses, setStatuses] = useState([]);
     const [buttons, setButtons] = useState([]);
     const [products, setProducts] = useState([]);
+    const [ordersWithEmptyFirstTypeForms, setOrdersWithEmptyFirstTypeForms] = useState([]);
+    const [ordersWithEmptySecondTypeForms, setOrdersWithEmptySecondTypeForms] = useState([]);
 
     useEffect(() => {
         const id = new URLSearchParams(window.location.search).get('id');
 
         if(id) {
+            getOrdersWithEmptyFirstTypeForms()
+                .then((res) => {
+                    if(res?.status === 200) {
+                        setOrdersWithEmptyFirstTypeForms(res?.data?.result);
+                    }
+                });
+
+            getOrdersWithEmptySecondTypeForms()
+                .then((res) => {
+                    if(res?.status === 200) {
+                        setOrdersWithEmptySecondTypeForms(res?.data?.result);
+                    }
+                });
+
             getOrderStatuses()
                 .then((res) => {
                     const r = res?.data?.result;
@@ -234,8 +251,12 @@ const OrderDetails = () => {
                                 (index === 4 && orderDetails.status === 5)
                                     ? <span className="orderStatus__buttons">
                                     {buttons?.map((item, index) => {
-                                        return <a href={item.link} className="btn btn--orderDetails">
-                                            {language === 'pl' ? item.pl : item.en}
+                                        const formFilled = isFormFilled(getFormByStatus(orderDetails.status), item?.link,
+                                            orderDetails.status === 1 ? ordersWithEmptyFirstTypeForms : ordersWithEmptySecondTypeForms);
+                                        return <a href={item.link}
+                                                  key={index}
+                                                  className={formFilled ? "btn btn--orderDetails btn--orderList--hidden" : "btn btn--orderDetails"}>
+                                            {formFilled ? (language === 'pl' ? "Zobacz formularz" : 'See form') : (language === 'pl' ? item?.pl : item?.en)}
                                         </a>
                                     })}
                                 </span> : ''}
@@ -250,7 +271,6 @@ const OrderDetails = () => {
                     </h3>
 
                     {products?.map((item, index) => {
-                        console.log(item);
                         return <div className="orderDetails__bottom__item flex" key={index}>
                             <figure className="orderDetails__bottom__item__figure">
                                 <img className="img" src={`${constans.IMAGE_URL}/media/products/${item[1][0].img}`} />

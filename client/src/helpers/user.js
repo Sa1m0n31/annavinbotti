@@ -34,17 +34,35 @@ const sendForm = (formData, formType, orderId, type, formJSON) => {
     formData.append('formType', formType);
     formData.append('orderId', orderId);
     formData.append('type', type);
-    formData.append('formJSON', JSON.stringify(formJSON
-        .flat()
-        .map((item) => {
-            return {
-                type: item.type === 1 ? 'txt' : 'img',
-                name: Object.entries(item)[1][0],
-                value: Object.entries(item)[1][1]
-            }
-        })));
+
+    if(formType === 1) {
+        formData.append('formJSON', JSON.stringify(formJSON
+            .flat()
+            .map((item) => {
+                return {
+                    type: item.type === 1 ? 'txt' : 'img',
+                    name: Object.entries(item)[1][0],
+                    value: Object.entries(item)[1][1]
+                }
+            })));
+    }
+    else {
+        formData.append('formJSON', JSON.stringify(formJSON));
+    }
 
     return axios.post('/forms/send-form', formData, config);
+}
+
+const getOrdersWithEmptyFirstTypeForms = () => {
+    return axios.get('/forms/get-orders-with-empty-first-type-forms', {
+        withCredentials: true
+    });
+}
+
+const getOrdersWithEmptySecondTypeForms = () => {
+    return axios.get('/forms/get-orders-with-empty-second-type-forms', {
+        withCredentials: true
+    });
 }
 
 const logout = () => {
@@ -54,4 +72,5 @@ const logout = () => {
         });
 }
 
-export { getUserInfo, getUserOrders, updateUser, logout, getForm, sendForm }
+export { getUserInfo, getUserOrders, updateUser, logout, getForm, sendForm,
+    getOrdersWithEmptyFirstTypeForms, getOrdersWithEmptySecondTypeForms }

@@ -255,9 +255,17 @@ const getProductAddons = (id) => {
     });
 }
 
+const getTypeByProduct = (id) => {
+    return axios.get('/types/get-type-by-product', {
+        params: {
+            id
+        }
+    });
+}
+
 export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById, getAllAddonsAndAddonsOptions,
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct, getShopPage,
     getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
     addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId,
-    getProductBySlug, getProductAddons
+    getProductBySlug, getProductAddons, getTypeByProduct
 }

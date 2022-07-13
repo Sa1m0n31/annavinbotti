@@ -1,5 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {getUserOrders} from "../../helpers/user";
+import {
+    getOrdersWithEmptyFirstTypeForms,
+    getOrdersWithEmptyForms,
+    getOrdersWithEmptySecondTypeForms,
+    getUserOrders
+} from "../../helpers/user";
 import {
     getDate,
     getNumberOfFirstTypeForms,
@@ -11,12 +16,35 @@ import {getOrderStatuses} from "../../helpers/orders";
 import {ContentContext} from "../../App";
 import Loader from "./Loader";
 
+const getFormByStatus = (status) => {
+    if(status === 1) return 1;
+    else if(status === 5) return 2;
+    else return 3;
+}
+
+const isFormFilled = (formType, link, ordersList) => {
+    if(formType > 2) {
+        return false;
+    }
+
+    const params = new URL(`https://annavinbotti.com${link}`);
+    const orderId = params.searchParams.get('zamowienie');
+    const type = parseInt(params.searchParams.get('typ'));
+    const model = parseInt(params.searchParams.get('model'));
+
+    return ordersList?.findIndex((item) => {
+        return item.order_id === orderId && item.type === (formType === 1 ? type : model);
+    }) === -1;
+}
+
 const ClientOrders = () => {
     const { language, content } = useContext(ContentContext);
 
     const [orders, setOrders] = useState([]);
     const [statuses, setStatuses] = useState([]);
     const [buttons, setButtons] = useState([]);
+    const [ordersWithEmptyFirstTypeForms, setOrdersWithEmptyFirstTypeForms] = useState([]);
+    const [ordersWithEmptySecondTypeForms, setOrdersWithEmptySecondTypeForms] = useState([]);
     const [render, setRender] = useState(false);
 
     useEffect(() => {
@@ -24,6 +52,20 @@ const ClientOrders = () => {
             .then((res) => {
                 if(res?.status === 200) {
                     setOrders(Object.entries(groupBy(res?.data?.result, 'id')));
+                }
+            });
+
+        getOrdersWithEmptyFirstTypeForms()
+            .then((res) => {
+                if(res?.status === 200) {
+                    setOrdersWithEmptyFirstTypeForms(res?.data?.result);
+                }
+            });
+
+        getOrdersWithEmptySecondTypeForms()
+            .then((res) => {
+                if(res?.status === 200) {
+                    setOrdersWithEmptySecondTypeForms(res?.data?.result);
                 }
             });
 
@@ -45,6 +87,7 @@ const ClientOrders = () => {
     }, [orders, statuses]);
 
     const setButtonParams = (orderId, status, cart) => {
+        console.log(cart);
         if(status === 1) {
             return getNumberOfFirstTypeForms(cart).map((item) => {
                 return {
@@ -54,7 +97,7 @@ const ClientOrders = () => {
                 }
             })
         }
-        else if(status === 2) {
+        else if(status === 3) {
             return [
                 {
                     pl: 'Opłać zamówienie',
@@ -63,7 +106,7 @@ const ClientOrders = () => {
                 }
             ]
         }
-        else if(status === 4) {
+        else if(status === 5) {
             return getNumberOfSecondTypeForms(cart).map((item) => {
                 return {
                     pl: 'Zweryfikuj but na miarę',
@@ -100,22 +143,26 @@ const ClientOrders = () => {
                 </span>
             </div>
             {orders?.map((item, index) => {
+                const orderId = item[0];
+                const parentItem = item;
                 return <div className="ordersTable__row flex" key={index}>
-                    <a href={`/informacje-o-zamowieniu?id=${item[0]}`} className="ordersTable__row__cell">
-                        #{item[0]}
+                    <a href={`/informacje-o-zamowieniu?id=${orderId}`} className="ordersTable__row__cell">
+                        #{orderId}
                     </a>
                     <span className="ordersTable__row__cell">
                         {getDate(item[1][0].date)}
                     </span>
                     <span className="ordersTable__row__cell">
-                        {language === 'pl' ? statuses[item[1][0]?.status]?.name_pl : statuses[item[1][0]?.status]?.name_en}
+                        {language === 'pl' ? statuses[item[1][0]?.status-1]?.name_pl : statuses[item[1][0]?.status-1]?.name_en}
                     </span>
                     <span className="ordersTable__row__cell ordersTable__row__cell--buttonsWrapper">
                         {buttons[index]?.map((item, index) => {
+                            const formFilled = isFormFilled(getFormByStatus(parentItem[1][0]?.status), item?.link,
+                                parentItem[1][0]?.status === 1 ? ordersWithEmptyFirstTypeForms : ordersWithEmptySecondTypeForms);
                             return <a href={item?.link}
                                       key={index}
-                                      className="btn btn--orderList">
-                                {language === 'pl' ? item?.pl : item?.en}
+                                      className={formFilled ? "btn btn--orderList btn--orderList--hidden" : "btn btn--orderList"}>
+                                {formFilled ? (language === 'pl' ? "Zobacz formularz" : 'See form') : (language === 'pl' ? item?.pl : item?.en)}
                             </a>
                         })}
                     </span>
@@ -128,3 +175,4 @@ const ClientOrders = () => {
 };
 
 export default ClientOrders;
+export { getFormByStatus, isFormFilled }
