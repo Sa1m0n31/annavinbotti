@@ -16,6 +16,19 @@
         height: 40px;
     }
 
+    .post {
+        max-width: 90vw;
+    }
+
+    .blog__content__item__header {
+        font-size: 21px;
+    }
+
+    .blog__content__item__btn,
+    .blog__content__item__excerpt {
+        font-size: 14px;
+    }
+
     .panel__header,
     .orderDetails__header {
         font-size: 26px;
@@ -113,6 +126,16 @@
         max-width: 90vw;
     }
 
+    .blog__header,
+    .contact__top__section__header {
+        font-size: 21px;
+    }
+
+    .contact__bottom label {
+        margin: 30px auto;
+    }
+
+    .contact__bottom__header,
     .formPage .pageHeader {
         font-size: 24px;
     }
@@ -132,6 +155,23 @@
         max-width: 90vw;
     }
 
+    .post__article {
+        margin-bottom: 50px;
+    }
+
+    .post__bottom {
+        margin-top: 0;
+    }
+
+    .post__bottom__btn > span:first-of-type {
+        font-size: 16px;
+    }
+
+    .post__bottom__btn > span:last-of-type {
+        font-size: 13px;
+    }
+
+    .blog__meta *,
     .formPage__label,
     .formSection__img figcaption,
     .formSection__subheader {
@@ -216,6 +256,10 @@
 @media(max-width: 996px) {
     .order__main {
         flex-direction: column;
+    }
+
+    .blog__content__item__header {
+        font-size: 17px;
     }
 
     .btn--editData {
@@ -371,6 +415,99 @@
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .blog__content {
+        grid-template-columns: 1fr;
+        grid-column-gap: 0;
+        grid-row-gap: 60px;
+    }
+
+    .blog__pagination {
+        max-width: 75vw;
+    }
+
+    .blog__pagination__pages__btn {
+        margin: 0 10px;
+        font-size: 15px;
+    }
+
+    .blog__content__item__imgWrapper {
+        border-radius: 15px;
+    }
+
+    .post .blog__header {
+        font-size: 18px;
+    }
+
+    .blog__header {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .contact__top {
+        flex-direction: column;
+        margin: 20px auto;
+    }
+
+    .contact__top__section__header {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .contact {
+        margin-top: 20px;
+    }
+
+    .contact__bottom {
+        margin: 20px auto;
+    }
+
+    .contact__bottom__header {
+        font-size: 21px;
+    }
+
+    .blog__meta {
+        justify-content: center;
+    }
+
+    .blog__meta p {
+        margin: 0 15px;
+    }
+
+    .post__bottom__btn {
+        max-width: 45%;
+    }
+
+    .post__bottom__btn > span:first-of-type {
+        font-size: 15px;
+    }
+
+    .post__bottom__btn > span:last-of-type {
+        font-size: 12px;
+    }
+
+    .post__mainImg,
+    .post__article img {
+        border-radius: 15px;
+    }
+
+    .contact__bottom .input--textarea {
+        height: 150px !important;
+    }
+
+    .post__article *,
+    .contact__bottom label,
+    .contact__top__section__data {
+        font-size: 14px;
+    }
+
+    .contact__bottom .input {
+        height: 45px;
+    }
+
+    .contact__top__section {
+        margin-bottom: 40px;
     }
 
     .input--rendered {

@@ -7,7 +7,7 @@ const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 
 router.get('/all', (request, response) => {
-    const query = `SELECT a.id, a.title_pl, a.title_en, a.excerpt_pl, a.excerpt_en, i.path as image, a.publication_date 
+    const query = `SELECT a.id, a.title_pl, a.title_en, a.excerpt_pl, a.excerpt_en, i.path as image, a.slug, a.publication_date 
                     FROM articles a 
                     JOIN images i ON a.main_image = i.id
                     WHERE a.hidden = FALSE`;
@@ -32,12 +32,56 @@ router.get('/', (request, response) => {
     }
 });
 
+router.get('/get-prev-and-next-post', (request, response) => {
+   const id = request.query.id;
+
+   if(id) {
+
+   }
+   else {
+       response.status(400).end();
+   }
+});
+
+router.get('/get-post-by-slug', (request, response) => {
+    const id = request.query.slug;
+
+    if(id) {
+        const query = `SELECT a.id, a.title_pl, a.title_en, a.excerpt_pl, a.excerpt_en, a.content_pl, a.content_en, i.path as image, a.publication_date 
+                    FROM articles a 
+                    JOIN images i ON a.main_image = i.id
+                    WHERE a.slug = $1 AND a.hidden = FALSE`;
+        const values = [id];
+
+        dbSelectQuery(query, values, response);
+    }
+    else {
+        response.status(400).end();
+    }
+});
+
+const createSlug = (name) => {
+    if(name) return name.toLowerCase()
+        .replace(/ /g, "-")
+        .replace(/ą/g, "a")
+        .replace(/ć/g, "c")
+        .replace(/ę/g, "e")
+        .replace(/ł/g, "l")
+        .replace(/ń/g, "n")
+        .replace(/ó/g, "o")
+        .replace(/ś/g, "s")
+        .replace(/ź/g, "z")
+        .replace(/ż/g, "z")
+    else return "";
+}
+
 router.post('/add', upload.single('image'), (request, response) => {
     const { titlePl, titleEn, contentPl, contentEn, excerptPl, excerptEn } = request.body;
 
     let filename;
     if(request.file) {
         filename = request.file.filename;
+        const slug = createSlug(titlePl);
         const query = `INSERT INTO images VALUES (nextval('image_seq'), $1) RETURNING id`;
         const values = [filename];
 
@@ -45,8 +89,8 @@ router.post('/add', upload.single('image'), (request, response) => {
             if(res) {
                 if(res.rows) {
                     const imageId = res.rows[0].id;
-                    const query = `INSERT INTO articles VALUES (nextval('articles_seq'), $1, $2, $3, $4, $5, $6, $7, NOW(), FALSE)`;
-                    const values = [titlePl, titleEn, contentPl, contentEn, imageId, excerptPl, excerptEn];
+                    const query = `INSERT INTO articles VALUES (nextval('articles_seq'), $1, $2, $3, $4, $5, $6, $7, NOW(), FALSE, $8)`;
+                    const values = [titlePl, titleEn, contentPl, contentEn, imageId, excerptPl, excerptEn, slug];
 
                     dbInsertQuery(query, values, response);
                 }

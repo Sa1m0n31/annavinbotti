@@ -22,6 +22,9 @@ import OrderDetails from "./pages/shop/OrderDetails";
 import FormType1 from "./pages/shop/FormType1";
 import FormType2 from "./pages/shop/FormType2";
 import PaymentPage from "./pages/shop/PaymentPage";
+import ContactPage from "./pages/shop/ContactPage";
+import BlogPage from "./pages/shop/BlogPage";
+import BlogPost from "./pages/shop/BlogPost";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -138,6 +141,20 @@ function App() {
       <Route path="/produkt/*">
         <ProductPage />
       </Route>
+      <Route path="/kontakt">
+        <ContactPage />
+      </Route>
+      <Route exact path="/blog">
+        <BlogPage />
+      </Route>
+      <Route path="/post/*">
+        <BlogPost />
+      </Route>
+
+      {/* USER */}
+      <Route path="/panel-klienta">
+        <ClientPanel />
+      </Route>
       <Route path="/zamowienie">
         <ShippingFormPage />
       </Route>
@@ -152,11 +169,6 @@ function App() {
       </Route>
       <Route path="/oplac-zamowienie">
         <PaymentPage />
-      </Route>
-
-      {/* USER */}
-      <Route path="/panel-klienta">
-        <ClientPanel />
       </Route>
 
       {/* ADMIN */}

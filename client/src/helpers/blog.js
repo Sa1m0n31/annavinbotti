@@ -59,4 +59,12 @@ const deleteBlogPost = (id) => {
     });
 }
 
-export { getAllBlogPosts, getBlogPost, addBlogPost, updateBlogPost, deleteBlogPost, generateImageLink }
+const getPostBySlug = (slug) => {
+    return axios.get('/blog/get-post-by-slug', {
+        params: {
+            slug
+        }
+    });
+}
+
+export { getAllBlogPosts, getBlogPost, addBlogPost, updateBlogPost, deleteBlogPost, generateImageLink, getPostBySlug }

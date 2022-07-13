@@ -5,21 +5,21 @@ const db =  require('../database/db');
 const nodemailer = require("nodemailer");
 const smtpTransport = require('nodemailer-smtp-transport');
 
+let transporter = nodemailer.createTransport(smtpTransport ({
+    auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
+    },
+    host: process.env.EMAIL_HOST,
+    secureConnection: true,
+    port: 465,
+    tls: {
+        rejectUnauthorized: false
+    },
+}));
+
 router.post('/send-message-to-support', (request, response) => {
     const { content } = request.body;
-
-    let transporter = nodemailer.createTransport(smtpTransport ({
-        auth: {
-            user: process.env.EMAIL_ADDRESS,
-            pass: process.env.EMAIL_PASSWORD
-        },
-        host: process.env.EMAIL_HOST,
-        secureConnection: true,
-        port: 465,
-        tls: {
-            rejectUnauthorized: false
-        },
-    }));
 
     let mailOptions = {
         from: process.env.EMAIL_ADDRESS,
@@ -31,8 +31,6 @@ router.post('/send-message-to-support', (request, response) => {
     }
 
     transporter.sendMail(mailOptions, function(error, info) {
-        console.log('send...');
-        console.log(error);
         if(error) {
             response.status(500).end();
         }
@@ -64,6 +62,28 @@ router.post('/change-admin-password', (request, response) => {
         else {
             console.log(err);
             response.status(500).end();
+        }
+    });
+});
+
+router.post('/send-contact-form', (request, response) => {
+   const { name, email, message } = request.body;
+
+    let mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: process.env.CONTACT_FORM_ADDRESS,
+        subject: 'Nowa wiadomość w formularzu kontaktowym',
+        html: `<p style="color: #000;">Imię: ${name}</p>
+            <p style="color: #000;">Email: ${email}</p>
+            <p style="color: #000;">Wiadomość: ${message}</p>`
+    }
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if(error) {
+            response.status(500).end();
+        }
+        else {
+            response.status(201).end();
         }
     });
 });

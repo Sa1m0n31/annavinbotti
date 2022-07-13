@@ -29,7 +29,13 @@ const isEmail = (email) => {
         .match(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
-};
+}
+
+const sendContactForm = (name, email, message) => {
+    return axios.post('/others/send-contact-form', {
+        name, email, message
+    });
+}
 
 const statusButtons = [
     {
@@ -99,4 +105,5 @@ const getNumberOfSecondTypeForms = (cart) => {
     });
 }
 
-export { scrollToTop, sendMessageToSupport, isEmail, getDate, statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms }
+export { scrollToTop, sendMessageToSupport, isEmail, getDate, sendContactForm,
+    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms }
