@@ -113,6 +113,31 @@
         max-width: 90vw;
     }
 
+    .formPage .pageHeader {
+        font-size: 24px;
+    }
+
+    .formSection__header,
+    .formPage__info * {
+        font-size: 17px;
+    }
+
+    .formEnd,
+    .formPage .btn--submit {
+        font-size: 15px;
+        max-width: 300px;
+    }
+
+    .formEnd {
+        max-width: 90vw;
+    }
+
+    .formPage__label,
+    .formSection__img figcaption,
+    .formSection__subheader {
+        font-size: 14px;
+    }
+
     .ordersTable * {
         font-size: 13px !important;
     }
@@ -346,6 +371,93 @@
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .input--rendered {
+        max-width: 50%;
+        max-height: 100px;
+        margin: 0 4px;
+    }
+
+    .formSubmitted__header {
+        font-size: 18px;
+    }
+
+    textarea.input--rendered {
+        margin: 0 0 0 20px;
+    }
+
+    .formSection__checkbox {
+        overflow-x: hidden;
+    }
+
+    .formSection__checkbox > label span {
+        font-size: 14px;
+    }
+
+    .formSection__checkbox > label > span {
+        max-width: calc(100% - 40px);
+    }
+
+    .formPage .pageHeader {
+        font-size: 18px;
+    }
+
+    .formSection__header--formType2 {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    .formSection__checkbox,
+    .formSection__checkbox > label {
+        max-width: 100%;
+    }
+
+    .formPage__info * {
+        font-size: 14px;
+    }
+
+    .formSection {
+        flex-direction: column;
+        padding: 20px 0;
+    }
+
+    .btn--sendForm {
+        font-size: 15px;
+        max-width: 80vw;
+    }
+
+    .formEnd {
+        margin-top: -20px;
+    }
+
+    .formSection > * {
+        width: 100%;
+    }
+
+    .formSection__header {
+        order: 1;
+    }
+
+    .formSection__subheader {
+        order: 2;
+    }
+
+    .formSection__img {
+        order: 3;
+        position: relative;
+        top: unset;
+    }
+
+    .formSection__content {
+        order: 4;
+    }
+
+    .panel__main--start__header,
+    .panel__main--start__text {
+        font-size: 14px;
+        text-align: center;
     }
 
     .ordersTable__row {

@@ -11,7 +11,7 @@ import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import {decrementStockByAddon, decrementStockByProduct} from "../../helpers/stocks";
 
-const OrderForm = ({backToCart, nextStep, setOrderId}) => {
+const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
     const { cartContent } = useContext(CartContext);
     const { language } = useContext(ContentContext);
 
@@ -195,7 +195,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId}) => {
                         postal_code: formFields.deliveryPostalCode
                     },
                     formFields.companyName ? formFields.companyName : null, formFields.nip ? formFields.nip : null,
-                    sells, addons
+                    sells, addons, shipping?.pl
                     )
                     .then((res) => {
                         if(res?.status === 201) {
@@ -215,7 +215,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId}) => {
                 addOrder(formFields,
                     user.address, user.address,
                     null, null,
-                    sells, addons)
+                    sells, addons, shipping?.pl)
                     .then((res) => {
                         if(res?.status === 201) {
                             setOrderId(res?.data?.id);

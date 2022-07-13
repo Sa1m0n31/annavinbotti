@@ -2265,3 +2265,96 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 textarea {
     resize: none;
 }
+
+.formSubmitted__header {
+    text-align: center;
+    font-size: 24px;
+    margin: 60px auto 30px;
+}
+
+.formPage--oldForm .formSection__header {
+    margin: 40px 0 20px;
+    padding: 15px 0;
+}
+
+.formSection--confirm__answer {
+    padding-left: 20px;
+    position: relative;
+    margin: 10px 0;
+}
+
+.formSection--confirm__answer::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--secondary);
+}
+
+.formSection--confirm__answer--img {
+    max-width: 400px;
+    margin-bottom: 25px;
+}
+
+.formSection--confirm__answer--img figcaption {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.payment .payment__text,
+.payment .pageHeader {
+    color: var(--secondary);
+    text-align: center;
+}
+
+.payment .pageHeader {
+    text-transform: uppercase;
+    margin-top: 50px;
+}
+
+.payment .payment__text span {
+    color: var(--secondary);
+    padding-right: 10px;
+    font-weight: 700;
+}
+
+.payment .payment__text {
+    font-size: 17px;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.payment .shipping {
+    max-width: 1000px;
+    margin: 60px auto;
+}
+
+.payment .shipping__method {
+    padding-left: 0;
+}
+
+.transferData,
+.payment .shipping__method * {
+    color: var(--secondary);
+}
+
+.payment .shipping__method__circle {
+    margin-right: 20px;
+}
+
+.payment {
+    margin-bottom: 100px;
+}
+
+.payment .btn {
+    margin-top: 60px;
+}
+
+.transferData {
+    margin-bottom: 20px;
+}

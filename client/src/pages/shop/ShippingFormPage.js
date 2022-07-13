@@ -5,6 +5,7 @@ import {CartContext, ContentContext} from "../../App";
 import CartContent from "../../components/shop/CartContent";
 import OrderForm from "../../components/shop/OrderForm";
 import OrderReceived from "../../components/shop/OrderReceived";
+import shippingIcon1 from "../../static/img/delivery-1.png";
 
 const stepHeaders = [
     {
@@ -21,6 +22,18 @@ const stepHeaders = [
     }
 ];
 
+const shippingMethods = [
+    {
+        pl: 'Kurier DHL',
+        en: 'DHL',
+        icon: shippingIcon1
+    },{
+        pl: 'Kurier InPost',
+        en: 'InPost',
+        icon: shippingIcon1
+    }
+];
+
 const ShippingFormPage = () => {
     const { content, language } = useContext(ContentContext);
     const { cartContent } = useContext(CartContext);
@@ -28,6 +41,7 @@ const ShippingFormPage = () => {
     const [orderStep, setOrderStep] = useState(localStorage.getItem('orderStep') ? parseInt(localStorage.getItem('orderStep')) : 0);
     const [orderStepDisplay, setOrderStepDisplay] = useState(0);
     const [orderId, setOrderId] = useState(null);
+    const [shipping, setShipping] = useState(0);
 
     const orderProgress = useRef(null);
     const orderContent = useRef(null);
@@ -119,9 +133,14 @@ const ShippingFormPage = () => {
                 </header>
 
                 <div className="orderContent" ref={orderContent}>
-                    {orderStepDisplay === 0 ? <CartContent nextStep={() => { setOrderStep(1); }} /> :
+                    {orderStepDisplay === 0 ? <CartContent nextStep={() => { setOrderStep(1); }}
+                                                            shippingMethods={shippingMethods}
+                                                            shipping={shipping}
+                                                            setShipping={setShipping}
+                        /> :
                         (orderStepDisplay === 1 ? <OrderForm backToCart={() => { setOrderStep(0); }}
                                                              nextStep={() => { setOrderStep(2); }}
+                                                             shipping={shippingMethods[shipping]}
                                                              setOrderId={setOrderId}
                         /> : <OrderReceived orderId={orderId} />)}
                 </div>

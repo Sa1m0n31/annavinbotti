@@ -3,6 +3,7 @@ import {sendForm} from "../../helpers/user";
 import Loader from "./Loader";
 import constans from "../../helpers/constants";
 import {ContentContext} from "../../App";
+import FormSubmitted from "./FormSubmitted";
 
 const ConfirmForm = ({data, formType, type, orderId}) => {
     const { language } = useContext(ContentContext);
@@ -28,6 +29,10 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
 
     useEffect(() => {
         if(error || success) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
             setLoading(false);
         }
     }, [error, success]);
@@ -80,7 +85,10 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
     }
 
     return <div className="confirmForm">
-        {data?.map((item, index) => {
+
+        {success ? <FormSubmitted header={language === 'pl' ? 'Formularz został wysłany' : 'Form has been submitted'} /> : ''}
+
+        {!success ? data?.map((item, index) => {
             return <div className="formSection formSection--confirm" key={index}>
                 {index === 0 || index === data?.length / 2 ? <h2 className="formSection__header">
                     {index === 0 ? 'Stopa prawa' : 'Stopa lewa'}
@@ -107,25 +115,23 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
                     }
                 })}
             </div>
-        })}
+        }) : ''}
 
-        <p className="confirmForm__info">
-            Upewnij się, że przesłane dane są poprawne. Po przesłaniu wymiarów nie ma możliwości ich zmiany.
-        </p>
+        {!success ? <>
+            <p className="confirmForm__info">
+                Upewnij się, że przesłane dane są poprawne. Po przesłaniu wymiarów nie ma możliwości ich zmiany.
+            </p>
 
-        {error ? <span className="info info--error">
+            {error ? <span className="info info--error">
             {language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN}
         </span> : ''}
 
-        {success ? <span className="info">
-            {language === 'pl' ? 'Formularz został wysłany' : 'Form has been submitted'}
-        </span> : ''}
-
-        {!loading ? <button className="btn btn--sendForm" onClick={() => { prepareForm(); }}>
-            Prześlij wymiary
-        </button> : <div className="center marginTop">
-            <Loader />
-        </div>}
+            {!loading ? <button className="btn btn--sendForm" onClick={() => { prepareForm(); }}>
+                Prześlij wymiary
+            </button> : <div className="center marginTop">
+                <Loader />
+            </div>}
+        </> : ''}
     </div>
 };
 

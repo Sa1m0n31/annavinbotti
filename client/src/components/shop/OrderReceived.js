@@ -1,19 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import SideCart from "./SideCart";
-import {getNumberOfFirstTypeFormsByOrder} from "../../helpers/orders";
+import {getNumberOfFirstTypeFormsByOrder, getOrderById} from "../../helpers/orders";
+import {groupBy} from "../../helpers/others";
 
 const OrderReceived = ({orderId}) => {
-    const [buttons, setButtons] = useState([1]);
+    const [cart, setCart] = useState([]);
 
     useEffect(() => {
         if(orderId) {
-            getNumberOfFirstTypeFormsByOrder(orderId)
+            getOrderById(orderId)
                 .then((res) => {
-                    if(res?.status === 200) {
-                        console.log(res.data);
-                        setButtons([1, 2])
-                    }
-                });
+                    setCart(Object.entries(groupBy(res?.data?.result, 'type_id')));
+                })
         }
     }, [orderId]);
 
@@ -33,10 +31,11 @@ const OrderReceived = ({orderId}) => {
                 do panelu klienta lub kliknij przycisk poniżej.
             </p>
 
-            {buttons?.map((item, index) => {
-                return <button key={index} className="btn btn--orderReceived">
+            {cart?.map((item, index) => {
+                return <a key={index} className="btn btn--orderReceived"
+                          href={`/formularz-mierzenia-stopy?zamowienie=${item[1][0].id}&typ=${item[0]}`}>
                     Podaj wymiary stopy
-                </button>
+                </a>
             })}
 
 

@@ -21,6 +21,7 @@ import {getProductStock} from "./helpers/stocks";
 import OrderDetails from "./pages/shop/OrderDetails";
 import FormType1 from "./pages/shop/FormType1";
 import FormType2 from "./pages/shop/FormType2";
+import PaymentPage from "./pages/shop/PaymentPage";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -148,6 +149,9 @@ function App() {
       </Route>
       <Route path="/formularz-weryfikacji-buta">
         <FormType2 />
+      </Route>
+      <Route path="/oplac-zamowienie">
+        <PaymentPage />
       </Route>
 
       {/* USER */}

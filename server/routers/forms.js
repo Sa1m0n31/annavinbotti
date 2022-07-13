@@ -257,13 +257,15 @@ router.post('/send-form', upload.fields([
                 answer: item.answer?.map((item) => {
                     if(typeof item === 'object') {
                         const objKey = Object.entries(item)[0][0];
-                        console.log(objKey);
-                        return getFileName(objKey)?.filename;
+                        return {
+                            [objKey]: getFileName(objKey)?.filename
+                        }
                     }
                     else {
                         return item;
                     }
-                })
+                }),
+                type: typeof item.answer[0] === 'object' ? 'img' : 'txt'
             }
         }));
     }
@@ -387,6 +389,32 @@ router.get('/get-orders-with-empty-second-type-forms', (request, response) => {
     else {
         response.status(400).end();
     }
+});
+
+router.get('/get-first-type-filled-form', (request, response) => {
+    const { order, type } = request.query;
+
+    const query = `SELECT ff.form_data FROM filled_forms ff
+                JOIN sells s ON ff.sell = s.id
+                JOIN orders o ON o.id = s.order
+                JOIN products p ON s.product = p.id
+                WHERE o.id = $1 AND ff.form = 1 AND p.type = $2`;
+    const values = [order, type];
+
+    dbSelectQuery(query, values, response);
+});
+
+router.get('/get-second-type-filled-form', (request, response) => {
+    const { order, type } = request.query;
+
+    const query = `SELECT ff.form_data FROM filled_forms ff
+                JOIN sells s ON ff.sell = s.id
+                JOIN orders o ON o.id = s.order
+                JOIN products p ON s.product = p.id
+                WHERE o.id = $1 AND ff.form = 2 AND p.id = $2`;
+    const values = [order, type];
+
+    dbSelectQuery(query, values, response);
 });
 
 module.exports = router;

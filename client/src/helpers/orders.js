@@ -46,9 +46,9 @@ const getFormDetails = (form, sell) => {
     });
 }
 
-const addOrder = (user, userAddress, deliveryAddress, nip, companyName, sells, addons) => {
+const addOrder = (user, userAddress, deliveryAddress, nip, companyName, sells, addons, shipping) => {
     return axios.post('/orders/add', {
-        user, userAddress, deliveryAddress, nip, companyName, sells, addons
+        user, userAddress, deliveryAddress, nip, companyName, sells, addons, shipping
     });
 }
 
@@ -68,5 +68,11 @@ const getNumberOfSecondTypeFormsByOrder = (id) => {
     });
 }
 
-export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder,
+const payOrder = (orderId, paymentMethod, firstName, lastName, email) => {
+    return axios.post('/orders/pay', {
+        orderId, paymentMethod, firstName, lastName, email
+    });
+}
+
+export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, payOrder,
     getOrderStatuses, getFormDetails, addOrder, getNumberOfFirstTypeFormsByOrder, getNumberOfSecondTypeFormsByOrder }

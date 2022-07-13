@@ -65,6 +65,22 @@ const getOrdersWithEmptySecondTypeForms = () => {
     });
 }
 
+const getFirstTypeFilledForm = (order, type) => {
+    return axios.get('/forms/get-first-type-filled-form', {
+        params: {
+            order, type
+        }
+    });
+}
+
+const getSecondTypeFilledForm = (order, type) => {
+    return axios.get('/forms/get-second-type-filled-form', {
+        params: {
+            order, type
+        }
+    });
+}
+
 const logout = () => {
     logoutUser()
         .then((res) => {
@@ -73,4 +89,5 @@ const logout = () => {
 }
 
 export { getUserInfo, getUserOrders, updateUser, logout, getForm, sendForm,
+    getFirstTypeFilledForm, getSecondTypeFilledForm,
     getOrdersWithEmptyFirstTypeForms, getOrdersWithEmptySecondTypeForms }

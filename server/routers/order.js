@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const smtpTransport = require('nodemailer-smtp-transport');
 const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
+const got = require('got');
 
 router.get('/all', (request, response) => {
    const query = `SELECT o.id, u.first_name, u.last_name, o.date FROM orders o JOIN users u ON o.user = u.id WHERE hidden = FALSE`;
@@ -44,11 +45,11 @@ router.get('/', (request, response) => {
    }
 });
 
-const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sells, addons, response) => {
+const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response) => {
     const id = uuidv4().substring(0, 6);
     let sellsIds = [];
-    const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW())';
-    const values = [id, user.id, userAddress, deliveryAddress, nip, companyName];
+    const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW(), $7, NULL, NULL)';
+    const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
 
     // ADD ORDER
     await db.query(query, values, (err, res) => {
@@ -125,7 +126,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, se
 }
 
 router.post('/add', (request, response) => {
-    let { user, userAddress, deliveryAddress, nip, companyName, sells, addons } = request.body;
+    let { user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons } = request.body;
 
     // userAddress, deliveryAddress: { street, building, flat, postal_code, city } or integer if already exists
     // sells: { product, price }
@@ -150,7 +151,7 @@ router.post('/add', (request, response) => {
                             db.query(query, values, (err, res) => {
                                 if(res?.rows) {
                                     deliveryAddress = res.rows[0].id;
-                                    addOrder(user, userAddress, deliveryAddress, nip, companyName, sells, addons, response);
+                                    addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response);
                                 }
                                 else {
                                     console.log(err);
@@ -159,7 +160,7 @@ router.post('/add', (request, response) => {
                             });
                         }
                         else {
-                            addOrder(user, userAddress, deliveryAddress, nip, companyName, sells, addons, response);
+                            addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response);
                         }
                     }
                     else {
@@ -177,7 +178,7 @@ router.post('/add', (request, response) => {
                     db.query(query, values, (err, res) => {
                         if(res?.rows) {
                             deliveryAddress = res.rows[0].id;
-                            addOrder(user, userAddress, deliveryAddress, nip, companyName, sells, addons, response);
+                            addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response);
                         }
                         else {
                             console.log(err);
@@ -187,7 +188,7 @@ router.post('/add', (request, response) => {
                 }
                 else {
                     console.log('YES');
-                    addOrder(user, userAddress, deliveryAddress, nip, companyName, sells, addons, response);
+                    addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response);
                 }
             }
         }
@@ -303,7 +304,7 @@ router.get('/get-number-of-first-type-forms-by-order', (request, response) => {
            else {
                response.status(500).end();
            }
-       })
+       });
    }
    else {
        response.status(400).end();
@@ -333,6 +334,125 @@ router.get('/get-number-of-second-type-forms-by-order', (request, response) => {
                 response.status(500).end();
             }
         })
+    }
+    else {
+        response.status(400).end();
+    }
+});
+
+router.post('/pay', (request, response) => {
+    const { paymentMethod, orderId, firstName, lastName, email } = request.body;
+
+    const query = `UPDATE orders SET payment = $1 WHERE id = $2 `;
+    const values = [paymentMethod, orderId];
+
+    db.query(query, values, (err, res) => {
+        if(res) {
+            const query = `SELECT SUM(s.price) as price FROM orders o
+                        JOIN sells s ON o.id = s.order
+                        WHERE o.id = $1`;
+            const values = [orderId];
+
+            db.query(query, values, (err, res) => {
+                if(res) {
+                    const orderPrice = res?.rows[0]?.price;
+                    if(orderPrice) {
+                        if(parseInt(paymentMethod) === 0) {
+                            // imoje
+                            got.post(`${process.env.IMOJE_API}merchant/${process.env.IMOJE_CLIENT_ID}/payment`, {
+                                json: {
+                                    serviceId: process.env.IMOJE_SHOP_ID,
+                                    amount: parseFloat(orderPrice) * 100,
+                                    currency: 'PLN',
+                                    orderId: orderId,
+                                    title: `Płatność za zakupy w sklepie AnnaVinbotti`,
+                                    successReturnUrl: process.env.IMOJE_RETURN_URL,
+                                    customer: {
+                                        firstName: firstName,
+                                        lastName: lastName,
+                                        email: email
+                                    }
+                                },
+                                headers: {
+                                    'Authorization': `Bearer ${process.env.IMOJE_AUTH_TOKEN}`,
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                    'Cache-Control': 'no-cache'
+                                }
+                            })
+                                .then((res) => {
+                                    const paymentId = JSON.parse(res?.body)?.payment?.id;
+                                    if(paymentId) {
+                                        response.send({
+                                            id: paymentId
+                                        });
+                                    }
+                                    else {
+                                        response.status(500).end();
+                                    }
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                })
+                        }
+                        else {
+                            // traditional transfer
+                            response.status(201).end();
+                        }
+                    }
+                    else {
+                        console.log(err);
+                        response.status(500).end();
+                    }
+                }
+                else {
+                    console.log(err);
+                    response.status(500).end();
+                }
+            });
+        }
+        else {
+            console.log(err);
+            response.status(500).end();
+        }
+    })
+});
+
+router.post('/payment-notification', (request, response) => {
+    const signatureHeader = request.header('X-IMoje-Signature');
+    const body = request.body;
+
+    /*
+    merchantid=9mkvs1m0a7szxlxpxkvr;serviceid=8010f629-dcc7-4391-82ab-10e6a9ddeff9;signature=6ddfd93c7d0693ddfabe9ce2bb9d171f6fc98d1af63e356cedd7b9a6e45e3b77;alg=sha256
+     */
+
+    if(signatureHeader) {
+        try {
+            const signature = signatureHeader.split(';')[2].split('=')[1];
+            const alg = signatureHeader.split(';')[3].split('=')[1];
+            const privateKey = '25d19e0b0b4ec0ba989c94ddabc161d468d6ae1f05f0c7d4cf38a915bd68326d';
+
+            const ownSignature = crypto.createHash(alg).update(JSON.stringify(body) + process.env.IMOJE_SHOP_KEY).digest('hex');
+
+            // db.query(`INSERT INTO images VALUES (501, $1, 29)`, [`${ownSignature} and ${signature}`]);
+
+            // TODO: add verification
+            // if(ownSignature === signature) {
+                const query = `UPDATE orders SET status = 4 WHERE id = $1`;
+                const values = [body.transaction.orderId];
+
+                db.query(query, values, (err, res) => {
+                   if(res) {
+                       response.status(200).send({
+                           status: 'ok'
+                       });
+                   }
+                });
+            // }
+        }
+        catch(err) {
+            response.status(500).end();
+        }
     }
     else {
         response.status(400).end();

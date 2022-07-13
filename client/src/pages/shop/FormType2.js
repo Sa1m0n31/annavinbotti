@@ -1,12 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
-import {getForm, logout, sendForm} from "../../helpers/user";
+import {getForm, getSecondTypeFilledForm, logout, sendForm} from "../../helpers/user";
 import {ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import imageIcon from "../../static/img/image-gallery.svg";
 import {getProductDetails, getTypeById, getTypeByProduct} from "../../helpers/products";
 import ConfirmForm from "../../components/shop/ConfirmForm";
+import FormSubmitted from "../../components/shop/FormSubmitted";
+import Loader from "../../components/shop/Loader";
+import OldFormDataType2 from "../../components/shop/OldFormDataType2";
 
 const FormType2 = () => {
     const { language } = useContext(ContentContext);
@@ -22,9 +25,12 @@ const FormType2 = () => {
     const [requiredImages, setRequiredImages] = useState(null);
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [validationError, setValidationError] = useState(false);
     const [validationSucceed, setValidationSucceed] = useState(false);
     const [formData, setFormData] = useState([]);
     const [selectedButtons, setSelectedButtons] = useState([]);
+    const [oldForm, setOldForm] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -56,15 +62,35 @@ const FormType2 = () => {
     }, [language]);
 
     useEffect(() => {
-        if(typeId) {
-            getForm(typeId, 2)
-                .then((res) => {
-                    if(res?.status === 200) {
-                        setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
-                    }
+        if(error || success || validationError) {
+            setLoading(false);
+            if(success) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
+            }
         }
-    }, [typeId]);
+    }, [error, success, validationError]);
+
+    useEffect(() => {
+        if(typeId && orderId && modelId) {
+            getSecondTypeFilledForm(orderId, modelId)
+                .then((res) => {
+                    if(res?.data?.result?.length) {
+                        setOldForm(JSON.parse(res?.data?.result[0]?.form_data));
+                    }
+                    else {
+                        getForm(typeId, 2)
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
+                                }
+                            });
+                    }
+                })
+        }
+    }, [typeId, orderId, modelId]);
 
     useEffect(() => {
         if(form) {
@@ -121,15 +147,12 @@ const FormType2 = () => {
         }
         else {
             return entries.findIndex((item) => {
-                console.log(item);
                 return !item[1];
             }) === -1;
         }
     }
 
     const handleFormSubmit = (formData, formJSON) => {
-        console.log('submit');
-        console.log(formJSON);
         sendForm(formData, 2, orderId, modelId, formJSON)
             .then((res) => {
                 if(res?.status === 201) {
@@ -150,8 +173,6 @@ const FormType2 = () => {
                 [item[0]]: item[1]?.fileUrl
             }
         });
-
-        console.log(gallery);
 
         let formData = new FormData();
         for(let i=0; i<gallery.length; i++) {
@@ -188,6 +209,7 @@ const FormType2 = () => {
 
     const validateForm = () => {
         if(requiredImages !== null && requiredInputs !== null) {
+            setLoading(true);
             const formJSON = selectedButtons?.map((item, index) => {
                 const formSection = form[index];
                 const parentItem = item;
@@ -216,6 +238,9 @@ const FormType2 = () => {
             if(validateFields(images, requiredImages) && validateButtons(formJSON)) {
                 prepareForm(formJSON);
             }
+            else {
+                setValidationError(true);
+            }
         }
     }
 
@@ -239,7 +264,9 @@ const FormType2 = () => {
             const inputHeight = parseInt(inputParams[2]);
 
             return <span>
-                {input.split(regex)[0]}
+                <span>
+                    {input.split(regex)[0]}
+                </span>
                 {inputHeight > 80 ? <textarea className="input input--rendered"
                                               onChange={(e) => {
                                                   handleButtonUpdate(question, index, 'input', e.target.value);
@@ -258,7 +285,9 @@ const FormType2 = () => {
                            }}
                            type={inputType === 'input-number' ? 'number' : 'text'} />
                 }
-                {input.split(regex)[1]}
+                <span>
+                    {input.split(regex)[1]}
+                </span>
             </span>
         }
         else {
@@ -337,9 +366,9 @@ const FormType2 = () => {
                 </div>
             </div>
 
-            <main className="formPage">
+            {!oldForm ? <main className="formPage">
                 <h1 className="pageHeader">
-                    {!validationSucceed ? 'Formularz weryfikacji buta' : 'Potwierdź Twoje odpowiedzi'}
+                    Formularz weryfikacji buta
                 </h1>
                 <div className="formPage__info">
                     <p className="formPage__info__p">
@@ -360,7 +389,9 @@ const FormType2 = () => {
                     </p>
                 </div>
 
-                {!validationSucceed ? <>
+                {success ? <FormSubmitted header="Formularz został wysłany" /> : ''}
+
+                {!success ? <>
                     {form?.map((item, sectionIndex) => {
                         let questionType = item.type;
                         return <section key={sectionIndex}
@@ -425,19 +456,17 @@ const FormType2 = () => {
                         </section>
                     })}
 
-                    {error ? <span className="info info--error">
-                        {language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN}
+                    {validationError ? <span className="info info--error">
+                        {language === 'pl' ? 'Odpowiedz na wszystkie pytania' : 'Answer all questions'}
                     </span> : ''}
 
-                    {success ? <span className="info">
-                        {language === 'pl' ? 'Formularz został wysłany' : 'Form has been submitted'}
-                    </span> : ''}
-
-                    <button className="btn btn--submit" onClick={() => { validateForm(); }}>
+                    {!loading ? <button className="btn btn--submit" onClick={() => { validateForm(); }}>
                         Wyślij formularz
-                    </button>
+                    </button> : <div className="center marginTop">
+                        <Loader />
+                    </div>}
                 </> : ''}
-            </main>
+            </main> : <OldFormDataType2 data={oldForm} orderId={orderId} model={model} />}
 
         </main>
 

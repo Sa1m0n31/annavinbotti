@@ -3,11 +3,10 @@ import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import shippingIcon1 from '../../static/img/delivery-1.png'
 
-const CartContent = ({nextStep}) => {
+const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
     const { cartContent, addToCart, removeFromCart } = useContext(CartContext);
     const { language, content } = useContext(ContentContext);
 
-    const [shipping, setShipping] = useState(0);
     const [cartSum, setCartSum] = useState(0);
 
     useEffect(() => {
@@ -17,18 +16,6 @@ const CartContent = ({nextStep}) => {
             }, 0));
         }
     }, [cartContent]);
-
-    const shippingMethods = [
-        {
-            pl: 'Kurier DHL',
-            en: 'DHL',
-            icon: shippingIcon1
-        },{
-            pl: 'Kurier InPost',
-            en: 'InPost',
-            icon: shippingIcon1
-        }
-    ]
 
     const decrementAmount = (product, addons, amount) => {
         if(amount === -1) {
