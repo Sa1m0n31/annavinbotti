@@ -9,6 +9,15 @@ router.get('/all', (request, response) => {
    dbSelectQuery(query, [], response);
 });
 
+router.get('/get-types-with-products', (request, response) => {
+    const query = `SELECT DISTINCT t.id, t.name_pl, t.name_en
+FROM types t
+JOIN products p ON p.type = t.id
+WHERE p.hidden = FALSE`;
+
+    dbSelectQuery(query, [], response);
+});
+
 router.get('/get', (request, response) => {
     const id = request.query.id;
 

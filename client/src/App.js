@@ -25,6 +25,10 @@ import PaymentPage from "./pages/shop/PaymentPage";
 import ContactPage from "./pages/shop/ContactPage";
 import BlogPage from "./pages/shop/BlogPage";
 import BlogPost from "./pages/shop/BlogPost";
+import RemindPassword from "./pages/shop/RemindPassword";
+import AccountVerification from "./pages/shop/AccountVerification";
+import AfterRegister from "./pages/shop/AfterRegister";
+import NewPasswordForm from "./pages/shop/NewPasswordForm";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -150,6 +154,15 @@ function App() {
       <Route path="/post/*">
         <BlogPost />
       </Route>
+      <Route path="/przypomnij-haslo">
+        <RemindPassword />
+      </Route>
+      <Route path="/po-rejestracji">
+        <AfterRegister />
+      </Route>
+      <Route path="/odzyskiwanie-hasla">
+        <NewPasswordForm />
+      </Route>
 
       {/* USER */}
       <Route path="/panel-klienta">
@@ -169,6 +182,9 @@ function App() {
       </Route>
       <Route path="/oplac-zamowienie">
         <PaymentPage />
+      </Route>
+      <Route path="/weryfikacja">
+        <AccountVerification />
       </Route>
 
       {/* ADMIN */}

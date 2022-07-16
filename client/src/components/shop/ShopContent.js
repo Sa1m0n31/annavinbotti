@@ -1,21 +1,35 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import filterIcon from '../../static/img/filter.svg'
-import {getAllProducts, getShopPage} from "../../helpers/products";
+import {getShopPage, getTypesWithProducts} from "../../helpers/products";
 import constans from "../../helpers/constants";
 import {ContentContext} from "../../App";
+import {isElementInArray} from "../../helpers/others";
 
 const ShopContent = () => {
     const { language, content } = useContext(ContentContext);
 
+    const [currentFilter, setCurrentFilter] = useState([]);
+    const [types, setTypes] = useState([]);
     const [products, setProducts] = useState([]);
+    const [productsVisible, setProductsVisible] = useState([]);
     const [filterVisible, setFilterVisible] = useState(false);
 
     const filterSection = useRef(null);
+    const productsWrapper = useRef(null);
 
     useEffect(() => {
         getShopPage()
             .then((res) => {
                 setProducts(res?.data?.result);
+                setProductsVisible(res?.data?.result);
+            });
+
+        getTypesWithProducts()
+            .then((res) => {
+                if(res?.status === 200) {
+                    setTypes(res?.data?.result);
+                    setCurrentFilter(res?.data?.result?.map((item) => (item.id)));
+                }
             });
     }, []);
 
@@ -24,8 +38,23 @@ const ShopContent = () => {
     }
 
     const filterByCategory = (id) => {
-
+        if(isElementInArray(id, currentFilter)) {
+            setCurrentFilter(currentFilter.filter((item) => (item !== id)));
+        }
+        else {
+            setCurrentFilter([...currentFilter, id]);
+        }
     }
+
+    useEffect(() => {
+        productsWrapper.current.style.opacity = '0';
+        setProductsVisible(products?.filter((item) => {
+            return isElementInArray(item.type_id, currentFilter);
+        }));
+        setTimeout(() => {
+            productsWrapper.current.style.opacity = '1';
+        }, 400);
+    }, [currentFilter]);
 
     useEffect(() => {
         if(filterVisible) {
@@ -58,16 +87,17 @@ const ShopContent = () => {
             </button>
         </header>
         <div className="filterSection w" ref={filterSection}>
-            <button className="filterSection__btn" onClick={() => { filterByCategory(1); }}>
-                Czółenka
-            </button>
-            <button className="filterSection__btn" onClick={() => { filterByCategory(2); }}>
-                Oficerki
-            </button>
+            {types?.map((item, index) => {
+                return <button className={isElementInArray(item.id, currentFilter) ? "filterSection__btn filterSection__btn--selected" : "filterSection__btn"}
+                               key={index}
+                               onClick={() => { filterByCategory(item.id); }}>
+                    {language === 'pl' ? item.name_pl : item.name_en}
+                </button>
+            })}
         </div>
 
-        <div className="shop__products w flex">
-            {products?.map((item, index) => {
+        <div className="shop__products w flex" ref={productsWrapper}>
+            {productsVisible?.map((item, index) => {
                 const productNotAvailable = parseInt(item.addons_not_available) !== 0 || item.counter <= 0;
 
                 return <div className="shop__products__item"

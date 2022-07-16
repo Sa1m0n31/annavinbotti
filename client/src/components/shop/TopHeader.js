@@ -136,7 +136,7 @@ const TopHeader = () => {
 
     return <header className="topHeader">
         <div className="topHeader__firstRow w center">
-            <a href="." className="topHeader__firstRow__link">
+            <a href="/" className="topHeader__firstRow__link">
                 <img className="img" src={logo} alt="anna-vinbotti" />
             </a>
 

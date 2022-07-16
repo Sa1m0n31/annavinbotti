@@ -459,4 +459,32 @@ router.post('/payment-notification', (request, response) => {
     }
 });
 
+router.post('/add-to-waitlist', (request, response) => {
+   const { email, product } = request.body;
+
+   if(email && product) {
+       const query = `INSERT INTO waitlist VALUES ($1, LOWER($2), NOW())`;
+       const values = [product, email];
+
+       db.query(query, values, (err, res) => {
+           if(res) {
+               response.status(201).end();
+           }
+           else {
+               if(err.code === '23505') {
+                   response.send({
+                       result: -1
+                   });
+               }
+               else {
+                   response.status(500).end();
+               }
+           }
+       });
+   }
+   else {
+       response.status(400).end();
+   }
+});
+
 module.exports = router;

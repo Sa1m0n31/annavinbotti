@@ -417,6 +417,50 @@
         display: none !important;
     }
 
+    .emptyOrderList .shipping__header {
+        text-align: center;
+    }
+
+    .verificationPage {
+        min-height: 1px;
+    }
+
+    .verificationPage .btn--verification {
+        margin-bottom: 40px;
+    }
+
+    .remindPassword {
+        margin: 10px auto 40px;
+    }
+
+    .remindPassword label,
+    .remindPassword .input {
+        max-width: 90vw;
+    }
+
+    .remindPassword .input {
+        height: 45px;
+    }
+
+    .remindPassword__text,
+    .remindPassword label {
+        font-size: 14px;
+    }
+
+    .btn--remindPassword {
+        font-size: 15px;
+    }
+
+    .btn--remindPassword,
+    .waitlistLabel .input,
+    .waitlistLabel {
+        max-width: 90vw;
+    }
+
+    .waitlistLabel .input {
+        height: 45px;
+    }
+
     .blog__content {
         grid-template-columns: 1fr;
         grid-column-gap: 0;

@@ -9,6 +9,10 @@ const getShopPage = () => {
     return axios.get('/products/get-shop-page');
 }
 
+const getTypesWithProducts = () => {
+    return axios.get('/types/get-types-with-products');
+}
+
 const getProductDetails = (id) => {
     return axios.get('/products/get', {
         params: {
@@ -267,5 +271,5 @@ export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct, getShopPage,
     getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
     addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId,
-    getProductBySlug, getProductAddons, getTypeByProduct
+    getProductBySlug, getProductAddons, getTypeByProduct, getTypesWithProducts
 }

@@ -105,5 +105,15 @@ const getNumberOfSecondTypeForms = (cart) => {
     });
 }
 
-export { scrollToTop, sendMessageToSupport, isEmail, getDate, sendContactForm,
+const isElementInArray = (el, arr) => {
+    return arr.findIndex((item) => {
+        return item === el;
+    }) !== -1;
+}
+
+const isPasswordStrong = (pass) => {
+    return pass?.length >= 8;
+}
+
+export { scrollToTop, isPasswordStrong, sendMessageToSupport, isEmail, getDate, sendContactForm, isElementInArray,
     statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms }

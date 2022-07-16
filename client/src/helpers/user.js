@@ -81,6 +81,30 @@ const getSecondTypeFilledForm = (order, type) => {
     });
 }
 
+const remindPassword = (email) => {
+    return axios.post('/user/remind-password', {
+        email
+    });
+}
+
+const verifyAccount = (token) => {
+    return axios.post('/user/verify-account', {
+        token
+    });
+}
+
+const verifyPasswordToken = (token) => {
+    return axios.post('/user/verify-password-token', {
+        token
+    });
+}
+
+const changePassword = (email, password) => {
+    return axios.put('/user/change-password', {
+        email, password
+    });
+}
+
 const logout = () => {
     logoutUser()
         .then((res) => {
@@ -88,6 +112,6 @@ const logout = () => {
         });
 }
 
-export { getUserInfo, getUserOrders, updateUser, logout, getForm, sendForm,
-    getFirstTypeFilledForm, getSecondTypeFilledForm,
+export { changePassword, getUserInfo, getUserOrders, updateUser, logout, getForm, sendForm, verifyPasswordToken,
+    getFirstTypeFilledForm, getSecondTypeFilledForm, remindPassword, verifyAccount,
     getOrdersWithEmptyFirstTypeForms, getOrdersWithEmptySecondTypeForms }

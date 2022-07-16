@@ -74,5 +74,11 @@ const payOrder = (orderId, paymentMethod, firstName, lastName, email) => {
     });
 }
 
-export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, payOrder,
+const addToWaitlist = (product, email) => {
+    return axios.post('/orders/add-to-waitlist', {
+        product, email
+    });
+}
+
+export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, payOrder, addToWaitlist,
     getOrderStatuses, getFormDetails, addOrder, getNumberOfFirstTypeFormsByOrder, getNumberOfSecondTypeFormsByOrder }

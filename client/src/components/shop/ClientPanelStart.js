@@ -4,20 +4,22 @@ import Loader from "./Loader";
 
 const ClientPanelStart = () => {
     const [name, setName] = useState("");
+    const [render, setRender] = useState(false);
 
     useEffect(() => {
         getUserInfo()
             .then((res) => {
                 if(res?.status === 200) {
                     setName(res?.data?.result[0]?.first_name);
+                    setRender(true);
                 }
             });
     }, []);
 
     return <div className="panel__main panel__main--start">
-        {name ? <>
+        {render ? <>
             <h2 className="panel__main--start__header">
-                Cześć, <span className="bold">{name}</span>!
+                Cześć{name ? <span className="bold"> {name}</span> : ''}!
             </h2>
             <p className="panel__main--start__text">
                 Witaj na Twoim koncie, możesz tutaj. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

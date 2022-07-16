@@ -9,31 +9,32 @@ const smtpTransport = require('nodemailer-smtp-transport');
 const passport = require('passport');
 const crypto = require('crypto');
 const got = require('got');
+const emailTemplate = require("./others");
 require('../passport')(passport);
 
-const sendVerificationEmail = (email, token, response) => {
-    let transporter = nodemailer.createTransport(smtpTransport ({
-        auth: {
-            user: process.env.EMAIL_ADDRESS,
-            pass: process.env.EMAIL_PASSWORD
-        },
-        host: process.env.EMAIL_HOST,
-        secureConnection: true,
-        port: 465,
-        tls: {
-            rejectUnauthorized: false
-        },
-    }));
+let transporter = nodemailer.createTransport(smtpTransport ({
+    auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
+    },
+    host: process.env.EMAIL_HOST,
+    secureConnection: true,
+    port: 465,
+    tls: {
+        rejectUnauthorized: false
+    },
+}));
 
+const sendVerificationEmail = (email, token, response) => {
     let mailOptions = {
         from: process.env.EMAIL_ADDRESS,
         to: email,
-        subject: 'Zweryfikuj swoje konto w naszym sklepie',
-        html: '<h2>Cieszymy się, że jesteś z nami!</h2> ' +
-            '<p>W celu weryfikacji Twojego konta, kliknij w poniższy link: </p> ' +
-            `<a href="` + process.env.API_URL + `/weryfikacja?token=${token}">` + process.env.API_URL + `/weryfikacja?token=${token}</a>` +
-            `<p>Pozdrawiamy</p>` +
-            `<p>Zespół AnnaVinbotti</p>`
+        subject: 'Cieszymy się, że jesteś z nami!',
+        html: emailTemplate('Odzyskaj swoje hasło',
+            'W celu weryfikacji Twojego konta, kliknij w poniższy link:',
+            `${process.env.API_URL}:3000/weryfikacja?token=${token}`,
+            'Aktywuj konto'
+        )
     }
 
     transporter.sendMail(mailOptions, function(error, info) {
@@ -42,6 +43,27 @@ const sendVerificationEmail = (email, token, response) => {
         });
     });
 }
+
+router.post('/verify-account', (request, response) => {
+   const { token } = request.body;
+
+   const query = `SELECT * FROM account_verification WHERE token = $1`;
+   const values = [token];
+
+   db.query(query, values, (err, res) => {
+      if(res?.rows?.length) {
+          const email = res.rows[0].email;
+
+          const query = 'UPDATE users SET active = TRUE WHERE email = $1';
+          const values = [email];
+
+          dbInsertQuery(query, values, response);
+      }
+      else {
+          response.status(400).end();
+      }
+   });
+});
 
 router.post("/register", (request, response) => {
     const { login, email, password, newsletter } = request.body;
@@ -106,6 +128,16 @@ router.post("/register", (request, response) => {
     });
 });
 
+router.put('/change-password', (request, response) => {
+   const { password, email } = request.body;
+
+   const hash = crypto.createHash('sha256').update(password).digest('hex');
+   const query = `UPDATE users SET password = $1 WHERE email = $2`;
+   const values = [hash, email];
+
+   dbInsertQuery(query, values, response);
+});
+
 router.put('/update-user-data', (request, response) => {
     const { id, address, firstName, lastName, email, phoneNumber, street, building, flat, postalCode, city } = request.body;
 
@@ -154,7 +186,7 @@ router.get('/get-user-info', (request, response) => {
    else {
        const query = `SELECT u.id, u.first_name, u.last_name, u.email, u.login, u.phone_number, u.address, a.city, a.street, a.postal_code, a.building, a.flat 
                     FROM users u
-                    JOIN addresses a ON u.address = a.id
+                    LEFT OUTER JOIN addresses a ON u.address = a.id
                     WHERE u.id = $1`;
        const values = [id];
 
@@ -195,6 +227,83 @@ router.get("/auth", (request, response) => {
     else {
         response.status(401).end();
     }
+});
+
+router.post('/remind-password', (request, response) => {
+   const { email } = request.body;
+
+   const query = `SELECT * FROM users WHERE email = $1`;
+   const values = [email];
+
+   db.query(query, values, (err, res) => {
+      if(res) {
+          if(res.rows.length) {
+              const token = uuidv4();
+
+              const query = `INSERT INTO password_verification VALUES ($1, $2, NOW() + INTERVAL '1 DAY')`;
+              const values = [email, token];
+
+              db.query(query, values, (err, res) => {
+                  if(res) {
+                      let mailOptions = {
+                          from: process.env.EMAIL_ADDRESS,
+                          to: email,
+                          subject: 'Odzyskaj swoje hasło',
+                          html: emailTemplate('Odzyskaj swoje hasło',
+                                'Kliknij w poniższy link, aby ustawić nowe hasło do swojego konta',
+                              `${process.env.API_URL}:3000/odzyskiwanie-hasla?token=${token}`,
+                              'Odzyskaj hasło'
+                              )
+                      }
+
+                      transporter.sendMail(mailOptions, function(error, info) {
+                          if(error) {
+                              response.status(500).end();
+                          }
+                          else {
+                              response.status(201).end();
+                          }
+                      });
+                  }
+                  else {
+                      response.status(500).end();
+                  }
+              })
+          }
+          else {
+              response.send({
+                  result: 0
+              });
+          }
+      }
+      else {
+          response.status(500).end();
+      }
+   });
+});
+
+router.post('/verify-password-token', (request, response) => {
+   const { token } = request.body;
+
+    const query = `SELECT * FROM password_verification WHERE token = $1 AND expire >= NOW()`;
+    const values = [token];
+
+    db.query(query, values, (err, res) => {
+        if(res?.rows?.length) {
+            const email = res.rows[0].email;
+
+            const query = 'DELETE FROM password_verification WHERE token = $1';
+
+            db.query(query, values, (err, res) => {
+                response.status(200).send({
+                    email: email
+                });
+            });
+        }
+        else {
+            response.status(400).end();
+        }
+    });
 });
 
 module.exports = router;

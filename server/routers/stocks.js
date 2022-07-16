@@ -3,6 +3,72 @@ const router = express.Router();
 const db = require("../database/db");
 const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
+const nodemailer = require("nodemailer");
+const smtpTransport = require('nodemailer-smtp-transport');
+const emailTemplate = require("./others");
+
+let transporter = nodemailer.createTransport(smtpTransport ({
+    auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
+    },
+    host: process.env.EMAIL_HOST,
+    secureConnection: true,
+    port: 465,
+    tls: {
+        rejectUnauthorized: false
+    },
+}));
+
+const checkWaitlists = (response) => {
+    const query = `SELECT p.id, s.counter, w.email, (SELECT COUNT(*)
+                    FROM addons_for_products afp
+                    LEFT OUTER JOIN addons_options ao ON afp.addon = ao.addon
+                    LEFT OUTER JOIN addons_stocks ad_stocks ON ad_stocks.addon_option = ao.id
+                    LEFT OUTER JOIN stocks s ON s.id = ad_stocks.stock
+                    WHERE afp.product = p.id AND ao.hidden = FALSE AND s.counter <= 0) as addons_not_available
+                    FROM products p 
+                    JOIN products_stocks ps ON ps.product = p.id
+                    JOIN stocks s ON s.id = ps.stock 
+                    JOIN waitlist w ON w.product = p.id
+                    WHERE p.hidden = FALSE AND s.counter > 0`;
+
+    console.log('checking waitlists');
+
+    db.query(query, [], async (err, res) => {
+        if(res) {
+            let emails = res.rows;
+            if(emails) {
+                emails = await emails.filter((item) => {
+                    return parseInt(item.addons_not_available) === 0;
+                }).map((item) => {
+                    return item.email;
+                });
+
+                let mailOptions = {
+                    from: process.env.EMAIL_ADDRESS,
+                    to: [],
+                    bcc: emails,
+                    subject: 'Twój produkt jest już dostępny!',
+                    html: emailTemplate('Dobra wiadomość!',
+                        'Twój produkt jest już dostępny w naszym sklepie. Wejdź w poniższy link i zarezerwuj:',
+                        `${process.env.API_URL}:3000/sklep`,
+                        'Przejdź do sklepu'
+                        )
+                }
+
+                await transporter.sendMail(mailOptions, function(error, info) {
+                    if(error) {
+                        response.status(500).end();
+                    }
+                    else {
+                        response.status(201).end();
+                    }
+                });
+            }
+        }
+    });
+}
 
 router.get('/get-all-stocks', (request, response) => {
     const query = `SELECT * FROM stocks`;
@@ -25,11 +91,10 @@ router.get('/get-all-addons-stocks', (request, response) => {
 router.get('/get-product-stock-details', (request, response) => {
    const id = request.query.id;
 
-
-   const query = `SELECT s.id, p.id as product_id, s.name, s.counter, p.name_pl as product_name 
-                    FROM stocks s 
-                    JOIN products_stocks ps ON s.id = ps.stock 
-                    JOIN products p ON ps.product = p.id  
+   const query = `SELECT s.id, p.id as product_id, s.name, s.counter, p.name_pl as product_name
+                    FROM stocks s
+                    JOIN products_stocks ps ON s.id = ps.stock
+                    JOIN products p ON ps.product = p.id
                     WHERE s.id = $1`;
    const values = [parseInt(id)];
 
@@ -39,11 +104,11 @@ router.get('/get-product-stock-details', (request, response) => {
 router.get('/get-addon-stock-details', (request, response) => {
     const id = request.query.id;
 
-    const query = `SELECT s.id, s.name, s.counter, ao.name_pl as addon_option_name, a.name_pl as addon_name, ao.id as product_id   
-                    FROM stocks s 
-                    JOIN addons_stocks ast ON s.id = ast.stock 
-                    JOIN addons_options ao ON ast.addon_option = ao.id 
-                    JOIN addons a ON ao.addon = a.id  
+    const query = `SELECT s.id, s.name, s.counter, ao.name_pl as addon_option_name, a.name_pl as addon_name, ao.id as product_id
+                    FROM stocks s
+                    JOIN addons_stocks ast ON s.id = ast.stock
+                    JOIN addons_options ao ON ast.addon_option = ao.id
+                    JOIN addons a ON ao.addon = a.id
                     WHERE s.id = $1`;
     const values = [id];
 
@@ -125,8 +190,6 @@ router.get('/check-addons-stocks', (request, response) => {
 router.post('/add-product-stock', (request, response) => {
    const { stockName, counter, products } = request.body;
 
-   console.log(products);
-
    if(products) {
        const productsArray = products.split(';');
 
@@ -147,7 +210,7 @@ router.post('/add-product-stock', (request, response) => {
                        if(index === array.length-1) {
                            db.query(query, values, (err, res) => {
                               if(res) {
-                                  response.status(201).end();
+                                  checkWaitlists(response);
                               }
                               else {
                                   if(parseInt(err?.code) === 23505) {
@@ -212,7 +275,7 @@ router.post('/add-addons-stock', (request, response) => {
                         if(index === array.length-1) {
                             db.query(query, values, (err, res) => {
                                 if(res) {
-                                    response.status(201).end();
+                                    checkWaitlists(response);
                                 }
                                 else {
                                     if(parseInt(err?.code) === 23505) {
@@ -265,7 +328,7 @@ router.delete('/delete-product-stock', (request, response) => {
 
            db.query(query, values, (err, res) => {
                 if(res) {
-                    response.status(201).end();
+                    checkWaitlists(response);
                 }
                 else {
                     response.status(500).end();
@@ -290,7 +353,7 @@ router.delete('/delete-addon-stock', (request, response) => {
 
             db.query(query, values, (err, res) => {
                 if(res) {
-                    response.status(201).end();
+                    checkWaitlists(response);
                 }
                 else {
                     response.status(500).end();
@@ -311,7 +374,7 @@ router.put('/update-stock-counter', (request, response) => {
 
     db.query(query, values, (err, res) => {
         if(res) {
-            response.status(201).end();
+            checkWaitlists(response);
         }
         else {
             response.status(500).end();
@@ -349,23 +412,23 @@ router.put('/decrement-stock-by-product', (request, response) => {
     let query, values;
 
     if(decrement) {
-        query = `UPDATE stocks s 
-                SET counter = counter - $1 
-                FROM products_stocks ps  
+        query = `UPDATE stocks s
+                SET counter = counter - $1
+                FROM products_stocks ps
                 WHERE s.id = ps.stock AND ps.product = $2`;
         values = [decrement, product];
     }
     else {
-        query = `UPDATE stocks s 
-                SET counter = counter - 1 
-                FROM products_stocks ps  
+        query = `UPDATE stocks s
+                SET counter = counter - 1
+                FROM products_stocks ps
                 WHERE s.id = ps.stock AND ps.product = $1`;
         values = [product];
     }
 
     db.query(query, values, (err, res) => {
         if(res) {
-            response.status(201).end();
+            checkWaitlists(response);
         }
         else {
             response.status(500).end();
@@ -379,23 +442,23 @@ router.put('/decrement-stock-by-addon', (request, response) => {
     let query, values;
 
     if(decrement) {
-        query = `UPDATE stocks s 
-                SET counter = counter - $1 
-                FROM addons_stocks ast  
+        query = `UPDATE stocks s
+                SET counter = counter - $1
+                FROM addons_stocks ast
                 WHERE s.id = ast.stock AND ast.addon_option = $2`;
         values = [decrement, addonOption];
     }
     else {
-        query = `UPDATE stocks s 
-                SET counter = counter - 1 
-                FROM addons_stocks ast  
+        query = `UPDATE stocks s
+                SET counter = counter - 1
+                FROM addons_stocks ast
                 WHERE s.id = ast.stock AND ast.addon_option = $1`;
         values = [addonOption];
     }
 
     db.query(query, values, (err, res) => {
         if(res) {
-            response.status(201).end();
+            checkWaitlists(response);
         }
         else {
             response.status(500).end();
@@ -406,8 +469,8 @@ router.put('/decrement-stock-by-addon', (request, response) => {
 router.get('/get-product-stock', (request, response) => {
     const id = request.query.id;
 
-    const query = `SELECT counter FROM stocks s 
-                JOIN products_stocks ps ON s.id = ps.stock 
+    const query = `SELECT counter FROM stocks s
+                JOIN products_stocks ps ON s.id = ps.stock
                 WHERE ps.product = $1`;
     const values = [id];
 

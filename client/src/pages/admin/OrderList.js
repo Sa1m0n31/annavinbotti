@@ -17,6 +17,7 @@ const OrderList = () => {
         getAllOrders()
             .then((res) => {
                 const result = res?.data?.result;
+                console.log(result);
                 if(result) {
                     setOrders(result);
                 }

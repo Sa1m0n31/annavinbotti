@@ -11,6 +11,8 @@ import {CartContext, ContentContext} from "../../App";
 import { convertFromRaw } from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import arrowDownGoldIcon from '../../static/img/arrow-down-gold.svg'
+import {addToWaitlist} from "../../helpers/orders";
+import {isEmail} from "../../helpers/others";
 
 const ProductPage = () => {
     const { content, language } = useContext(ContentContext);
@@ -23,7 +25,11 @@ const ProductPage = () => {
     const [galleryIndex, setGalleryIndex] = useState(0);
     const [selectedAddons, setSelectedAddons] = useState({});
     const [requiredAddons, setRequiredAddons] = useState([]);
+    const [email, setEmail] = useState("");
+    const [waitlistInputVisible, setWaitlistInputVisible] = useState(false);
     const [addonsError, setAddonsError] = useState(false);
+    const [emailError, setEmailError] = useState("");
+    const [waitlistSuccess, setWaitlistSuccess] = useState(false);
 
     useEffect(() => {
         const urlArray = window.location.href.split('/');
@@ -45,6 +51,10 @@ const ProductPage = () => {
     useEffect(() => {
         const id = product?.id;
         if(id) {
+            if(product?.addons_not_available !== '0' || parseInt(product?.counter) <= 0) {
+                setWaitlistInputVisible(true);
+            }
+
             getProductGallery(id)
                 .then((res) => {
                    setLoading(false);
@@ -172,6 +182,35 @@ const ProductPage = () => {
         }
     }
 
+    const waitlist = () => {
+        if(isEmail(email)) {
+            addToWaitlist(product.id, email)
+                .then((res) => {
+                    if(res?.status === 201) {
+                        setWaitlistSuccess(true);
+                    }
+                    else {
+                        if(res?.data?.result === -1) {
+                            setEmailError(language === 'pl' ? 'Podany adres e-mail jest już zapisany na tę listę kolejkową' : 'That email is already on waitlist');
+                        }
+                        else {
+                            setEmailError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN)
+                        }
+                    }
+                })
+                .catch(() => {
+                    setEmailError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
+                })
+        }
+        else {
+            setEmailError('Wpisz poprawny adres e-mail');
+        }
+    }
+
+    useEffect(() => {
+        console.log(product);
+    }, [product]);
+
     useEffect(() => {
         console.log(requiredAddons);
     }, [requiredAddons]);
@@ -259,17 +298,35 @@ const ProductPage = () => {
                     }
                 })}
 
-                <p className="productContent__info">
-                    Rezerwacja produktu oznacza, że masz 7 dni kalendarzowych na podanie wymiarów stopy. Po ich podaniu oraz naszej weryfikacji otrzymasz link do płatności. Zamówienie jest przyjęte do realizacji po zaksięgowaniu płatności.
-                </p>
+                {waitlistInputVisible ? (waitlistSuccess ? <span className="info info--waitlist">
+                    Dziękujemy za zapisanie się na listę kolejkową! Poinformujemy Cię model, gdy produkt będzie dostępny!
+                </span> : <>
+                    <label className="waitlistLabel">
+                        Wpisz swój adres e-mail, a my powiadomimy Cię, gdy produkt będzie dostępny
+                        <input className="input"
+                               placeholder="Adres e-mail"
+                               value={email}
+                               onChange={(e) => { setEmail(e.target.value); }} />
+                    </label>
+                    {emailError ? <span className="info info--error info--error--waitlist">
+                        {emailError}
+                    </span> : ''}
+                    <button className="btn btn--productContent btn--waitlist" onClick={() => { waitlist(); }}>
+                        Zapisz się na waitlistę
+                    </button>
+                </>) : <>
+                    <p className="productContent__info">
+                        Rezerwacja produktu oznacza, że masz 7 dni kalendarzowych na podanie wymiarów stopy. Po ich podaniu oraz naszej weryfikacji otrzymasz link do płatności. Zamówienie jest przyjęte do realizacji po zaksięgowaniu płatności.
+                    </p>
 
-                {addonsError ? <p className="info info--error">
-                    Wybierz wszystkie dodatki
-                </p> : ''}
+                    {addonsError ? <p className="info info--error">
+                        Wybierz wszystkie dodatki
+                    </p> : ''}
 
-                <button className="btn btn--productContent" onClick={() => { buy(); }}>
-                    Rezerwuję
-                </button>
+                    <button className="btn btn--productContent" onClick={() => { buy(); }}>
+                        Rezerwuję
+                    </button>
+                </>}
 
                 <button className="product__productDetailsBtn d-from-900" onClick={() => { goToDetails(); }}>
                     <span className="product__productDetailsBtn__text">

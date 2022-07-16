@@ -46,6 +46,7 @@ const ClientOrders = () => {
     const [ordersWithEmptyFirstTypeForms, setOrdersWithEmptyFirstTypeForms] = useState([]);
     const [ordersWithEmptySecondTypeForms, setOrdersWithEmptySecondTypeForms] = useState([]);
     const [render, setRender] = useState(false);
+    const [emptyOrderList, setEmptyOrderList] = useState(false);
 
     useEffect(() => {
         getUserOrders()
@@ -82,8 +83,11 @@ const ClientOrders = () => {
             setButtons(orders.map((item) => {
                 return setButtonParams(item[0], item[1][0].status, item[1]);
             }));
-            setRender(true);
         }
+        else {
+            setEmptyOrderList(true);
+        }
+        setRender(true);
     }, [orders, statuses]);
 
     const setButtonParams = (orderId, status, cart) => {
@@ -127,7 +131,11 @@ const ClientOrders = () => {
     }
 
     return <div className="panel__main panel__main--start">
-        {render ? <div className="ordersTable">
+        {render ? (emptyOrderList ? <div className="emptyOrderList">
+            <h2 className="shipping__header">
+                Nie masz jeszcze żadnych zamówień...
+            </h2>
+        </div> : <div className="ordersTable">
             <div className="ordersTable__header flex d-desktop">
                 <span className="ordersTable__cell">
                     Numer
@@ -168,7 +176,7 @@ const ClientOrders = () => {
                     </span>
                 </div>
             })}
-        </div> : <div className="center marginTop">
+        </div>) : <div className="center marginTop">
             <Loader />
         </div>}
     </div>
