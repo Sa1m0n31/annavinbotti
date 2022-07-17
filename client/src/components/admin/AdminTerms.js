@@ -9,6 +9,16 @@ import {scrollToTop} from "../../helpers/others";
 const AdminTerms = ({lang}) => {
     const [terms, setTerms] = useState('');
     const [policy, setPolicy] = useState('');
+    const [page1, setPage1] = useState("");
+    const [page2, setPage2] = useState("");
+    const [page3, setPage3] = useState("");
+    const [page4, setPage4] = useState("");
+    const [page5, setPage5] = useState("");
+    const [page6, setPage6] = useState("");
+    const [page7, setPage7] = useState("");
+    const [page8, setPage8] = useState("");
+    const [page9, setPage9] = useState("");
+    const [page10, setPage10] = useState("");
     const [status, setStatus] = useState(0);
 
     useEffect(() => {
@@ -17,7 +27,8 @@ const AdminTerms = ({lang}) => {
         func()
             .then((res) => {
                 const result = res?.data?.result;
-                let termsLocal, policyLocal;
+                let termsLocal, policyLocal, page1Local, page2Local, page3Local, page4Local, page5Local,
+                    page6Local, page7Local, page8Local, page9Local, page10Local;
 
                 if(lang === 'pl') {
                     termsLocal = result?.find((item) => {
@@ -25,6 +36,36 @@ const AdminTerms = ({lang}) => {
                     })?.value_pl;
                     policyLocal = result?.find((item) => {
                         return item.field === 'privacy_policy';
+                    })?.value_pl;
+                    page1Local = result?.find((item) => {
+                        return item.field === 'page_1';
+                    })?.value_pl;
+                    page2Local = result?.find((item) => {
+                        return item.field === 'page_2';
+                    })?.value_pl;
+                    page3Local = result?.find((item) => {
+                        return item.field === 'page_3';
+                    })?.value_pl;
+                    page4Local = result?.find((item) => {
+                        return item.field === 'page_4';
+                    })?.value_pl;
+                    page5Local = result?.find((item) => {
+                        return item.field === 'page_5';
+                    })?.value_pl;
+                    page6Local = result?.find((item) => {
+                        return item.field === 'page_6';
+                    })?.value_pl;
+                    page7Local = result?.find((item) => {
+                        return item.field === 'page_7';
+                    })?.value_pl;
+                    page8Local = result?.find((item) => {
+                        return item.field === 'page_8';
+                    })?.value_pl;
+                    page9Local = result?.find((item) => {
+                        return item.field === 'page_9';
+                    })?.value_pl;
+                    page10Local = result?.find((item) => {
+                        return item.field === 'page_10';
                     })?.value_pl;
                 }
                 else {
@@ -34,17 +75,57 @@ const AdminTerms = ({lang}) => {
                     policyLocal = result?.find((item) => {
                         return item.field === 'privacy_policy';
                     })?.value_en;
+                    page1Local = result?.find((item) => {
+                        return item.field === 'page_1';
+                    })?.value_en;
+                    page2Local = result?.find((item) => {
+                        return item.field === 'page_2';
+                    })?.value_en;
+                    page3Local = result?.find((item) => {
+                        return item.field === 'page_3';
+                    })?.value_en;
+                    page4Local = result?.find((item) => {
+                        return item.field === 'page_4';
+                    })?.value_en;
+                    page5Local = result?.find((item) => {
+                        return item.field === 'page_5';
+                    })?.value_en;
+                    page6Local = result?.find((item) => {
+                        return item.field === 'page_6';
+                    })?.value_en;
+                    page7Local = result?.find((item) => {
+                        return item.field === 'page_7';
+                    })?.value_en;
+                    page8Local = result?.find((item) => {
+                        return item.field === 'page_8';
+                    })?.value_en;
+                    page9Local = result?.find((item) => {
+                        return item.field === 'page_9';
+                    })?.value_en;
+                    page10Local = result?.find((item) => {
+                        return item.field === 'page_10';
+                    })?.value_en;
                 }
 
                 setTerms(EditorState.createWithContent(convertFromRaw(JSON.parse(termsLocal))));
                 setPolicy(EditorState.createWithContent(convertFromRaw(JSON.parse(policyLocal))));
+                setPage1(EditorState.createWithContent(convertFromRaw(JSON.parse(page1Local))));
+                setPage2(EditorState.createWithContent(convertFromRaw(JSON.parse(page2Local))));
+                setPage3(EditorState.createWithContent(convertFromRaw(JSON.parse(page3Local))));
+                setPage4(EditorState.createWithContent(convertFromRaw(JSON.parse(page4Local))));
+                setPage5(EditorState.createWithContent(convertFromRaw(JSON.parse(page5Local))));
+                setPage6(EditorState.createWithContent(convertFromRaw(JSON.parse(page6Local))));
+                setPage7(EditorState.createWithContent(convertFromRaw(JSON.parse(page7Local))));
+                setPage8(EditorState.createWithContent(convertFromRaw(JSON.parse(page8Local))));
+                setPage9(EditorState.createWithContent(convertFromRaw(JSON.parse(page9Local))));
+                setPage10(EditorState.createWithContent(convertFromRaw(JSON.parse(page10Local))));
             })
     }, []);
 
     const handleSubmit = () => {
         const func = lang === 'pl' ? updateTermsPl : updateTermsEn;
 
-        func(terms, policy)
+        func(terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10)
             .then((res) => {
                 if(res?.status === 201) {
                     setStatus(1);
@@ -70,7 +151,7 @@ const AdminTerms = ({lang}) => {
             <AdminMenu menuOpen={8} />
             <main className="admin__main">
                 <h2 className="admin__main__header">
-                    Edycja regulaminów (wersja {lang === 'pl' ? 'polska' : 'angielska'})
+                    Edycja podstron (wersja {lang === 'pl' ? 'polska' : 'angielska'})
                 </h2>
                 {status ? <span className="admin__status admin__status--right">
                         {status === -2 ? <span className="admin__status__inner admin__status--error">
@@ -105,8 +186,128 @@ const AdminTerms = ({lang}) => {
                         onEditorStateChange={(text) => { setPolicy(text); }}
                     />
                 </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        O nas
+                    </h3>
+                    <Editor
+                        editorState={page1}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage1(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Dbałość o środowisko
+                    </h3>
+                    <Editor
+                        editorState={page2}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage2(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak powstają
+                    </h3>
+                    <Editor
+                        editorState={page3}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage3(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak zamawiać
+                    </h3>
+                    <Editor
+                        editorState={page4}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage4(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak mierzyć stopę
+                    </h3>
+                    <Editor
+                        editorState={page5}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage5(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak pielęgnować
+                    </h3>
+                    <Editor
+                        editorState={page6}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage6(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Odstąpienie od umowy
+                    </h3>
+                    <Editor
+                        editorState={page7}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage7(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Wysyłka
+                    </h3>
+                    <Editor
+                        editorState={page8}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage8(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Sposoby płatności
+                    </h3>
+                    <Editor
+                        editorState={page9}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage9(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Adres do wysyłki
+                    </h3>
+                    <Editor
+                        editorState={page10}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage10(text); }}
+                    />
+                </section>
                 <button className="btn btn--admin btn--marginTop" onClick={() => { handleSubmit() }}>
-                    Aktualizuj regulaminy
+                    Aktualizuj podstrony
                 </button>
             </main>
         </div>

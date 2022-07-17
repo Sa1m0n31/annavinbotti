@@ -10,4 +10,18 @@ const registerToNewsletter = (email) => {
     });
 }
 
-export { getAllNewsletterSubscribers, registerToNewsletter }
+const deleteFromNewsletter = (token) => {
+    return axios.delete('/newsletter-api/delete', {
+        params: {
+            token
+        }
+    });
+}
+
+const verifyNewsletter = (token) => {
+    return axios.post('/newsletter-api/verify', {
+        token
+    });
+}
+
+export { getAllNewsletterSubscribers, registerToNewsletter, deleteFromNewsletter, verifyNewsletter }

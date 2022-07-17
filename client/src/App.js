@@ -17,7 +17,6 @@ import LoginAndRegister from "./pages/shop/LoginAndRegister";
 import ClientPanel from "./pages/shop/ClientPanel";
 import ProductPage from "./pages/shop/ProductPage";
 import ShippingFormPage from "./pages/shop/ShippingFormPage";
-import {getProductStock} from "./helpers/stocks";
 import OrderDetails from "./pages/shop/OrderDetails";
 import FormType1 from "./pages/shop/FormType1";
 import FormType2 from "./pages/shop/FormType2";
@@ -29,6 +28,10 @@ import RemindPassword from "./pages/shop/RemindPassword";
 import AccountVerification from "./pages/shop/AccountVerification";
 import AfterRegister from "./pages/shop/AfterRegister";
 import NewPasswordForm from "./pages/shop/NewPasswordForm";
+import NewsletterVerification from "./pages/shop/NewsletterVerification";
+import Faq from "./pages/shop/FAQ";
+import Page from "./pages/shop/Page";
+import Page3Addon from "./components/shop/Page3Addon";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -162,6 +165,45 @@ function App() {
       </Route>
       <Route path="/odzyskiwanie-hasla">
         <NewPasswordForm />
+      </Route>
+      <Route path="/potwierdzenie-subskrypcji-newslettera">
+        <NewsletterVerification />
+      </Route>
+      <Route path="/faq">
+        <Faq />
+      </Route>
+      <Route path="/o-nas">
+        <Page field="page_1" title={language === 'pl' ? 'O nas' : 'About us'} />
+      </Route>
+      <Route path="/dbalosc-o-srodowisko">
+        <Page field="page_2" title={language === 'pl' ? 'Dbałość o środowisko' : 'Care about planet'} />
+      </Route>
+      <Route path="/jak-powstaja">
+        <Page field="page_3"
+              title={language === 'pl' ? 'Jak powstają' : 'Jak powstają'}
+              addon={<Page3Addon />}
+        />
+      </Route>
+      <Route path="/jak-zamawiac">
+        <Page field="page_4" title={language === 'pl' ? 'Jak zamawiać' : 'Jak zamawiać'} />
+      </Route>
+      <Route path="/jak-mierzyc-stope">
+        <Page field="page_5" title={language === 'pl' ? 'Jak mierzyć stopę' : 'Jak mierzyć stopę'} />
+      </Route>
+      <Route path="/jak-pielegnowac">
+        <Page field="page_6" title={language === 'pl' ? 'Jak pielęgnować' : 'Jak pielęgnować'} />
+      </Route>
+      <Route path="/odstapienie-od-umowy">
+        <Page field="page_7" title={language === 'pl' ? 'Odstąpienie od umowy' : 'Odstąpienie od umowy'} />
+      </Route>
+      <Route path="wysylka">
+        <Page field="page_8" title={language === 'pl' ? 'Wysyłka' : 'Wysyłka'} />
+      </Route>
+      <Route path="/sposoby-platnosci">
+        <Page field="page_9" title={language === 'pl' ? 'Sposoby płatności' : 'Sposoby płatności'} />
+      </Route>
+      <Route path="/adres-do-wysylki">
+        <Page field="page_10" title={language === 'pl' ? 'Adres do wysyłki' : 'Adres do wysyłki'} />
       </Route>
 
       {/* USER */}

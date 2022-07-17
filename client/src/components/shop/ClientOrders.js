@@ -80,6 +80,7 @@ const ClientOrders = () => {
 
     useEffect(() => {
         if(orders?.length) {
+            setEmptyOrderList(false);
             setButtons(orders.map((item) => {
                 return setButtonParams(item[0], item[1][0].status, item[1]);
             }));

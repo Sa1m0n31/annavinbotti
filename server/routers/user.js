@@ -30,7 +30,7 @@ const sendVerificationEmail = (email, token, response) => {
         from: process.env.EMAIL_ADDRESS,
         to: email,
         subject: 'Cieszymy się, że jesteś z nami!',
-        html: emailTemplate('Odzyskaj swoje hasło',
+        html: emailTemplate('Aktywuj swoje konto',
             'W celu weryfikacji Twojego konta, kliknij w poniższy link:',
             `${process.env.API_URL}:3000/weryfikacja?token=${token}`,
             'Aktywuj konto'
@@ -94,7 +94,7 @@ router.post("/register", (request, response) => {
                             })
                             .catch(() => {
                                 sendVerificationEmail(email, token, response);
-                            })
+                            });
                     }
                     else {
                         sendVerificationEmail(email, token, response);
@@ -145,11 +145,42 @@ router.put('/update-user-data', (request, response) => {
     const values = [street, building, flat, postalCode, city, address];
 
     db.query(query, values, (err, res) => {
+        console.log(res);
         if(res) {
-            const query = 'UPDATE users SET first_name = $1, last_name = $2, phone_number = $3, email = $4 WHERE id = $5';
-            const values = [firstName, lastName, phoneNumber, email, id];
+            if(res.rowCount === 0) {
+                const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5, NULL, NULL, NULL) RETURNING id`;
+                const values = [city, postalCode, street, building, flat];
 
-            dbInsertQuery(query, values, response);
+                db.query(query, values, (err, res) => {
+                    if(res) {
+                        const addressId = res.rows[0]?.id;
+
+                        const query = 'UPDATE users SET address = $1 WHERE id = $2';
+                        const values = [addressId, id];
+
+                        db.query(query, values, (err, res) => {
+                            if(res) {
+                                const query = 'UPDATE users SET first_name = $1, last_name = $2, phone_number = $3, email = $4 WHERE id = $5';
+                                const values = [firstName, lastName, phoneNumber, email, id];
+
+                                dbInsertQuery(query, values, response);
+                            }
+                            else {
+                                response.status(500).end();
+                            }
+                        });
+                    }
+                    else {
+                        response.status(500).end();
+                    }
+                });
+            }
+            else {
+                const query = 'UPDATE users SET first_name = $1, last_name = $2, phone_number = $3, email = $4 WHERE id = $5';
+                const values = [firstName, lastName, phoneNumber, email, id];
+
+                dbInsertQuery(query, values, response);
+            }
         }
         else {
             response.status(500).end();

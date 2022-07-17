@@ -126,6 +126,22 @@
         max-width: 90vw;
     }
 
+    .faq .pageHeader {
+        font-size: 24px;
+    }
+
+    .faq__section__header {
+        font-size: 19px;
+    }
+
+    .faq__section__question__question {
+        font-size: 15px;
+    }
+
+    .faq__section__question__answer {
+        line-height: 24px;
+    }
+
     .blog__header,
     .contact__top__section__header {
         font-size: 21px;
@@ -415,6 +431,72 @@
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .page {
+        margin-top: 40px;
+    }
+
+    .page__content * {
+        font-size: 14px;
+    }
+
+    .page .pageHeading {
+        text-align: center;
+    }
+
+    .faq .pageHeader {
+        font-size: 21px;
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .faq__section__header {
+        text-align: center;
+    }
+
+    .faq__section__question__question {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .faq__section__question__answer {
+        font-size: 12px;
+    }
+
+    .fullScreenGallery .slick-prev {
+        left: 0;
+    }
+
+    .fullScreenGallery .slick-next {
+        right: 0;
+    }
+
+    .fullScreenGallery__inner {
+        width: 80vw;
+        height: auto;
+    }
+
+    .fullScreenGallery__inner .img {
+        width: 100%;
+        height: auto;
+    }
+
+    .fullScreenGallery .slick-next,
+    .fullScreenGallery .slick-prev {
+        background: transparent;
+    }
+
+    .fullScreenGallery .slick-next::before,
+    .fullScreenGallery .slick-prev::before {
+        width: 90px;
+        transform: scale(1.5);
+    }
+
+    .fullScreenGallery__close {
+        top: 0;
+        right: 10px;
+        font-size: 48px;
     }
 
     .emptyOrderList .shipping__header {
@@ -1249,6 +1331,25 @@
 @media(min-width: 768px) {
     .d-mobile {
         display: none !important;
+    }
+
+    .fullScreenGallery .slick-arrow:active,
+    .fullScreenGallery .slick-arrow:active,
+    .fullScreenGallery .slick-arrow:focus,
+    .fullScreenGallery .slick-arrow:focus,
+    .fullScreenGallery .slick-arrow:hover,
+    .fullScreenGallery .slick-arrow:hover {
+        background: var(--hover) !important;
+    }
+
+    .fullScreenGallery .slick-next::before,
+    .fullScreenGallery .slick-prev::before {
+        content: url("../img/arrow-left.svg");
+        padding-bottom: 4px;
+    }
+
+    .fullScreenGallery .slick-next::before {
+        content: url("../img/arrow-right.svg");
     }
 }
 

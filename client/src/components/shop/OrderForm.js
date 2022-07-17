@@ -195,7 +195,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                         postal_code: formFields.deliveryPostalCode
                     },
                     formFields.companyName ? formFields.companyName : null, formFields.nip ? formFields.nip : null,
-                    sells, addons, shipping?.pl
+                    sells, addons, shipping?.pl, c3 ? 'true': null
                     )
                     .then((res) => {
                         if(res?.status === 201) {
@@ -215,7 +215,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                 addOrder(formFields,
                     user.address, user.address,
                     null, null,
-                    sells, addons, shipping?.pl)
+                    sells, addons, shipping?.pl, c3 ? 'true': null)
                     .then((res) => {
                         if(res?.status === 201) {
                             setOrderId(res?.data?.id);

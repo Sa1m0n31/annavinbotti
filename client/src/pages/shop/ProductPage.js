@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
 import {getProductAddons, getProductBySlug, getProductGallery} from "../../helpers/products";
@@ -13,6 +13,16 @@ import {stateToHTML} from 'draft-js-export-html';
 import arrowDownGoldIcon from '../../static/img/arrow-down-gold.svg'
 import {addToWaitlist} from "../../helpers/orders";
 import {isEmail} from "../../helpers/others";
+import Slider from "react-slick";
+
+const settings = {
+    dots: false,
+    infinite: true,
+    speed: 900,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    draggable: false
+}
 
 const ProductPage = () => {
     const { content, language } = useContext(ContentContext);
@@ -30,6 +40,10 @@ const ProductPage = () => {
     const [addonsError, setAddonsError] = useState(false);
     const [emailError, setEmailError] = useState("");
     const [waitlistSuccess, setWaitlistSuccess] = useState(false);
+    const [fullScreenGallery, setFullScreenGallery] = useState(false);
+
+    const sliderRef = useRef(null);
+    const sliderGalleryRef = useRef(null);
 
     useEffect(() => {
         const urlArray = window.location.href.split('/');
@@ -43,8 +57,7 @@ const ProductPage = () => {
                 }
             })
             .catch((err) => {
-                console.log(err);
-               // window.location = '/sklep';
+               window.location = '/sklep';
             });
     }, []);
 
@@ -64,10 +77,6 @@ const ProductPage = () => {
                            return item.path;
                        }));
                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    // window.location = '/sklep';
                 });
 
             getProductAddons(id)
@@ -126,10 +135,6 @@ const ProductPage = () => {
         setGalleryIndex(i);
     }
 
-    const fullScreenGallery = () => {
-
-    }
-
     const isElementInArray = (arr, el) => {
         return arr.findIndex((item) => {
             return item === el;
@@ -165,9 +170,9 @@ const ProductPage = () => {
     }
 
     const validateAddons = () => {
-        return requiredAddons.findIndex((item) => {
+        return requiredAddons.filter((item) => {
             return selectedAddons[item];
-        }) !== -1;
+        })?.length === requiredAddons?.length;
     }
 
     const buy = () => {
@@ -208,12 +213,26 @@ const ProductPage = () => {
     }
 
     useEffect(() => {
-        console.log(product);
-    }, [product]);
+        if(sliderGalleryRef?.current) {
+            sliderGalleryRef.current.slickGoTo(galleryIndex);
+        }
+    }, [galleryIndex]);
 
     useEffect(() => {
-        console.log(requiredAddons);
-    }, [requiredAddons]);
+        if(sliderRef?.current) {
+            if(fullScreenGallery) {
+                sliderGalleryRef.current.slickGoTo(galleryIndex);
+                sliderRef.current.style.zIndex = '100';
+                sliderRef.current.style.opacity = '1';
+            }
+            else {
+                sliderRef.current.style.opacity = '0';
+                setTimeout(() => {
+                    sliderRef.current.style.zIndex = '-1';
+                }, 400);
+            }
+        }
+    }, [fullScreenGallery]);
 
     return <div className="container">
         <PageHeader />
@@ -235,16 +254,36 @@ const ProductPage = () => {
                     <button className="product__gallery__btn product__gallery__btn--prev" onClick={() => { prevImage(); }}>
                         <img className="img" src={arrowLeft} alt="poprzednie" />
                     </button>
-                    <figure className="product__gallery__main__figure">
-                        <img className="img" src={`${constans.IMAGE_URL}/media/products/${gallery[galleryIndex]}`} alt={product?.name_pl} />
-                    </figure>
+                    {gallery?.map((item, index) => {
+                        return <figure key={index} className={index === galleryIndex ? "product__gallery__main__figure" : "product__gallery__main__figure product__gallery__main__figure--hidden"}>
+                            <img className="img" src={`${constans.IMAGE_URL}/media/products/${item}`} alt={product?.name_pl} />
+                        </figure>
+                    })}
                     <button className="product__gallery__btn product__gallery__btn--next" onClick={() => { nextImage(); }}>
                         <img className="img" src={arrowRight} alt="nastepne" />
                     </button>
 
-                    <button className="product__gallery__btn product__gallery__btn--large d-from-900" onClick={() => { fullScreenGallery(); }}>
+                    <button className="product__gallery__btn product__gallery__btn--large d-from-900"
+                            onClick={() => { setFullScreenGallery(true); }}>
                         <img className="img" src={largeImgIcon} alt="pelny-ekran" />
                     </button>
+                </div>
+            </div>
+
+            {/* FULL SCREEN GALLERY */}
+            <div className="fullScreenGallery" ref={sliderRef}>
+                <button className="fullScreenGallery__close"
+                        onClick={() => { setFullScreenGallery(false); }}>
+                    &times;
+                </button>
+                <div className="fullScreenGallery__inner">
+                    <Slider ref={sliderGalleryRef} {...settings}>
+                        {gallery?.map((item, index) => {
+                            return <div className="fullScreenGallery__item center" key={index}>
+                                <img className="img" src={`${constans.IMAGE_URL}/media/products/${item}`} alt={product?.name_pl} />
+                            </div>
+                        })}
+                    </Slider>
                 </div>
             </div>
 

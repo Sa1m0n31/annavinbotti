@@ -981,6 +981,11 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     border-radius: 30px;
 }
 
+.product__gallery__main__figure--hidden {
+    visibility: hidden;
+    display: none;
+}
+
 .product__gallery__miniatures__item,
 .product__gallery__main__figure {
     overflow: hidden;
@@ -2777,4 +2782,150 @@ textarea {
 .remindPassword__text--passwordForm {
     color: var(--secondary);
     margin-bottom: 50px;
+}
+
+.fullScreenGallery {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, .6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+    transition: .3s opacity ease-in-out;
+}
+
+.fullScreenGallery__item {
+    display: flex !important;
+}
+
+.fullScreenGallery__inner {
+    height: 80vh;
+    min-width: 300px;
+}
+
+.fullScreenGallery__close {
+    position: absolute;
+    top: 5px;
+    right: 25px;
+    background: transparent;
+    color: #fff;
+    font-size: 64px;
+    font-weight: 500;
+}
+
+.fullScreenGallery__inner * {
+    height: 100%;
+}
+
+.fullScreenGallery__inner .img {
+    width: auto;
+    height: 100%;
+}
+
+.fullScreenGallery .slick-next,
+.fullScreenGallery .slick-prev {
+    width: 50px;
+    height: 50px;
+    background: var(--secondary);
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    z-index: 100;
+    display: block !important;
+    border-radius: 50%;
+    transition: .2s all;
+}
+
+.fullScreenGallery .slick-next {
+    right: 50px;
+    left: unset;
+}
+
+.fullScreenGallery .slick-active {
+    border: none;
+}
+
+.newsletterPage .remindPassword__text--success {
+    color: var(--secondary);
+}
+
+.newsletterPage .btn--remindPassword--success {
+    margin: 40px auto 100px;
+}
+
+.faq {
+    margin-bottom: 80px;
+}
+
+.page *,
+.faq * {
+    color: var(--secondary);
+}
+
+.faq .pageHeader {
+    text-transform: uppercase;
+    margin: 80px 0 50px;
+    position: relative;
+    z-index: 1;
+}
+
+.faq__section {
+    margin-bottom: 40px;
+}
+
+.faq__section__header {
+    font-weight: 500;
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.faq__section__question__question > span:last-of-type {
+    padding-left: 15px;
+}
+
+.faq__section__question__question {
+    background: transparent;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--secondary);
+    width: 100%;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.faq__section__question__answer {
+    line-height: 30px;
+    font-size: 14px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: .3s all ease-in-out;
+}
+
+.faq__section__question__answer--visible {
+    height: auto;
+    opacity: 1;
+    margin: 0 0 35px;
+}
+
+.page {
+    margin: 80px auto;
+}
+
+.page__content > * {
+    margin-bottom: 20px;
+}
+
+.page__content * {
+    line-height: 25px;
+}
+
+.page .pageHeading {
+    margin-bottom: 30px;
 }

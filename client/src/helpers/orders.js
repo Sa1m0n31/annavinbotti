@@ -46,9 +46,9 @@ const getFormDetails = (form, sell) => {
     });
 }
 
-const addOrder = (user, userAddress, deliveryAddress, nip, companyName, sells, addons, shipping) => {
+const addOrder = (user, userAddress, deliveryAddress, nip, companyName, sells, addons, shipping, newsletter) => {
     return axios.post('/orders/add', {
-        user, userAddress, deliveryAddress, nip, companyName, sells, addons, shipping
+        user, userAddress, deliveryAddress, nip, companyName, sells, addons, shipping, newsletter
     });
 }
 

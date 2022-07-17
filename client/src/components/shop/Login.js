@@ -2,10 +2,12 @@ import React, {useContext, useEffect, useState} from 'react';
 import {loginUser} from "../../helpers/auth";
 import {ContentContext} from "../../App";
 import Loader from "./Loader";
+import constans from "../../helpers/constants";
 
 const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
     const { language } = useContext(ContentContext);
 
+    const [userRemembered, setUserRemembered] = useState(false);
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
@@ -31,6 +33,16 @@ const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
         }
     ];
 
+    useEffect(() => {
+        const rememberMeUser = localStorage.getItem('remember-user');
+        if(rememberMeUser) {
+            setRememberMe(true);
+            setUserRemembered(true);
+            setLogin(rememberMeUser);
+            setPassword('12345678');
+        }
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -44,13 +56,19 @@ const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
             setLoading(false);
         }
         else {
-            loginUser(login, password)
+            loginUser(login, userRemembered ? constans.SECRET_KEY : password)
                 .then((res) => {
                     if(res?.data?.result) {
                         if(fromCart) {
                             setUserLoggedIn(true);
                         }
                         else {
+                            if(rememberMe) {
+                                localStorage.setItem('remember-user', login);
+                            }
+                            else {
+                                localStorage.removeItem('remember-user');
+                            }
                             window.location = '/panel-klienta';
                         }
                     }
@@ -89,7 +107,7 @@ const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
                    type="password"
                    value={password}
                    onClick={() => { setError(-1); }}
-                   onChange={(e) => { setPassword(e.target.value); }}
+                   onChange={(e) => { setUserRemembered(false); setPassword(e.target.value); }}
                    placeholder="Hasło" />
         </label>
         <div className="form__addons flex">

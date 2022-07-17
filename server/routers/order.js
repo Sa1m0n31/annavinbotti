@@ -45,14 +45,36 @@ router.get('/', (request, response) => {
    }
 });
 
-const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response) => {
+const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response) => {
     const id = uuidv4().substring(0, 6);
     let sellsIds = [];
     const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW(), $7, NULL, NULL)';
     const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
 
+    console.log("NEWSLETTER");
+    console.log(newsletter);
+
+    if(newsletter === 'true') {
+        const query = 'SELECT email FROM users WHERE id = $1';
+        const values = [user.id];
+
+        await db.query(query, values, async(err, res) => {
+            const email = res?.rows[0]?.email;
+            if(email) {
+                await got.post(`${process.env.API_URL}:5000/newsletter-api/add`, {
+                    json: {
+                        email
+                    },
+                    responseType: 'json',
+                });
+            }
+        });
+    }
+
     // ADD ORDER
     await db.query(query, values, (err, res) => {
+        console.log(err);
+        console.log('order');
         if(res) {
             sells.forEach(async (item, index, array) => {
                 const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
@@ -126,7 +148,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
 }
 
 router.post('/add', (request, response) => {
-    let { user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons } = request.body;
+    let { user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter } = request.body;
 
     // userAddress, deliveryAddress: { street, building, flat, postal_code, city } or integer if already exists
     // sells: { product, price }
@@ -151,7 +173,7 @@ router.post('/add', (request, response) => {
                             db.query(query, values, (err, res) => {
                                 if(res?.rows) {
                                     deliveryAddress = res.rows[0].id;
-                                    addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response);
+                                    addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
                                 }
                                 else {
                                     console.log(err);
@@ -160,7 +182,7 @@ router.post('/add', (request, response) => {
                             });
                         }
                         else {
-                            addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response);
+                            addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
                         }
                     }
                     else {
@@ -178,7 +200,7 @@ router.post('/add', (request, response) => {
                     db.query(query, values, (err, res) => {
                         if(res?.rows) {
                             deliveryAddress = res.rows[0].id;
-                            addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response);
+                            addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
                         }
                         else {
                             console.log(err);
@@ -188,7 +210,7 @@ router.post('/add', (request, response) => {
                 }
                 else {
                     console.log('YES');
-                    addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, response);
+                    addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
                 }
             }
         }

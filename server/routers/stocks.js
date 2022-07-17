@@ -39,6 +39,12 @@ const checkWaitlists = (response) => {
         if(res) {
             let emails = res.rows;
             if(emails) {
+                const waitlistRowsToDelete = emails.filter((item) => {
+                    return parseInt(item.addons_not_available) === 0;
+                });
+
+                console.log(waitlistRowsToDelete);
+
                 emails = await emails.filter((item) => {
                     return parseInt(item.addons_not_available) === 0;
                 }).map((item) => {
@@ -62,7 +68,17 @@ const checkWaitlists = (response) => {
                         response.status(500).end();
                     }
                     else {
-                        response.status(201).end();
+                        waitlistRowsToDelete.forEach(async (item, index, array) => {
+                            const query = 'DELETE FROM waitlist WHERE product = $1 AND email = $2';
+                            const values = [item.id, item.email];
+
+                            if(index === array.length-1) {
+                                await dbInsertQuery(query, values, response);
+                            }
+                            else {
+                                await dbInsertQuery(query, values);
+                            }
+                        })
                     }
                 });
             }

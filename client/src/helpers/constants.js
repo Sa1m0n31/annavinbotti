@@ -5,7 +5,8 @@ const constans = {
     // IMAGE_URL: 'http://localhost:5000/image?url=',
     ERROR_PL: 'Coś poszło nie tak... Prosimy spróbować później',
     ERROR_EN: 'Something goes wrong... Please try again later',
-    PAYMENT_LINK: 'https://sandbox.paywall.imoje.pl/pay/'
+    PAYMENT_LINK: 'https://sandbox.paywall.imoje.pl/pay/',
+    SECRET_KEY: 'ewndskjhr2q3ehwdjlksau8rhueqdwadsfklk'
 }
 
 export default constans;
