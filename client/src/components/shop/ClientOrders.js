@@ -85,11 +85,16 @@ const ClientOrders = () => {
                 return setButtonParams(item[0], item[1][0].status, item[1]);
             }));
         }
-        else {
+        else if(orders?.length === 0) {
             setEmptyOrderList(true);
         }
-        setRender(true);
     }, [orders, statuses]);
+
+    useEffect(() => {
+        if(orders?.length || emptyOrderList) {
+            setRender(true);
+        }
+    }, [emptyOrderList, orders]);
 
     const setButtonParams = (orderId, status, cart) => {
         console.log(cart);

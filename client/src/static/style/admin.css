@@ -1698,3 +1698,56 @@ a.admin__start__stats:hover {
 .addProduct__addonsSection__addonOptions span {
     padding-left: 6px;
 }
+
+.admin__order__sendInfo {
+    margin-top: 40px;
+}
+
+.admin__order__sendInfo > div {
+    margin-bottom: 25px;
+}
+
+.admin__order__sendInfo__header {
+    margin-bottom: 15px;
+    color: var(--secondary);
+    font-size: 17px;
+    text-transform: uppercase;
+}
+
+.admin__order__sendInfo .input--textarea {
+    width: 100%;
+    max-width: 400px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+.btn--admin--send {
+    height: 40px;
+    border-radius: 40px;
+    max-width: 350px;
+    font-size: 15px;
+}
+
+.btn--danger {
+    height: 40px;
+    border-radius: 40px;
+    width: 300px;
+    background: #d83b27;
+}
+
+.btn--danger:hover {
+    background: #d83b27;
+    opacity: .8;
+}
+
+.info--infoForClient {
+    text-align: left;
+    margin: 0 0 20px;
+}
+
+.input--deliveryNumber {
+    margin-bottom: 20px;
+    width: 300px;
+    height: 50px;
+    border-radius: 5px;
+}

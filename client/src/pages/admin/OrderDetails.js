@@ -1,9 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {changeOrderStatus, getOrderById, getOrderForms, getOrderStatuses} from "../../helpers/orders";
+import {
+    changeOrderStatus,
+    getOrderById,
+    getOrderForms,
+    getOrderStatuses,
+    updateDeliveryNumber
+} from "../../helpers/orders";
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import AdminOrderInfo from "../../components/admin/AdminOrderInfo";
 import AdminOrderCart from "../../components/admin/AdminOrderCart";
+import {cancelOrder, rejectClientForm} from "../../helpers/admin";
+import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
 
 const OrderDetails = () => {
     const [order, setOrder] = useState({});
@@ -12,6 +20,12 @@ const OrderDetails = () => {
     const [statuses, setStatuses] = useState([]);
     const [currentOrderStatus, setCurrentOrderStatus] = useState(0);
     const [orderStatusUpdateStatus, setOrderStatusUpdateStatus] = useState(0);
+    const [infoForClient, setInfoForClient] = useState('');
+    const [cancelOrderStatus, setCancelOrderStatus] = useState(0);
+    const [rejectClientFormStatus, setRejectClientFormStatus] = useState('');
+    const [cancelOrderModal, setCancelOrderModal] = useState(false);
+    const [deliveryNumber, setDeliveryNumber] = useState('');
+    const [changeDeliveryNumberStatus, setChangeDeliveryNumberStatus] = useState('');
 
     useEffect(() => {
         const paramId = new URLSearchParams(window.location.search)?.get('id');
@@ -29,6 +43,7 @@ const OrderDetails = () => {
                 const r = res?.data?.result;
                 if(r) {
                     const result = r[0];
+                    setDeliveryNumber(result.delivery_number);
                     setOrder({
                         id: result.id,
                         date: result.date,
@@ -55,12 +70,14 @@ const OrderDetails = () => {
                     });
 
                     setCart(r?.map((item) => {
+                        console.log(item);
                         const productName = item.product_name;
                         const productAddons = r?.filter((item) => {
                             return item.product_name === productName;
                         });
 
                         return {
+                            productId: item.product_id,
                             product: productName,
                             type: item.type,
                             price: item.price,
@@ -114,9 +131,10 @@ const OrderDetails = () => {
 
     const changeOrderStatusWrapper = () => {
         if(currentOrderStatus) {
-            changeOrderStatus(order?.id, currentOrderStatus)
+            changeOrderStatus(order?.id, currentOrderStatus, order?.email)
                 .then((res) => {
-                    if(res?.status === 201) {
+                    console.log(res);
+                    if(res?.status === 201 || res?.status === 200) {
                         setOrderStatusUpdateStatus(1);
                     }
                     else {
@@ -129,8 +147,69 @@ const OrderDetails = () => {
         }
     }
 
+    const sendInfoForClient = () => {
+        rejectClientForm(infoForClient, order.email, order.id)
+            .then((res) => {
+               if(res?.status === 201) {
+                    setRejectClientFormStatus('Prośba o uzupełnienie informacji została wysłana');
+               }
+               else {
+                   setRejectClientFormStatus('Coś poszło nie tak... Prosimy spróbować później lub skontaktować się z administratorem systemu');
+               }
+            })
+            .catch(() => {
+                setRejectClientFormStatus('Coś poszło nie tak... Prosimy spróbować później lub skontaktować się z administratorem systemu');
+            });
+    }
+
+    const cancelOrderWrapper = () => {
+        cancelOrder(order.id, order.email)
+            .then((res) => {
+                if(res?.status === 201) {
+                    setCancelOrderStatus(1);
+                }
+                else {
+                    setCancelOrderStatus(-1);
+                }
+            })
+            .catch(() => {
+                setCancelOrderStatus(-1);
+            });
+    }
+
+    useEffect(() => {
+        if(rejectClientFormStatus) {
+            setInfoForClient('');
+        }
+    }, [rejectClientFormStatus]);
+
+    const changeOrderDeliveryNumber = () => {
+        updateDeliveryNumber(order.id, deliveryNumber)
+            .then((res) => {
+                if(res?.status === 201) {
+                    setChangeDeliveryNumberStatus('Numer przesyłki został zaktualizowany');
+                }
+                else {
+                    setChangeDeliveryNumberStatus('Coś poszło nie tak.. Prosimy spróbować później lub skontaktować się z administratorem.');
+                }
+            })
+            .catch(() => {
+                setChangeDeliveryNumberStatus('Coś poszło nie tak.. Prosimy spróbować później lub skontaktować się z administratorem.');
+            });
+    }
+
     return <div className="container container--admin">
         <AdminTop />
+
+        {cancelOrderModal ? <AdminDeleteModal id={order.id}
+                                              header="Anulowanie zamówienia"
+                                              text={`Czy na pewno chcesz anulować zamówienie #${order.id}?`}
+                                              btnText="Anuluj"
+                                              success="Zamówienie zostało anulowane"
+                                              fail="Coś poszło nie tak... Prosimy skontaktować się z administratorem systemu"
+                                              deleteStatus={cancelOrderStatus}
+                                              deleteFunction={cancelOrderWrapper}
+                                              closeModalFunction={() => { setCancelOrderModal(false); }} /> : ''}
 
         <div className="admin">
             <AdminMenu menuOpen={5} />
@@ -160,7 +239,51 @@ const OrderDetails = () => {
 
                     <section className="admin__order__right">
                         <AdminOrderInfo order={order} />
-                        <AdminOrderCart cart={cart} />
+                        <AdminOrderCart cart={cart} orderId={order?.id} />
+
+                        <div className="admin__order__sendInfo">
+                            {order?.status === 2 ? <div>
+                                <h3 className="admin__order__sendInfo__header">
+                                    Poproś klienta o uzupełnienie niepełnych danych
+                                </h3>
+                                <textarea className="input input--textarea"
+                                          placeholder="Napisz, co powinien uzupełnić Klient..."
+                                          value={infoForClient}
+                                          onChange={(e) => { setInfoForClient(e.target.value); }} />
+                                {rejectClientFormStatus ? <span className="info info--infoForClient">
+                                    {rejectClientFormStatus}
+                                </span> : <button className="btn btn--admin btn--admin--send"
+                                                  onClick={() => { sendInfoForClient(); }}>
+                                    Odrzuć wymiary
+                                </button>}
+                            </div> : ''}
+                            <div>
+                                <h3 className="admin__order__sendInfo__header">
+                                    Edytuj numer przesyłki
+                                </h3>
+                                <input className="input input--deliveryNumber"
+                                       placeholder="Numer przesyłki"
+                                       value={deliveryNumber}
+                                       onChange={(e) => { setDeliveryNumber(e.target.value); }} />
+
+                                {changeDeliveryNumberStatus ? <span className="info info--infoForClient">
+                                    {changeDeliveryNumberStatus}
+                                </span> : <button className="btn btn--admin btn--admin--send"
+                                                  onClick={() => { changeOrderDeliveryNumber(); }}>
+                                    Zmień numer przesyłki
+                                </button>}
+
+                            </div>
+                            <div>
+                                <h3 className="admin__order__sendInfo__header">
+                                    Anuluj zamówienie
+                                </h3>
+                                <button className="btn btn--danger"
+                                        onClick={() => { setCancelOrderModal(true); }}>
+                                    Anuluj zamówienie
+                                </button>
+                            </div>
+                        </div>
                     </section>
                 </div>
             </main>

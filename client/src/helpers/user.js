@@ -28,12 +28,13 @@ const getForm = (type, formType) => {
     });
 }
 
-const sendForm = (formData, formType, orderId, type, formJSON) => {
+const sendForm = (formData, formType, orderId, type, formJSON, email) => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
     formData.append('formType', formType);
     formData.append('orderId', orderId);
     formData.append('type', type);
+    formData.append('email', email);
 
     if(formType === 1) {
         formData.append('formJSON', JSON.stringify(formJSON

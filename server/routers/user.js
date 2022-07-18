@@ -201,7 +201,7 @@ router.get('/get-user-orders', (request, response) => {
                 JOIN sells s ON o.id = s.order
                 JOIN products p ON p.id = s.product
                 JOIN types t ON p.type = t.id
-                WHERE u.id = $1 ORDER BY date DESC`;
+                WHERE u.id = $1 AND o.hidden = FALSE ORDER BY date DESC`;
        const values = [user];
 
        dbSelectQuery(query, values, response);

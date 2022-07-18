@@ -15,6 +15,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
     const { cartContent } = useContext(CartContext);
     const { language } = useContext(ContentContext);
 
+    const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(null);
     const [userWithData, setUserWithData] = useState(false);
     const [render, setRender] = useState(false);
@@ -161,6 +162,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
 
     const registerOrder = () => {
         if(validateOrder() === 'true') {
+            setLoading(true);
             const sells = cartContent.map((item) => {
                 return {
                     product: item.product.id,
@@ -198,6 +200,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                     sells, addons, shipping?.pl, c3 ? 'true': null
                     )
                     .then((res) => {
+                        setLoading(false);
                         if(res?.status === 201) {
                             setOrderId(res?.data?.id);
                             nextStep();
@@ -206,7 +209,8 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                             setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
                         }
                     })
-                    .catch(() => {
+                    .catch((err) => {
+                        setLoading(false);
                         setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
                     });
             }
@@ -217,6 +221,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                     null, null,
                     sells, addons, shipping?.pl, c3 ? 'true': null)
                     .then((res) => {
+                        setLoading(false);
                         if(res?.status === 201) {
                             setOrderId(res?.data?.id);
                             nextStep();
@@ -225,7 +230,8 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                             setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
                         }
                     })
-                    .catch(() => {
+                    .catch((err) => {
+                        setLoading(false);
                         setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
                     });
             }
@@ -367,9 +373,11 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                         {error ? <p className="info--error info--error--order">
                             {error}
                         </p> : ''}
-                        <button className="btn btn--order" onClick={() => { registerOrder(); }}>
+                        {loading ? <div className="center">
+                            <Loader />
+                        </div> : <button className="btn btn--order" onClick={() => { registerOrder(); }}>
                             Rezerwuję
-                        </button>
+                        </button>}
                         <button className="btn--backToCart" onClick={() => { backToCart(); }}>
                             &lt;&lt; Wróć
                         </button>

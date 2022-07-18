@@ -114,4 +114,19 @@ const sendInfoAboutTermsUpdate = () => {
     return axios.post(`${API_URL}/admin/send-info-about-terms-update`);
 }
 
-export { getAdminById, getAdminData, changeAdminPassword, banUser, unlockUser, deleteUser, changeUserName, getUsersVideosNumber, getUsersParametersCompleted, getAdvancedUsersInfo, getCustomFields, updateCustomFields, updateCustomImages, getCustomImages, updateTerms, getTerms, sendInfoAboutTermsUpdate }
+const rejectClientForm = (data, email, orderId) => {
+    return axios.post(`${API_URL}/orders/reject-client-form`, {
+        data, email, orderId
+    });
+}
+
+const cancelOrder = (id, email) => {
+    return axios.delete(`${API_URL}/orders/cancel-order`, {
+        params: {
+            id, email
+        }
+    });
+}
+
+export { getAdminById, getAdminData, changeAdminPassword, banUser, unlockUser, deleteUser, changeUserName, getUsersVideosNumber, getUsersParametersCompleted, getAdvancedUsersInfo, getCustomFields, updateCustomFields, updateCustomImages, getCustomImages, updateTerms, getTerms,
+    cancelOrder, sendInfoAboutTermsUpdate, rejectClientForm }

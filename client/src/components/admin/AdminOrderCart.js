@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import eyeIcon from '../../static/img/eye.svg'
 
-const AdminOrderCart = ({cart}) => {
+const AdminOrderCart = ({cart, orderId}) => {
     const [details, setDetails] = useState(-1);
 
     const toggleDetails = (i) => {
@@ -49,10 +49,12 @@ const AdminOrderCart = ({cart}) => {
                         })}
                     </div>
                     <div className="admin__order__cart__item__details__buttons">
-                        <a className={item.firstForm ? "admin__order__cart__item__details__btn" : "admin__order__cart__item__details__btn o-5"} href={`/formularz?form=${item?.firstForm?.form}&sell=${item?.firstForm?.sell}`}>
+                        <a className={item.firstForm ? "admin__order__cart__item__details__btn" : "admin__order__cart__item__details__btn o-5"}
+                           href={`/formularz?form=${item?.firstForm?.form}&sell=${item?.firstForm?.sell}`}>
                             Formularz mierzenia stopy
                         </a>
-                        <a className={item.secondForm ? "admin__order__cart__item__details__btn" : "admin__order__cart__item__details__btn o-5"} href={`/formularz?form=${item?.secondForm?.form}&sell=${item?.secondForm?.sell}`}>
+                        <a className={item.secondForm ? "admin__order__cart__item__details__btn" : "admin__order__cart__item__details__btn o-5"}
+                           href={`/formularz-weryfikacji?order=${orderId}&model=${item?.productId}`}>
                             Formularz weryfikacji
                         </a>
                     </div>

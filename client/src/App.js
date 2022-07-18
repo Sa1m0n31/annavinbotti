@@ -302,6 +302,9 @@ function App() {
       <Route path="/zmien-haslo-administratora">
         <AdminWrapper page={23} />
       </Route>
+      <Route path="/formularz-weryfikacji">
+        <AdminWrapper page={24} />
+      </Route>
     </Router>
     </ContentContext.Provider>
   </CartContext.Provider> : <LoadingPage />

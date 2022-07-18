@@ -51,36 +51,42 @@ const checkWaitlists = (response) => {
                     return item.email;
                 });
 
-                let mailOptions = {
-                    from: process.env.EMAIL_ADDRESS,
-                    to: [],
-                    bcc: emails,
-                    subject: 'Twój produkt jest już dostępny!',
-                    html: emailTemplate('Dobra wiadomość!',
-                        'Twój produkt jest już dostępny w naszym sklepie. Wejdź w poniższy link i zarezerwuj:',
-                        `${process.env.API_URL}:3000/sklep`,
-                        'Przejdź do sklepu'
+                if(emails?.length) {
+                    let mailOptions = {
+                        from: process.env.EMAIL_ADDRESS,
+                        to: [],
+                        bcc: emails,
+                        subject: 'Twój produkt jest już dostępny!',
+                        html: emailTemplate('Dobra wiadomość!',
+                            'Twój produkt jest już dostępny w naszym sklepie. Wejdź w poniższy link i zarezerwuj:',
+                            `${process.env.API_URL}:3000/sklep`,
+                            'Przejdź do sklepu'
                         )
+                    }
+
+                    await transporter.sendMail(mailOptions, function(error, info) {
+                        console.log(error);
+                        if(error) {
+                            response.status(500).end();
+                        }
+                        else {
+                            waitlistRowsToDelete.forEach(async (item, index, array) => {
+                                const query = 'DELETE FROM waitlist WHERE product = $1 AND email = $2';
+                                const values = [item.id, item.email];
+
+                                if(index === array.length-1) {
+                                    await dbInsertQuery(query, values, response);
+                                }
+                                else {
+                                    await dbInsertQuery(query, values);
+                                }
+                            })
+                        }
+                    });
                 }
-
-                await transporter.sendMail(mailOptions, function(error, info) {
-                    if(error) {
-                        response.status(500).end();
-                    }
-                    else {
-                        waitlistRowsToDelete.forEach(async (item, index, array) => {
-                            const query = 'DELETE FROM waitlist WHERE product = $1 AND email = $2';
-                            const values = [item.id, item.email];
-
-                            if(index === array.length-1) {
-                                await dbInsertQuery(query, values, response);
-                            }
-                            else {
-                                await dbInsertQuery(query, values);
-                            }
-                        })
-                    }
-                });
+                else {
+                    response.status(201).end();
+                }
             }
         }
     });

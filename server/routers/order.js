@@ -9,6 +9,19 @@ const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 const got = require('got');
 
+let transporter = nodemailer.createTransport(smtpTransport ({
+    auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
+    },
+    host: process.env.EMAIL_HOST,
+    secureConnection: true,
+    port: 465,
+    tls: {
+        rejectUnauthorized: false
+    },
+}));
+
 router.get('/all', (request, response) => {
    const query = `SELECT o.id, u.first_name, u.last_name, o.date FROM orders o JOIN users u ON o.user = u.id WHERE hidden = FALSE`;
 
@@ -19,7 +32,7 @@ router.get('/', (request, response) => {
    const id = request.query.id;
 
    if(id) {
-       const query = `SELECT o.id, o.date, u.first_name, u.last_name, u.email, u.phone_number, o.shipping,
+       const query = `SELECT o.id, o.date, o.delivery_number, u.first_name, u.last_name, u.email, u.phone_number, o.shipping, p.id as product_id,
                     o.status, da.city as delivery_city, da.street as delivery_street, da.postal_code as delivery_postal_code, da.building as delivery_building,
                     da.first_name as delivery_first_name, da.last_name as delivery_last_name, da.phone_number as delivery_phone_number,
                     da.flat as delivery_flat, ua.city as user_city, ua.street as user_street, ua.postal_code as user_postal_code, ua.building as user_building,
@@ -45,14 +58,133 @@ router.get('/', (request, response) => {
    }
 });
 
+const sendStatus1Mail = (response, orderId, email) => {
+    const query = `SELECT prod.name_pl as product_name, prod.type,
+                (SELECT string_agg(a.name_pl || ': ' || ao.name_pl, ';') as addon_name
+                FROM orders o
+                JOIN sells s ON s.order = o.id
+                JOIN sells_addons sa ON s.id = sa.sell
+                JOIN products p ON p.id = s.product
+                JOIN addons_options ao ON ao.id = sa.option
+                JOIN addons a ON a.id = ao.addon 
+                WHERE o.id = $1 AND p.name_pl = prod.name_pl
+                ) as addons
+            FROM orders o
+            JOIN sells s ON s.order = o.id
+            JOIN sells_addons sa ON s.id = sa.sell
+            JOIN products prod ON prod.id = s.product
+            JOIN addons_options ao ON ao.id = sa.option
+            JOIN addons a ON a.id = ao.addon
+            WHERE o.id = $1
+            GROUP BY (prod.name_pl, prod.type, s.id)`;
+    const values = [orderId];
+
+    db.query(query, values, (err, res) => {
+        if(res) {
+            const r = res.rows;
+
+            const formsLinks = r.map((item) => {
+                return `<a style="margin: 5px 0; display: block; color: #B9A16B; text-decoration: underline;"
+ href="${process.env.API_URL}:3000/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item.type}">
+                        ${process.env.API_URL}:3000/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item.type}
+</a>`
+            }).join('');
+
+            const addons = r.map((item) => {
+                return item.addons.split(';').map((item) => {
+                    return `<p style="color: #B9A16B; margin: 0;">
+                      ${item}
+                  </p>`
+                }).join('');
+            });
+
+            const cart = r.map((item, index) => {
+                return `<div style="margin: 10px 0;">
+                  <h3 style="color: #B9A16B; font-size: 15px;">
+                      ${item.product_name}
+                  </h3>
+                  ${addons[index]}
+              </div>`
+            }).join('');
+
+            let mailOptions = {
+                from: process.env.EMAIL_ADDRESS,
+                to: email,
+                subject: 'Otrzymaliśmy Twoją rezerwację',
+                html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Właśnie otrzymaliśmy Twoją Rezerwację o numerze <b>#${orderId}</b> na ${r.length > 1 ? 'pary' : 'parę'} obuwia: 
+                </p>
+                ${cart}       
+                <p style="color: #B9A16B;">
+                    Czekamy <b>7 dni</b> na wypełnienie Formularza Mierzenia Stopy oraz wysłanie nam oryginalnych kartek z obrysem stopy prawej oraz lewej na nasz adres korespondencyjny Lublin. 
+                </p>
+                <p style="color: #B9A16B;">
+                    Formularz Mierzenia Stopy znajduje się bezpośrednio pod
+                    ${formsLinks?.length > 1 ? 'linkami' : 'linkiem'}:
+                    
+                    ${formsLinks} 
+                </p>
+                <p style="color: #B9A16B;">
+                    Można go również otworzyć poprzez Panel Klienta:
+                </p>
+                <img src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/screen.png" 
+                style="display: block; margin: 30px auto; max-width: 90%;" alt="anna-vinbotti" />
+                                
+                <p style="color: #B9A16B;">
+                    Przy wypełnianiu Formularza Mierzenia Stopy, prosimy postępować krok po kroku tak jak jest to opisane w artykule 
+                    <a href="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/jak-mierzyc" target="_blank" style="text-decoration: underline; text-transform: uppercase; color: #B9A16B; font-weight: 700;">
+                    Jak mierzyć?</a>
+                     na naszej stronie www. 
+                </p>
+                <p style="color: #B9A16B;">
+                    Zastrzegamy, że w przypadku braku wypełnienia Formularza oraz dostarczenia nam obrysów, rezerwacja zostanie anulowana. 
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+            }
+
+            transporter.sendMail(mailOptions, function(error, info) {
+                response.status(201);
+                response.send({
+                    id: orderId
+                });
+            });
+        }
+        else {
+            response.status(500).end();
+        }
+    });
+}
+
+router.put('/update-order-delivery-number', (request, response) => {
+   const { deliveryNumber, orderId } = request.body;
+
+   console.log(deliveryNumber);
+   console.log(orderId);
+
+   const query = `UPDATE orders SET delivery_number = $1 WHERE id = $2`;
+   const values = [deliveryNumber, orderId];
+
+   dbInsertQuery(query, values, response);
+});
+
 const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response) => {
     const id = uuidv4().substring(0, 6);
     let sellsIds = [];
-    const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW(), $7, NULL, NULL)';
+    const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW(), $7, NULL, NULL, NULL)';
     const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
-
-    console.log("NEWSLETTER");
-    console.log(newsletter);
 
     if(newsletter === 'true') {
         const query = 'SELECT email FROM users WHERE id = $1';
@@ -73,8 +205,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
 
     // ADD ORDER
     await db.query(query, values, (err, res) => {
-        console.log(err);
-        console.log('order');
         if(res) {
             sells.forEach(async (item, index, array) => {
                 const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
@@ -92,8 +222,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                                     const options = item.options;
                                     const sellIndex = item.sell;
 
-                                    console.log(sellsIds);
-
                                     await options.forEach(async (item, index, array) => {
                                         const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
                                         const values = [sellsIds[sellIndex], item];
@@ -101,11 +229,10 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                                         if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
                                             await db.query(query, values, (err, res) => {
                                                 if(res) {
-                                                    response.status(201);
-                                                    response.send({id});
+                                                    // Send mail
+                                                    sendStatus1Mail(response, id, user.email);
                                                 }
                                                 else {
-                                                    console.log(err);
                                                     response.status(500).end();
                                                 }
                                             });
@@ -224,13 +351,360 @@ router.post('/add', (request, response) => {
     }
 });
 
+const sendStatus3Email = (email, response) => {
+    let mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: email,
+        subject: 'Oczekiwanie na płatność',
+        html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Miło nam poinformować, że pomyślnie zweryfikowaliśmy dostarczone informacje, dotyczące wymiaru stóp.
+                    </p>
+                <p style="color: #B9A16B;">
+                    Zamówienie zostanie przyjęte do realizacji po zaksięgowaniu płatności.
+                    </p>
+                <p style="color: #B9A16B;">
+                    Prosimy o dokonanie płatności na stronie anna-vinbotti.com, w zakładce Panel Klienta -> Zamówienia.
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+    }
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        response.status(201);
+    });
+}
+
+const sendStatus4Email = (email, orderId, response = null) => {
+    const query = `SELECT prod.name_pl as product_name, prod.type,
+                (SELECT string_agg(a.name_pl || ': ' || ao.name_pl, ';') as addon_name
+                FROM orders o
+                JOIN sells s ON s.order = o.id
+                JOIN sells_addons sa ON s.id = sa.sell
+                JOIN products p ON p.id = s.product
+                JOIN addons_options ao ON ao.id = sa.option
+                JOIN addons a ON a.id = ao.addon 
+                WHERE o.id = $1 AND p.name_pl = prod.name_pl
+                ) as addons
+            FROM orders o
+            JOIN sells s ON s.order = o.id
+            JOIN sells_addons sa ON s.id = sa.sell
+            JOIN products prod ON prod.id = s.product
+            JOIN addons_options ao ON ao.id = sa.option
+            JOIN addons a ON a.id = ao.addon
+            WHERE o.id = $1
+            GROUP BY (prod.name_pl, prod.type, s.id)`;
+    const values = [orderId];
+
+    db.query(query, values, (err, res) => {
+        if(res) {
+            const r = res.rows;
+
+            const addons = r.map((item) => {
+                return item.addons.split(';').map((item) => {
+                    return `<p style="color: #B9A16B; margin: 0;">
+                      ${item}
+                  </p>`
+                }).join('');
+            });
+
+            const cart = r.map((item, index) => {
+                return `<div style="margin: 10px 0;">
+                  <h3 style="color: #B9A16B; font-size: 15px;">
+                      ${item.product_name}
+                  </h3>
+                  ${addons[index]}
+              </div>`
+            }).join('');
+
+            let mailOptions = {
+                from: process.env.EMAIL_ADDRESS,
+                to: email,
+                subject: 'Zamówienie Przyjęto do Realizacji',
+                html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Dziękujemy za dokonanie płatności. Miło nam poinformować, że zamówienie o numerze #${orderId} zostało przyjęte do realizacji. Zamówienie dotyczy ${cart?.length > 1 ? 'następujących produktów' : 'następującego produktu'}:
+                    </p>
+                ${cart}       
+                <p style="color: #B9A16B;">
+                    Przystępujemy do pracy nad kopytem oraz wykonaniem Buta Do Miary.  
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+            }
+
+            transporter.sendMail(mailOptions, function(error, info) {
+                if(response) {
+                    response.status(201);
+                }
+            });
+        }
+        else {
+            if(response) {
+                response.status(500).end();
+            }
+        }
+    });
+}
+
+const sendStatus5Email = (email, orderId, response) => {
+    const query = `SELECT shipping, delivery_number FROM orders WHERE id = $1`;
+    const values = [orderId];
+
+    db.query(query, values, (err, res) => {
+       if(res) {
+           const r = res.rows[0];
+           const shipping = r.shipping;
+           const deliveryNumber = r.delivery_number;
+
+           const query = `SELECT prod.name_pl as product_name, prod.id,
+                (SELECT string_agg(a.name_pl || ': ' || ao.name_pl, ';') as addon_name
+                FROM orders o
+                JOIN sells s ON s.order = o.id
+                JOIN sells_addons sa ON s.id = sa.sell
+                JOIN products p ON p.id = s.product
+                JOIN addons_options ao ON ao.id = sa.option
+                JOIN addons a ON a.id = ao.addon 
+                WHERE o.id = $1 AND p.name_pl = prod.name_pl
+                ) as addons
+            FROM orders o
+            JOIN sells s ON s.order = o.id
+            JOIN sells_addons sa ON s.id = sa.sell
+            JOIN products prod ON prod.id = s.product
+            JOIN addons_options ao ON ao.id = sa.option
+            JOIN addons a ON a.id = ao.addon
+            WHERE o.id = $1
+            GROUP BY (prod.name_pl, prod.id, s.id)`;
+           const values = [orderId];
+
+           db.query(query, values, (err, res) => {
+              if(res) {
+                  const r = res.rows;
+
+                  const formsLinks = r.map((item) => {
+                      return `<a style="margin: 5px 0; display: block; color: #B9A16B; text-decoration: underline;"
+ href="${process.env.API_URL}:3000/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}">
+                        ${process.env.API_URL}:3000/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}
+</a>`
+                  }).join('');
+
+                  let mailOptions = {
+                      from: process.env.EMAIL_ADDRESS,
+                      to: email,
+                      subject: 'But Do Miary Został Wysłany',
+                      html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    But Do Miary został wysłany. <br/><br/>
+                    Metoda wysyłki: ${shipping}. <br/>
+                    Numer przesyłki: ${deliveryNumber}. 
+                </p>       
+                <p style="color: #B9A16B;">
+                    Po otrzymaniu przesyłki prosimy o przymierzenie Buta do Miary i sprawdzenie, czy jego rozmiar jest odpowiedni. Zalecane jest aby chwilkę w nim pochodzić, tak aby móc stwierdzić, czy nie jest za luźny, lub też nigdzie nie uciska. Jeżeli jest to but na obcasie, warto w miarę możliwości na lewą stopę założyć but o obcasie w podobnej wysokości. 
+                </p>
+                <p style="color: #B9A16B;">
+                Prosimy również o wypełnienie ${formsLinks?.length > 1 ? 'Formularzy' : 'Formularza'} Buta do Miary ${formsLinks?.length > 1 ? 'znajdującego' : 'znajdujących'} się w Panelu Klienta.
+                 
+                 </p>
+                 
+                 ${formsLinks}
+                 
+                 <p style="color: #B9A16B;">
+                 Dopiero po wypełnieniu Formularza Buta Do Miary, będziemy mogli przystąpić do pracy nad Finalną Parą Obuwia. 
+                </p>    
+
+                <img src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/screen.png" 
+                style="display: block; margin: 30px auto; max-width: 90%;" alt="anna-vinbotti" />
+                                
+                <p style="color: #B9A16B;">
+                    Jeżeli istnieje taka możliwość, to prosilibyśmy o odesłanie nam Buta Do Miary. W tym celu prosimy o kontakt, wówczas wyślemy kuriera po przesyłkę. 
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+                  }
+
+                  transporter.sendMail(mailOptions, function(error, info) {
+                      response.status(201).end();
+                  });
+              }
+              else {
+                  response.status(500).end();
+              }
+           });
+       }
+       else {
+           response.status(500).end();
+       }
+    });
+}
+
+const sendStatus7Email = (email, response) => {
+    let mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: email,
+        subject: 'Realizacja Finalnej Pary Obuwia',
+        html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Miło nam poinformować, że przystąpiliśmy do realizacji Finalnej Pary Obuwia. Gdy będzie gotowy, zostaniesz o tym poinformowana w kolejnej wiadomości.
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+    }
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        response.status(201);
+    });
+}
+
+const sendStatus8Email = (email, orderId, response) => {
+    const query = `SELECT delivery_number FROM orders WHERE id = $1`;
+    const values = [orderId];
+
+    db.query(query, values, (err, res) => {
+        if(res) {
+            const deliveryNumber = res.rows[0]?.delivery_number;
+
+            let mailOptions = {
+                from: process.env.EMAIL_ADDRESS,
+                to: email,
+                subject: 'Realizacja Finalnej Pary Obuwia',
+                html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Miło nam poinformować, że Finalna Para Obuwia została wysłana. Numer przesyłki to ${deliveryNumber}.
+                </p>
+                <p style="color: #B9A16B;">
+                    Mamy nadzieję, że nasz produkt będzie...
+                </p>
+                <p style="color: #B9A16B;">
+                    Zachęcamy do podzielenia się opinią na... 
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+            }
+
+            transporter.sendMail(mailOptions, function(error, info) {
+                let mailOptions = {
+                    from: process.env.EMAIL_ADDRESS,
+                    to: email,
+                    subject: 'Gwarancja do obuwia',
+                    attachments: [
+                        {
+                            filename: 'gwarancja-obuwia.pdf',
+                            path: './media/static/gwarancja.pdf'
+                        }
+                    ],
+                    html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Nasz produkt objęty jest dwuletnią gwarancją. W załączniku znajduje się dokument gwarancyjny.
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+                }
+
+                transporter.sendMail(mailOptions, function(error, info) {
+                    response.status(201).end();
+                });
+            });
+        }
+        else {
+            response.status(500).end();
+        }
+    });
+}
+
 router.put('/change-status', (request, response) => {
-    const { status, id } = request.body;
+    const { status, email, id } = request.body;
 
     const query = 'UPDATE orders SET status = $1 WHERE id = $2';
     const values = [status, id];
 
-    dbInsertQuery(query, values, response);
+    db.query(query, values, (err, res) => {
+        if(res) {
+            if(status === 3) {
+                sendStatus3Email(email, response);
+            }
+            else if(status === 4) {
+                sendStatus4Email(email, id, response);
+            }
+            else if(status === 5) {
+                sendStatus5Email(email, id, response);
+            }
+            else if(status === 7) {
+                sendStatus7Email(email, response);
+            }
+            else if(status === 8) {
+                sendStatus8Email(email, id, response);
+            }
+        }
+        else {
+            response.status(500).end();
+        }
+    })
 });
 
 router.get('/get-order-forms', (request, response) => {
@@ -463,6 +937,8 @@ router.post('/payment-notification', (request, response) => {
                 const query = `UPDATE orders SET status = 4 WHERE id = $1`;
                 const values = [body.transaction.orderId];
 
+                sendStatus4Email(body.transaction.customer.email, body.transaction.orderId);
+
                 db.query(query, values, (err, res) => {
                    if(res) {
                        response.status(200).send({
@@ -507,6 +983,102 @@ router.post('/add-to-waitlist', (request, response) => {
    else {
        response.status(400).end();
    }
+});
+
+router.post('/reject-client-form', (request, response) => {
+   const { data, orderId, email } = request.body;
+
+   const query = `UPDATE orders SET status = 1 WHERE id = $1`;
+   const values = [orderId];
+
+   db.query(query, values, (err, res) => {
+      if(res) {
+          let mailOptions = {
+              from: process.env.EMAIL_ADDRESS,
+              to: email,
+              subject: 'Niepełne dane - prośba o uzupełnienie',
+              html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Przeanalizowaliśmy dostarczone materiały dotyczące wymiaru stóp. Niektóre dane wydają się być niepoprawne, lub zdjęcia są niewyraźne.
+                </p>
+                <p style="color: #B9A16B;">
+                    Prośba o uzupełnienie/dostarczenie następujących info:
+                </p>
+                
+                 <p style="color: #B9A16B;">
+                    ${data}
+                 </p>
+                
+                <p style="color: #B9A16B;">
+                    Czekamy <b>4 dni</b> na powyższe informacje.  
+                </p>
+                <p style="color: #B9A16B;">
+                    W przypadku braku ich dostarczenia, rezerwacja zostanie anulowana.
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+          }
+
+          transporter.sendMail(mailOptions, function(error, info) {
+              response.status(201).end();
+          });
+      }
+      else {
+          response.status(500).end();
+      }
+   });
+});
+
+router.delete('/cancel-order', (request, response) => {
+   const { id, email } = request.query;
+
+   const query = `UPDATE orders SET hidden = TRUE WHERE id = $1`;
+   const values = [id];
+
+   db.query(query, values, (err, res) => {
+      if(res) {
+          let mailOptions = {
+              from: process.env.EMAIL_ADDRESS,
+              to: email,
+              subject: 'Niepełne dane - prośba o uzupełnienie',
+              html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Nie otrzymaliśmy wszystkich niezbędnych informacji, dotyczących wymiarów stóp, potrzebnych do dalszego procesowania Twojej rezerwacji o numerze #${id} W związku  powyższym, rezerwacja została anulowana. 
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+          }
+
+          transporter.sendMail(mailOptions, function(error, info) {
+              response.status(201).end();
+          });
+      }
+      else {
+          response.status(500).end();
+      }
+   });
 });
 
 module.exports = router;

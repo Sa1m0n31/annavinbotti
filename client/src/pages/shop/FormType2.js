@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
-import {getForm, getSecondTypeFilledForm, logout, sendForm} from "../../helpers/user";
+import {getForm, getSecondTypeFilledForm, getUserInfo, logout, sendForm} from "../../helpers/user";
 import {ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import imageIcon from "../../static/img/image-gallery.svg";
@@ -153,17 +153,26 @@ const FormType2 = () => {
     }
 
     const handleFormSubmit = (formData, formJSON) => {
-        sendForm(formData, 2, orderId, modelId, formJSON)
+        getUserInfo()
             .then((res) => {
-                if(res?.status === 201) {
-                    setSuccess(true);
+                const email = res?.data?.result[0]?.email;
+                if(email) {
+                    sendForm(formData, 2, orderId, modelId, formJSON, email)
+                        .then((res) => {
+                            if(res?.status === 201) {
+                                setSuccess(true);
+                            }
+                            else {
+                                setError(true);
+                            }
+                        })
+                        .catch(() => {
+                            setError(true);
+                        });
                 }
                 else {
                     setError(true);
                 }
-            })
-            .catch(() => {
-                setError(true);
             });
     }
 

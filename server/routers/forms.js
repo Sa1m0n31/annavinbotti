@@ -10,6 +10,19 @@ const dbInsertQuery = require('../helpers/dbInsertQuery');
 const multer  = require('multer')
 const upload = multer({ dest: 'media/filled-forms' })
 
+let transporter = nodemailer.createTransport(smtpTransport ({
+    auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
+    },
+    host: process.env.EMAIL_HOST,
+    secureConnection: true,
+    port: 465,
+    tls: {
+        rejectUnauthorized: false
+    },
+}));
+
 router.get('/all', (request, response) => {
     const query = `SELECT id, title_pl, type FROM forms
                     WHERE hidden = FALSE`;
@@ -205,6 +218,64 @@ router.delete('/delete', (request, response) => {
 
 // -------------------
 
+const sendStatus2Email = (email, response) => {
+    let mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: email,
+        subject: 'Weryfikacja podanych wymiarów',
+        html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Dziękujemy za uzupełnienie Formularza Mierzenia Stopy oraz przesłanie nam obrysów stóp. Aktualnie weryfikujemy przesłane dane. Po ich zaakceptowaniu, otrzymasz wiadomość o dalszych krokach.
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+    }
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        response.status(201).end();
+    });
+}
+
+const sendStatus6Email = (email, response) => {
+    let mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: email,
+        subject: 'But Do Miary Został Zweryfikowany',
+        html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Dziękujemy za weryfikację Buta Do Miary oraz wypełnienie formularza. W kolejnej wiadomości, poinformujemy o dalszym etapie.
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+    }
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        response.status(201).end();
+    });
+}
+
 router.get('/get-form', (request, response) => {
    const { type, formType } = request.query;
 
@@ -217,7 +288,7 @@ router.get('/get-form', (request, response) => {
 router.post('/send-form', upload.fields([
     { name: 'images', maxCount: 100 }
 ]), (request, response) => {
-   let { formType, orderId, type, formJSON } = request.body;
+   let { formType, orderId, type, formJSON, email } = request.body;
 
     const files = request.files;
     console.log(files);
@@ -310,9 +381,9 @@ router.post('/send-form', upload.fields([
                                 const query = `SELECT s.id FROM orders o
                                         JOIN sells s ON o.id = s.order
                                         WHERE o.id = $1 AND s.id NOT IN (
-                                            SELECT sell FROM filled_forms
+                                            SELECT sell FROM filled_forms WHERE form = $2
                                         )`;
-                                const values = [orderId];
+                                const values = [orderId, parseInt(formType)];
 
                                 db.query(query, values, (err, res) => {
                                     if(res) {
@@ -324,12 +395,26 @@ router.post('/send-form', upload.fields([
 
                                             if(parseInt(formType) === 1) {
                                                 query = 'UPDATE orders SET status = 2 WHERE id = $1';
+                                                db.query(query, values, (err, res) => {
+                                                    if(res) {
+                                                        sendStatus2Email(email, response);
+                                                    }
+                                                    else {
+                                                        response.status(500).end();
+                                                    }
+                                                });
                                             }
                                             else {
                                                 query = 'UPDATE orders SET status = 6 WHERE id = $1';
+                                                db.query(query, values, (err, res) => {
+                                                    if(res) {
+                                                        sendStatus6Email(email, response);
+                                                    }
+                                                    else {
+                                                        response.status(500).end();
+                                                    }
+                                                });
                                             }
-
-                                            dbInsertQuery(query, values, response);
                                         }
                                         else {
                                             response.status(201).end();
@@ -407,7 +492,7 @@ router.get('/get-first-type-filled-form', (request, response) => {
 router.get('/get-second-type-filled-form', (request, response) => {
     const { order, type } = request.query;
 
-    const query = `SELECT ff.form_data FROM filled_forms ff
+    const query = `SELECT ff.form_data, p.name_pl FROM filled_forms ff
                 JOIN sells s ON ff.sell = s.id
                 JOIN orders o ON o.id = s.order
                 JOIN products p ON s.product = p.id

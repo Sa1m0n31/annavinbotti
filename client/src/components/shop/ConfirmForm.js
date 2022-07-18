@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {sendForm} from "../../helpers/user";
+import {getUserInfo, sendForm} from "../../helpers/user";
 import Loader from "./Loader";
 import constans from "../../helpers/constants";
 import {ContentContext} from "../../App";
@@ -13,17 +13,26 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
     const [success, setSuccess] = useState(false);
 
     const handleFormSubmit = (formData) => {
-        sendForm(formData, formType, orderId, type, data)
+        getUserInfo()
             .then((res) => {
-                if(res?.status === 201) {
-                    setSuccess(true);
+                const email = res?.data?.result[0]?.email;
+                if(email) {
+                    sendForm(formData, formType, orderId, type, data, email)
+                        .then((res) => {
+                            if(res?.status === 201) {
+                                setSuccess(true);
+                            }
+                            else {
+                                setError(true);
+                            }
+                        })
+                        .catch(() => {
+                            setError(true);
+                        });
                 }
                 else {
                     setError(true);
                 }
-            })
-            .catch(() => {
-                setError(true);
             });
     }
 

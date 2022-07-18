@@ -20,6 +20,7 @@ import WaitlistDetails from "../../pages/admin/WaitlistDetails";
 import OrderDetails from "../../pages/admin/OrderDetails";
 import FormDetails from "../../pages/admin/FormDetails";
 import ChangeAdminPassword from "../../pages/admin/ChangeAdminPassword";
+import FormType2Details from "../../pages/admin/FormType2Details";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -95,6 +96,9 @@ const AdminWrapper = ({page}) => {
                 break;
             case 23:
                 setRenderPage(<ChangeAdminPassword />);
+                break;
+            case 24:
+                setRenderPage(<FormType2Details />);
                 break;
             default:
                 window.location = '/';
