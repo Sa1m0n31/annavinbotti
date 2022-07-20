@@ -47,7 +47,7 @@ const NewsletterSection = () => {
         <h4 className="newsletter__subheader">
             Zapraszamy do zapisu na nasz newsletter
         </h4>
-        {!status && !error ? <form className="newsletter__form">
+        {!status && !error ? <div className="newsletter__form">
             <label>
                 <input className="input input--client input--newsletter"
                        value={email}
@@ -57,7 +57,7 @@ const NewsletterSection = () => {
             <button className="btn btn--newsletter" onClick={(e) => { handleSubmit(e); }}>
                 Dołącz
             </button>
-        </form> : (status ? <span className="info info--success">
+        </div> : (status ? <span className="info info--success">
             {status}
         </span> : <span className="info info--error">
             {error}

@@ -9,7 +9,7 @@ const getTermsEn = () => {
     return axios.get('/content/get-terms-en');
 }
 
-const updateTermsPl = (terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10) => {
+const updateTermsPl = (terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11) => {
     return axios.put('/content/update-terms-pl', {
         terms: JSON.stringify(convertToRaw(terms?.getCurrentContent())),
         policy: JSON.stringify(convertToRaw(policy?.getCurrentContent())),
@@ -22,11 +22,12 @@ const updateTermsPl = (terms, policy, page1, page2, page3, page4, page5, page6, 
         page7: JSON.stringify(convertToRaw(page7?.getCurrentContent())),
         page8: JSON.stringify(convertToRaw(page8?.getCurrentContent())),
         page9: JSON.stringify(convertToRaw(page9?.getCurrentContent())),
-        page10: JSON.stringify(convertToRaw(page10?.getCurrentContent()))
+        page10: JSON.stringify(convertToRaw(page10?.getCurrentContent())),
+        page11: JSON.stringify(convertToRaw(page11?.getCurrentContent()))
     });
 }
 
-const updateTermsEn = (terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10) => {
+const updateTermsEn = (terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11) => {
     return axios.put('/content/update-terms-en', {
         terms: JSON.stringify(convertToRaw(terms?.getCurrentContent())),
         policy: JSON.stringify(convertToRaw(policy?.getCurrentContent())),
@@ -39,7 +40,8 @@ const updateTermsEn = (terms, policy, page1, page2, page3, page4, page5, page6, 
         page7: JSON.stringify(convertToRaw(page7?.getCurrentContent())),
         page8: JSON.stringify(convertToRaw(page8?.getCurrentContent())),
         page9: JSON.stringify(convertToRaw(page9?.getCurrentContent())),
-        page10: JSON.stringify(convertToRaw(page10?.getCurrentContent()))
+        page10: JSON.stringify(convertToRaw(page10?.getCurrentContent())),
+        page11: JSON.stringify(convertToRaw(page11?.getCurrentContent()))
     });
 }
 

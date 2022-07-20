@@ -7,10 +7,13 @@ import {ContentContext} from "../../App";
 import {getDate, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, groupBy} from "../../helpers/others";
 import constans from "../../helpers/constants";
 import {getFormByStatus, isFormFilled} from "../../components/shop/ClientOrders";
+import {isLoggedIn} from "../../helpers/auth";
+import LoadingPage from "../../components/shop/LoadingPage";
 
 const OrderDetails = () => {
     const { language, content } = useContext(ContentContext);
 
+    const [render, setRender] = useState(false);
     const [orderInfo, setOrderInfo] = useState([]);
     const [orderDetails, setOrderDetails] = useState({});
     const [cart, setCart] = useState([]);
@@ -25,75 +28,88 @@ const OrderDetails = () => {
         const id = new URLSearchParams(window.location.search).get('id');
 
         if(id) {
-            getOrdersWithEmptyFirstTypeForms()
+            isLoggedIn()
                 .then((res) => {
                     if(res?.status === 200) {
-                        setOrdersWithEmptyFirstTypeForms(res?.data?.result);
-                    }
-                });
+                        setRender(true);
 
-            getOrdersWithEmptySecondTypeForms()
-                .then((res) => {
-                    if(res?.status === 200) {
-                        setOrdersWithEmptySecondTypeForms(res?.data?.result);
-                    }
-                });
+                        getOrdersWithEmptyFirstTypeForms()
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setOrdersWithEmptyFirstTypeForms(res?.data?.result);
+                                }
+                            });
 
-            getOrderStatuses()
-                .then((res) => {
-                    const r = res?.data?.result;
-                    if(r) {
-                        setStatuses(r);
+                        getOrdersWithEmptySecondTypeForms()
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setOrdersWithEmptySecondTypeForms(res?.data?.result);
+                                }
+                            });
+
+                        getOrderStatuses()
+                            .then((res) => {
+                                const r = res?.data?.result;
+                                if(r) {
+                                    setStatuses(r);
+                                }
+                                else {
+                                    window.location = '/panel-klienta';
+                                }
+                            })
+                            .catch(() => {
+                                window.location = '/panel-klienta';
+                            });
+
+                        getOrderById(id)
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setOrderInfo(res?.data?.result);
+                                    const order = res?.data?.result[0];
+                                    setOrderDetails({
+                                        id: order.id,
+                                        date: order.date,
+                                        status: order.status,
+                                        shipping: order.shipping,
+                                        payment: order.payment,
+                                        userData: {
+                                            firstName: order.first_name,
+                                            lastName: order.last_name,
+                                            email: order.email,
+                                            phoneNumber: order.phone_number,
+                                            street: order.user_street,
+                                            building: order.user_building,
+                                            flat: order.user_flat,
+                                            city: order.city,
+                                            postalCode: order.postal_code
+                                        },
+                                        deliveryData: {
+                                            firstName: order.delivery_first_name,
+                                            lastName: order.delivery_last_name,
+                                            phoneNumber: order.delivery_phone_number,
+                                            street: order.delivery_street,
+                                            building: order.delivery_building,
+                                            flat: order.delivery_flat,
+                                            city: order.delivery_city,
+                                            postalCode: order.delivery_postal_code
+                                        }
+                                    });
+                                }
+                                else {
+                                    window.location = '/panel-klienta';
+                                }
+                            })
+                            .catch(() => {
+                                window.location = '/panel-klienta';
+                            });
                     }
                     else {
-                        window.location = '/panel-klienta';
+                        window.location = '/';
                     }
                 })
                 .catch(() => {
-                    window.location = '/panel-klienta';
+                    window.location = '/';
                 });
-
-            getOrderById(id)
-                .then((res) => {
-                    if(res?.status === 200) {
-                        console.log(res?.data?.result);
-                        setOrderInfo(res?.data?.result);
-                        const order = res?.data?.result[0];
-                        setOrderDetails({
-                            id: order.id,
-                            date: order.date,
-                            status: order.status,
-                            shipping: order.shipping,
-                            userData: {
-                                firstName: order.first_name,
-                                lastName: order.last_name,
-                                email: order.email,
-                                phoneNumber: order.phone_number,
-                                street: order.user_street,
-                                building: order.user_building,
-                                flat: order.user_flat,
-                                city: order.city,
-                                postalCode: order.postal_code
-                            },
-                            deliveryData: {
-                                firstName: order.delivery_first_name,
-                                lastName: order.delivery_last_name,
-                                phoneNumber: order.delivery_phone_number,
-                                street: order.delivery_street,
-                                building: order.delivery_building,
-                                flat: order.delivery_flat,
-                                city: order.delivery_city,
-                                postalCode: order.delivery_postal_code
-                            }
-                        });
-                    }
-                    else {
-                        window.location = '/panel-klienta';
-                    }
-                })
-                .catch(() => {
-                    window.location = '/panel-klienta';
-                })
         }
         else {
             window.location = '/panel-klienta';
@@ -175,7 +191,7 @@ const OrderDetails = () => {
         }
     }, [cart]);
 
-    return <div className="container">
+    return render ? <div className="container">
         <PageHeader />
         <main className="panel w flex">
             <div className="panel__menu">
@@ -320,7 +336,7 @@ const OrderDetails = () => {
                             Metoda płatności
                         </h5>
                         <p>
-                            Płatności internetowe
+                            {orderDetails?.payment === 1 ? 'Przelew tradycyjny' : 'Płatności internetowe'}
                         </p>
                     </section>
                     <section className="orderDetails__bottom__section orderDetails__bottom__section--last">
@@ -339,7 +355,7 @@ const OrderDetails = () => {
 
         </main>
         <Footer />
-    </div>
+    </div> : <LoadingPage />
 };
 
 export default OrderDetails;

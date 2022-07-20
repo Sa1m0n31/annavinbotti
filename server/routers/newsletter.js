@@ -7,7 +7,7 @@ const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 const nodemailer = require("nodemailer");
 const smtpTransport = require('nodemailer-smtp-transport');
-const emailTemplate = require("./others");
+const emailTemplate = require("./others").emailTemplate;
 const { v4: uuidv4 } = require('uuid');
 
 let transporter = nodemailer.createTransport(smtpTransport ({
@@ -105,7 +105,7 @@ router.post('/add', (request, response) => {
                   subject: 'Potwierdź swoją subskrypcję newslettera',
                   html: emailTemplate('Dziękujemy za zapisanie się do naszego newslettera',
                       'Kliknij w poniższy link, aby potwierdzić swój zapis do newslettera i być na bieżąco ze światem Anna Vinbotti!',
-                      `${process.env.API_URL}:3000/potwierdzenie-subskrypcji-newslettera?token=${token}`,
+                      `${process.env.API_URL}/potwierdzenie-subskrypcji-newslettera?token=${token}`,
                       'Potwierdź subskrypcję'
                   )
                }

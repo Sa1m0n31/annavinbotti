@@ -8,10 +8,12 @@ import imageIcon from "../../static/img/image-gallery.svg";
 import {getTypeById} from "../../helpers/products";
 import ConfirmForm from "../../components/shop/ConfirmForm";
 import OldFormData from "../../components/shop/OldFormData";
+import LoadingPage from "../../components/shop/LoadingPage";
 
 const FormType1 = () => {
     const { language } = useContext(ContentContext);
 
+    const [render, setRender] = useState(false);
     const [orderId, setOrderId] = useState('');
     const [typeId, setTypeId] = useState(0);
     const [type, setType] = useState('');
@@ -24,10 +26,6 @@ const FormType1 = () => {
     const [validationSucceed, setValidationSucceed] = useState(false);
     const [formData, setFormData] = useState([]);
     const [oldForm, setOldForm] = useState(null);
-
-    useEffect(() => {
-        console.log(oldForm);
-    }, [oldForm]);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -68,6 +66,7 @@ const FormType1 = () => {
 
     useEffect(() => {
         if(form) {
+            setRender(true);
             setRequiredInputs(form?.sections?.reduce((prev, curr) => {
                 return prev + curr?.fields?.filter((item) => {
                     return item?.type === 1;
@@ -153,7 +152,7 @@ const FormType1 = () => {
         }
     }, [formData]);
 
-    return <div className="container">
+    return render ? <div className="container">
         <PageHeader />
 
         <main className="panel w flex">
@@ -272,7 +271,7 @@ const FormType1 = () => {
         </main>
 
         <Footer />
-    </div>
+    </div> : <LoadingPage />
 };
 
 export default FormType1;

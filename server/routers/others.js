@@ -69,6 +69,8 @@ router.post('/change-admin-password', (request, response) => {
 router.post('/send-contact-form', (request, response) => {
    const { name, email, message } = request.body;
 
+   console.log('test');
+
     let mailOptions = {
         from: process.env.EMAIL_ADDRESS,
         to: process.env.CONTACT_FORM_ADDRESS,
@@ -80,6 +82,7 @@ router.post('/send-contact-form', (request, response) => {
 
     transporter.sendMail(mailOptions, function(error, info) {
         if(error) {
+            console.log(error);
             response.status(500).end();
         }
         else {
@@ -108,5 +111,4 @@ const emailTemplate = (header, text, btnLink, btnText) => {
         </div>`
 }
 
-module.exports = router;
-module.exports = emailTemplate;
+module.exports = { router, emailTemplate }

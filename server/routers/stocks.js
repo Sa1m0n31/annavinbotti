@@ -5,7 +5,7 @@ const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 const nodemailer = require("nodemailer");
 const smtpTransport = require('nodemailer-smtp-transport');
-const emailTemplate = require("./others");
+const emailTemplate = require("./others").emailTemplate;
 
 let transporter = nodemailer.createTransport(smtpTransport ({
     auth: {
@@ -59,7 +59,7 @@ const checkWaitlists = (response) => {
                         subject: 'Twój produkt jest już dostępny!',
                         html: emailTemplate('Dobra wiadomość!',
                             'Twój produkt jest już dostępny w naszym sklepie. Wejdź w poniższy link i zarezerwuj:',
-                            `${process.env.API_URL}:3000/sklep`,
+                            `${process.env.API_URL}/sklep`,
                             'Przejdź do sklepu'
                         )
                     }

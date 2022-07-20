@@ -76,7 +76,7 @@ const isLoggedIn = (req, res, next) => {
     else res.redirect("/");
 }
 
-app.use(express.static(path.join(__dirname, '../shop/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 const urls = [
     'admin', 'panel', 'dodaj-produkt', 'lista-produktow', 'dodaj-dodatek', 'lista-dodatkow',
@@ -84,7 +84,14 @@ const urls = [
     'lista-stanow-magazynowych-produktow', 'lista-stanow-magazynowych-dodatkow',
     'dodaj-kategorie', 'lista-kategorii', 'dodaj-artykul', 'lista-artykulow', 'newsletter',
     'regulaminy-polski', 'regulaminy-angielski', 'waitlista', 'lista-zamowien', 'szczegoly-waitlisty',
-    'szczegoly-zamowienia', 'formularz', 'zmien-haslo-administratora'
+    'szczegoly-zamowienia', 'formularz', 'zmien-haslo-administratora',
+
+    'sklep', 'moje-konto', 'produkt', 'produkt/*', 'kontakt', 'blog', 'post/*', 'przypomnij-haslo', 'po-rejestracji',
+    'odzyskiwanie-hasla', 'zamowienie', 'potwierdzenie-subskrypcji-newslettera', 'faq', 'o-nas',
+    'nasze-wartosci', 'jak-powstaja', 'jak-zamawiac', 'jak-mierzyc-stope-czolenka', 'jak-mierzyc-stope-oficerki',
+    'odstapienie-od-umowy', 'wysylka', 'sposoby-platnosci', 'adres-do-wysylki', 'regulamin', 'polityka-prywatnosci',
+    'panel-klienta', 'informacje-o-zamowieniu', 'formularz-mierzenia-stopy', 'formularz-weryfikacji-buta',
+    'oplac-zamowienie', 'weryfikacja'
 ]
 
 /* Routers */
@@ -123,10 +130,10 @@ app.use('/addons', addonRouter);
 app.use('/types', typesRouter);
 app.use('/stocks', stocksRouter);
 // app.use("/auth", authRouter);
-app.use('/blog', blogRouter);
+app.use('/blog-api', blogRouter);
 app.use('/newsletter-api', newsletterRouter);
 app.use('/content', contentRouter);
-app.use('/others', othersRouter);
+app.use('/others', othersRouter.router);
 app.use('/user', userRouter);
 app.use('/forms', formsRouter);
 app.use("/image", imageRouter); // only / not restricted (display image)
@@ -148,7 +155,7 @@ app.use("/image", imageRouter); // only / not restricted (display image)
 
 urls.forEach((item) => {
     app.get(`/${item}`, (req, res) => {
-        res.sendFile(path.join(__dirname, '../shop/build/index.html'));
+        res.sendFile(path.join(__dirname, '../client/build/index.html'));
     });
 });
 

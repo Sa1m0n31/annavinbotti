@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 
 const OrderFormFields = ({formAnchor, fields, handleChange}) => {
     useEffect(() => {
@@ -7,10 +7,10 @@ const OrderFormFields = ({formAnchor, fields, handleChange}) => {
                 behavior: 'smooth'
             });
 
-            if(formAnchor === 'invoice') {
+            if(formAnchor === 'invoice' || formAnchor === 'invoice--mobile') {
                 handleChange(true, 'invoice');
             }
-            else if(formAnchor === 'deliveryAddress') {
+            else if(formAnchor === 'deliveryAddress' || formAnchor === 'deliveryAddress--mobile') {
                 handleChange(true, 'differentDeliveryAddress');
             }
         }
@@ -23,6 +23,7 @@ const OrderFormFields = ({formAnchor, fields, handleChange}) => {
         <form className="orderForm">
             {/* PERSONAL DATA */}
             <div id="personalData">
+                <span className="anchorSpan" id="personalData--mobile"></span>
                 <label>
                     E-mail*
                     <input className="input input--order"
@@ -87,6 +88,7 @@ const OrderFormFields = ({formAnchor, fields, handleChange}) => {
 
             {/* INVOICE */}
             <div id="invoice">
+                <span className="anchorSpan" id="invoice--mobile"></span>
                 <label className="form__addons__label">
                     <button className={fields.invoice ? "form__check form__check--selected" : "form__check"}
                             type="button"
@@ -115,6 +117,7 @@ const OrderFormFields = ({formAnchor, fields, handleChange}) => {
 
             {/* DIFFERENT DELIVERY ADDRESS */}
             <div id="deliveryAddress">
+                <span className="anchorSpan" id="deliveryAddress--mobile"></span>
                 <label className="form__addons__label">
                     <button className={fields.differentDeliveryAddress ? "form__check form__check--selected" : "form__check"}
                             type="button"

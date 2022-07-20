@@ -34,9 +34,9 @@ router.get('/get-terms-en', (request, response) => {
 });
 
 router.put('/update-terms-pl', (request, response) => {
-   const { terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10 } = request.body;
+   const { terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11 } = request.body;
 
-   console.log(page1);
+   console.log(page11);
 
    const query = `UPDATE content SET value_pl = CASE
                    WHEN field = 'terms_of_service' THEN $1
@@ -51,15 +51,16 @@ router.put('/update-terms-pl', (request, response) => {
                    WHEN field = 'page_8' THEN $10
                    WHEN field = 'page_9' THEN $11
                    WHEN field = 'page_10' THEN $12
+                   WHEN field = 'page_11' THEN $13
                    END WHERE field IN ('terms_of_service','privacy_policy', 'page_1', 'page_2', 'page_3', 'page_4', 'page_5',
-                     'page_6', 'page_7', 'page_8', 'page_9', 'page_10')`;
-   const values = [terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10];
+                     'page_6', 'page_7', 'page_8', 'page_9', 'page_10', 'page_11')`;
+   const values = [terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11];
 
     dbInsertQuery(query, values, response);
 });
 
 router.put('/update-terms-en', (request, response) => {
-    const { terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10 } = request.body;
+    const { terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11 } = request.body;
 
     const query = `UPDATE content SET value_en = CASE
                    WHEN field = 'terms_of_service' THEN $1
@@ -74,9 +75,10 @@ router.put('/update-terms-en', (request, response) => {
                    WHEN field = 'page_8' THEN $10
                    WHEN field = 'page_9' THEN $11
                    WHEN field = 'page_10' THEN $12
+                   WHEN field = 'page_11' THEN $13
                    END WHERE field IN ('terms_of_service','privacy_policy', 'page_1', 'page_2', 'page_3', 'page_4', 'page_5',
-                     'page_6', 'page_7', 'page_8', 'page_9', 'page_10')`;
-    const values = [terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10];
+                     'page_6', 'page_7', 'page_8', 'page_9', 'page_10', 'page_11')`;
+    const values = [terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11];
 
     dbInsertQuery(query, values, response);
 });

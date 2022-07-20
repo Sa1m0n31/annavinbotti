@@ -43,7 +43,7 @@ router.get('/get-shop-page', (request, response) => {
                   JOIN types t ON p.type = t.id
                   JOIN products_stocks ps ON ps.product = p.id
                   JOIN stocks s ON s.id = ps.stock 
-                  WHERE p.hidden = FALSE`;
+                  WHERE p.hidden = FALSE ORDER BY p.priority DESC`;
 
    dbSelectQuery(query, [], response);
 });
@@ -150,51 +150,61 @@ router.patch('/update', upload.fields([
    { name: 'gallery', maxCount: 10 },
    { name: 'mainImage', maxCount: 1 }
 ]), (request, response) => {
-   const { id, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, type, price } = request.body;
+   let { id, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, type, price, showOnHomepage, priority } = request.body;
 
-   const slug = createSlug(namePl);
-   const files = request.files;
-   let mainImageName;
+   console.log(namePl);
 
-   if(files.mainImage) {
-      if(files.mainImage[0]) {
-         mainImageName = files.mainImage[0].filename;
+   try {
+      const slug = createSlug(namePl);
+      const files = request.files;
+      let mainImageName;
+
+      if(files.mainImage) {
+         if(files.mainImage[0]) {
+            mainImageName = files.mainImage[0].filename;
+         }
       }
-   }
 
-   const query = `UPDATE products SET type = $1, name_pl = $2, name_en = $3, description_pl = $4, description_en = $5, details_pl = $6, details_en = $7, price = $8, main_image = COALESCE($9, main_image), slug = $10 WHERE id = $10`;
-   const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, slug, id];
+      const query = `UPDATE products SET type = $1, name_pl = $2, name_en = $3, description_pl = $4, description_en = $5, 
+   details_pl = $6, details_en = $7, price = $8, main_image = COALESCE($9, main_image), slug = $10, show_on_homepage = $11, priority = $12 
+   WHERE id = $13`;
+      const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, slug, showOnHomepage, priority, id];
 
-   db.query(query, values, (err, res) => {
-      if(res) {
-         if(files.gallery) {
-            deleteProductGallery(id)
-                .then(() => {
-                   addGallery(files.gallery, id, response);
-                });
+      db.query(query, values, (err, res) => {
+         if(res) {
+            if(files.gallery) {
+               deleteProductGallery(id)
+                   .then(() => {
+                      addGallery(files.gallery, id, response);
+                   });
+            }
+            else {
+               response.status(201).end();
+            }
          }
          else {
-            response.status(201).end();
+            console.log(err);
+            response.status(500).end();
          }
-      }
-      else {
-         response.status(500).end();
-      }
-   });
+      });
+   }
+   catch(err) {
+      console.log(err);
+   }
 });
 
 router.post('/add', upload.fields([
    { name: 'gallery', maxCount: 10 },
    { name: 'mainImage', maxCount: 1 }
 ]), (request, response) => {
-   const { namePl, nameEn, descPl, descEn, detailsPl, detailsEn, type, price } = request.body;
+   const { namePl, nameEn, descPl, descEn, detailsPl, detailsEn, type, price, showOnHomepage, priority } = request.body;
 
    const files = request.files;
    const mainImageName = files.mainImage[0].filename;
    const slug = createSlug(namePl);
 
-   const query = `INSERT INTO products VALUES (nextval('product_seq'), $1, $2, $3, $4, $5, $6, $7, $8, $9, FALSE, $10) RETURNING id`;
-   const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, slug];
+   const query = `INSERT INTO products VALUES (nextval('product_seq'), $1, $2, $3, $4, $5, $6, $7, $8, $9, FALSE, $10, $11, $12) RETURNING id`;
+   const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, slug, showOnHomepage, priority];
 
    db.query(query, values, (err, res) => {
       if(res) {
@@ -217,6 +227,24 @@ router.post('/add', upload.fields([
          response.status(500).end();
       }
    });
+});
+
+router.get('/get-homepage-models', (request, response) => {
+   const query = `SELECT p.id, p.slug, p.name_pl, p.name_en, p.main_image,
+                  s.counter, (SELECT COUNT(*)
+                  FROM addons_for_products afp
+                  LEFT OUTER JOIN addons_options ao ON afp.addon = ao.addon
+                  LEFT OUTER JOIN addons_stocks ad_stocks ON ad_stocks.addon_option = ao.id
+                  LEFT OUTER JOIN stocks s ON s.id = ad_stocks.stock
+                  WHERE afp.product = p.id AND ao.hidden = FALSE AND s.counter <= 0) as addons_not_available
+                  FROM products p 
+                  JOIN types t ON p.type = t.id
+                  JOIN products_stocks ps ON ps.product = p.id
+                  JOIN stocks s ON s.id = ps.stock 
+                  WHERE p.hidden = FALSE AND p.show_on_homepage = TRUE 
+                  ORDER BY p.priority DESC`;
+
+   dbSelectQuery(query, [], response);
 });
 
 router.delete('/delete', (request, response) => {

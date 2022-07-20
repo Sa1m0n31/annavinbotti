@@ -1,23 +1,37 @@
 import React, {useEffect, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
-import {logoutUser} from "../../helpers/auth";
+import {isLoggedIn, logoutUser} from "../../helpers/auth";
 import ClientPanelStart from "../../components/shop/ClientPanelStart";
 import ClientOrders from "../../components/shop/ClientOrders";
 import UserData from "../../components/shop/UserData";
+import LoadingPage from "../../components/shop/LoadingPage";
 
 const ClientPanel = () => {
+    const [render, setRender] = useState(false);
     const [menu, setMenu] = useState(-1);
     const [mainComponent, setMainComponent] = useState(null);
 
     useEffect(() => {
-        const section = new URLSearchParams(window.location.search).get('sekcja');
-        if(section === 'zamowienia') {
-            setMenu(1);
-        }
-        else if(section === 'twoje-dane') {
-            setMenu(0);
-        }
+        isLoggedIn()
+            .then((res) => {
+                if(res?.status === 200) {
+                    setRender(true);
+                    const section = new URLSearchParams(window.location.search).get('sekcja');
+                    if(section === 'zamowienia') {
+                        setMenu(1);
+                    }
+                    else if(section === 'twoje-dane') {
+                        setMenu(0);
+                    }
+                }
+                else {
+                    window.location = '/moje-konto';
+                }
+            })
+            .catch(() => {
+                window.location = '/moje-konto';
+            })
     }, []);
 
     useEffect(() => {
@@ -47,7 +61,7 @@ const ClientPanel = () => {
             });
     }
 
-    return <div className="container">
+    return render ? <div className="container">
         <PageHeader />
         <main className="panel w flex">
             <div className="panel__menu">
@@ -72,7 +86,7 @@ const ClientPanel = () => {
 
         </main>
         <Footer />
-    </div>
+    </div> : <LoadingPage />
 };
 
 export default ClientPanel;

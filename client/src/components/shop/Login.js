@@ -138,7 +138,8 @@ const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
             <span className="form__additionalInfo__header">
                 Nie posiadasz jeszcze konta?
             </span>
-            <button type="button" className="form__additionalInfo__btn" onClick={() => { fromCart ? window.location = '/moje-konto' : setFormType(1); }}>
+            <button type="button" className="form__additionalInfo__btn"
+                    onClick={() => { fromCart ? window.location = '/moje-konto?sekcja=rejestracja' : setFormType(1); }}>
                 Zarejestruj się
             </button>
         </div>

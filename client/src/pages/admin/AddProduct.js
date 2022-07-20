@@ -2,9 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import { Editor } from "react-draft-wysiwyg";
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import { convertFromRaw, EditorState } from 'draft-js';
 import {
-    addAddonsConditionsForProduct,
     addAddonsForProduct,
     addProduct, deleteAddonsForProduct,
     getAddonsByProduct,
@@ -41,6 +40,8 @@ const AddProduct = () => {
     const [initialGallery, setInitialGallery] = useState([]);
     const [galleryLoaded, setGalleryLoaded] = useState(false);
     const [id, setId] = useState(-1);
+    const [showOnHomepage, setShowOnHomepage] = useState(false);
+    const [priority, setPriority] = useState(0);
     const [currentAddonOptions, setCurrentAddonOptions] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -76,6 +77,8 @@ const AddProduct = () => {
                         setPrice(r.price);
                         setOldMainImage(r.main_image);
                         setSelectedType(r.type);
+                        setPriority(r.priority);
+                        setShowOnHomepage(r.show_on_homepage);
 
                         if(r.description_pl) {
                             setDescriptionPl(EditorState.createWithContent(convertFromRaw(JSON.parse(r.description_pl))));
@@ -328,9 +331,9 @@ const AddProduct = () => {
 
     const handleProductSubmit = (formData) => {
         if(updateMode) {
-            updateProduct(formData, id, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
+            updateProduct(formData, id, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn,
+                detailsPl, detailsEn, price, selectedType, showOnHomepage, priority)
                 .then((res) => {
-
                     deleteAddonsForProduct(id)
                         .then((res) => {
                             if(res) {
@@ -344,12 +347,13 @@ const AddProduct = () => {
                             setStatus(-2);
                         });
                 })
-                .catch(() => {
+                .catch((err) => {
                     setStatus(-2);
                 });
         }
         else {
-            addProduct(formData, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn, detailsPl, detailsEn, price, selectedType)
+            addProduct(formData, mainImageFile, namePl, nameEn, descriptionPl, descriptionEn,
+                detailsPl, detailsEn, price, selectedType, showOnHomepage, priority)
                 .then((res) => {
                     const productId = res?.data?.result;
                     if(productId) {
@@ -368,6 +372,7 @@ const AddProduct = () => {
     const createNewProduct = () => {
         setLoading(true);
         if(namePl && namePl && price && (selectedType !== -1) && (oldMainImage || mainImage) && gallery?.length) {
+            let handleProductSubmitInvoked = false;
             let formData = new FormData();
             for(let i=0; i<gallery.length; i++) {
                 const item = gallery[i];
@@ -382,6 +387,7 @@ const AddProduct = () => {
                             resolve();
                         })
                             .then(() => {
+                                console.log(gallery.length);
                                 if(i === gallery.length-1) {
                                     setTimeout(() => {
                                         handleProductSubmit(formData);
@@ -391,9 +397,12 @@ const AddProduct = () => {
 
                     }
                     else {
-                        setTimeout(() => {
-                            handleProductSubmit(formData);
-                        }, 500);
+                        if(!handleProductSubmitInvoked) {
+                            handleProductSubmitInvoked = true;
+                            setTimeout(() => {
+                                handleProductSubmit(formData);
+                            }, 500);
+                        }
                     }
                 };
                 xhr.send();
@@ -576,6 +585,32 @@ const AddProduct = () => {
                                 </span>
                             </label>
                         })}
+                    </div>
+                </div>
+
+                <div className="addProduct__addonsSection">
+                    <h3 className="addProduct__addonsSection__header">
+                        Wyświetlanie
+                    </h3>
+                    <div className="addProduct__addonsSection__main">
+                        <label className="addProduct__addonsSection__label">
+                            <button className={showOnHomepage ? "addProduct__addonsSection__btn addProduct__addonsSection__btn--selected" : "addProduct__addonsSection__btn"}
+                                    onClick={() => { setShowOnHomepage(!showOnHomepage); }}>
+
+                            </button>
+                            <span>
+                                Wyświetlaj na stronie głównej w zakładce Nasze Modele
+                            </span>
+                        </label>
+                        <label className="label">
+                            <span>
+                                Priorytet (im większa liczba, tym produkt będzie wyświetlał się wyżej)
+                            </span>
+                            <input className="input input--priority"
+                                   value={priority}
+                                   onChange={(e) => { setPriority(e.target.value); }}
+                                   type="number" />
+                        </label>
                     </div>
                 </div>
 

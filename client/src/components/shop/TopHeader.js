@@ -30,9 +30,9 @@ const TopHeader = () => {
                     link: '/o-nas'
                 },
                 {
-                    titlePl: "Dbałość o środowisko",
-                    titleEn: "Care about planet",
-                    link: '/dbalosc-o-srodowisko'
+                    titlePl: "Nasze watości",
+                    titleEn: "Our values",
+                    link: '/nasze-wartosci'
                 }
             ]
         },
@@ -52,9 +52,14 @@ const TopHeader = () => {
                     link: '/jak-zamawiac'
                 },
                 {
-                    titlePl: 'Jak mierzyć stopę',
-                    titleEn: 'Jak mierzyc stopę',
-                    link: '/jak-mierzyc-stope'
+                    titlePl: 'Jak mierzyć stopę - czółenka',
+                    titleEn: 'Jak mierzyc stopę - czółenka',
+                    link: '/jak-mierzyc-stope-czolenka'
+                },
+                {
+                    titlePl: 'Jak mierzyć stopę - oficerki',
+                    titleEn: 'Jak mierzyc stopę - oficerki',
+                    link: '/jak-mierzyc-stope-oficerki'
                 },
                 {
                     titlePl: 'Jak pielęgnować',

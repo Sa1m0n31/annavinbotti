@@ -106,7 +106,6 @@ function App() {
     if(localStorageItem) {
       const newCart = JSON.parse(localStorage.getItem('cart'))
           .filter((item) => {
-            console.log(JSON.stringify(item.product) === JSON.stringify(product));
             return !(JSON.stringify(item.product) === JSON.stringify(product) && JSON.stringify(item.addons) === JSON.stringify(addons));
           });
       setCartContent(newCart);
@@ -166,6 +165,9 @@ function App() {
       <Route path="/odzyskiwanie-hasla">
         <NewPasswordForm />
       </Route>
+      <Route path="/zamowienie">
+        <ShippingFormPage />
+      </Route>
       <Route path="/potwierdzenie-subskrypcji-newslettera">
         <NewsletterVerification />
       </Route>
@@ -175,8 +177,8 @@ function App() {
       <Route path="/o-nas">
         <Page field="page_1" title={language === 'pl' ? 'O nas' : 'About us'} />
       </Route>
-      <Route path="/dbalosc-o-srodowisko">
-        <Page field="page_2" title={language === 'pl' ? 'Dbałość o środowisko' : 'Care about planet'} />
+      <Route path="/nasze-wartosci">
+        <Page field="page_2" title={language === 'pl' ? 'Nasze wartości' : 'Our values'} />
       </Route>
       <Route path="/jak-powstaja">
         <Page field="page_3"
@@ -187,8 +189,11 @@ function App() {
       <Route path="/jak-zamawiac">
         <Page field="page_4" title={language === 'pl' ? 'Jak zamawiać' : 'Jak zamawiać'} />
       </Route>
-      <Route path="/jak-mierzyc-stope">
-        <Page field="page_5" title={language === 'pl' ? 'Jak mierzyć stopę' : 'Jak mierzyć stopę'} />
+      <Route path="/jak-mierzyc-stope-czolenka">
+        <Page field="page_5" title={language === 'pl' ? 'Jak mierzyć stopę - czółenka' : 'Jak mierzyć stopę'} />
+      </Route>
+      <Route path="/jak-mierzyc-stope-oficerki">
+        <Page field="page_11" title={language === 'pl' ? 'Jak mierzyć stopę - oficerki' : 'Jak mierzyć stopę'} />
       </Route>
       <Route path="/jak-pielegnowac">
         <Page field="page_6" title={language === 'pl' ? 'Jak pielęgnować' : 'Jak pielęgnować'} />
@@ -196,7 +201,7 @@ function App() {
       <Route path="/odstapienie-od-umowy">
         <Page field="page_7" title={language === 'pl' ? 'Odstąpienie od umowy' : 'Odstąpienie od umowy'} />
       </Route>
-      <Route path="wysylka">
+      <Route path="/wysylka">
         <Page field="page_8" title={language === 'pl' ? 'Wysyłka' : 'Wysyłka'} />
       </Route>
       <Route path="/sposoby-platnosci">
@@ -205,13 +210,16 @@ function App() {
       <Route path="/adres-do-wysylki">
         <Page field="page_10" title={language === 'pl' ? 'Adres do wysyłki' : 'Adres do wysyłki'} />
       </Route>
+      <Route path="/regulamin">
+        <Page field="terms_of_service" title={language === 'pl' ? 'Regulamin' : 'Terms of Service'} />
+      </Route>
+      <Route path="/polityka-prywatnosci">
+        <Page field="privacy_policy" title={language === 'pl' ? 'Polityka prywatności' : 'Privacy policy'} />
+      </Route>
 
       {/* USER */}
       <Route path="/panel-klienta">
         <ClientPanel />
-      </Route>
-      <Route path="/zamowienie">
-        <ShippingFormPage />
       </Route>
       <Route path="/informacje-o-zamowieniu">
         <OrderDetails />

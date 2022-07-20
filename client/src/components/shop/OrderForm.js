@@ -61,6 +61,13 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
     }
 
     useEffect(() => {
+        if(userLoggedIn) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
         getUserInfo()
             .then((res) => {
                 if(res?.status === 200) {
@@ -279,7 +286,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                             <label className="form__addons__label">
                                 <button className="form__check"
                                         type="button"
-                                        onClick={() => { setFormVisible(true); setFormAnchor('invoice'); }}>
+                                        onClick={() => { setFormVisible(true); setFormAnchor(window.innerWidth > 768 ? 'invoice' : 'invoice--mobile'); }}>
 
                                 </button>
                                 <span>
@@ -289,7 +296,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                             <label className="form__addons__label">
                                 <button className="form__check"
                                         type="button"
-                                        onClick={() => { setFormVisible(true); setFormAnchor('personalData'); }}>
+                                        onClick={() => { setFormVisible(true); setFormAnchor(window.innerWidth > 768 ? 'personalData' : 'personalData--mobile'); }}>
 
                                 </button>
                                 <span>
@@ -317,7 +324,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                             <label className="form__addons__label">
                                 <button className="form__check"
                                         type="button"
-                                        onClick={() => { setFormVisible(true); setFormAnchor('deliveryAddress'); }}>
+                                        onClick={() => { setFormVisible(true); setFormAnchor(window.innerWidth > 768 ? 'deliveryAddress' : 'deliveryAddress--mobile'); }}>
 
                                 </button>
                                 <span>

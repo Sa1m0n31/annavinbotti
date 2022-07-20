@@ -3,23 +3,22 @@ import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
 import {getForm, getSecondTypeFilledForm, getUserInfo, logout, sendForm} from "../../helpers/user";
 import {ContentContext} from "../../App";
-import constans from "../../helpers/constants";
 import imageIcon from "../../static/img/image-gallery.svg";
 import {getProductDetails, getTypeById, getTypeByProduct} from "../../helpers/products";
-import ConfirmForm from "../../components/shop/ConfirmForm";
 import FormSubmitted from "../../components/shop/FormSubmitted";
 import Loader from "../../components/shop/Loader";
 import OldFormDataType2 from "../../components/shop/OldFormDataType2";
+import LoadingPage from "../../components/shop/LoadingPage";
 
 const FormType2 = () => {
     const { language } = useContext(ContentContext);
 
+    const [render, setRender] = useState(false);
     const [typeId, setTypeId] = useState(null);
     const [orderId, setOrderId] = useState('');
     const [modelId, setModelId] = useState(0);
     const [model, setModel] = useState('');
     const [form, setForm] = useState([]);
-    const [inputs, setInputs] = useState({});
     const [images, setImages] = useState({});
     const [requiredInputs, setRequiredInputs] = useState(null);
     const [requiredImages, setRequiredImages] = useState(null);
@@ -78,14 +77,19 @@ const FormType2 = () => {
             getSecondTypeFilledForm(orderId, modelId)
                 .then((res) => {
                     if(res?.data?.result?.length) {
+                        setRender(true);
                         setOldForm(JSON.parse(res?.data?.result[0]?.form_data));
                     }
                     else {
                         getForm(typeId, 2)
                             .then((res) => {
                                 if(res?.status === 200) {
+                                    setRender(true);
                                     setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
                                 }
+                            })
+                            .catch(() => {
+                                window.location = '/';
                             });
                     }
                 })
@@ -353,7 +357,7 @@ const FormType2 = () => {
         }
     }
 
-    return <div className="container">
+    return render ? <div className="container">
         <PageHeader />
 
         <main className="panel w flex">
@@ -480,7 +484,7 @@ const FormType2 = () => {
         </main>
 
         <Footer />
-    </div>
+    </div> : <LoadingPage />
 };
 
 export default FormType2;

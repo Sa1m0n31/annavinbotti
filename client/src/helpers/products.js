@@ -29,7 +29,7 @@ const getProductGallery = (id) => {
     });
 }
 
-const addProduct = (formData, mainImage, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, type) => {
+const addProduct = (formData, mainImage, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, type, showOnHomepage, priority) => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
     formData.append('namePl', namePl);
     formData.append('nameEn', nameEn);
@@ -40,12 +40,15 @@ const addProduct = (formData, mainImage, namePl, nameEn, descPl, descEn, details
     formData.append('descEn', descPl ? JSON.stringify(convertToRaw(descEn?.getCurrentContent())) : '');
     formData.append('detailsPl', detailsPl ? JSON.stringify(convertToRaw(detailsPl?.getCurrentContent())) : '');
     formData.append('detailsEn', detailsEn ? JSON.stringify(convertToRaw(detailsEn?.getCurrentContent())) : '');
+    formData.append('showOnHomepage', showOnHomepage);
+    formData.append('priority', priority);
 
     return axios.post('/products/add', formData, config);
 }
 
-const updateProduct = (formData, id, mainImage, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, type) => {
+const updateProduct = (formData, id, mainImage, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, type, showOnHomepage, priority) => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
     formData.append('id', id);
     formData.append('namePl', namePl);
     formData.append('nameEn', nameEn);
@@ -56,6 +59,8 @@ const updateProduct = (formData, id, mainImage, namePl, nameEn, descPl, descEn, 
     formData.append('descEn', descPl ? JSON.stringify(convertToRaw(descEn?.getCurrentContent())) : '');
     formData.append('detailsPl', detailsPl ? JSON.stringify(convertToRaw(detailsPl?.getCurrentContent())) : '');
     formData.append('detailsEn', detailsEn ? JSON.stringify(convertToRaw(detailsEn?.getCurrentContent())) : '');
+    formData.append('showOnHomepage', showOnHomepage);
+    formData.append('priority', priority);
 
     return axios.patch('/products/update', formData, config);
 }
@@ -86,6 +91,10 @@ const getAddonById = (id) => {
             id
         }
     });
+}
+
+const getHomepageModels = () => {
+    return axios.get('/products/get-homepage-models');
 }
 
 const addAddon = (namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type) => {
@@ -267,7 +276,7 @@ const getTypeByProduct = (id) => {
     });
 }
 
-export { getAllProducts, getProductDetails, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById, getAllAddonsAndAddonsOptions,
+export { getAllProducts, getProductDetails, getHomepageModels, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById, getAllAddonsAndAddonsOptions,
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct, getShopPage,
     getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
     addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId,

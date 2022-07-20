@@ -32,13 +32,13 @@ const Footer = () => {
                     Moje konto
                 </h5>
                 {!loggedIn ? <>
-                    <a className="footer__link" href="/status-zamowienie">
+                    <a className="footer__link" href="/moje-konto">
                         Zaloguj się
                     </a>
-                    <a className="footer__link" href="/reklamacja-i-gwarancja">
+                    <a className="footer__link" href="/moje-konto?sekcja=rejestracja">
                         Załóż konto
                     </a>
-                </> : <a className="footer__link" href="/reklamacja-i-gwarancja">
+                </> : <a className="footer__link" href="/panel-klienta?sekcja=zamowienia">
                     Moje zamówienia
                 </a>}
             </div>

@@ -61,21 +61,23 @@ const ShippingFormPage = () => {
     }, [cartContent, orderStep]);
 
     useEffect(() => {
-        if(orderStep === 0 || orderStep === 2) {
+        if(orderStep === 0 || orderStep === 1 || orderStep === 2) {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         }
 
-        orderContent.current.style.opacity = '0';
-        setTimeout(() => {
-            setOrderStepDisplay(orderStep);
+        if(orderContent?.current) {
+            orderContent.current.style.opacity = '0';
             setTimeout(() => {
-                orderContent.current.style.opacity = '1';
-            }, 100);
-        }, 500);
-    }, [orderStep]);
+                setOrderStepDisplay(orderStep);
+                setTimeout(() => {
+                    orderContent.current.style.opacity = '1';
+                }, 100);
+            }, 500);
+        }
+    }, [orderStep, orderContent]);
 
     return <div className="container container--order">
         <PageHeader />

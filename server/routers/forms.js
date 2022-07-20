@@ -228,6 +228,7 @@ const sendStatus2Email = (email, response) => {
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -257,6 +258,7 @@ const sendStatus6Email = (email, response) => {
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -289,155 +291,171 @@ router.post('/send-form', upload.fields([
     { name: 'images', maxCount: 100 }
 ]), (request, response) => {
    let { formType, orderId, type, formJSON, email } = request.body;
+   const user = request.user;
 
-    const files = request.files;
-    console.log(files);
+   const query = `SELECT user FROM orders WHERE id = $1`;
+   const values = [orderId];
 
-    const getFileName = (name) => {
-        return files?.images?.find((item) => {
-            return item.originalname === name;
-        });
-    }
+   db.query(query, values, (err, res) => {
+       const selectedUser = res?.rows[0]?.user;
+       if(selectedUser) {
+           if(parseInt(selectedUser) === parseInt(user)) {
+               const files = request.files;
 
-    // Map to schema
-    if(parseInt(formType) === 1) {
-        formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
-            return {
-                type: item.type,
-                name: item.name?.replace('-leg0', '')?.replace('-leg1', ''),
-                value: item.type === 'txt' ? item.value : getFileName(item.name)?.filename
-            }
-        }));
+               const getFileName = (name) => {
+                   return files?.images?.find((item) => {
+                       return item.originalname === name;
+                   });
+               }
 
-        // Divide form by right and left foot
-        const formJSONParsed = JSON.parse(formJSON);
-        const middleIndex = Math.ceil(formJSONParsed.length / 2);
-        const firstHalf = formJSONParsed.splice(0, middleIndex);
-        const secondHalf = formJSONParsed.splice(-middleIndex);
-        formJSON = {
-            right: firstHalf,
-            left: secondHalf
-        };
-    }
-    else {
-        console.log(formJSON);
+               // Map to schema
+               if(parseInt(formType) === 1) {
+                   formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
+                       return {
+                           type: item.type,
+                           name: item.name?.replace('-leg0', '')?.replace('-leg1', ''),
+                           value: item.type === 'txt' ? item.value : getFileName(item.name)?.filename
+                       }
+                   }));
 
-        formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
-            return {
-                question: item.question,
-                answer: item.answer?.map((item) => {
-                    if(typeof item === 'object') {
-                        const objKey = Object.entries(item)[0][0];
-                        return {
-                            [objKey]: getFileName(objKey)?.filename
-                        }
-                    }
-                    else {
-                        return item;
-                    }
-                }),
-                type: typeof item.answer[0] === 'object' ? 'img' : 'txt'
-            }
-        }));
-    }
+                   // Divide form by right and left foot
+                   const formJSONParsed = JSON.parse(formJSON);
+                   const middleIndex = Math.ceil(formJSONParsed.length / 2);
+                   const firstHalf = formJSONParsed.splice(0, middleIndex);
+                   const secondHalf = formJSONParsed.splice(-middleIndex);
+                   formJSON = {
+                       right: firstHalf,
+                       left: secondHalf
+                   };
+               }
+               else {
+                   console.log(formJSON);
 
-    formJSON = JSON.stringify(formJSON);
+                   formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
+                       return {
+                           question: item.question,
+                           answer: item.answer?.map((item) => {
+                               if(typeof item === 'object') {
+                                   const objKey = Object.entries(item)[0][0];
+                                   return {
+                                       [objKey]: getFileName(objKey)?.filename
+                                   }
+                               }
+                               else {
+                                   return item;
+                               }
+                           }),
+                           type: typeof item.answer[0] === 'object' ? 'img' : 'txt'
+                       }
+                   }));
+               }
 
-    if(formType && orderId && type && formJSON) {
-        let query;
+               formJSON = JSON.stringify(formJSON);
 
-        if(parseInt(formType) === 1) {
-            // By type
-            query = `SELECT s.id FROM sells s 
+               if(formType && orderId && type && formJSON) {
+                   let query;
+
+                   if(parseInt(formType) === 1) {
+                       // By type
+                       query = `SELECT s.id FROM sells s 
                    JOIN orders o ON s.order = o.id
                    JOIN products p ON p.id = s.product
                    JOIN types t ON p.type = t.id
                    WHERE t.id = $1 AND o.id = $2`;
-        }
-        else {
-            // By model
-            query = `SELECT s.id FROM sells s 
+                   }
+                   else {
+                       // By model
+                       query = `SELECT s.id FROM sells s 
                    JOIN orders o ON s.order = o.id
                    JOIN products p ON p.id = s.product
                    WHERE p.id = $1 AND o.id = $2`;
-        }
+                   }
 
-        const values = [type, orderId];
+                   const values = [type, orderId];
 
-        db.query(query, values, (err, res) => {
-            if(res) {
-                const sells = res?.rows?.map((item) => {
-                    return item.id;
-                });
+                   db.query(query, values, (err, res) => {
+                       if(res) {
+                           const sells = res?.rows?.map((item) => {
+                               return item.id;
+                           });
 
-                sells?.forEach(async (item, index, array) => {
-                    const query = `INSERT INTO filled_forms VALUES ($1, $2, $3)`;
-                    const values = [formType, item, formJSON];
+                           sells?.forEach(async (item, index, array) => {
+                               const query = `INSERT INTO filled_forms VALUES ($1, $2, $3)`;
+                               const values = [formType, item, formJSON];
 
-                    await db.query(query, values, (err, res) => {
-                        if(res) {
-                            if(index === array.length - 1) {
-                                // Check if all forms submitted - if yes: change order status
-                                const query = `SELECT s.id FROM orders o
+                               await db.query(query, values, (err, res) => {
+                                   if(res) {
+                                       if(index === array.length - 1) {
+                                           // Check if all forms submitted - if yes: change order status
+                                           const query = `SELECT s.id FROM orders o
                                         JOIN sells s ON o.id = s.order
                                         WHERE o.id = $1 AND s.id NOT IN (
                                             SELECT sell FROM filled_forms WHERE form = $2
                                         )`;
-                                const values = [orderId, parseInt(formType)];
+                                           const values = [orderId, parseInt(formType)];
 
-                                db.query(query, values, (err, res) => {
-                                    if(res) {
-                                        const rows = res?.rows;
+                                           db.query(query, values, (err, res) => {
+                                               if(res) {
+                                                   const rows = res?.rows;
 
-                                        // sells in order and not in filled_forms == 0: update status
-                                        if(rows?.length === 0) {
-                                            let query;
+                                                   // sells in order and not in filled_forms == 0: update status
+                                                   if(rows?.length === 0) {
+                                                       let query;
 
-                                            if(parseInt(formType) === 1) {
-                                                query = 'UPDATE orders SET status = 2 WHERE id = $1';
-                                                db.query(query, values, (err, res) => {
-                                                    if(res) {
-                                                        sendStatus2Email(email, response);
-                                                    }
-                                                    else {
-                                                        response.status(500).end();
-                                                    }
-                                                });
-                                            }
-                                            else {
-                                                query = 'UPDATE orders SET status = 6 WHERE id = $1';
-                                                db.query(query, values, (err, res) => {
-                                                    if(res) {
-                                                        sendStatus6Email(email, response);
-                                                    }
-                                                    else {
-                                                        response.status(500).end();
-                                                    }
-                                                });
-                                            }
-                                        }
-                                        else {
-                                            response.status(201).end();
-                                        }
-                                    }
-                                    else {
-                                        response.status(500).end();
-                                    }
-                                });
-                            }
-                        }
-                        else {
-                            response.status(500).end();
-                        }
-                    });
-                });
-            }
-            else {
-                console.log(err);
-                response.status(500).end();
-            }
-        });
-    }
+                                                       if(parseInt(formType) === 1) {
+                                                           query = 'UPDATE orders SET status = 2 WHERE id = $1';
+                                                           db.query(query, values, (err, res) => {
+                                                               if(res) {
+                                                                   sendStatus2Email(email, response);
+                                                               }
+                                                               else {
+                                                                   response.status(500).end();
+                                                               }
+                                                           });
+                                                       }
+                                                       else {
+                                                           query = 'UPDATE orders SET status = 6 WHERE id = $1';
+                                                           db.query(query, values, (err, res) => {
+                                                               if(res) {
+                                                                   sendStatus6Email(email, response);
+                                                               }
+                                                               else {
+                                                                   response.status(500).end();
+                                                               }
+                                                           });
+                                                       }
+                                                   }
+                                                   else {
+                                                       response.status(201).end();
+                                                   }
+                                               }
+                                               else {
+                                                   response.status(500).end();
+                                               }
+                                           });
+                                       }
+                                   }
+                                   else {
+                                       response.status(500).end();
+                                   }
+                               });
+                           });
+                       }
+                       else {
+                           console.log(err);
+                           response.status(500).end();
+                       }
+                   });
+               }
+           }
+           else {
+               response.status(401).end();
+           }
+       }
+       else {
+           response.status(401).end();
+       }
+   });
 });
 
 router.get('/get-orders-with-empty-first-type-forms', (request, response) => {

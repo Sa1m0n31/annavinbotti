@@ -19,6 +19,7 @@ const AdminTerms = ({lang}) => {
     const [page8, setPage8] = useState("");
     const [page9, setPage9] = useState("");
     const [page10, setPage10] = useState("");
+    const [page11, setPage11] = useState("");
     const [status, setStatus] = useState(0);
 
     useEffect(() => {
@@ -28,7 +29,7 @@ const AdminTerms = ({lang}) => {
             .then((res) => {
                 const result = res?.data?.result;
                 let termsLocal, policyLocal, page1Local, page2Local, page3Local, page4Local, page5Local,
-                    page6Local, page7Local, page8Local, page9Local, page10Local;
+                    page6Local, page7Local, page8Local, page9Local, page10Local, page11Local;
 
                 if(lang === 'pl') {
                     termsLocal = result?.find((item) => {
@@ -66,6 +67,9 @@ const AdminTerms = ({lang}) => {
                     })?.value_pl;
                     page10Local = result?.find((item) => {
                         return item.field === 'page_10';
+                    })?.value_pl;
+                    page11Local = result?.find((item) => {
+                        return item.field === 'page_11';
                     })?.value_pl;
                 }
                 else {
@@ -105,6 +109,9 @@ const AdminTerms = ({lang}) => {
                     page10Local = result?.find((item) => {
                         return item.field === 'page_10';
                     })?.value_en;
+                    page11Local = result?.find((item) => {
+                        return item.field === 'page_11';
+                    })?.value_en;
                 }
 
                 setTerms(EditorState.createWithContent(convertFromRaw(JSON.parse(termsLocal))));
@@ -119,13 +126,14 @@ const AdminTerms = ({lang}) => {
                 setPage8(EditorState.createWithContent(convertFromRaw(JSON.parse(page8Local))));
                 setPage9(EditorState.createWithContent(convertFromRaw(JSON.parse(page9Local))));
                 setPage10(EditorState.createWithContent(convertFromRaw(JSON.parse(page10Local))));
+                setPage11(EditorState.createWithContent(convertFromRaw(JSON.parse(page11Local))));
             })
     }, []);
 
     const handleSubmit = () => {
         const func = lang === 'pl' ? updateTermsPl : updateTermsEn;
 
-        func(terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10)
+        func(terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11)
             .then((res) => {
                 if(res?.status === 201) {
                     setStatus(1);
@@ -200,7 +208,7 @@ const AdminTerms = ({lang}) => {
                 </section>
                 <section className="admin__editorWrapper">
                     <h3 className="editorWrapper__header">
-                        Dbałość o środowisko
+                        Nasze wartości
                     </h3>
                     <Editor
                         editorState={page2}
@@ -236,7 +244,7 @@ const AdminTerms = ({lang}) => {
                 </section>
                 <section className="admin__editorWrapper">
                     <h3 className="editorWrapper__header">
-                        Jak mierzyć stopę
+                        Jak mierzyć stopę - czółenka
                     </h3>
                     <Editor
                         editorState={page5}
@@ -244,6 +252,18 @@ const AdminTerms = ({lang}) => {
                         wrapperClassName="wrapperClassName"
                         editorClassName="editor"
                         onEditorStateChange={(text) => { setPage5(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak mierzyć stopę - oficerki
+                    </h3>
+                    <Editor
+                        editorState={page11}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage11(text); }}
                     />
                 </section>
                 <section className="admin__editorWrapper">

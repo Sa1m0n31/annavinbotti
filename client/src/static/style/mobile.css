@@ -24,9 +24,8 @@
         font-size: 21px;
     }
 
-    .blog__content__item__btn,
-    .blog__content__item__excerpt {
-        font-size: 14px;
+    .blog__content__item__btn {
+        font-size: 13px;
     }
 
     .panel__header,
@@ -113,6 +112,8 @@
     .shipping__method__circle {
         width: 15px;
         height: 15px;
+        flex-basis: 100%;
+        max-width: 15px;
     }
 
     .shipping__method__circle::after {
@@ -333,8 +334,12 @@
     }
 
     .product__title {
-        font-weight: 500;
-        font-size: 21px;
+        font-weight: 600;
+        font-size: 24px;
+    }
+
+    .addon__title {
+        font-size: 17px;
     }
 
     .product__price {
@@ -431,6 +436,77 @@
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .blog__header {
+        margin: 30px auto 20px;
+        font-size: 21px;
+    }
+
+    .payment .shipping__method__circle {
+        margin-right: 12px;
+    }
+
+    .shipping__method--selected .shipping__method__circle::after {
+        width: 7px;
+        height: 7px;
+    }
+
+    .formEnd,
+    .payment .btn--sendForm {
+        font-size: 14px;
+    }
+
+    .payment .pageHeader {
+        margin-top: 25px;
+        font-size: 21px;
+    }
+
+    .shipping__method__name {
+        text-align: left;
+        font-size: 12px;
+    }
+
+    .shipping__method__price {
+        font-size: 12px;
+    }
+
+    .payment .payment__text {
+        font-size: 15px;
+        font-weight: 400;
+    }
+
+    .shop__products__item__notAvailable,
+    .shop__products__item__btn {
+        font-size: 14px;
+    }
+
+    .shop__products__item__header {
+        font-size: 17px;
+    }
+
+    .form .input {
+        margin: 8px 0;
+    }
+
+    .form__passwordReminder {
+        font-size: 12px;
+    }
+
+    .emptyCart {
+        margin: 40px auto;
+    }
+
+    .emptyCart__header {
+        font-size: 21px;
+    }
+
+    .btn--backToShop {
+        height: 45px;
+        width: 250px;
+        font-size: 14px;
+        font-weight: 600;
+        max-width: 80vw;
     }
 
     .page {
@@ -562,12 +638,20 @@
         border-radius: 15px;
     }
 
+    .blog__content__item__header {
+        font-size: 17px;
+    }
+
+    .blog__content__item__excerpt {
+        font-size: 12px;
+        margin-top: 8px;
+    }
+
     .post .blog__header {
         font-size: 18px;
     }
 
     .blog__header {
-        font-size: 28px;
         text-align: center;
     }
 
@@ -594,11 +678,13 @@
     }
 
     .blog__meta {
+        margin: -10px 0 5px;
         justify-content: center;
     }
 
     .blog__meta p {
         margin: 0 15px;
+        font-size: 12px;
     }
 
     .post__bottom__btn {
@@ -606,11 +692,15 @@
     }
 
     .post__bottom__btn > span:first-of-type {
-        font-size: 15px;
+        font-size: 12px;
     }
 
     .post__bottom__btn > span:last-of-type {
-        font-size: 12px;
+        font-size: 11px;
+    }
+
+    .post__mainImg {
+        margin: 20px auto;
     }
 
     .post__mainImg,
@@ -786,8 +876,16 @@
     }
 
     .addon__option {
-        margin-bottom: 10px !important;
+        margin-bottom: 25px !important;
         max-width: 160px;
+    }
+
+    .addon__option__textType {
+        font-size: 12px;
+    }
+
+    .addon__option--selected .addon__option__imageType > span::after {
+        height: 1px;
     }
 
     .addon__options {
@@ -971,6 +1069,7 @@
     .mobileMenu {
         position: fixed;
         padding: 25px;
+        overflow-y: scroll;
         top: 0;
         left: 0;
         width: 100%;
@@ -980,6 +1079,17 @@
         transform-origin: top left;
         transform: scaleX(0);
         transition: .2s transform;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .mobileMenu::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .mobileMenu {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
     }
 
     .mobileMenu > * {

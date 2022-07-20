@@ -11,6 +11,12 @@ const LoginAndRegister = () => {
     const [render, setRender] = useState(false);
 
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const sectionParam = params.get('sekcja');
+        if(sectionParam === 'rejestracja') {
+            setFormType(1);
+        }
+
         isLoggedIn()
             .then((res) => {
                 if(res?.status === 200) {

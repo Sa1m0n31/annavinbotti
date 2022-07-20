@@ -32,7 +32,7 @@ const sendVerificationEmail = (email, token, response) => {
         subject: 'Cieszymy się, że jesteś z nami!',
         html: emailTemplate('Aktywuj swoje konto',
             'W celu weryfikacji Twojego konta, kliknij w poniższy link:',
-            `${process.env.API_URL}:3000/weryfikacja?token=${token}`,
+            `${process.env.API_URL}/weryfikacja?token=${token}`,
             'Aktywuj konto'
         )
     }
@@ -282,7 +282,7 @@ router.post('/remind-password', (request, response) => {
                           subject: 'Odzyskaj swoje hasło',
                           html: emailTemplate('Odzyskaj swoje hasło',
                                 'Kliknij w poniższy link, aby ustawić nowe hasło do swojego konta',
-                              `${process.env.API_URL}:3000/odzyskiwanie-hasla?token=${token}`,
+                              `${process.env.API_URL}/odzyskiwanie-hasla?token=${token}`,
                               'Odzyskaj hasło'
                               )
                       }

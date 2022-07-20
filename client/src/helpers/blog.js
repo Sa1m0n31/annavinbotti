@@ -11,11 +11,11 @@ const generateImageLink = (img) => {
 
 
 const getAllBlogPosts = () => {
-    return axios.get('/blog/all');
+    return axios.get('/blog-api/all');
 }
 
 const getBlogPost = (id) => {
-    return axios.get('/blog', {
+    return axios.get('/blog-api', {
         params: {
             id
         }
@@ -33,7 +33,7 @@ const addBlogPost = (titlePl, titleEn, excerptPl, excerptEn, contentPl, contentE
     formData.append('contentPl', JSON.stringify(convertToRaw(contentPl?.getCurrentContent())));
     formData.append('contentEn', JSON.stringify(convertToRaw(contentEn?.getCurrentContent())));
 
-    return axios.post(`/blog/add`, formData, config);
+    return axios.post(`/blog-api/add`, formData, config);
 }
 
 const updateBlogPost = (id, titlePl, titleEn, excerptPl, excerptEn, contentPl, contentEn, image) => {
@@ -48,11 +48,11 @@ const updateBlogPost = (id, titlePl, titleEn, excerptPl, excerptEn, contentPl, c
     formData.append('contentPl', JSON.stringify(convertToRaw(contentPl?.getCurrentContent())));
     formData.append('contentEn', JSON.stringify(convertToRaw(contentEn?.getCurrentContent())));
 
-    return axios.put(`/blog/update`, formData, config);
+    return axios.put(`/blog-api/update`, formData, config);
 }
 
 const deleteBlogPost = (id) => {
-    return axios.delete('/blog/delete', {
+    return axios.delete('/blog-api/delete', {
         params: {
             id
         }
@@ -60,7 +60,7 @@ const deleteBlogPost = (id) => {
 }
 
 const getPostBySlug = (slug) => {
-    return axios.get('/blog/get-post-by-slug', {
+    return axios.get('/blog-api/get-post-by-slug', {
         params: {
             slug
         }

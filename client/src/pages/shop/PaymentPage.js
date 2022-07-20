@@ -43,6 +43,9 @@ const PaymentPage = () => {
                 else {
                     window.location = '/';
                 }
+            })
+            .catch(() => {
+                window.location = '/';
             });
 
         if(id) {

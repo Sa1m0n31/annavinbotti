@@ -9,6 +9,8 @@ const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 const got = require('got');
 
+let mailAfterPaymentSend = false;
+
 let transporter = nodemailer.createTransport(smtpTransport ({
     auth: {
         user: process.env.EMAIL_ADDRESS,
@@ -33,7 +35,7 @@ router.get('/', (request, response) => {
 
    if(id) {
        const query = `SELECT o.id, o.date, o.delivery_number, u.first_name, u.last_name, u.email, u.phone_number, o.shipping, p.id as product_id,
-                    o.status, da.city as delivery_city, da.street as delivery_street, da.postal_code as delivery_postal_code, da.building as delivery_building,
+                    o.status, o.payment, da.city as delivery_city, da.street as delivery_street, da.postal_code as delivery_postal_code, da.building as delivery_building,
                     da.first_name as delivery_first_name, da.last_name as delivery_last_name, da.phone_number as delivery_phone_number,
                     da.flat as delivery_flat, ua.city as user_city, ua.street as user_street, ua.postal_code as user_postal_code, ua.building as user_building,
                     ua.flat as user_flat, o.nip, o.company_name, p.main_image, p.name_pl as product_name, p.name_en as product_name_en, s.price, t.name_pl as type, t.id as type_id,
@@ -85,8 +87,8 @@ const sendStatus1Mail = (response, orderId, email) => {
 
             const formsLinks = r.map((item) => {
                 return `<a style="margin: 5px 0; display: block; color: #B9A16B; text-decoration: underline;"
- href="${process.env.API_URL}:3000/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item.type}">
-                        ${process.env.API_URL}:3000/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item.type}
+ href="${process.env.API_URL}/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item.type}">
+                        ${process.env.API_URL}/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item.type}
 </a>`
             }).join('');
 
@@ -99,8 +101,8 @@ const sendStatus1Mail = (response, orderId, email) => {
             });
 
             const cart = r.map((item, index) => {
-                return `<div style="margin: 10px 0;">
-                  <h3 style="color: #B9A16B; font-size: 15px;">
+                return `<div style="margin: 10px 0; font-size: 15px;">
+                  <h3 style="color: #B9A16B; font-size: 17px;">
                       ${item.product_name}
                   </h3>
                   ${addons[index]}
@@ -116,6 +118,7 @@ const sendStatus1Mail = (response, orderId, email) => {
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -249,7 +252,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                             }
                         }
                         else {
-                            console.log(err);
                             response.status(500).end();
                         }
                     });
@@ -260,7 +262,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                             sellsIds.push(res.rows[0].id);
                         }
                         else {
-                            console.log(err);
                             response.status(500).end();
                         }
                     })
@@ -268,7 +269,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
             });
         }
         else {
-            console.log(err);
             response.status(500).end();
         }
     })
@@ -361,6 +361,7 @@ const sendStatus3Email = (email, response) => {
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -386,7 +387,7 @@ font-family: 'Roboto', sans-serif;
     });
 }
 
-const sendStatus4Email = (email, orderId, response = null) => {
+const sendStatus4Email = (email, orderId, response = null, responseToPaymentGateway = false) => {
     const query = `SELECT prod.name_pl as product_name, prod.type,
                 (SELECT string_agg(a.name_pl || ': ' || ao.name_pl, ';') as addon_name
                 FROM orders o
@@ -407,11 +408,11 @@ const sendStatus4Email = (email, orderId, response = null) => {
             GROUP BY (prod.name_pl, prod.type, s.id)`;
     const values = [orderId];
 
-    db.query(query, values, (err, res) => {
+    db.query(query, values, async (err, res) => {
         if(res) {
             const r = res.rows;
 
-            const addons = r.map((item) => {
+            const addons = await r.map((item) => {
                 return item.addons.split(';').map((item) => {
                     return `<p style="color: #B9A16B; margin: 0;">
                       ${item}
@@ -419,9 +420,9 @@ const sendStatus4Email = (email, orderId, response = null) => {
                 }).join('');
             });
 
-            const cart = r.map((item, index) => {
-                return `<div style="margin: 10px 0;">
-                  <h3 style="color: #B9A16B; font-size: 15px;">
+            const cart = await r.map((item, index) => {
+                return `<div style="margin: 10px 0; font-size: 15px;">
+                  <h3 style="color: #B9A16B; font-size: 17px;">
                       ${item.product_name}
                   </h3>
                   ${addons[index]}
@@ -437,6 +438,7 @@ const sendStatus4Email = (email, orderId, response = null) => {
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -455,9 +457,14 @@ font-family: 'Roboto', sans-serif;
                 </div>`
             }
 
-            transporter.sendMail(mailOptions, function(error, info) {
-                if(response) {
-                    response.status(201);
+            await transporter.sendMail(mailOptions, function(error, info) {
+                if(!responseToPaymentGateway) {
+                    response.status(201).end();
+                }
+                else {
+                    response.status(200).send({
+                        status: 'ok'
+                    });
                 }
             });
         }
@@ -505,8 +512,8 @@ const sendStatus5Email = (email, orderId, response) => {
 
                   const formsLinks = r.map((item) => {
                       return `<a style="margin: 5px 0; display: block; color: #B9A16B; text-decoration: underline;"
- href="${process.env.API_URL}:3000/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}">
-                        ${process.env.API_URL}:3000/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}
+ href="${process.env.API_URL}/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}">
+                        ${process.env.API_URL}/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}
 </a>`
                   }).join('');
 
@@ -519,6 +526,7 @@ const sendStatus5Email = (email, orderId, response) => {
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -580,6 +588,7 @@ const sendStatus7Email = (email, response) => {
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -616,6 +625,7 @@ const sendStatus8Email = (email, orderId, response) => {
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -652,6 +662,7 @@ font-family: 'Roboto', sans-serif;
 <style>
 * {
 font-family: 'Roboto', sans-serif;
+font-size: 16px;
 }
 </style>
 </head><div style="background: #053A26; padding: 25px;">
@@ -926,27 +937,36 @@ router.post('/payment-notification', (request, response) => {
         try {
             const signature = signatureHeader.split(';')[2].split('=')[1];
             const alg = signatureHeader.split(';')[3].split('=')[1];
-            const privateKey = '25d19e0b0b4ec0ba989c94ddabc161d468d6ae1f05f0c7d4cf38a915bd68326d';
 
             const ownSignature = crypto.createHash(alg).update(JSON.stringify(body) + process.env.IMOJE_SHOP_KEY).digest('hex');
 
-            // db.query(`INSERT INTO images VALUES (501, $1, 29)`, [`${ownSignature} and ${signature}`]);
-
-            // TODO: add verification
-            // if(ownSignature === signature) {
+            if(ownSignature === signature && (body.transaction.status === 'settled')) {
                 const query = `UPDATE orders SET status = 4 WHERE id = $1`;
                 const values = [body.transaction.orderId];
 
-                sendStatus4Email(body.transaction.customer.email, body.transaction.orderId);
-
                 db.query(query, values, (err, res) => {
                    if(res) {
-                       response.status(200).send({
-                           status: 'ok'
+                       const query = `SELECT u.email FROM users u JOIN orders o ON u.id = o.user WHERE o.id = $1`;
+                       const values = [body.transaction.orderId];
+
+                       db.query(query, values, (err, res) => {
+                          if(res) {
+                              const email = res.rows[0]?.email;
+                              if(!mailAfterPaymentSend) {
+                                  mailAfterPaymentSend = true;
+                                  sendStatus4Email(email, body.transaction.orderId, response, true);
+                              }
+                          }
+                          else {
+                              response.status(500).end();
+                          }
                        });
                    }
+                   else {
+                       response.status(500).end();
+                   }
                 });
-            // }
+            }
         }
         catch(err) {
             response.status(500).end();

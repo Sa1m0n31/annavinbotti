@@ -53,7 +53,14 @@ const ClientOrders = () => {
             .then((res) => {
                 if(res?.status === 200) {
                     setOrders(Object.entries(groupBy(res?.data?.result, 'id')));
+                    setRender(true);
                 }
+                else {
+                    setRender(true);
+                }
+            })
+            .catch(() => {
+               window.location = '/';
             });
 
         getOrdersWithEmptyFirstTypeForms()
@@ -90,14 +97,7 @@ const ClientOrders = () => {
         }
     }, [orders, statuses]);
 
-    useEffect(() => {
-        if(orders?.length || emptyOrderList) {
-            setRender(true);
-        }
-    }, [emptyOrderList, orders]);
-
     const setButtonParams = (orderId, status, cart) => {
-        console.log(cart);
         if(status === 1) {
             return getNumberOfFirstTypeForms(cart).map((item) => {
                 return {
