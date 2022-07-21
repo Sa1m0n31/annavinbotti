@@ -68,7 +68,6 @@ const PaymentPage = () => {
     }, [])
 
     const pay = () => {
-        console.log(orderId, payment, user.firstName, user.lastName, user.email);
         payOrder(orderId, payment, user.firstName, user.lastName, user.email)
             .then((res) => {
                 if(payment === 0) {

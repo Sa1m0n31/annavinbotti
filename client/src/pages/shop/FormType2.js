@@ -420,6 +420,7 @@ const FormType2 = () => {
                                             <button className={selectedButtons[sectionIndex] ? (selectedButtons[sectionIndex][index] ? "form__check form__check--selected" : "form__check") : "form__check"}
                                                     onClick={() => { handleButtonUpdate(sectionIndex, index, questionType); }}
                                                     name={item}>
+                                                <span></span>
                                             </button>
                                             <span>
                                                 {renderTextAndInput(item, sectionIndex, index)}
@@ -434,6 +435,7 @@ const FormType2 = () => {
                                             <button className={selectedButtons[sectionIndex] ? (selectedButtons[sectionIndex][index] ? "form__check form__check--selected" : "form__check") : "form__check"}
                                                     onClick={() => { handleButtonUpdate(sectionIndex, index, questionType); }}
                                                     name={item}>
+                                                <span></span>
                                             </button>
                                             <span>
                                                 {renderTextAndInput(item, sectionIndex, index)}

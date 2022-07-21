@@ -2,10 +2,6 @@ import React, {useEffect} from 'react';
 import constans from "../../helpers/constants";
 
 const OldFormDataType2 = ({data, orderId, model}) => {
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
-
     return <div className="formPage formPage--oldForm">
 
         <h1 className="pageHeader">

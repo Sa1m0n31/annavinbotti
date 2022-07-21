@@ -110,7 +110,7 @@ const sendStatus1Mail = (response, orderId, email) => {
             }).join('');
 
             let mailOptions = {
-                from: process.env.EMAIL_ADDRESS,
+                from: process.env.EMAIL_ADDRESS_WITH_NAME,
                 to: email,
                 subject: 'Otrzymaliśmy Twoją rezerwację',
                 html: `<head>
@@ -187,8 +187,6 @@ const validateStocks = async (sells, addons) => {
     // sells: { product, price }
     // addons: { sell, options : [1, 2, 3] }
 
-    console.log(sells);
-
     let validationOk = true;
 
     for(const sell of sells) {
@@ -198,13 +196,9 @@ const validateStocks = async (sells, addons) => {
             }
         });
 
-        console.log(res.body);
-
         const productCounter = JSON.parse(res?.body)?.result[0]?.product_counter;
         const addonCounter = JSON.parse(res?.body)?.result[0]?.addon_counter;
 
-        console.log(productCounter, addonCounter);
-        console.log(sell);
         if(Math.min(productCounter, addonCounter) < sell.amount) {
             return false;
         }
@@ -221,10 +215,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
 
     let sells = [], addons = [];
 
-    console.log(oldAddons);
-    console.log(oldSells);
-    console.log('---');
-
     // Add if multiple identical (product + addons) products
     for(let i=0; i<oldSells.length; i++) {
         for(let j=0; j<oldSells[i].amount; j++) {
@@ -236,9 +226,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
             addons.push(oldAddons[i]);
         }
     }
-
-    console.log(addons);
-    console.log(sells);
 
     // Validate stocks
     const productsAvailable = await validateStocks(oldSells, oldAddons);
@@ -263,8 +250,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                 }
             });
         }
-
-        console.log(addons);
 
         // ADD ORDER
         await db.query(query, values, (err, res) => {
@@ -296,7 +281,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                                                         sendStatus1Mail(response, id, user.email);
                                                     }
                                                     else {
-                                                        console.log(err);
                                                         response.status(500).end();
                                                     }
                                                 });
@@ -313,7 +297,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                                 }
                             }
                             else {
-                                console.log(err);
                                 response.status(500).end();
                             }
                         });
@@ -324,7 +307,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                                 sellsIds.push(res.rows[0].id);
                             }
                             else {
-                                console.log(err);
                                 response.status(500).end();
                             }
                         })
@@ -332,7 +314,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                 });
             }
             else {
-                console.log(err);
                 response.status(500).end();
             }
         })
@@ -418,7 +399,7 @@ router.post('/add', (request, response) => {
 
 const sendStatus3Email = (email, response) => {
     let mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
         subject: 'Oczekiwanie na płatność',
         html: `<head>
@@ -495,7 +476,7 @@ const sendStatus4Email = (email, orderId, response = null, responseToPaymentGate
             }).join('');
 
             let mailOptions = {
-                from: process.env.EMAIL_ADDRESS,
+                from: process.env.EMAIL_ADDRESS_WITH_NAME,
                 to: email,
                 subject: 'Zamówienie Przyjęto do Realizacji',
                 html: `<head>
@@ -583,7 +564,7 @@ const sendStatus5Email = (email, orderId, response) => {
                   }).join('');
 
                   let mailOptions = {
-                      from: process.env.EMAIL_ADDRESS,
+                      from: process.env.EMAIL_ADDRESS_WITH_NAME,
                       to: email,
                       subject: 'But Do Miary Został Wysłany',
                       html: `<head>
@@ -645,7 +626,7 @@ font-size: 16px;
 
 const sendStatus7Email = (email, response) => {
     let mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
         subject: 'Realizacja Finalnej Pary Obuwia',
         html: `<head>
@@ -682,7 +663,7 @@ const sendStatus8Email = (email, orderId, response) => {
             const deliveryNumber = res.rows[0]?.delivery_number;
 
             let mailOptions = {
-                from: process.env.EMAIL_ADDRESS,
+                from: process.env.EMAIL_ADDRESS_WITH_NAME,
                 to: email,
                 subject: 'Realizacja Finalnej Pary Obuwia',
                 html: `<head>
@@ -713,7 +694,7 @@ font-size: 16px;
 
             transporter.sendMail(mailOptions, function(error, info) {
                 let mailOptions = {
-                    from: process.env.EMAIL_ADDRESS,
+                    from: process.env.EMAIL_ADDRESS_WITH_NAME,
                     to: email,
                     subject: 'Gwarancja do obuwia',
                     attachments: [
@@ -841,8 +822,6 @@ router.post('/set-status', (req, res) => {
     const q6 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 6';
     const q7 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 7';
     const q8 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 8';
-
-    console.log(req.body);
 
     db.query(q1, [v1]);
     db.query(q2, [v2]);
@@ -1079,7 +1058,7 @@ router.post('/reject-client-form', (request, response) => {
    db.query(query, values, (err, res) => {
       if(res) {
           let mailOptions = {
-              from: process.env.EMAIL_ADDRESS,
+              from: process.env.EMAIL_ADDRESS_WITH_NAME,
               to: email,
               subject: 'Niepełne dane - prośba o uzupełnienie',
               html: `<head>
@@ -1134,9 +1113,9 @@ router.delete('/cancel-order', (request, response) => {
    db.query(query, values, (err, res) => {
       if(res) {
           let mailOptions = {
-              from: process.env.EMAIL_ADDRESS,
+              from: process.env.EMAIL_ADDRESS_WITH_NAME,
               to: email,
-              subject: 'Niepełne dane - prośba o uzupełnienie',
+              subject: 'Rezerwacja anulowana',
               html: `<head>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <style>

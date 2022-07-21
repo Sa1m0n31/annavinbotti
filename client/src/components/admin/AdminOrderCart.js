@@ -4,10 +4,6 @@ import eyeIcon from '../../static/img/eye.svg'
 const AdminOrderCart = ({cart, orderId}) => {
     const [details, setDetails] = useState(-1);
 
-    useEffect(() => {
-        console.log(cart);
-    }, [cart]);
-
     const toggleDetails = (i) => {
         setDetails(i === details ? -1 : i);
     }

@@ -27,7 +27,7 @@ let transporter = nodemailer.createTransport(smtpTransport ({
 
 const sendVerificationEmail = (email, token, response) => {
     let mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
         subject: 'Cieszymy się, że jesteś z nami!',
         html: emailTemplate('Aktywuj swoje konto',
@@ -277,7 +277,7 @@ router.post('/remind-password', (request, response) => {
               db.query(query, values, (err, res) => {
                   if(res) {
                       let mailOptions = {
-                          from: process.env.EMAIL_ADDRESS,
+                          from: process.env.EMAIL_ADDRESS_WITH_NAME,
                           to: email,
                           subject: 'Odzyskaj swoje hasło',
                           html: emailTemplate('Odzyskaj swoje hasło',

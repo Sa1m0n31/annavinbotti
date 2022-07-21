@@ -134,7 +134,6 @@ const OrderDetails = () => {
         if(currentOrderStatus) {
             changeOrderStatus(order?.id, currentOrderStatus, order?.email)
                 .then((res) => {
-                    console.log(res);
                     if(res?.status === 201 || res?.status === 200) {
                         setOrderStatusUpdateStatus(1);
                     }

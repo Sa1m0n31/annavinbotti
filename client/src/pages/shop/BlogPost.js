@@ -69,8 +69,6 @@ const BlogPost = () => {
                 nextPost = allPosts[currentPostIndex+1];
                 prevPost = allPosts[currentPostIndex-1];
 
-                console.log(prevPost);
-
                 setPrevPostData(prevPost);
                 setNextPostData(nextPost);
             }

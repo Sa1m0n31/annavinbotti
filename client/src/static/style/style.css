@@ -768,6 +768,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 }
 
 .form__check {
+    position: relative;
     flex-basis: 20%;
     max-width: 17px;
     display: flex;
@@ -781,14 +782,18 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     padding: 0;
 }
 
-.form__check--selected {
+.form__check span {
     position: relative;
+    display: block;
+    margin: 0 !important;
+    width: 9px !important;
 }
 
-.form__check--selected::after {
+.form__check--selected > span::after {
     content: "";
-    width: 60%;
-    height: 60%;
+    position: relative;
+    width: 9px;
+    height: 9px;
     background: var(--secondary);
     display: block;
 }
@@ -2329,8 +2334,12 @@ textarea {
 }
 
 .payment .pageHeader {
+    position: relative;
+    top: unset;
+    left: unset;
     text-transform: uppercase;
     margin-top: 50px;
+    z-index: 1;
 }
 
 .payment .payment__text span {

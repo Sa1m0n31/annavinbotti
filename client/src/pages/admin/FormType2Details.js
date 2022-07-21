@@ -27,7 +27,6 @@ const FormType2Details = () => {
                     .then((res) => {
                         const r = res?.data?.result;
                         if(r) {
-                            console.log(JSON.parse(r[0]?.form_data));
                             setProduct(r[0]?.name_pl);
                             setForm(JSON.parse(r[0]?.form_data));
                         }

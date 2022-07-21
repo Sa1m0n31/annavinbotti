@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import logo from '../../static/img/logo.svg'
 import userIcon from '../../static/img/user-icon.svg'
 import cartIcon from '../../static/img/cart-icon.svg'
@@ -17,6 +17,8 @@ const TopHeader = () => {
     const { cartContent } = useContext(CartContext);
 
     const [mobileSubmenu, setMobileSubmenu] = useState(-1);
+
+    const mobileMenu = useRef(null);
 
     const menu = [
         {
@@ -84,6 +86,14 @@ const TopHeader = () => {
             link: '/kontakt'
         }
     ];
+
+    useEffect(() => {
+        if(mobileMenu?.current) {
+            mobileMenu.current.style.width = '100%';
+            mobileMenu.current.style.padding = '25px';
+            mobileMenu.current.style.setProperty('transition', '.2s transform', 'important');
+        }
+    }, [mobileMenu]);
 
     const closeMenu = () => {
         const menuChildren = Array.from(document.querySelectorAll('.mobileMenu>*'));
@@ -188,11 +198,14 @@ const TopHeader = () => {
             </a>
             <a className="topHeader__menu--mobile__btn" href="/zamowienie">
                 <img className="img" src={cartIcon} alt="koszyk" />
+                {cartContent?.length ? <span className="cartCounter">
+                        {cartContent.length}
+                    </span> : ''}
             </a>
         </div>
 
         {/* MOBILE MENU */}
-        <div className="mobileMenu d-mobile">
+        <div className="mobileMenu d-mobile" ref={mobileMenu}>
             <div className="flex">
                 <button className="mobileMenu__backBtn" onClick={() => { closeMenu(); }}>
                     <img className="img" src={backIcon} alt="zamknij" />

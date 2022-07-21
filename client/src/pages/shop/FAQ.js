@@ -21,9 +21,8 @@ const Faq = () => {
                     window.location = '/';
                 }
             })
-            .catch((err) => {
-                console.log(err);
-                // window.location = '/';
+            .catch(() => {
+                window.location = '/';
             });
     }, []);
 
@@ -47,10 +46,6 @@ const Faq = () => {
             }
         }));
     }
-
-    useEffect(() => {
-        console.log(visibleQuestions);
-    }, [visibleQuestions]);
 
     const isQuestionVisible = (section, question) => {
         if(visibleQuestions?.length > section && visibleQuestions[0]?.length > question) {

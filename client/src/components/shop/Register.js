@@ -145,7 +145,7 @@ const Register = () => {
                 <button className={c1 ? "form__check form__check--selected" : "form__check"}
                         type="button"
                         onClick={() => { setC1(!c1); }}>
-
+                    <span></span>
                 </button>
                 <span>
                     Wyrażam zgodę na przetwarzanie moich danych osobowych. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -155,7 +155,7 @@ const Register = () => {
                 <button className={c2 ? "form__check form__check--selected" : "form__check"}
                         type="button"
                         onClick={() => { setC2(!c2); }}>
-
+                    <span></span>
                 </button>
                 <span>
                     Oświadczam, iż zapoznałem się z treścią Regulaminu i akceptuję jego postanowienia. Akceptuję również politykę prywatności
@@ -165,7 +165,7 @@ const Register = () => {
                 <button className={c3 ? "form__check form__check--selected" : "form__check"}
                         type="button"
                         onClick={() => { setC3(!c3); }}>
-
+                    <span></span>
                 </button>
                 <span>
                     Zapisz się do newslettera

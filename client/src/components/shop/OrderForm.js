@@ -162,7 +162,6 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
             decrementStockByProduct(item.product, item.amount);
         })
         addons.forEach((item) => {
-            console.log(item);
             item.options.forEach((addonOption) => {
                 decrementStockByAddon(addonOption, 1);
             });
@@ -359,7 +358,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                             <button className={c1 ? "form__check form__check--selected" : "form__check"}
                                     type="button"
                                     onClick={() => { setC1(!c1); }}>
-
+                                <span></span>
                             </button>
                             <span>
                             Wyrażam zgodę na przetwarzanie moich danych osobowych. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor*
@@ -369,7 +368,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                             <button className={c2 ? "form__check form__check--selected" : "form__check"}
                                     type="button"
                                     onClick={() => { setC2(!c2); }}>
-
+                                <span></span>
                             </button>
                             <span>
                             Oświadczam, iż zapoznałem się z regulaminem i akceptuję politykę prywatności.
@@ -379,7 +378,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                             <button className={c3 ? "form__check form__check--selected" : "form__check"}
                                     type="button"
                                     onClick={() => { setC3(!c3); }}>
-
+                                <span></span>
                             </button>
                             <span>
                             Zapisuję się do newslettera

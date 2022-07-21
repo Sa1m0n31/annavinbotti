@@ -53,7 +53,7 @@ const checkWaitlists = (response) => {
 
                 if(emails?.length) {
                     let mailOptions = {
-                        from: process.env.EMAIL_ADDRESS,
+                        from: process.env.EMAIL_ADDRESS_WITH_NAME,
                         to: [],
                         bcc: emails,
                         subject: 'Twój produkt jest już dostępny!',

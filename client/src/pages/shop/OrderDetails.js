@@ -100,8 +100,7 @@ const OrderDetails = () => {
                                 }
                             })
                             .catch((err) => {
-                                console.log(err);
-                                // window.location = '/panel-klienta';
+                                window.location = '/panel-klienta';
                             });
                     }
                     else {
@@ -119,14 +118,12 @@ const OrderDetails = () => {
 
     useEffect(() => {
         if(cart) {
-            console.log(Object.entries(groupBy(cart, 'sell')));
             setProducts(Object.entries(groupBy(cart, 'sell')));
         }
     }, [cart]);
 
     useEffect(() => {
        if(orderInfo?.length) {
-           console.log(orderInfo);
            if(language === 'en') {
                setCart(orderInfo?.map((item) => {
                    return {

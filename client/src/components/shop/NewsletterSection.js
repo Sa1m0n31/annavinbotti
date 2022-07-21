@@ -54,7 +54,8 @@ const NewsletterSection = () => {
                        onChange={(e) => { setEmail(e.target.value); }}
                        placeholder="Twój adres email" />
             </label>
-            <button className="btn btn--newsletter" onClick={(e) => { handleSubmit(e); }}>
+            <button className="btn btn--newsletter"
+                    onClick={(e) => { handleSubmit(e); }}>
                 Dołącz
             </button>
         </div> : (status ? <span className="info info--success">

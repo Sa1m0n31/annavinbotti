@@ -220,7 +220,7 @@ router.delete('/delete', (request, response) => {
 
 const sendStatus2Email = (email, response) => {
     let mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
         subject: 'Weryfikacja podanych wymiarów',
         html: `<head>
@@ -250,7 +250,7 @@ font-size: 16px;
 
 const sendStatus6Email = (email, response) => {
     let mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
         subject: 'But Do Miary Został Zweryfikowany',
         html: `<head>
@@ -329,8 +329,6 @@ router.post('/send-form', upload.fields([
                    };
                }
                else {
-                   console.log(formJSON);
-
                    formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
                        return {
                            question: item.question,

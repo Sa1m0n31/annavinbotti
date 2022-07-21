@@ -93,7 +93,7 @@ const OrderFormFields = ({formAnchor, fields, handleChange}) => {
                     <button className={fields.invoice ? "form__check form__check--selected" : "form__check"}
                             type="button"
                             onClick={(e) => { handleChange(!fields.invoice, 'invoice'); }}>
-
+                        <span></span>
                     </button>
                     <span>
                         Chcę otrzymać fakturę VAT
@@ -122,7 +122,7 @@ const OrderFormFields = ({formAnchor, fields, handleChange}) => {
                     <button className={fields.differentDeliveryAddress ? "form__check form__check--selected" : "form__check"}
                             type="button"
                             onClick={() => { handleChange(!fields.differentDeliveryAddress, 'differentDeliveryAddress') }}>
-
+                        <span></span>
                     </button>
                     <span>
                     Inny adres dostawy

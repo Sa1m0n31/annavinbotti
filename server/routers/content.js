@@ -36,8 +36,6 @@ router.get('/get-terms-en', (request, response) => {
 router.put('/update-terms-pl', (request, response) => {
    const { terms, policy, page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11 } = request.body;
 
-   console.log(page11);
-
    const query = `UPDATE content SET value_pl = CASE
                    WHEN field = 'terms_of_service' THEN $1
                    WHEN field = 'privacy_policy' THEN $2

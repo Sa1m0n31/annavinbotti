@@ -76,7 +76,6 @@ function App() {
           return true;
         }
       else {
-        console.log(productCount, addonCount);
           return false;
       }
     }
@@ -100,7 +99,6 @@ function App() {
         return true;
       }
       else {
-        console.log(productCount, addonCount);
         return false;
       }
     }

@@ -116,6 +116,7 @@ const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
                         type="button"
                         onClick={() => { setRememberMe(!rememberMe); }}
                 >
+                    <span></span>
                 </button>
                 Zapamiętaj mnie
             </label>

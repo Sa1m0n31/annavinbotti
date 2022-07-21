@@ -100,7 +100,7 @@ router.post('/add', (request, response) => {
          db.query(query, values, (err, res) => {
             if(res) {
                let mailOptions = {
-                  from: process.env.EMAIL_ADDRESS,
+                  from: process.env.EMAIL_ADDRESS_WITH_NAME,
                   to: email,
                   subject: 'Potwierdź swoją subskrypcję newslettera',
                   html: emailTemplate('Dziękujemy za zapisanie się do naszego newslettera',

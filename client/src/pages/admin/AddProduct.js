@@ -387,7 +387,6 @@ const AddProduct = () => {
                             resolve();
                         })
                             .then(() => {
-                                console.log(gallery.length);
                                 if(i === gallery.length-1) {
                                     setTimeout(() => {
                                         handleProductSubmit(formData);

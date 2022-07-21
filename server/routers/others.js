@@ -22,7 +22,7 @@ router.post('/send-message-to-support', (request, response) => {
     const { content } = request.body;
 
     let mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: process.env.TECH_SUPPORT_EMAIL,
         subject: 'Pytanie do supportu technicznego od: AnnaVinbotti',
         html: `<h2 style="color: #000;">Support techniczny panelu administracyjnego</h2>
@@ -72,7 +72,7 @@ router.post('/send-contact-form', (request, response) => {
    console.log('test');
 
     let mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: process.env.CONTACT_FORM_ADDRESS,
         subject: 'Nowa wiadomość w formularzu kontaktowym',
         html: `<p style="color: #000;">Imię: ${name}</p>
