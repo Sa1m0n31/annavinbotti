@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 
+import 'react-tippy/dist/tippy.css'
 import './static/style/style.css'
 import './static/style/admin.css'
 import './static/style/mobile.css'
@@ -32,6 +33,7 @@ import NewsletterVerification from "./pages/shop/NewsletterVerification";
 import Faq from "./pages/shop/FAQ";
 import Page from "./pages/shop/Page";
 import Page3Addon from "./components/shop/Page3Addon";
+import {getProductStock} from "./helpers/stocks";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -45,69 +47,95 @@ function App() {
   {/* CART */}
   const [cartContent, setCartContent] = useState(localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []);
 
-  const addToCart = (product, addons, amount = false) => {
+  useEffect(() => {
     if(cartContent?.findIndex((item) => {
-      return JSON.stringify(product) === JSON.stringify(item.product) && JSON.stringify(addons) === JSON.stringify(item.addons)
+      return !item || item === 'null';
     }) !== -1) {
-      /* Change product amount */
-      localStorage.setItem('cart', JSON.stringify(cartContent.map((item) => {
-        if(JSON.stringify(item.product) === JSON.stringify(product) && JSON.stringify(item.addons) === JSON.stringify(addons)) {
-          console.log(product);
+      setCartContent(cartContent.filter((item) => {
+        return item;
+      }));
+    }
+  }, [cartContent]);
 
-          // getProductStock(product.id)
-          //     .then((res) => {
-          //         const count = res?.data?.result[0]?.counter;
-                  const count = 100;
-                  if(count >= (amount ? amount : item.amount + 1)) {
-                    return {...item, amount: amount ? amount : item.amount + 1}
-                  }
-                  else {
-                    return item;
-                  }
-              // });
+  const addToCart = async (product, addons, amount = false) => {
+    // Check if identical product in cart exists
+    const addedProductIndex = cartContent?.findIndex((item) => {
+      return JSON.stringify(product) === JSON.stringify(item.product) && JSON.stringify(addons) === JSON.stringify(item.addons)
+    });
+
+    const res = await getProductStock(product.id)
+    const productCount = res?.data?.result[0]?.product_counter !== null ? res?.data?.result[0]?.product_counter : 999999;
+    const addonCount = res?.data?.result[0]?.addon_counter !== null ? res?.data?.result[0]?.addon_counter : 999999;
+
+    if(addedProductIndex !== -1) {
+      /* Change product amount - Found identical product in cart (same product and addons) */
+      if(Math.min(productCount, addonCount) > cartContent[addedProductIndex].amount) {
+          // If stock OK - increment product
+          cartContent[addedProductIndex] = { ...cartContent[addedProductIndex], amount: cartContent[addedProductIndex].amount + 1 };
+          localStorage.setItem('cart', JSON.stringify(cartContent));
+          return true;
         }
-        else {
-          return item;
-        }
-      })));
-      setCartContent(cartContent?.map((item) => {
-        if(JSON.stringify(item.product) === JSON.stringify(product) && JSON.stringify(item.addons) === JSON.stringify(addons)) {
-          // getProductStock(product.id)
-          //     .then((res) => {
-          //         const count = res?.data?.result[0]?.counter;
-            const count = 100;
-            if(count >= (amount ? amount : item.amount + 1)) {
-              return {...item, amount: amount ? amount : item.amount + 1}
+      else {
+        console.log(productCount, addonCount);
+          return false;
+      }
+    }
+    else {
+      /* Add new product */
+      const amountInCart = cartContent.filter((item) => {
+        return item.product.id === product.id;
+      }).reduce((prev, curr) => {
+        return prev + curr?.amount;
+      }, 0);
+
+      if(Math.min(productCount, addonCount) >= amountInCart + 1) {
+        localStorage.setItem('cart', JSON.stringify([...cartContent, {
+          product, addons, amount: 1
+        }]));
+
+        setCartContent([...cartContent, {
+          product, addons, amount: 1
+        }]);
+
+        return true;
+      }
+      else {
+        console.log(productCount, addonCount);
+        return false;
+      }
+    }
+  }
+
+  const decrementFromCart = (product, addons) => {
+    const localStorageItem = localStorage.getItem('cart');
+
+    if(localStorageItem) {
+      const newCart = JSON.parse(localStorage.getItem('cart'))
+          .map((item) => {
+            if(JSON.stringify(item.product) === JSON.stringify(product) && JSON.stringify(item.addons) === JSON.stringify(addons)) {
+              return {
+                ...item, amount: item.amount - 1
+              }
             }
             else {
               return item;
             }
-          // });
-        }
-        else {
-          return item;
-        }
-      }));
-    }
-    else {
-      /* Add new product */
-      localStorage.setItem('cart', JSON.stringify([...cartContent, {
-        product, addons, amount: 1
-      }]));
+          });
 
-      setCartContent([...cartContent, {
-        product, addons, amount: 1
-      }]);
+      setCartContent(newCart);
+      localStorage.setItem('cart', JSON.stringify(newCart));
     }
   }
 
   const removeFromCart = (product, addons) => {
     const localStorageItem = localStorage.getItem('cart');
+
     if(localStorageItem) {
       const newCart = JSON.parse(localStorage.getItem('cart'))
           .filter((item) => {
             return !(JSON.stringify(item.product) === JSON.stringify(product) && JSON.stringify(item.addons) === JSON.stringify(addons));
           });
+
       setCartContent(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));
     }
@@ -132,7 +160,7 @@ function App() {
     //     });
   }, [language]);
 
-  return render ? <CartContext.Provider value={{cartContent, addToCart, removeFromCart}}>
+  return render ? <CartContext.Provider value={{cartContent, addToCart, removeFromCart, decrementFromCart}}>
     <ContentContext.Provider value={{content, language, setLanguage}}><Router>
       {/* GLOBAL */}
       <Route exact path="/">

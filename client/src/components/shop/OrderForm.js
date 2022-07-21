@@ -27,6 +27,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
     const [c2, setC2] = useState(false);
     const [c3, setC3] = useState(false);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const [outOfStock, setOutOfStock] = useState(false);
 
     const orderLeft = useRef(null);
 
@@ -161,6 +162,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
             decrementStockByProduct(item.product, item.amount);
         })
         addons.forEach((item) => {
+            console.log(item);
             item.options.forEach((addonOption) => {
                 decrementStockByAddon(addonOption, 1);
             });
@@ -170,6 +172,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
     const registerOrder = () => {
         if(validateOrder() === 'true') {
             setLoading(true);
+
             const sells = cartContent.map((item) => {
                 return {
                     product: item.product.id,
@@ -183,8 +186,6 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                     options: Object.values(item.addons)
                 }
             });
-
-            decrementStocks(sells, addons);
 
             if(formVisible) {
                 // User edited data
@@ -207,6 +208,8 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                     sells, addons, shipping?.pl, c3 ? 'true': null
                     )
                     .then((res) => {
+                        decrementStocks(sells, addons);
+
                         setLoading(false);
                         if(res?.status === 201) {
                             setOrderId(res?.data?.id);
@@ -218,7 +221,13 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                     })
                     .catch((err) => {
                         setLoading(false);
-                        setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
+                        console.log(err);
+                        if(err.response.status === 403) {
+                            setOutOfStock(true);
+                        }
+                        else {
+                            setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
+                        }
                     });
             }
             else {
@@ -228,6 +237,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                     null, null,
                     sells, addons, shipping?.pl, c3 ? 'true': null)
                     .then((res) => {
+                        decrementStocks(sells, addons);
                         setLoading(false);
                         if(res?.status === 201) {
                             setOrderId(res?.data?.id);
@@ -239,7 +249,12 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                     })
                     .catch((err) => {
                         setLoading(false);
-                        setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
+                        if(err.response.status === 403) {
+                            setOutOfStock(true);
+                        }
+                        else {
+                            setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
+                        }
                     });
             }
         }
@@ -380,6 +395,11 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                         {error ? <p className="info--error info--error--order">
                             {error}
                         </p> : ''}
+
+                        {outOfStock ? <p className="info--error info--error--order">
+                            {cartContent?.length === 1 ? 'Model, który chesz zamówić nie jest na ten moment dostępny' : 'Modele, które chcesz zamówić nie są na ten moment dostępne'}
+                        </p> : ''}
+
                         {loading ? <div className="center">
                             <Loader />
                         </div> : <button className="btn btn--order" onClick={() => { registerOrder(); }}>

@@ -34,7 +34,7 @@ router.get('/', (request, response) => {
    const id = request.query.id;
 
    if(id) {
-       const query = `SELECT o.id, o.date, o.delivery_number, u.first_name, u.last_name, u.email, u.phone_number, o.shipping, p.id as product_id,
+       const query = `SELECT o.id, s.id as sell_id, o.date, o.delivery_number, u.first_name, u.last_name, u.email, u.phone_number, o.shipping, p.id as product_id,
                     o.status, o.payment, da.city as delivery_city, da.street as delivery_street, da.postal_code as delivery_postal_code, da.building as delivery_building,
                     da.first_name as delivery_first_name, da.last_name as delivery_last_name, da.phone_number as delivery_phone_number,
                     da.flat as delivery_flat, ua.city as user_city, ua.street as user_street, ua.postal_code as user_postal_code, ua.building as user_building,
@@ -183,102 +183,170 @@ router.put('/update-order-delivery-number', (request, response) => {
    dbInsertQuery(query, values, response);
 });
 
-const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response) => {
-    const id = uuidv4().substring(0, 6);
-    let sellsIds = [];
-    const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW(), $7, NULL, NULL, NULL)';
-    const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
+const validateStocks = async (sells, addons) => {
+    // sells: { product, price }
+    // addons: { sell, options : [1, 2, 3] }
 
-    if(newsletter === 'true') {
-        const query = 'SELECT email FROM users WHERE id = $1';
-        const values = [user.id];
+    console.log(sells);
 
-        await db.query(query, values, async(err, res) => {
-            const email = res?.rows[0]?.email;
-            if(email) {
-                await got.post(`${process.env.API_URL}:5000/newsletter-api/add`, {
-                    json: {
-                        email
-                    },
-                    responseType: 'json',
-                });
+    let validationOk = true;
+
+    for(const sell of sells) {
+        const res = await got.get(`${process.env.API_URL}/stocks/get-product-stock`, {
+            searchParams: {
+                id: sell.product
             }
         });
+
+        console.log(res.body);
+
+        const productCounter = JSON.parse(res?.body)?.result[0]?.product_counter;
+        const addonCounter = JSON.parse(res?.body)?.result[0]?.addon_counter;
+
+        console.log(productCounter, addonCounter);
+        console.log(sell);
+        if(Math.min(productCounter, addonCounter) < sell.amount) {
+            return false;
+        }
     }
 
-    // ADD ORDER
-    await db.query(query, values, (err, res) => {
-        if(res) {
-            sells.forEach(async (item, index, array) => {
-                const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
-                const values = [item.product, id, item.price];
+    console.log('VALIDATION');
+    console.log(validationOk);
+    return true;
+}
 
-                // ADD SELLS
-                if(index === array.length-1) {
-                    await db.query(query, values, (err, res) => {
-                        if(res) {
-                            sellsIds.push(res.rows[0].id);
+const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, shipping, oldSells, oldAddons, newsletter, response) => {
+    const id = uuidv4().substring(0, 6);
+    let sellsIds = [];
 
-                            if(addons?.length) {
-                                // ADD ADDONS
-                                addons.forEach(async (item, indexParent, arrayParent) => {
-                                    const options = item.options;
-                                    const sellIndex = item.sell;
+    let sells = [], addons = [];
 
-                                    await options.forEach(async (item, index, array) => {
-                                        const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
-                                        const values = [sellsIds[sellIndex], item];
+    console.log(oldAddons);
+    console.log(oldSells);
+    console.log('---');
 
-                                        if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
-                                            await db.query(query, values, (err, res) => {
-                                                if(res) {
-                                                    // Send mail
-                                                    sendStatus1Mail(response, id, user.email);
-                                                }
-                                                else {
-                                                    response.status(500).end();
-                                                }
-                                            });
-                                        }
-                                        else {
-                                            dbInsertQuery(query, values);
-                                        }
-                                    });
-                                });
-                            }
-                            else {
-                                response.status(201);
-                                response.send({id});
-                            }
-                        }
-                        else {
-                            response.status(500).end();
-                        }
+    // Add if multiple identical (product + addons) products
+    for(let i=0; i<oldSells.length; i++) {
+        for(let j=0; j<oldSells[i].amount; j++) {
+            sells.push(oldSells[i]);
+        }
+    }
+    for(let i=0; i<oldAddons.length; i++) {
+        for(let j=0; j<oldSells[i].amount; j++) {
+            addons.push(oldAddons[i]);
+        }
+    }
+
+    console.log(addons);
+    console.log(sells);
+
+    // Validate stocks
+    const productsAvailable = await validateStocks(oldSells, oldAddons);
+
+    if(productsAvailable) {
+        const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW(), $7, NULL, NULL, NULL)';
+        const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
+
+        if(newsletter === 'true') {
+            const query = 'SELECT email FROM users WHERE id = $1';
+            const values = [user.id];
+
+            await db.query(query, values, async(err, res) => {
+                const email = res?.rows[0]?.email;
+                if(email) {
+                    await got.post(`${process.env.API_URL}/newsletter-api/add`, {
+                        json: {
+                            email
+                        },
+                        responseType: 'json',
                     });
-                }
-                else {
-                    await db.query(query, values, (err, res) => {
-                        if(res) {
-                            sellsIds.push(res.rows[0].id);
-                        }
-                        else {
-                            response.status(500).end();
-                        }
-                    })
                 }
             });
         }
-        else {
-            response.status(500).end();
-        }
-    })
+
+        console.log(addons);
+
+        // ADD ORDER
+        await db.query(query, values, (err, res) => {
+            if(res) {
+                sells.forEach(async (item, index, array) => {
+                    const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
+                    const values = [item.product, id, item.price];
+
+                    // ADD SELLS
+                    if(index === array.length-1) {
+                        await db.query(query, values, (err, res) => {
+                            if(res) {
+                                sellsIds.push(res.rows[0].id);
+
+                                if(addons?.length) {
+                                    // ADD ADDONS
+                                    addons.forEach(async (item, indexParent, arrayParent) => {
+                                        const options = item.options;
+                                        const sellIndex = indexParent;
+
+                                        await options.forEach(async (item, index, array) => {
+                                            const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
+                                            const values = [sellsIds[sellIndex], item];
+
+                                            if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
+                                                await db.query(query, values, (err, res) => {
+                                                    if(res) {
+                                                        // Send mail
+                                                        sendStatus1Mail(response, id, user.email);
+                                                    }
+                                                    else {
+                                                        console.log(err);
+                                                        response.status(500).end();
+                                                    }
+                                                });
+                                            }
+                                            else {
+                                                dbInsertQuery(query, values);
+                                            }
+                                        });
+                                    });
+                                }
+                                else {
+                                    response.status(201);
+                                    response.send({id});
+                                }
+                            }
+                            else {
+                                console.log(err);
+                                response.status(500).end();
+                            }
+                        });
+                    }
+                    else {
+                        await db.query(query, values, (err, res) => {
+                            if(res) {
+                                sellsIds.push(res.rows[0].id);
+                            }
+                            else {
+                                console.log(err);
+                                response.status(500).end();
+                            }
+                        })
+                    }
+                });
+            }
+            else {
+                console.log(err);
+                response.status(500).end();
+            }
+        })
+    }
+    else {
+        response.status(403).end();
+    }
 }
 
 router.post('/add', (request, response) => {
     let { user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter } = request.body;
 
     // userAddress, deliveryAddress: { street, building, flat, postal_code, city } or integer if already exists
-    // sells: { product, price }
+    // sells: { product, price, amount }
     // addons: { sell, options : [1, 2, 3] }
 
     if(sells && user && userAddress && deliveryAddress) {
@@ -330,19 +398,16 @@ router.post('/add', (request, response) => {
                             addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
                         }
                         else {
-                            console.log(err);
                             response.status(500).end();
                         }
                     });
                 }
                 else {
-                    console.log('YES');
                     addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
                 }
             }
         }
         catch(err) {
-            console.log('order err');
             console.log(err)
         }
     }

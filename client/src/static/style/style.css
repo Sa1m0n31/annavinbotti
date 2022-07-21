@@ -1091,7 +1091,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     border: 1px solid var(--secondary);
     height: 30px;
     border-radius: 30px;
-    padding: 4px 20px;
+    padding: 5px 20px;
     text-transform: uppercase;
 }
 
@@ -2959,4 +2959,45 @@ textarea {
     position: absolute;
     top: -140px;
     left: 0;
+}
+
+.addon__option {
+    position: relative;
+}
+
+.addon__option__tooltip {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 12px));
+    padding: 20px;
+    background: var(--secondary);
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+.addon__option__tooltip {
+    width: 320px;
+}
+
+.addon__option__tooltip figure {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.addon__option__tooltip span {
+    color: #222;
+}
+
+.addon__option__tooltip {
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s opacity;
+}
+
+@media(min-width: 768px) {
+    .addon__option:hover .addon__option__tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
 }

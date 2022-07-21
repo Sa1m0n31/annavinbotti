@@ -68,12 +68,14 @@ const ShippingFormPage = () => {
             });
         }
 
-        if(orderContent?.current) {
+        if(orderContent?.current?.style) {
             orderContent.current.style.opacity = '0';
             setTimeout(() => {
                 setOrderStepDisplay(orderStep);
                 setTimeout(() => {
-                    orderContent.current.style.opacity = '1';
+                    if(orderContent?.current) {
+                        orderContent.current.style.opacity = '1';
+                    }
                 }, 100);
             }, 500);
         }

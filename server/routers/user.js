@@ -83,7 +83,7 @@ router.post("/register", (request, response) => {
             db.query(query, values, (err, res) => {
                 if(res) {
                     if(newsletter === 'true') {
-                        got.post(`${process.env.API_URL}:5000/newsletter/add`, {
+                        got.post(`${process.env.API_URL}/newsletter/add`, {
                             json: {
                                 email
                             },

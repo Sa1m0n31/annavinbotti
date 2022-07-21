@@ -91,7 +91,7 @@ const decrementStockByProduct = (product, decrement) => {
 }
 
 const decrementStockByAddon = (addonOption, decrement) => {
-    return axios.put('/stocks/decrement-stock-by-product', {
+    return axios.put('/stocks/decrement-stock-by-addon', {
         addonOption, decrement
     });
 }

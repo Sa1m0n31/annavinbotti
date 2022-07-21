@@ -12,6 +12,7 @@ import AdminOrderInfo from "../../components/admin/AdminOrderInfo";
 import AdminOrderCart from "../../components/admin/AdminOrderCart";
 import {cancelOrder, rejectClientForm} from "../../helpers/admin";
 import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
+import {groupBy} from "../../helpers/others";
 
 const OrderDetails = () => {
     const [order, setOrder] = useState({});
@@ -69,16 +70,16 @@ const OrderDetails = () => {
                         status: result.status
                     });
 
-                    setCart(r?.map((item) => {
-                        console.log(item);
-                        const productName = item.product_name;
+                    setCart(Object.entries(groupBy(r?.map((item) => {
+                        const sell = item.sell_id;
                         const productAddons = r?.filter((item) => {
-                            return item.product_name === productName;
+                            return item.sell_id === sell;
                         });
 
                         return {
+                            sell: item.sell_id,
                             productId: item.product_id,
-                            product: productName,
+                            product: item.product_name,
                             type: item.type,
                             price: item.price,
                             addons: productAddons?.map((item) => {
@@ -88,7 +89,7 @@ const OrderDetails = () => {
                                 }
                             })
                         }
-                    })?.filter((v,i,a)=>a.findIndex(v2=>(v2.product===v.product))===i));
+                    }), 'sell')));
                 }
             });
     }, []);

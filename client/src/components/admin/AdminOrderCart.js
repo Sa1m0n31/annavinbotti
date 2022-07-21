@@ -4,6 +4,10 @@ import eyeIcon from '../../static/img/eye.svg'
 const AdminOrderCart = ({cart, orderId}) => {
     const [details, setDetails] = useState(-1);
 
+    useEffect(() => {
+        console.log(cart);
+    }, [cart]);
+
     const toggleDetails = (i) => {
         setDetails(i === details ? -1 : i);
     }
@@ -26,13 +30,13 @@ const AdminOrderCart = ({cart, orderId}) => {
         {cart?.map((item, index) => {
             return <div className="admin__order__cart__item">
                 <span>
-                    {item.product}
+                    {item[1][0].product}
                 </span>
                 <span>
-                    {item.type}
+                    {item[1][0].type}
                 </span>
                 <span>
-                    {item.price} PLN
+                    {item[1][0].price} PLN
                 </span>
                 <span>
                     <button className="admin__order__cart__item__btn" onClick={() => { toggleDetails(index); }}>
@@ -42,7 +46,7 @@ const AdminOrderCart = ({cart, orderId}) => {
 
                 {details === index ? <div className="admin__order__cart__item__details">
                     <div className="admin__order__cart__item__details__addons">
-                        {item?.addons?.map((item, index) => {
+                        {item[1][0]?.addons?.map((item, index) => {
                             return <p className="admin__order__cart__item__details__addon">
                                 {item.addon}: <b>{item.option}</b>
                             </p>

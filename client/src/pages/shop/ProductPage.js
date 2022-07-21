@@ -14,6 +14,7 @@ import arrowDownGoldIcon from '../../static/img/arrow-down-gold.svg'
 import {addToWaitlist} from "../../helpers/orders";
 import {isEmail} from "../../helpers/others";
 import Slider from "react-slick";
+import { Tooltip } from "react-tippy";
 
 const settings = {
     dots: false,
@@ -41,6 +42,7 @@ const ProductPage = () => {
     const [emailError, setEmailError] = useState("");
     const [waitlistSuccess, setWaitlistSuccess] = useState(false);
     const [fullScreenGallery, setFullScreenGallery] = useState(false);
+    const [outOfStock, setOutOfStock] = useState(false);
 
     const sliderRef = useRef(null);
     const sliderGalleryRef = useRef(null);
@@ -175,12 +177,18 @@ const ProductPage = () => {
         })?.length === requiredAddons?.length;
     }
 
-    const buy = () => {
+    const buy = async () => {
         if(validateAddons()) {
-            addToCart(product, Object.fromEntries(Object.entries(selectedAddons).filter((item) => {
+            if(await addToCart(product, Object.fromEntries(Object.entries(selectedAddons).filter((item) => {
                 return item[1];
-            })));
-            window.location = '/zamowienie';
+            })))) {
+                // Added to cart
+                window.location = '/zamowienie';
+            }
+            else {
+                // Product not available
+                setOutOfStock(true);
+            }
         }
         else {
             setAddonsError(true);
@@ -320,6 +328,20 @@ const ProductPage = () => {
                                     return <button className={selectedAddons[item.id] === item.addon_option_id ? "addon__option addon__option--selected" : "addon__option"}
                                                    key={index}
                                                    onClick={() => { changeSelectedAddons(item.id, item.addon_option_id); }}>
+
+                                        <div className="addon__option__tooltip">
+                                            {item.addon_type === 1 ? <span>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sed risus dui.
+                                            </span> : <>
+                                                <figure>
+                                                    <img className="img" src={`${constans.IMAGE_URL}/media/addons/${item.image}`} alt="dodatek" />
+                                                </figure>
+                                                <span>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sed risus dui.
+                                                </span>
+                                            </>}
+                                        </div>
+
                                                     {item.addon_type === 1 ? <span className="addon__option__textType">
                                                 {language === 'pl' ? item.addon_option_name_pl : item.addon_option_name_en}
                                             </span> : <span className="addon__option__imageType">
@@ -360,6 +382,10 @@ const ProductPage = () => {
 
                     {addonsError ? <p className="info info--error">
                         Wybierz wszystkie dodatki
+                    </p> : ''}
+
+                    {outOfStock ? <p className="info info--error">
+                        Brak wystarczającej ilości produktu na stanie
                     </p> : ''}
 
                     <button className="btn btn--productContent" onClick={() => { buy(); }}>

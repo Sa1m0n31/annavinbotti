@@ -1,18 +1,22 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
-import shippingIcon1 from '../../static/img/delivery-1.png'
 
 const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
-    const { cartContent, addToCart, removeFromCart } = useContext(CartContext);
+    const { cartContent, removeFromCart, decrementFromCart } = useContext(CartContext);
     const { language, content } = useContext(ContentContext);
 
     const [cartSum, setCartSum] = useState(0);
 
     useEffect(() => {
-        if(cartContent) {
+        if(cartContent?.length) {
             setCartSum(cartContent.reduce((prev, curr) => {
-                return prev + curr.product.price;
+                if(prev && curr) {
+                    return prev + curr.product.price;
+                }
+                else {
+                    return prev;
+                }
             }, 0));
         }
     }, [cartContent]);
@@ -22,7 +26,7 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
             removeFromCart(product, addons);
         }
         else {
-            addToCart(product, addons, amount);
+            decrementFromCart(product, addons);
         }
     }
 

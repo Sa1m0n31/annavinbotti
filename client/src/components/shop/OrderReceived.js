@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import SideCart from "./SideCart";
-import {getNumberOfFirstTypeFormsByOrder, getOrderById} from "../../helpers/orders";
+import {getOrderById} from "../../helpers/orders";
 import {groupBy} from "../../helpers/others";
 
 const OrderReceived = ({orderId}) => {
@@ -10,8 +10,12 @@ const OrderReceived = ({orderId}) => {
         if(orderId) {
             getOrderById(orderId)
                 .then((res) => {
+                    localStorage.removeItem('cart');
                     setCart(Object.entries(groupBy(res?.data?.result, 'type_id')));
                 })
+                .catch(() => {
+                   window.location = '/';
+                });
         }
     }, [orderId]);
 
@@ -23,7 +27,7 @@ const OrderReceived = ({orderId}) => {
             <h3 className="orderReceived__header">
                 Twoje zamówienie otrzymało numer
                 <span>
-                    {orderId}
+                    #{orderId}
                 </span>
             </h3>
             <p className="orderReceived__info">
@@ -37,7 +41,6 @@ const OrderReceived = ({orderId}) => {
                     Podaj wymiary stopy
                 </a>
             })}
-
 
             <div className="cart__summary--mobileWrapper d-to-900">
                 <SideCart />

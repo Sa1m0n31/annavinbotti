@@ -491,9 +491,15 @@ router.put('/decrement-stock-by-addon', (request, response) => {
 router.get('/get-product-stock', (request, response) => {
     const id = request.query.id;
 
-    const query = `SELECT counter FROM stocks s
-                JOIN products_stocks ps ON s.id = ps.stock
-                WHERE ps.product = $1`;
+    const query = `SELECT MIN(s.counter) as product_counter, MIN(s2.counter) as addon_counter FROM stocks s
+                    LEFT OUTER JOIN products_stocks ps ON s.id = ps.stock
+                    JOIN products p ON p.id = ps.product
+                    LEFT OUTER JOIN addons_for_products afp ON afp.product = p.id
+                    LEFT OUTER JOIN addons a ON a.id = afp.addon
+                    LEFT OUTER JOIN addons_options ao ON ao.addon = a.id
+                    LEFT OUTER JOIN addons_stocks ad_s ON ad_s.addon_option = ao.id
+                    LEFT OUTER JOIN stocks s2 ON s2.id = ad_s.stock
+                    WHERE p.id = $1`;
     const values = [id];
 
     dbSelectQuery(query, values, response);

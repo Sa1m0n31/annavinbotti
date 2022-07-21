@@ -99,8 +99,9 @@ const OrderDetails = () => {
                                     window.location = '/panel-klienta';
                                 }
                             })
-                            .catch(() => {
-                                window.location = '/panel-klienta';
+                            .catch((err) => {
+                                console.log(err);
+                                // window.location = '/panel-klienta';
                             });
                     }
                     else {
@@ -118,15 +119,18 @@ const OrderDetails = () => {
 
     useEffect(() => {
         if(cart) {
-            setProducts(Object.entries(groupBy(cart, 'product')));
+            console.log(Object.entries(groupBy(cart, 'sell')));
+            setProducts(Object.entries(groupBy(cart, 'sell')));
         }
     }, [cart]);
 
     useEffect(() => {
        if(orderInfo?.length) {
+           console.log(orderInfo);
            if(language === 'en') {
                setCart(orderInfo?.map((item) => {
                    return {
+                       sell: item.sell_id,
                        product: item.product_name_en,
                        addon: item.addon_name_en,
                        addonOption: item.addon_option_name_en,
@@ -139,6 +143,7 @@ const OrderDetails = () => {
            else {
                setCart(orderInfo?.map((item) => {
                    return {
+                       sell: item.sell_id,
                        product: item.product_name,
                        addon: item.addon_name,
                        addonOption: item.addon_option_name,
@@ -185,7 +190,7 @@ const OrderDetails = () => {
 
     useEffect(() => {
         if(cart) {
-            setOrderSum(Object.entries(groupBy(cart, 'product')).reduce((prev, cur) => {
+            setOrderSum(Object.entries(groupBy(cart, 'sell')).reduce((prev, cur) => {
                 return prev + cur[1][0].price;
             }, 0));
         }
@@ -293,7 +298,7 @@ const OrderDetails = () => {
                             </figure>
                             <div className="orderDetails__bottom__item__content">
                                 <h4 className="orderDetails__bottom__item__content__header">
-                                    {language === 'pl' ? item[0] : item[1][0].product_name_en}
+                                    {language === 'pl' ? item[1][0].product : item[1][0].product_name_en}
                                 </h4>
                                 <h5 className="orderDetails__bottom__item__content__price">
                                     {item[1][0].price} zł

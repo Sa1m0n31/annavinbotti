@@ -127,6 +127,10 @@
         max-width: 90vw;
     }
 
+    .addon__option__tooltip {
+        width: 200px;
+    }
+
     .faq .pageHeader {
         font-size: 24px;
     }
@@ -273,6 +277,12 @@
 @media(max-width: 996px) {
     .order__main {
         flex-direction: column;
+    }
+
+    .product .info--error {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .blog__content__item__header {
