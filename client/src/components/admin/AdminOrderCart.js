@@ -24,7 +24,6 @@ const AdminOrderCart = ({cart, orderId}) => {
             </span>
         </div>
         {cart?.map((item, index) => {
-            console.log(item);
             return <div className="admin__order__cart__item">
                 <span>
                     {item[1][0].product}
@@ -55,7 +54,7 @@ const AdminOrderCart = ({cart, orderId}) => {
                             Formularz mierzenia stopy
                         </a>
                         <a className={item.secondForm ? "admin__order__cart__item__details__btn" : "admin__order__cart__item__details__btn o-5"}
-                           href={`/formularz-weryfikacji?order=${orderId}&model=${item?.productId}`}>
+                           href={`/formularz-weryfikacji?order=${orderId}&model=${item[1][0]?.productId}`}>
                             Formularz weryfikacji
                         </a>
                     </div>

@@ -11,7 +11,7 @@ const SideCart = () => {
     useEffect(() => {
         if(cartContent) {
             setCartSum(cartContent.reduce((prev, curr) => {
-                return prev + curr.product.price;
+                return prev + curr.product.price * curr.amount;
             }, 0));
         }
     }, [cartContent]);

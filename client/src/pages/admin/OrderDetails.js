@@ -13,6 +13,7 @@ import AdminOrderCart from "../../components/admin/AdminOrderCart";
 import {cancelOrder, rejectClientForm} from "../../helpers/admin";
 import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
 import {groupBy} from "../../helpers/others";
+import Loader from "../../components/shop/Loader";
 
 const OrderDetails = () => {
     const [order, setOrder] = useState({});
@@ -27,6 +28,7 @@ const OrderDetails = () => {
     const [cancelOrderModal, setCancelOrderModal] = useState(false);
     const [deliveryNumber, setDeliveryNumber] = useState('');
     const [changeDeliveryNumberStatus, setChangeDeliveryNumberStatus] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const paramId = new URLSearchParams(window.location.search)?.get('id');
@@ -43,8 +45,8 @@ const OrderDetails = () => {
             .then((res) => {
                 const r = res?.data?.result;
                 if(r) {
+                    console.log(r[0]);
                     const result = r[0];
-                    console.log(result);
                     setDeliveryNumber(result.delivery_number);
                     setOrder({
                         id: result.id,
@@ -70,6 +72,7 @@ const OrderDetails = () => {
                         },
                         companyName: result.company_name,
                         nip: result.nip,
+                        shipping: result.shipping,
                         status: result.status
                     });
 
@@ -126,6 +129,7 @@ const OrderDetails = () => {
     }, [cart]);
 
     useEffect(() => {
+        console.log(orderStatusUpdateStatus);
         if(orderStatusUpdateStatus) {
             setTimeout(() => {
                 setOrderStatusUpdateStatus(0);
@@ -134,9 +138,11 @@ const OrderDetails = () => {
     }, [orderStatusUpdateStatus]);
 
     const changeOrderStatusWrapper = () => {
+        setLoading(true);
         if(currentOrderStatus) {
             changeOrderStatus(order?.id, currentOrderStatus, order?.email)
                 .then((res) => {
+                    setLoading(false);
                     if(res?.status === 201 || res?.status === 200) {
                         setOrderStatusUpdateStatus(1);
                     }
@@ -145,6 +151,7 @@ const OrderDetails = () => {
                     }
                 })
                 .catch(() => {
+                    setLoading(false);
                     setOrderStatusUpdateStatus(-1);
                 });
         }
@@ -233,9 +240,11 @@ const OrderDetails = () => {
                                 </p>
                             </button>
                         })}
-                        {!orderStatusUpdateStatus ? <button className="btn btn--admin btn--orderStatus" onClick={() => { changeOrderStatusWrapper(); }}>
+                        {!orderStatusUpdateStatus ? (!loading ? <button className="btn btn--admin btn--orderStatus" onClick={() => { changeOrderStatusWrapper(); }}>
                             Zmień status zamówienia
-                        </button> : <span className="info info--orderStatus">
+                        </button> : <div className="marginTop center">
+                            <Loader />
+                        </div>) : <span className="info info--orderStatus">
                         {orderStatusUpdateStatus === 1 ? 'Status zamówienia został zmieniony' : 'Coś poszło nie tak... Skontaktuj się z administratorem systemu'}
                     </span>}
                     </section>

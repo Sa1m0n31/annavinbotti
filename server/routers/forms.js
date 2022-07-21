@@ -319,8 +319,6 @@ router.post('/send-form', upload.fields([
                        }
                    }));
 
-                   console.log(formJSON);
-
                    // Divide form by right and left foot
                    const formJSONParsed = JSON.parse(formJSON);
                    const middleIndex = Math.ceil(formJSONParsed.length / 2);
@@ -485,11 +483,17 @@ router.get('/get-orders-with-empty-second-type-forms', (request, response) => {
     const user = request.user;
 
     if(user) {
-        const query = `SELECT o.id as order_id, p.id as type FROM orders o
-                        JOIN sells s ON o.id = s.order
-                        JOIN products p ON p.id = s.product
-                        LEFT OUTER JOIN filled_forms ff ON ff.sell = s.id
-                        WHERE o.user = $1 AND (ff.form IS NULL OR ff.form = 1)`;
+        const query = `SELECT o.id as order_id, p.id as type, ff.form FROM orders o
+                JOIN sells s ON o.id = s.order
+                JOIN products p ON p.id = s.product
+                LEFT OUTER JOIN filled_forms ff ON ff.sell = s.id
+                WHERE o.user = $1 AND (ff.form IS NULL OR ff.form = 1) AND s.id NOT IN (
+                    SELECT s.id FROM sells s 
+                    JOIN orders o ON o.id = s.order
+                    JOIN filled_forms ff ON ff.sell = s.id 
+                    JOIN users u ON u.id = o.user
+                    WHERE u.id = $1 AND ff.form = 2
+                )`;
         const values = [user];
 
         dbSelectQuery(query, values, response);

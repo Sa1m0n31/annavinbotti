@@ -89,6 +89,7 @@ const ClientOrders = () => {
         if(orders?.length) {
             setEmptyOrderList(false);
             setButtons(orders.map((item) => {
+                console.log(item);
                 return setButtonParams(item[0], item[1][0].status, item[1]);
             }));
         }
@@ -118,6 +119,7 @@ const ClientOrders = () => {
         }
         else if(status === 5) {
             return getNumberOfSecondTypeForms(cart).map((item) => {
+                console.log(item);
                 return {
                     pl: 'Zweryfikuj but na miarę',
                     en: 'Zweryfikuj but na miarę',

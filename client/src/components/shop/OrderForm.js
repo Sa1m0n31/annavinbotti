@@ -141,7 +141,6 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
         else if(!formFields.firstName || !formFields.lastName || !isEmail(formFields.email) || !formFields.phoneNumber
             || !formFields.street || !formFields.building || !formFields.city || !formFields.postalCode
         ) {
-            console.log(formFields);
             return 'Uzupełnij wymagane pola';
         }
         else if(formFields.invoice && (!formFields.companyName || !formFields.nip)) {
@@ -210,7 +209,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                         lastName: formFields.differentDeliveryAddress ? formFields.deliveryLastName : formFields.lastName,
                         phoneNumber: formFields.differentDeliveryAddress ? formFields.deliveryPhoneNumber : formFields.phoneNumber
                     },
-                    formFields.companyName ? formFields.companyName : null, formFields.nip ? formFields.nip : null,
+                     formFields.nip ? formFields.nip : null, formFields.companyName ? formFields.companyName : null,
                     sells, addons, shipping?.pl, c3 ? 'true': null
                     )
                     .then((res) => {

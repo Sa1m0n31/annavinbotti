@@ -11,10 +11,8 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
     useEffect(() => {
         if(cartContent?.length) {
             setCartSum(cartContent.reduce((prev, curr) => {
-                console.log(prev);
-                console.log(curr);
                 if(curr) {
-                    return prev + curr.product.price;
+                    return prev + curr.product.price * curr.amount;
                 }
                 else {
                     return prev;

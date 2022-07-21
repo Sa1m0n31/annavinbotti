@@ -25,7 +25,7 @@ let transporter = nodemailer.createTransport(smtpTransport ({
 }));
 
 router.get('/all', (request, response) => {
-   const query = `SELECT o.id, a.first_name, a.last_name, o.date FROM orders o JOIN addresses a ON o.user_address = a.id WHERE o.hidden = FALSE`;
+   const query = `SELECT o.id, COALESCE(a.first_name, u.first_name) as first_name, COALESCE(a.last_name, u.last_name) as last_name, o.date FROM orders o JOIN addresses a ON o.user_address = a.id JOIN users u ON u.id = o.user WHERE o.hidden = FALSE`;
 
    dbSelectQuery(query, [], response);
 });
@@ -34,7 +34,7 @@ router.get('/', (request, response) => {
    const id = request.query.id;
 
    if(id) {
-       const query = `SELECT o.id, s.id as sell_id, o.date, o.delivery_number, ua.first_name, ua.last_name, u.email, ua.phone_number, o.shipping, p.id as product_id,
+       const query = `SELECT o.id, s.id as sell_id, o.date, o.delivery_number, COALESCE(ua.first_name, u.first_name) as first_name, COALESCE(ua.last_name, u.last_name) as last_name, u.email, ua.phone_number, o.shipping, p.id as product_id,
                     o.status, o.payment, da.city as delivery_city, da.street as delivery_street, da.postal_code as delivery_postal_code, da.building as delivery_building,
                     da.first_name as delivery_first_name, da.last_name as delivery_last_name, da.phone_number as delivery_phone_number,
                     da.flat as delivery_flat, ua.city as user_city, ua.street as user_street, ua.postal_code as user_postal_code, ua.building as user_building,
@@ -62,23 +62,23 @@ router.get('/', (request, response) => {
 
 const sendStatus1Mail = (response, orderId, email) => {
     const query = `SELECT prod.name_pl as product_name, prod.type,
-                (SELECT string_agg(a.name_pl || ': ' || ao.name_pl, ';') as addon_name
+                    (SELECT string_agg(a.name_pl || ': ' || ao.name_pl, ';') as addon_name
+                    FROM orders o
+                    JOIN sells s ON s.order = o.id
+                    JOIN sells_addons sa ON s.id = sa.sell
+                    JOIN products p ON p.id = s.product
+                    JOIN addons_options ao ON ao.id = sa.option
+                    JOIN addons a ON a.id = ao.addon 
+                    WHERE o.id = $1 AND s.id = sl.id
+                    ) as addons
                 FROM orders o
-                JOIN sells s ON s.order = o.id
-                JOIN sells_addons sa ON s.id = sa.sell
-                JOIN products p ON p.id = s.product
+                JOIN sells sl ON sl.order = o.id
+                JOIN sells_addons sa ON sl.id = sa.sell
+                JOIN products prod ON prod.id = sl.product
                 JOIN addons_options ao ON ao.id = sa.option
-                JOIN addons a ON a.id = ao.addon 
-                WHERE o.id = $1 AND p.name_pl = prod.name_pl
-                ) as addons
-            FROM orders o
-            JOIN sells s ON s.order = o.id
-            JOIN sells_addons sa ON s.id = sa.sell
-            JOIN products prod ON prod.id = s.product
-            JOIN addons_options ao ON ao.id = sa.option
-            JOIN addons a ON a.id = ao.addon
-            WHERE o.id = $1
-            GROUP BY (prod.name_pl, prod.type, s.id)`;
+                JOIN addons a ON a.id = ao.addon
+                WHERE o.id = $1
+                GROUP BY (prod.name_pl, prod.type, sl.id);`;
     const values = [orderId];
 
     db.query(query, values, (err, res) => {
@@ -181,8 +181,11 @@ router.put('/update-order-delivery-number', (request, response) => {
 });
 
 const validateStocks = async (sells, addons) => {
-    // sells: { product, price }
+    // sells: { product, price, amount }
     // addons: { sell, options : [1, 2, 3] }
+
+    console.log(sells);
+    console.log('---');
 
     for(const sell of sells) {
         const res = await got.get(`${process.env.API_URL}/stocks/get-product-stock`, {
@@ -191,13 +194,21 @@ const validateStocks = async (sells, addons) => {
             }
         });
 
-        console.log(sell.amount);
-        console.log(res?.body);
+        const amount = sells.filter((item) => {
+            return item.product === sell.product;
+        }).reduce((prev, cur) => {
+            return prev + cur.amount;
+        }, 0);
+
+        console.log('amount');
+        console.log(amount);
 
         const productCounter = JSON.parse(res?.body)?.result[0]?.product_counter !== null ? JSON.parse(res?.body)?.result[0]?.product_counter : 999999;
         const addonCounter = JSON.parse(res?.body)?.result[0]?.addon_counter !== null ? JSON.parse(res?.body)?.result[0]?.product_counter : 999999;
 
-        if(Math.min(productCounter, addonCounter) < sell.amount) {
+        console.log(productCounter, addonCounter);
+
+        if(Math.min(productCounter, addonCounter) < amount) {
             return false;
         }
     }
@@ -236,6 +247,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
             const values = [user.id];
 
             await db.query(query, values, async(err, res) => {
+                console.log(err);
                 const email = res?.rows[0]?.email;
                 if(email) {
                     await got.post(`${process.env.API_URL}/newsletter-api/add`, {
@@ -255,58 +267,38 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                     const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
                     const values = [item.product, id, item.price];
 
-                    // ADD SELLS
-                    if(index === array.length-1) {
-                        await db.query(query, values, (err, res) => {
-                            if(res) {
-                                sellsIds.push(res.rows[0].id);
+                    const insertSellResult = await db.query(query, values);
+                    await sellsIds.push(insertSellResult.rows[0].id);
+                    await console.log('add ' + index);
+                    await console.log(sellsIds);
 
-                                if(addons?.length) {
-                                    // ADD ADDONS
-                                    addons.forEach(async (item, indexParent, arrayParent) => {
-                                        const options = item.options;
-                                        const sellIndex = indexParent;
+                    if(sellsIds.length === addons.length) {
+                        // ADD ADDONS
+                        console.log('inside if');
+                        await addons.forEach(async (item, indexParent, arrayParent) => {
+                            const options = item.options;
 
-                                        await options.forEach(async (item, index, array) => {
-                                            const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
-                                            const values = [sellsIds[sellIndex], item];
+                            await options.forEach(async (item, index, array) => {
+                                const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
+                                const values = [sellsIds[indexParent], item];
 
-                                            if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
-                                                db.query(query, values, (err, res) => {
-                                                    if(res) {
-                                                        // Send mail
-                                                        sendStatus1Mail(response, id, user.email);
-                                                    }
-                                                    else {
-                                                        response.status(500).end();
-                                                    }
-                                                });
-                                            }
-                                            else {
-                                                dbInsertQuery(query, values);
-                                            }
-                                        });
+                                if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
+                                    await db.query(query, values, (err, res) => {
+                                        console.log(err);
+                                        if(res) {
+                                            // Send mail
+                                            sendStatus1Mail(response, id, user.email);
+                                        }
+                                        else {
+                                            response.status(500).end();
+                                        }
                                     });
                                 }
                                 else {
-                                    response.status(201);
-                                    response.send({id});
+                                    await dbInsertQuery(query, values);
                                 }
-                            }
-                            else {
-                                response.status(500).end();
-                            }
+                            });
                         });
-                    }
-                    else {
-                        await db.query(query, values, (err, res) => {
-                            if(res) {
-                                sellsIds.push(res.rows[0].id);
-                            }
-                            else {
-                                response.status(500).end();
-                            }
-                        })
                     }
                 });
             }
@@ -445,7 +437,7 @@ font-size: 16px;
     }
 
     transporter.sendMail(mailOptions, function(error, info) {
-        response.status(201);
+        response.status(201).end();
     });
 }
 
@@ -596,7 +588,7 @@ font-size: 16px;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B;">
-                    But Do Miary został wysłany. <br/><br/>
+                    But Do Miary został wysłany. <br/>
                     Metoda wysyłki: ${shipping}. <br/>
                     Numer przesyłki: ${deliveryNumber}. 
                 </p>       
@@ -666,7 +658,7 @@ font-size: 16px;
     }
 
     transporter.sendMail(mailOptions, function(error, info) {
-        response.status(201);
+        response.status(201).end();
     });
 }
 
@@ -753,6 +745,8 @@ font-size: 16px;
 router.put('/change-status', (request, response) => {
     const { status, email, id } = request.body;
 
+    console.log('change order status');
+
     const query = 'UPDATE orders SET status = $1 WHERE id = $2';
     const values = [status, id];
 
@@ -772,6 +766,9 @@ router.put('/change-status', (request, response) => {
             }
             else if(status === 8) {
                 sendStatus8Email(email, id, response);
+            }
+            else {
+                response.status(201).end();
             }
         }
         else {

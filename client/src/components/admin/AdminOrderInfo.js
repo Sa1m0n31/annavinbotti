@@ -10,7 +10,8 @@ const AdminOrderInfo = ({order}) => {
                                          order?.userAddress?.flat ? `ul. ${order.userAddress.street} ${order.userAddress.building}/${order.userAddress.flat}` : `ul. ${order?.userAddress?.street} ${order?.userAddress?.building}`,
                                          `${order.userAddress?.postalCode} ${order.userAddress?.city}`,
                                          order?.email,
-                                         order?.phoneNumber
+                                         order?.phoneNumber,
+                                         order?.nip ? ('Faktura: ' + order?.companyName + ', NIP: ' + order?.nip) : ''
                                      ]} /> : ''}
 
 
@@ -19,7 +20,8 @@ const AdminOrderInfo = ({order}) => {
                                                 order?.deliveryAddress?.fullName,
                                                 order?.deliveryAddress?.phoneNumber,
                                                 order?.deliveryAddress?.flat ? `ul. ${order.deliveryAddress.street} ${order.deliveryAddress.building}/${order.deliveryAddress.flat}` : `ul. ${order?.deliveryAddress?.street} ${order?.deliveryAddress?.building}`,
-                                                `${order.deliveryAddress?.postalCode} ${order.deliveryAddress?.city}`
+                                                `${order.deliveryAddress?.postalCode} ${order.deliveryAddress?.city}`,
+                                                `Wysyłka: ${order.shipping}`
                                             ]}
                 /> : ''}
         </div>

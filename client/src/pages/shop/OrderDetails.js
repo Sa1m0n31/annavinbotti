@@ -128,7 +128,8 @@ const OrderDetails = () => {
                setCart(orderInfo?.map((item) => {
                    return {
                        sell: item.sell_id,
-                       product: item.product_name_en,
+                       product: item.id,
+                       productName: item.product_name_en,
                        addon: item.addon_name_en,
                        addonOption: item.addon_option_name_en,
                        price: item.price,
@@ -141,7 +142,8 @@ const OrderDetails = () => {
                setCart(orderInfo?.map((item) => {
                    return {
                        sell: item.sell_id,
-                       product: item.product_name,
+                       product: item.product_id,
+                       productName: item.product_name,
                        addon: item.addon_name,
                        addonOption: item.addon_option_name,
                        price: item.price,
@@ -175,6 +177,7 @@ const OrderDetails = () => {
             }
             else if(orderDetails.status === 5) {
                 setButtons(getNumberOfSecondTypeForms(cart).map((item) => {
+                    console.log(item);
                     return {
                         pl: 'Zweryfikuj but na miarę',
                         en: 'Zweryfikuj but na miarę',
@@ -295,7 +298,7 @@ const OrderDetails = () => {
                             </figure>
                             <div className="orderDetails__bottom__item__content">
                                 <h4 className="orderDetails__bottom__item__content__header">
-                                    {language === 'pl' ? item[1][0].product : item[1][0].product_name_en}
+                                    {language === 'pl' ? item[1][0].productName : item[1][0].productName}
                                 </h4>
                                 <h5 className="orderDetails__bottom__item__content__price">
                                     {item[1][0].price} zł
