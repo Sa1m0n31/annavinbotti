@@ -16,6 +16,8 @@ const AdminOrderInfo = ({order}) => {
 
             {order?.deliveryAddress ? <DisplayAddress header="Dane wysyłki"
                                             lines={[
+                                                order?.deliveryAddress?.fullName,
+                                                order?.deliveryAddress?.phoneNumber,
                                                 order?.deliveryAddress?.flat ? `ul. ${order.deliveryAddress.street} ${order.deliveryAddress.building}/${order.deliveryAddress.flat}` : `ul. ${order?.deliveryAddress?.street} ${order?.deliveryAddress?.building}`,
                                                 `${order.deliveryAddress?.postalCode} ${order.deliveryAddress?.city}`
                                             ]}

@@ -63,7 +63,7 @@ const FormDetails = () => {
                             But lewy
                         </h4>
                         {formLeft?.map((item, index) => {
-                            const imageSrc = `${settings.API_URL}/image?url=/media/forms/${item.value}`;
+                            const imageSrc = `${settings.API_URL}/image?url=/media/filled-forms/${item.value}`;
 
                             return <div className="admin__form__field">
                             <span>
@@ -85,7 +85,7 @@ const FormDetails = () => {
                             But prawy
                         </h4>
                         {formRight?.map((item, index) => {
-                            const imageSrc = `${settings.API_URL}/image?url=/media/forms/${item.value}`;
+                            const imageSrc = `${settings.API_URL}/image?url=/media/filled-forms/${item.value}`;
 
                             return <div className="admin__form__field">
                             <span>

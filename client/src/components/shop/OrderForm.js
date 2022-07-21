@@ -141,6 +141,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
         else if(!formFields.firstName || !formFields.lastName || !isEmail(formFields.email) || !formFields.phoneNumber
             || !formFields.street || !formFields.building || !formFields.city || !formFields.postalCode
         ) {
+            console.log(formFields);
             return 'Uzupełnij wymagane pola';
         }
         else if(formFields.invoice && (!formFields.companyName || !formFields.nip)) {
@@ -186,7 +187,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                 }
             });
 
-            if(formVisible) {
+            if(formVisible || !userWithData) {
                 // User edited data
                 addOrder(formFields,
                     {
@@ -194,14 +195,20 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                         building: formFields.building,
                         flat: formFields.flat,
                         city: formFields.city,
-                        postal_code: formFields.postal_code
+                        postal_code: formFields.postalCode,
+                        firstName: formFields.firstName,
+                        lastName: formFields.lastName,
+                        phoneNumber: formFields.phoneNumber
                     },
                     {
-                        street: formFields.deliveryStreet,
-                        building: formFields.deliveryBuilding,
-                        flat: formFields.deliveryFlat,
-                        city: formFields.deliveryCity,
-                        postal_code: formFields.deliveryPostalCode
+                        street: formFields.differentDeliveryAddress ? formFields.deliveryStreet : formFields.street,
+                        building: formFields.differentDeliveryAddress ? formFields.deliveryBuilding : formFields.building,
+                        flat: formFields.differentDeliveryAddress ? formFields.deliveryFlat : formFields.flat,
+                        city: formFields.differentDeliveryAddress ? formFields.deliveryCity : formFields.city ,
+                        postal_code: formFields.differentDeliveryAddress ? formFields.deliveryPostalCode : formFields.postalCode,
+                        firstName: formFields.differentDeliveryAddress ? formFields.deliveryFirstName : formFields.firstName,
+                        lastName: formFields.differentDeliveryAddress ? formFields.deliveryLastName : formFields.lastName,
+                        phoneNumber: formFields.differentDeliveryAddress ? formFields.deliveryPhoneNumber : formFields.phoneNumber
                     },
                     formFields.companyName ? formFields.companyName : null, formFields.nip ? formFields.nip : null,
                     sells, addons, shipping?.pl, c3 ? 'true': null

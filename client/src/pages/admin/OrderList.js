@@ -78,6 +78,7 @@ const OrderList = () => {
                     Lista zamówień
                 </h2>
                 {orders?.map((item, index) => {
+                    console.log(item);
                     return <OrderListItem index={index}
                                          id={item.id}
                                          openDeleteModal={openDeleteModal}

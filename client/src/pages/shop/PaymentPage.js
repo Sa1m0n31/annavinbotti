@@ -25,6 +25,7 @@ const PaymentPage = () => {
     const [payment, setPayment] = useState(0);
     const [orderId, setOrderId] = useState(null);
     const [traditionalTransfer, setTraditionalTransfer] = useState(false);
+    const [error, setError] = useState('');
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -68,8 +69,10 @@ const PaymentPage = () => {
     }, [])
 
     const pay = () => {
+        console.log('pay');
         payOrder(orderId, payment, user.firstName, user.lastName, user.email)
             .then((res) => {
+                console.log(res);
                 if(payment === 0) {
                     // imoje - online payment
                     if(res?.data?.id) {
@@ -81,6 +84,15 @@ const PaymentPage = () => {
                     if(res?.status === 201) {
                         setTraditionalTransfer(true);
                     }
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                if(err?.response?.data?.code === "ERR_NON_2XX_3XX_RESPONSE") {
+                    setError('Uzupełnij swoje imię i nazwisko w ustawieniach profilu');
+                }
+                else {
+                    setError(language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN);
                 }
             });
     }
@@ -131,6 +143,11 @@ const PaymentPage = () => {
                         </span>
                     </button>
                 })}
+
+                {error ? <span className="info info--error">
+                    {error}
+                </span> : ''}
+
                 <button className="btn btn--sendForm" onClick={() => { pay(); }}>
                     Opłać zamówienie
                 </button>

@@ -25,7 +25,7 @@ let transporter = nodemailer.createTransport(smtpTransport ({
 }));
 
 router.get('/all', (request, response) => {
-   const query = `SELECT o.id, u.first_name, u.last_name, o.date FROM orders o JOIN users u ON o.user = u.id WHERE hidden = FALSE`;
+   const query = `SELECT o.id, a.first_name, a.last_name, o.date FROM orders o JOIN addresses a ON o.user_address = a.id WHERE o.hidden = FALSE`;
 
    dbSelectQuery(query, [], response);
 });
@@ -34,7 +34,7 @@ router.get('/', (request, response) => {
    const id = request.query.id;
 
    if(id) {
-       const query = `SELECT o.id, s.id as sell_id, o.date, o.delivery_number, u.first_name, u.last_name, u.email, u.phone_number, o.shipping, p.id as product_id,
+       const query = `SELECT o.id, s.id as sell_id, o.date, o.delivery_number, ua.first_name, ua.last_name, u.email, ua.phone_number, o.shipping, p.id as product_id,
                     o.status, o.payment, da.city as delivery_city, da.street as delivery_street, da.postal_code as delivery_postal_code, da.building as delivery_building,
                     da.first_name as delivery_first_name, da.last_name as delivery_last_name, da.phone_number as delivery_phone_number,
                     da.flat as delivery_flat, ua.city as user_city, ua.street as user_street, ua.postal_code as user_postal_code, ua.building as user_building,
@@ -174,9 +174,6 @@ font-size: 16px;
 router.put('/update-order-delivery-number', (request, response) => {
    const { deliveryNumber, orderId } = request.body;
 
-   console.log(deliveryNumber);
-   console.log(orderId);
-
    const query = `UPDATE orders SET delivery_number = $1 WHERE id = $2`;
    const values = [deliveryNumber, orderId];
 
@@ -187,8 +184,6 @@ const validateStocks = async (sells, addons) => {
     // sells: { product, price }
     // addons: { sell, options : [1, 2, 3] }
 
-    let validationOk = true;
-
     for(const sell of sells) {
         const res = await got.get(`${process.env.API_URL}/stocks/get-product-stock`, {
             searchParams: {
@@ -196,16 +191,17 @@ const validateStocks = async (sells, addons) => {
             }
         });
 
-        const productCounter = JSON.parse(res?.body)?.result[0]?.product_counter;
-        const addonCounter = JSON.parse(res?.body)?.result[0]?.addon_counter;
+        console.log(sell.amount);
+        console.log(res?.body);
+
+        const productCounter = JSON.parse(res?.body)?.result[0]?.product_counter !== null ? JSON.parse(res?.body)?.result[0]?.product_counter : 999999;
+        const addonCounter = JSON.parse(res?.body)?.result[0]?.addon_counter !== null ? JSON.parse(res?.body)?.result[0]?.product_counter : 999999;
 
         if(Math.min(productCounter, addonCounter) < sell.amount) {
             return false;
         }
     }
 
-    console.log('VALIDATION');
-    console.log(validationOk);
     return true;
 }
 
@@ -214,6 +210,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
     let sellsIds = [];
 
     let sells = [], addons = [];
+
 
     // Add if multiple identical (product + addons) products
     for(let i=0; i<oldSells.length; i++) {
@@ -275,7 +272,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                                             const values = [sellsIds[sellIndex], item];
 
                                             if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
-                                                await db.query(query, values, (err, res) => {
+                                                db.query(query, values, (err, res) => {
                                                     if(res) {
                                                         // Send mail
                                                         sendStatus1Mail(response, id, user.email);
@@ -330,36 +327,55 @@ router.post('/add', (request, response) => {
     // sells: { product, price, amount }
     // addons: { sell, options : [1, 2, 3] }
 
+    console.log(request.body);
+
+    console.log(userAddress);
+    console.log(deliveryAddress);
+
     if(sells && user && userAddress && deliveryAddress) {
         try {
             // ADD ADDRESSES IF NOT EXIST
             if(isNaN(userAddress)) {
+                // USER ADDRESS
                 const ad = userAddress;
-                const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5) RETURNING id`;
-                const values = [ad.city, ad.postal_code, ad.street, ad.building, ad.flat];
+                const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`;
+                const values = [ad.city, ad.postal_code, ad.street, ad.building, ad.flat, ad.firstName, ad.lastName, ad.phoneNumber];
 
                 db.query(query, values, (err, res) => {
                     if(res?.rows) {
                         userAddress = res.rows[0].id;
-                        if(isNaN(deliveryAddress)) {
-                            const ad = deliveryAddress;
-                            const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5) RETURNING id`;
-                            const values = [ad.city, ad.postal_code, ad.street, ad.building, ad.flat];
 
-                            db.query(query, values, (err, res) => {
-                                if(res?.rows) {
-                                    deliveryAddress = res.rows[0].id;
-                                    addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
+                        // ADD USER FIRST AND LAST NAME (neccessary for payment process)
+                        const query = `UPDATE users SET first_name = $1, last_name = $2 WHERE id = $3 AND (first_name IS NULL OR last_name IS NULL)`;
+                        const values = [ad.firstName, ad.lastName, request.user];
+
+                        db.query(query, values, (err, res) => {
+                            if(res) {
+                                if(isNaN(deliveryAddress)) {
+                                    const ad = deliveryAddress;
+                                    const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`;
+                                    const values = [ad.city, ad.postal_code, ad.street, ad.building, ad.flat, ad.firstName, ad.lastName, ad.phoneNumber];
+
+                                    db.query(query, values, (err, res) => {
+                                        if(res?.rows) {
+                                            deliveryAddress = res.rows[0].id;
+                                            addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
+                                        }
+                                        else {
+                                            console.log(err);
+                                            response.status(500).end();
+                                        }
+                                    });
                                 }
                                 else {
-                                    console.log(err);
-                                    response.status(500).end();
+                                    addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
                                 }
-                            });
-                        }
-                        else {
-                            addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
-                        }
+                            }
+                            else {
+                                console.log(err);
+                                response.status(500).end();
+                            }
+                        });
                     }
                     else {
                         console.log(err);
@@ -909,6 +925,12 @@ router.post('/pay', (request, response) => {
                     const orderPrice = res?.rows[0]?.price;
                     if(orderPrice) {
                         if(parseInt(paymentMethod) === 0) {
+
+
+                            console.log(orderPrice);
+                            console.log(orderId);
+                            console.log(firstName, lastName, email);
+
                             // imoje
                             got.post(`${process.env.IMOJE_API}merchant/${process.env.IMOJE_CLIENT_ID}/payment`, {
                                 json: {
@@ -943,7 +965,7 @@ router.post('/pay', (request, response) => {
                                     }
                                 })
                                 .catch((err) => {
-                                    console.log(err);
+                                    response.status(500).send(err);
                                 })
                         }
                         else {

@@ -293,11 +293,12 @@ router.post('/send-form', upload.fields([
    let { formType, orderId, type, formJSON, email } = request.body;
    const user = request.user;
 
-   const query = `SELECT user FROM orders WHERE id = $1`;
+   const query = `SELECT o.user FROM orders o WHERE id = $1`;
    const values = [orderId];
 
    db.query(query, values, (err, res) => {
        const selectedUser = res?.rows[0]?.user;
+
        if(selectedUser) {
            if(parseInt(selectedUser) === parseInt(user)) {
                const files = request.files;
@@ -317,6 +318,8 @@ router.post('/send-form', upload.fields([
                            value: item.type === 'txt' ? item.value : getFileName(item.name)?.filename
                        }
                    }));
+
+                   console.log(formJSON);
 
                    // Divide form by right and left foot
                    const formJSONParsed = JSON.parse(formJSON);
@@ -372,6 +375,7 @@ router.post('/send-form', upload.fields([
                    const values = [type, orderId];
 
                    db.query(query, values, (err, res) => {
+                       console.log(err);
                        if(res) {
                            const sells = res?.rows?.map((item) => {
                                return item.id;
@@ -382,6 +386,7 @@ router.post('/send-form', upload.fields([
                                const values = [formType, item, formJSON];
 
                                await db.query(query, values, (err, res) => {
+                                   console.log(err);
                                    if(res) {
                                        if(index === array.length - 1) {
                                            // Check if all forms submitted - if yes: change order status
@@ -402,6 +407,7 @@ router.post('/send-form', upload.fields([
 
                                                        if(parseInt(formType) === 1) {
                                                            query = 'UPDATE orders SET status = 2 WHERE id = $1';
+                                                           const values = [orderId];
                                                            db.query(query, values, (err, res) => {
                                                                if(res) {
                                                                    sendStatus2Email(email, response);
@@ -413,6 +419,7 @@ router.post('/send-form', upload.fields([
                                                        }
                                                        else {
                                                            query = 'UPDATE orders SET status = 6 WHERE id = $1';
+                                                           const values = [orderId];
                                                            db.query(query, values, (err, res) => {
                                                                if(res) {
                                                                    sendStatus6Email(email, response);

@@ -1760,3 +1760,7 @@ a.admin__start__stats:hover {
     display: block;
     max-width: 100% !important;
 }
+
+#root > div > div > main > div > div:nth-child(2) > label > span > div.dzu-dropzone > label {
+    opacity: 0;
+}

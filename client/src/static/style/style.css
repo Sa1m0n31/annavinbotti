@@ -1236,6 +1236,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     max-width: 400px;
 }
 
+.payment .info--error,
 .contact .info--error,
 .product__content .info--error {
     color: #d83b27;
@@ -1244,6 +1245,10 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     max-width: 360px;
     text-align: center;
     margin: 20px 0 -10px;
+}
+
+.payment .info--error {
+    margin: 20px auto;
 }
 
 .container--order .order *:not(.form *) {

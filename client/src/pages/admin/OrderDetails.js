@@ -44,6 +44,7 @@ const OrderDetails = () => {
                 const r = res?.data?.result;
                 if(r) {
                     const result = r[0];
+                    console.log(result);
                     setDeliveryNumber(result.delivery_number);
                     setOrder({
                         id: result.id,
@@ -59,8 +60,10 @@ const OrderDetails = () => {
                             flat: result.user_flat
                         },
                         deliveryAddress: {
+                            fullName: result.delivery_first_name ? `${result.delivery_first_name} ${result.delivery_last_name}` : null,
+                            phoneNumber: result.delivery_phone_number,
                             city: result.delivery_city,
-                            street: result.user_street,
+                            street: result.delivery_street,
                             postalCode: result.delivery_postal_code,
                             building: result.delivery_building,
                             flat: result.delivery_flat
@@ -111,8 +114,8 @@ const OrderDetails = () => {
                         const r = res?.data?.result;
                         if(r) {
                             setCart(cart?.map((item) => {
-                               const firstForm = getFormByProductAndFormType(item.product, 1, r);
-                               const secondForm = getFormByProductAndFormType(item.product, 2, r);
+                               const firstForm = getFormByProductAndFormType(item[1][0].product, 1, r);
+                               const secondForm = getFormByProductAndFormType(item[1][0].product, 2, r);
 
                                return {...item, firstForm, secondForm}
                             }));

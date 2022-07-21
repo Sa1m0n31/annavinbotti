@@ -51,6 +51,7 @@ const sendForm = (formData, formType, orderId, type, formJSON, email) => {
         formData.append('formJSON', JSON.stringify(formJSON));
     }
 
+    console.log('sending form');
     return axios.post('/forms/send-form', formData, config);
 }
 

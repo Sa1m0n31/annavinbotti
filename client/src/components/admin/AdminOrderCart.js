@@ -24,6 +24,7 @@ const AdminOrderCart = ({cart, orderId}) => {
             </span>
         </div>
         {cart?.map((item, index) => {
+            console.log(item);
             return <div className="admin__order__cart__item">
                 <span>
                     {item[1][0].product}

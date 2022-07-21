@@ -9,7 +9,7 @@ const smtpTransport = require('nodemailer-smtp-transport');
 const passport = require('passport');
 const crypto = require('crypto');
 const got = require('got');
-const emailTemplate = require("./others");
+const emailTemplate = require("./others").emailTemplate;
 require('../passport')(passport);
 
 let transporter = nodemailer.createTransport(smtpTransport ({
@@ -38,6 +38,7 @@ const sendVerificationEmail = (email, token, response) => {
     }
 
     transporter.sendMail(mailOptions, function(error, info) {
+        console.log(error);
         response.send({
             result: 1
         });
@@ -76,11 +77,13 @@ router.post("/register", (request, response) => {
 
     db.query(query, values, (err, res) => {
         if(res) {
+            console.log('user added');
             const insertedUserEmail = res.rows[0].email;
             const token = uuidv4();
             const query = 'INSERT INTO account_verification VALUES ($1, $2, NOW())';
             const values = [insertedUserEmail, token];
             db.query(query, values, (err, res) => {
+                console.log(err);
                 if(res) {
                     if(newsletter === 'true') {
                         got.post(`${process.env.API_URL}/newsletter/add`, {
@@ -97,6 +100,7 @@ router.post("/register", (request, response) => {
                             });
                     }
                     else {
+                        console.log('prepare to send email...');
                         sendVerificationEmail(email, token, response);
                     }
                 }
