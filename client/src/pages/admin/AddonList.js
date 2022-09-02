@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
-import {deleteAddon, getAllAddons} from "../../helpers/products";
+import {deleteAddon, getAllAddonsWithOptions} from "../../helpers/products";
 import ProductListItem from "../../components/admin/ProductListItem";
 import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
+import {groupBy} from "../../helpers/others";
 
 const AddonList = () => {
     const [addons, setAddons] = useState([]);
@@ -12,10 +13,15 @@ const AddonList = () => {
     const [deleteStatus, setDeleteStatus] = useState(0);
 
     useEffect(() => {
-        getAllAddons()
+        getAllAddonsWithOptions()
             .then((res) => {
                 if(res?.status === 200) {
-                    setAddons(res?.data?.result);
+                    const r = res?.data?.result;
+                    if(r) {
+                        setAddons(Object.entries(groupBy(r, 'id')).sort((a, b) => {
+                            return a[1][0].addon_admin_name > b[1][0].addon_admin_name ? 1 : -1;
+                        }));
+                    }
                 }
             });
     }, [deleteStatus]);
@@ -76,11 +82,12 @@ const AddonList = () => {
                 </h2>
                 {addons?.map((item, index) => {
                     return <ProductListItem index={index}
-                                            id={item.id}
+                                            id={parseInt(item[0])}
                                             openDeleteModal={openDeleteModal}
-                                            name={item.name_pl}
-                                            options={item}
-                                            addonType={item.addon_type} />
+                                            name={item[1][0].addon_admin_name}
+                                            secondName={item[1][0].addon_name}
+                                            options={item[1]}
+                                            addonType={1} />
                 })}
             </main>
         </div>

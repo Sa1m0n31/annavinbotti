@@ -205,13 +205,19 @@ const AddStock = ({type}) => {
         }
     }, [status]);
 
+    useEffect(() => {
+        if(counter < 0) {
+            setCounter(0);
+        }
+    }, [counter]);
+
     return <div className="container container--admin container--addProduct">
         <AdminTop />
         <div className="admin">
             <AdminMenu menuOpen={3} />
             <main className="admin__main">
                 <h2 className="admin__main__header">
-                    Dodaj stan magazynowy
+                    Dodaj stan modeli
                 </h2>
                 {status ? <span className="admin__status admin__status--stock">
                         {status === -2 ? <span className="admin__status__inner admin__status--error">
@@ -236,6 +242,7 @@ const AddStock = ({type}) => {
                     Ile na stanie
                     <input className="input"
                            type="number"
+                           min={0}
                            placeholder="Ilość na stanie"
                            value={counter}
                            onChange={(e) => { setCounter(e.target.value); }} />

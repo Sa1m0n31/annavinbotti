@@ -109,7 +109,7 @@ const AddProduct = () => {
                 .then((res) => {
                     if(res?.status === 200) {
                         const addonsLocal = res?.data?.result;
-                        setAddons(addonsLocal);
+                        setAddons(addonsLocal?.sort((a, b) => (a.admin_name > b.admin_name ? 1 : -1)));
 
                         getAllAddonsOptions()
                             .then((res) => {
@@ -149,12 +149,14 @@ const AddProduct = () => {
                                                         id: item.id,
                                                         active: !!currentAddonConditionInfo,
                                                         name: item.name_pl,
+                                                        adminName: item.admin_name,
                                                         conditionActive: !!currentAddonConditionInfo && currentAddonConditionInfo?.is_equal !== null,
                                                         conditionIf: currentAddonConditionInfo?.show_if ? currentAddonConditionInfo?.show_if : addonsLocal[0]?.id,
                                                         conditionThen: currentAddonConditionInfo?.is_equal ? currentAddonConditionInfo?.is_equal : firstAddonOption,
                                                         priority: currentAddonConditionInfo?.priority ? currentAddonConditionInfo?.priority : null
                                                     }
-                                                }));
+                                                })?.sort((a, b) => (a.adminName > b.adminName ? 1 : -1)));
+
                                                 setCurrentAddonOptions(addonsLocal?.map((item) => {
                                                     const currentAddonConditionInfo = getAddonConditionInfo(item.id);
 
@@ -197,12 +199,13 @@ const AddProduct = () => {
                                                 id: item.id,
                                                 active: false,
                                                 name: item.name_pl,
+                                                adminName: item.admin_name,
                                                 conditionActive: false,
                                                 conditionIf: addonsLocal[0]?.id,
                                                 conditionThen: firstAddonOption,
                                                 priority: null
                                             }
-                                        }));
+                                        })?.sort((a, b) => (a.adminName > b.adminName ? 1 : -1)));
                                         setCurrentAddonOptions(addonsLocal?.map((item) => {
                                             return firstOptions;
                                         }));
@@ -433,21 +436,21 @@ const AddProduct = () => {
                 </span> : ""}
 
                     <label>
-                        Nazwa modelu (polski)
+                        Nazwa modelu (polski) *
                         <input className="input"
                                placeholder="Polska nazwa modelu"
                                value={namePl}
                                onChange={(e) => { setNamePl(e.target.value); }} />
                     </label>
                     <label>
-                        Nazwa modelu (angielski)
+                        Nazwa modelu (angielski) *
                         <input className="input"
                                placeholder="Angielska nazwa modelu"
                                value={nameEn}
                                onChange={(e) => { setNameEn(e.target.value); }} />
                     </label>
                     <label>
-                        Cena
+                        Cena *
                         <input className="input input--100"
                                placeholder="Cena modelu"
                                type="number"
@@ -516,7 +519,7 @@ const AddProduct = () => {
 
                                         </button>
                                         <span>
-                                            {item.name}
+                                            {item.adminName} <span className="admin__value--small">({item.name})</span>
                                         </span>
                                     </label>
 
@@ -570,7 +573,7 @@ const AddProduct = () => {
 
                 <div className="addProduct__addonsSection">
                     <h3 className="addProduct__addonsSection__header">
-                        Wybierz typ obuwia
+                        Wybierz typ obuwia *
                     </h3>
                     <div className="addProduct__addonsSection__main">
                         {types?.map((item, index) => {
@@ -615,7 +618,7 @@ const AddProduct = () => {
 
                 <div className="addProduct__addonsSection">
                     <h3 className="addProduct__addonsSection__header">
-                        Dodaj zdjęcie wyróżniające
+                        Dodaj zdjęcie wyróżniające *
                     </h3>
                     <div className="uploadGalleryWrapper">
                         <div className="editor__mainImageWrapper">
@@ -649,7 +652,7 @@ const AddProduct = () => {
 
                 <div className="addProduct__addonsSection">
                     <h3 className="addProduct__addonsSection__header">
-                        Dodaj galerię zdjęć
+                        Dodaj galerię zdjęć *
                     </h3>
                     <div className="uploadGalleryWrapper">
                         {galleryLoaded ? <RUG

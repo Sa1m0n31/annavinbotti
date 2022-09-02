@@ -211,7 +211,7 @@ const AddPost = () => {
 
                 <section className="admin__articleTitle">
                     <label>
-                        Tytuł (polski)
+                        Tytuł (polski) *
                         <input className="input"
                                name="titlePl"
                                value={titlePl}
@@ -219,7 +219,7 @@ const AddPost = () => {
                                placeholder="Tu wpisz polski tytuł artykułu" />
                     </label>
                     <label>
-                        Tytuł (angielski)
+                        Tytuł (angielski) *
                         <input className="input"
                                name="titleEn"
                                value={titleEn}
@@ -227,7 +227,7 @@ const AddPost = () => {
                                placeholder="Tu wpisz angielski tytuł artykułu" />
                     </label>
                     <label>
-                        Zajawka (polska)
+                        Zajawka (polska) *
                         <textarea className="input input--textarea"
                                   name="excerptPl"
                                   value={excerptPl}
@@ -235,7 +235,7 @@ const AddPost = () => {
                                   placeholder="Tu wpisz polską zajawkę artykułu" />
                     </label>
                     <label>
-                        Zajawka (angielska)
+                        Zajawka (angielska) *
                         <textarea className="input input--textarea"
                                   name="excerptEn"
                                   value={excerptEn}
@@ -246,7 +246,7 @@ const AddPost = () => {
                 <div className="flex adminBlog__images">
                     <div>
                         <h3 className="addAddon--imageHeader">
-                            Zdjęcie wyróżniające artykułu
+                            Zdjęcie wyróżniające artykułu *
                         </h3>
                         <div className="uploadGalleryWrapper">
                             <div className="editor__mainImageWrapper">

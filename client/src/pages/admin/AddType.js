@@ -82,14 +82,14 @@ const AddType = () => {
                 </span> : ""}
 
                 <label>
-                    Nazwa typu (polski)
+                    Nazwa typu (polski) *
                     <input className="input"
                            placeholder="Polska nazwa typu"
                            value={namePl}
                            onChange={(e) => { setNamePl(e.target.value); }} />
                 </label>
                 <label>
-                    Nazwa typu (angielski)
+                    Nazwa typu (angielski) *
                     <input className="input"
                            placeholder="Angielska nazwa typu"
                            value={nameEn}

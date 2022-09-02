@@ -450,7 +450,7 @@ a, button, label {
 }
 
 .optionsHeader {
-    margin: 40px 0;
+    margin: 40px 0 10px;
     padding-top: 40px;
     border-top: 2px dashed var(--secondary);
 }
@@ -479,8 +479,10 @@ a, button, label {
     height: 35px;
 }
 
-.singleOption:last-of-type {
-    margin-bottom: 50px;
+.singleOption {
+    margin-bottom: 10px;
+    padding-top: 40px;
+    border-bottom: 1px dashed var(--secondary);
 }
 
 .admin__label__imgUpload__updateImg,
@@ -1799,4 +1801,14 @@ a.admin__start__stats:hover {
     border-radius: 5px;
     margin: 20px 0;
     text-transform: none;
+}
+
+.admin__main__notification__item__value--addonOptions > span {
+    display: block;
+}
+
+.admin__value--small {
+    font-size: 13px !important;
+    font-style: italic;
+    font-weight: 400;
 }

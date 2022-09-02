@@ -39,9 +39,8 @@ const AdminMenu = ({menuOpen}) => {
         ],
         [
             {name: 'Dodaj stan modeli', link: '/dodaj-stan-magazynowy-produktow'},
-            {name: 'Dodaj stan dodatków', link: '/dodaj-stan-magazynowy-dodatkow'},
-            {name: 'Modele', link: '/lista-stanow-magazynowych-produktow'},
-            {name: 'Dodatki', link: '/lista-stanow-magazynowych-dodatkow'}
+            {name: 'Lista stanów magazynowych modeli', link: '/lista-stanow-magazynowych-produktow'},
+            {name: 'Lista stanów magazynowych dodatków', link: '/lista-stanow-magazynowych-dodatkow'}
         ],
         [
             {name: 'Dodaj typ', link: '/dodaj-kategorie'},

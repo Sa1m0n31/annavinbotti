@@ -50,25 +50,25 @@ router.post('/add-option', upload.single('image'), (request, response) => {
     if(request.file) {
         filename = request.file.filename;
 
-        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE, $5, $6, $7)`;
+        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE, $5, $6, $7, 0)`;
         const values = [namePl, nameEn, addon, filename, tooltipPl, tooltipEn, adminName];
 
         dbInsertQuery(query, values, response);
     }
     else if(oldImage && oldImage?.toString() !== 'null') {
-        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE, $5, $6, $7)`;
+        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE, $5, $6, $7, 0)`;
         const values = [namePl, nameEn, addon, oldImage, tooltipPl, tooltipEn, adminName];
 
         dbInsertQuery(query, values, response);
     }
     else if(color) {
-        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE, $5, $6, $7)`;
+        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, $4, FALSE, $5, $6, $7, 0)`;
         const values = [namePl, nameEn, addon, color, tooltipPl, tooltipEn, adminName];
 
         dbInsertQuery(query, values, response);
     }
     else {
-        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, NULL, FALSE, $4, $5, $6)`;
+        const query = `INSERT INTO addons_options VALUES (nextval('addons_options_seq'), $1, $2, $3, NULL, FALSE, $4, $5, $6, 0)`;
         const values = [namePl, nameEn, addon, tooltipPl, tooltipEn, adminName]
 
         dbInsertQuery(query, values, response);
@@ -157,6 +157,17 @@ router.get('/all', (request, response) => {
    dbSelectQuery(query, [], response);
 });
 
+router.get('/all-addons-with-options', (request, response) => {
+    const query = `SELECT a.id, a.admin_name as addon_admin_name, a.name_pl as addon_name, ao.admin_name as addon_option_admin_name,
+            ao.name_pl as addon_option_name
+            FROM addons a
+            LEFT OUTER JOIN addons_options ao ON a.id = ao.addon
+            WHERE a.hidden = FALSE and ao.hidden = FALSE
+            ORDER BY a.admin_name`;
+
+    dbSelectQuery(query, [], response);
+});
+
 router.get('/all-options', (request, response) => {
     const query = 'SELECT * FROM addons_options WHERE hidden = FALSE ORDER BY addon';
 
@@ -192,19 +203,7 @@ router.delete('/delete', (request, response) => {
 
         db.query(query, values, (err, res) => {
            if(res) {
-               db.query(queryForOptions, values, (err, res) => {
-                  if(res) {
-                      const queryForAddonsStocks = `DELETE FROM addons_stocks WHERE addon_option IN (
-                        SELECT id FROM addons_options WHERE addon = $1
-                      )`;
-                      const values = [id];
-
-                      dbInsertQuery(queryForAddonsStocks, values, response);
-                  }
-                  else {
-                      response.status(500).end();
-                  }
-               });
+               dbInsertQuery(queryForOptions, values, response);
            }
            else {
                response.status(500).end();

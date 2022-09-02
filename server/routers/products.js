@@ -255,7 +255,20 @@ router.delete('/delete', (request, response) => {
       const query = 'UPDATE products SET hidden = TRUE WHERE id = $1';
       const values = [id];
 
-      dbInsertQuery(query, values, response);
+      db.query(query, values, (err, res) => {
+         if(res) {
+            const query = `DELETE FROM products_stocks 
+               WHERE product = $1 AND (SELECT COUNT(product) FROM products_stocks WHERE stock = (
+                     SELECT stock FROM products_stocks WHERE product = $1
+               )) = 1`;
+            const values = [id];
+
+            dbInsertQuery(query, values, response);
+         }
+         else {
+            response.status(500).end();
+         }
+      });
    }
    else {
       response.status(400).end();

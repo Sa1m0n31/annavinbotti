@@ -284,9 +284,13 @@ const getTypeByProduct = (id) => {
     });
 }
 
+const getAllAddonsWithOptions = () => {
+    return axios.get('/addons/all-addons-with-options');
+}
+
 export { getAllProducts, getProductDetails, getHomepageModels, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById, getAllAddonsAndAddonsOptions,
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct, getShopPage,
     getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
     addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId,
-    getProductBySlug, getProductAddons, getTypeByProduct, getTypesWithProducts
+    getProductBySlug, getProductAddons, getTypeByProduct, getTypesWithProducts, getAllAddonsWithOptions
 }

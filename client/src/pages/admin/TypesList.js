@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {deleteAddon, deleteType, getAllProducts, getAllTypes} from "../../helpers/products";
+import {deleteType, getAllTypes} from "../../helpers/products";
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
-import ProductListItem from "../../components/admin/ProductListItem";
 import TypeListItem from "../../components/admin/TypeListItem";
 import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
 
@@ -16,7 +15,9 @@ const TypesList = () => {
         getAllTypes()
             .then((res) => {
                 if(res.status === 200) {
-                    setTypes(res?.data?.result);
+                    setTypes(res?.data?.result?.sort((a, b) => {
+                        return a.name_pl > b.name_pl ? 1 : -1;
+                    }));
                 }
                 else {
                     window.location = '/';

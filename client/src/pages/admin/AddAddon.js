@@ -221,7 +221,7 @@ const AddAddon = () => {
     }
 
     const createNewAddon = () => {
-        if(addonType && namePl && nameEn && validateOptions()) {
+        if(addonType && namePl && nameEn && validateOptions() && adminName) {
             setLoading(true);
 
             if(updateMode) {
@@ -345,21 +345,21 @@ const AddAddon = () => {
                 </span> : ""}
 
                 <label>
-                    Nazwa robocza dodatku
+                    Nazwa robocza dodatku *
                     <input className="input"
                            placeholder="Nazwa robocza"
                            value={adminName}
                            onChange={(e) => { setAdminName(e.target.value); }} />
                 </label>
                 <label>
-                    Nazwa wyświetlana dodatku (polski)
+                    Nazwa wyświetlana dodatku (polski) *
                     <input className="input"
                            placeholder="Polska nazwa dodatku"
                            value={namePl}
                            onChange={(e) => { setNamePl(e.target.value); }} />
                 </label>
                 <label>
-                    Nazwa wyświetlana dodatku (angielski)
+                    Nazwa wyświetlana dodatku (angielski) *
                     <input className="input"
                            placeholder="Angielska nazwa dodatku"
                            value={nameEn}
