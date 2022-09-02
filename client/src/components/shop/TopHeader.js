@@ -210,9 +210,9 @@ const TopHeader = () => {
                 <button className="mobileMenu__backBtn" onClick={() => { closeMenu(); }}>
                     <img className="img" src={backIcon} alt="zamknij" />
                 </button>
-                <button className="langBtn" onClick={() => { setLanguage(language === 'en' ? 'pl' : 'en') }}>
-                    <img className="img" src={language === 'pl' ? uk : poland} alt="zmiana-jezyka" />
-                </button>
+                {/*<button className="langBtn" onClick={() => { setLanguage(language === 'en' ? 'pl' : 'en') }}>*/}
+                {/*    <img className="img" src={language === 'pl' ? uk : poland} alt="zmiana-jezyka" />*/}
+                {/*</button>*/}
             </div>
 
             <menu className="mobileMenu__menu">

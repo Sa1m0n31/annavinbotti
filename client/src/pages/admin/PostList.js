@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {deleteProduct, getAllProducts} from "../../helpers/products";
 import AdminTop from "../../components/admin/AdminTop";
 import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
 import AdminMenu from "../../components/admin/AdminMenu";
-import ProductListItem from "../../components/admin/ProductListItem";
 import {deleteBlogPost, getAllBlogPosts} from "../../helpers/blog";
 import BlogListItem from "../../components/admin/BlogListItem";
 
@@ -80,7 +78,7 @@ const PostList = () => {
             <AdminMenu menuOpen={6} />
             <main className="admin__main">
                 <h2 className="admin__main__header">
-                    Lista wpisów
+                    Lista artykułów
                 </h2>
                 {posts?.map((item, index) => {
                     return <BlogListItem index={index}

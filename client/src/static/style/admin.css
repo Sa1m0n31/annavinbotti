@@ -102,9 +102,8 @@ a, button, label {
     transition: .2s all;
 }
 
-.panelMenu__list__item__link:hover {
-    background: var(--secondary);
-    color: #fff;
+.panelMenu__list__item__link:not(.panelMenu__list__item__link--selected):hover {
+    opacity: .75;
 }
 
 .panelMenu__list__item__link:hover .panelMenu__list__item__icon {
@@ -364,6 +363,7 @@ a, button, label {
 }
 
 .admin__main__header {
+    position: relative;
     color: var(--secondary);
     text-transform: uppercase;
 }
@@ -459,8 +459,12 @@ a, button, label {
     margin-top: -25px;
 }
 
+.singleOption > label {
+    width: 100%;
+}
+
 .singleOption .input {
-    width: 250px;
+    width: 100%;
 }
 
 .singleOption__number {
@@ -1194,6 +1198,11 @@ div[data-testid=three-dots-loading] {
     position: relative;
 }
 
+.orderStatus__number--newStatus ~ .orderStatus__text,
+.orderStatus__number--newStatus {
+    text-decoration: underline;
+}
+
 .orderStatus__number--currentStatus {
     opacity: 1;
 }
@@ -1763,4 +1772,31 @@ a.admin__start__stats:hover {
 
 #root > div > div > main > div > div:nth-child(2) > label > span > div.dzu-dropzone > label {
     opacity: 0;
+}
+
+.admin__main__backBtn {
+    font-size: 15px;
+    font-weight: 400;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-transform: none;
+}
+
+.admin__main__backBtn .img {
+    width: 14px;
+    margin-right: 8px;
+    transition: .2s all;
+}
+
+.admin__main__backBtn:hover .img {
+    transform: translateX(-5px);
+}
+
+.btn--downloadZip {
+    padding: 15px 10px;
+    height: 45px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-transform: none;
 }

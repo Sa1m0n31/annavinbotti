@@ -24,7 +24,10 @@ const createSlug = (name) => {
 }
 
 router.get('/get-all', (request, response) => {
-   const query = 'SELECT p.id, t.name_pl as type, p.name_pl, p.name_en, p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image FROM products p JOIN types t ON p.type = t.id WHERE p.hidden = FALSE';
+   const query = `SELECT p.id, t.name_pl as type, p.name_pl, p.name_en, p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image 
+   FROM products p JOIN types t ON p.type = t.id 
+   WHERE p.hidden = FALSE
+   ORDER BY p.name_pl`;
 
    dbSelectQuery(query, [], response);
 });
@@ -151,8 +154,6 @@ router.patch('/update', upload.fields([
    { name: 'mainImage', maxCount: 1 }
 ]), (request, response) => {
    let { id, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, type, price, showOnHomepage, priority } = request.body;
-
-   console.log(namePl);
 
    try {
       const slug = createSlug(namePl);

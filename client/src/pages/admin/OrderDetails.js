@@ -232,7 +232,9 @@ const OrderDetails = () => {
                     <section className="admin__order__left">
                         {statuses?.map((item, index) => {
                             return <button className="orderStatus" onClick={() => { setCurrentOrderStatus(index+1); }}>
-                            <span className={(index + 1 === order.status && !currentOrderStatus) || (index + 1 === currentOrderStatus) ? "orderStatus__number orderStatus__number--currentStatus" : "orderStatus__number"}>
+                            <span className={index + 1 === order.status ?
+                                "orderStatus__number orderStatus__number--currentStatus" :
+                                (index + 1 === currentOrderStatus ? "orderStatus__number orderStatus__number--newStatus" : "orderStatus__number")}>
                                 {index+1}
                             </span>
                                 <p className="orderStatus__text">

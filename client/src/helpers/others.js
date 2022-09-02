@@ -1,4 +1,5 @@
 import axios from "axios";
+import { saveAs } from 'file-saver';
 
 const sendMessageToSupport = (content) => {
     return axios.post('/others/send-message-to-support',  {
@@ -115,5 +116,51 @@ const isPasswordStrong = (pass) => {
     return pass?.length >= 8;
 }
 
+async function downloadData(files, formContent, orderId) {
+    const zip = require('jszip')();
+    let img = zip.folder('zdjecia');
+    zip.file('formularz.txt', formContent.join('\n'));
+
+    for(const file of files) {
+        // Fetch the image and parse the response stream as a blob
+        const imageBlob = await fetch(file.url).then(response => response.blob());
+
+        // create a new file from the blob object
+        const imgData = new File([imageBlob], 'filename.jpg');
+
+        // Copy-pasted from JSZip documentation
+        const filetype = getFiletype(imageBlob.type);
+        img.file(`${file.name}.${filetype}`, imgData, { base64: true });
+    }
+
+    zip.generateAsync({ type: 'blob' }).then(function(content) {
+        saveAs(content, `zamowienie-${orderId}.zip`);
+    });
+}
+
+const getFiletype = (mimetype) => {
+    if(mimetype.indexOf("jpeg") > -1) {
+        return 'jpeg';
+    }
+    else if(mimetype.indexOf('png') > -1) {
+        return 'png';
+    }
+    else if(mimetype.indexOf('jpg') > -1) {
+        return 'jpg';
+    }
+    else if(mimetype.indexOf('web') > -1) {
+        return 'webp';
+    }
+    else if(mimetype.indexOf('tiff') > -1) {
+        return 'tiff';
+    }
+    else if(mimetype.indexOf('bmp') > -1) {
+        return 'bmp';
+    }
+    else {
+        return 'gif';
+    }
+}
+
 export { scrollToTop, isPasswordStrong, sendMessageToSupport, isEmail, getDate, sendContactForm, isElementInArray,
-    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms }
+    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, downloadData, getFiletype}

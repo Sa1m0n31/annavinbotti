@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import penIcon from '../../static/img/pen.svg'
 import trashIcon from '../../static/img/trash.svg'
 import settings from "../../static/settings";
 
-const ProductListItem = ({index, name, img, type, date, id, openDeleteModal, addonType}) => {
+const ProductListItem = ({index, name, img, type, date, id, openDeleteModal, addonType, options}) => {
     const getAddonTypeById = (id) => {
         switch(id) {
             case 1:
@@ -14,6 +14,10 @@ const ProductListItem = ({index, name, img, type, date, id, openDeleteModal, add
                 return 'Kolor';
         }
     }
+
+    useEffect(() => {
+        console.log(options);
+    }, [options]);
 
     return <section className={addonType ? "admin__main__notification__item admin__main__notification__item--addon" : "admin__main__notification__item"} key={index}>
         {!addonType ? <section className="admin__main__notification__item__col col-2">
@@ -29,7 +33,7 @@ const ProductListItem = ({index, name, img, type, date, id, openDeleteModal, add
         </section>
         <section className="admin__main__notification__item__col col-2">
             <h3 className="admin__main__notification__item__key">
-                Typ
+                Opcje
             </h3>
             <h4 className="admin__main__notification__item__value">
                 {addonType ? getAddonTypeById(addonType) : type}

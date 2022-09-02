@@ -314,6 +314,7 @@ const ProductPage = () => {
                 {/* ADDONS */}
                 {addons?.map((item, index) => {
                     const ad = item[1];
+                    console.log(item);
                     const conditionIf = ad[0].show_if;
                     const conditionIsEqual = ad[0].is_equal;
                     if(ad && (conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf)) {

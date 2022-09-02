@@ -4,12 +4,9 @@ import types from '../../static/img/types.svg'
 import addons from '../../static/img/addons.svg'
 import stack from '../../static/img/stack.svg'
 import orders from '../../static/img/order.svg'
-import forms from '../../static/img/contact-form.svg'
 import blog from '../../static/img/writing.svg'
 import newsletter from '../../static/img/newsletter.svg'
 import terms from '../../static/img/terms-and-conditions.svg'
-import content from '../../static/img/writer.svg'
-import settings from '../../static/img/settings.svg'
 import home from '../../static/img/home.svg'
 
 const AdminMenu = ({menuOpen}) => {
@@ -20,16 +17,14 @@ const AdminMenu = ({menuOpen}) => {
 
     const menu = [
         { name: 'Start', icon: home },
-        { name: 'Modele', icon: products },
-        { name: 'Dodatki', icon: addons },
-        { name: 'Stany magazynowe', icon: stack },
-        { name: 'Typy', icon: types },
-        { name: 'Zamówienia', icon: orders },
-        { name: 'Blog', icon: blog },
-        { name: 'Newsletter', icon: newsletter },
-        { name: 'Regulaminy', icon: terms },
-        // { name: 'Treści', icon: content },
-        // { name: 'Ustawienia', icon: settings }
+        { name: 'Modele', icon: products, link: '/lista-produktow' },
+        { name: 'Dodatki', icon: addons, link: '/lista-dodatkow' },
+        { name: 'Stany magazynowe', icon: stack, link: '/lista-stanow-magazynowych-produktow' },
+        { name: 'Typy', icon: types, link: '/lista-kategorii' },
+        { name: 'Zamówienia', icon: orders, link: '/lista-zamowien' },
+        { name: 'Blog', icon: blog, link: '/lista-artykulow' },
+        { name: 'Newsletter', icon: newsletter, link: '/newsletter' },
+        { name: 'Regulaminy', icon: terms, link: '/regulaminy-polski' }
     ]
 
     const submenus = [
@@ -72,17 +67,14 @@ const AdminMenu = ({menuOpen}) => {
         [
             { name: "Wersja polska", link: '/regulaminy-polski' },
             { name: "Wersja angielska", link: '/regulaminy-angielski' }
-        ],
-        // [
-        //     { name: "Wersja polska", link: '/tresci-polski' },
-        //     { name: "Wersja angielska", link: '/tresci-angielski' }
-        // ],
-        // [
-        //     { name: "Ustawienia", link: '/ustawienia' }
-        // ]
+        ]
     ]
 
     const mainMenuItemClick = (index) => {
+        if(menu[index].link) {
+            window.location = menu[index].link;
+        }
+
         if(submenu !== index) {
             setSubmenu(index);
         }

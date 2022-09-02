@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {getFormDetails} from "../../helpers/orders";
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
-import AdminOrderInfo from "../../components/admin/AdminOrderInfo";
-import AdminOrderCart from "../../components/admin/AdminOrderCart";
-import settings from "../../static/settings";
+import backArrow from '../../static/img/arrow-back.svg'
 import {getSecondTypeFilledForm} from "../../helpers/user";
 import constans from "../../helpers/constants";
 
@@ -43,6 +40,10 @@ const FormType2Details = () => {
             <main className="admin__main">
                 <h2 className="admin__main__header">
                     Szczegóły formularza
+                    <a className="admin__main__backBtn" href={`/szczegoly-zamowienia?id=${order}`}>
+                        <img className="img" src={backArrow} alt="powrót" />
+                        Powrót do zamówienia
+                    </a>
                 </h2>
 
                 <h3 className="admin__main__subheader">

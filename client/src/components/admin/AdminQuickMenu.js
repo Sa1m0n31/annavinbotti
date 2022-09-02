@@ -28,21 +28,20 @@ const AdminQuickMenu = () => {
                     Dodatki
                 </span>
             </a>
-            <a className="admin__start__stats" href="/lista-zamowien">
-                <span className="admin__start__stats__value">
-                    <img className="quickImg" src={orders} alt="zamowienia" />
-                </span>
-                <span className="admin__start__stats__key">
-                    Zamówienia
-                </span>
-            </a>
-
             <a className="admin__start__stats" href="/lista-kategorii">
                 <span className="admin__start__stats__value">
                     <img className="quickImg" src={types} alt="zamowienia" />
                 </span>
                 <span className="admin__start__stats__key">
                     Typy
+                </span>
+            </a>
+            <a className="admin__start__stats" href="/lista-zamowien">
+                <span className="admin__start__stats__value">
+                    <img className="quickImg" src={orders} alt="zamowienia" />
+                </span>
+                <span className="admin__start__stats__key">
+                    Zamówienia
                 </span>
             </a>
             <a className="admin__start__stats" href="/newsletter">

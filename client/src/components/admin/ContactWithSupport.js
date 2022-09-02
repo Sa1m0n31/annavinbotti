@@ -41,7 +41,7 @@ const ContactWithSupport = () => {
             Kontakt z supportem
         </h3>
         <p className="contactWithSupportText">
-            Masz pytanie odnośnie działania panelu administracyjnego lub problem techniczny? Opisz swój problem i skontaktuj się z naszym wsparciem technicznym. Odpowiemy najszybciej jak to możliwe na Twój adres mailowy (kot.annamaria@yahoo.com).
+            Masz pytanie odnośnie działania panelu administracyjnego lub problem techniczny? Opisz swój problem i skontaktuj się z naszym wsparciem technicznym. Odpowiemy najszybciej jak to możliwe na Twój adres mailowy (office@anna-vinbotti.com).
         </p>
         {!status ? <div className="admin__start__statsWrapper">
             <textarea className="admin__contact__textarea"

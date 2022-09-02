@@ -97,7 +97,7 @@ const getHomepageModels = () => {
     return axios.get('/products/get-homepage-models');
 }
 
-const addAddon = (namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type) => {
+const addAddon = (namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type, adminName) => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
     let formData = new FormData();
 
@@ -109,11 +109,12 @@ const addAddon = (namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, t
     formData.append('tooltipEn', tooltipEn);
     formData.append('image', image);
     formData.append('type', type);
+    formData.append('adminName', adminName ? adminName : '');
 
     return axios.post('/addons/add', formData, config);
 }
 
-const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '') => {
+const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '', tooltipPl, tooltipEn, adminName) => {
     let formData = new FormData();
 
     formData.append('oldImage', oldImage)
@@ -122,11 +123,14 @@ const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '') => {
     formData.append('namePl', namePl);
     formData.append('nameEn', nameEn);
     formData.append('color', color);
+    formData.append('tooltipPl', tooltipPl ? tooltipPl : '');
+    formData.append('tooltipEn', tooltipEn ? tooltipEn : '');
+    formData.append('adminName', adminName ? adminName : '');
 
     return axios.post('/addons/add-option', formData);
 }
 
-const updateAddon = (id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type) => {
+const updateAddon = (id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type, adminName) => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
     let formData = new FormData();
 
@@ -139,11 +143,12 @@ const updateAddon = (id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, i
     formData.append('tooltipEn', tooltipEn);
     formData.append('image', image);
     formData.append('type', type);
+    formData.append('adminName', adminName ? adminName : '');
 
     return axios.patch('/addons/update', formData, config);
 }
 
-const updateAddonOption = (id, addon, namePl, nameEn, color, img) => {
+const updateAddonOption = (id, addon, namePl, nameEn, color, img, tooltipPl, tooltipEn, adminName) => {
     let formData = new FormData();
 
     formData.append('id', id);
@@ -152,6 +157,9 @@ const updateAddonOption = (id, addon, namePl, nameEn, color, img) => {
     formData.append('namePl', namePl);
     formData.append('nameEn', nameEn);
     formData.append('color', color);
+    formData.append('tooltipPl', tooltipPl ? tooltipPl : '');
+    formData.append('tooltipEn', tooltipEn ? tooltipEn : '');
+    formData.append('adminName', adminName ? adminName : '');
 
     return axios.post('/addons/add-option', formData);
 }

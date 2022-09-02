@@ -428,6 +428,19 @@
         padding-top: 20px;
     }
 
+    .admin__main__backBtn {
+        position: relative;
+        margin-top: 20px;
+        font-size: 12px;
+        display: block;
+        width: 100%;
+    }
+
+    .btn--downloadZip {
+        font-size: 13px;
+        height: 35px;
+    }
+
     .btn--admin--contact {
         font-size: 10px;
     }

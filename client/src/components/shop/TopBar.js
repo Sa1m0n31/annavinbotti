@@ -18,16 +18,16 @@ const TopBar = () => {
                 </a>
             </div>
 
-            <div className="topBar__languageSwitcher">
-                <span className="topBar__languageSwitcher__currentLanguage">
-                    <span>
-                        {language === 'pl' ? 'polski' : 'angielski'}
-                    </span>
-                </span>
-                <button className="topBar__languageSwitcher__secondLanguage" onClick={() => { setLanguage(language === 'pl' ? 'en' : 'pl') }}>
-                    {language === 'pl' ? 'angielski' : 'polski'}
-                </button>
-            </div>
+            {/*<div className="topBar__languageSwitcher">*/}
+            {/*    <span className="topBar__languageSwitcher__currentLanguage">*/}
+            {/*        <span>*/}
+            {/*            {language === 'pl' ? 'polski' : 'angielski'}*/}
+            {/*        </span>*/}
+            {/*    </span>*/}
+            {/*    <button className="topBar__languageSwitcher__secondLanguage" onClick={() => { setLanguage(language === 'pl' ? 'en' : 'pl') }}>*/}
+            {/*        {language === 'pl' ? 'angielski' : 'polski'}*/}
+            {/*    </button>*/}
+            {/*</div>*/}
         </div>
     </aside>
 };

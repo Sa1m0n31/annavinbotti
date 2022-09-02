@@ -79,6 +79,7 @@ const AddonList = () => {
                                             id={item.id}
                                             openDeleteModal={openDeleteModal}
                                             name={item.name_pl}
+                                            options={item}
                                             addonType={item.addon_type} />
                 })}
             </main>

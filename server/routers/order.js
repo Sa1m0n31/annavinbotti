@@ -25,7 +25,7 @@ let transporter = nodemailer.createTransport(smtpTransport ({
 }));
 
 router.get('/all', (request, response) => {
-   const query = `SELECT o.id, COALESCE(a.first_name, u.first_name) as first_name, COALESCE(a.last_name, u.last_name) as last_name, o.date FROM orders o JOIN addresses a ON o.user_address = a.id JOIN users u ON u.id = o.user WHERE o.hidden = FALSE`;
+   const query = `SELECT o.id, COALESCE(a.first_name, u.first_name) as first_name, COALESCE(a.last_name, u.last_name) as last_name, o.date FROM orders o JOIN addresses a ON o.user_address = a.id JOIN users u ON u.id = o.user WHERE o.hidden = FALSE ORDER BY o.date DESC`;
 
    dbSelectQuery(query, [], response);
 });
@@ -184,9 +184,6 @@ const validateStocks = async (sells, addons) => {
     // sells: { product, price, amount }
     // addons: { sell, options : [1, 2, 3] }
 
-    console.log(sells);
-    console.log('---');
-
     for(const sell of sells) {
         const res = await got.get(`${process.env.API_URL}/stocks/get-product-stock`, {
             searchParams: {
@@ -200,13 +197,8 @@ const validateStocks = async (sells, addons) => {
             return prev + cur.amount;
         }, 0);
 
-        console.log('amount');
-        console.log(amount);
-
         const productCounter = JSON.parse(res?.body)?.result[0]?.product_counter !== null ? JSON.parse(res?.body)?.result[0]?.product_counter : 999999;
-        const addonCounter = JSON.parse(res?.body)?.result[0]?.addon_counter !== null ? JSON.parse(res?.body)?.result[0]?.product_counter : 999999;
-
-        console.log(productCounter, addonCounter);
+        const addonCounter = JSON.parse(res?.body)?.result[0]?.addon_counter !== null ? JSON.parse(res?.body)?.result[0]?.addon_counter : 999999;
 
         if(Math.min(productCounter, addonCounter) < amount) {
             return false;
@@ -239,23 +231,24 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
     const productsAvailable = await validateStocks(oldSells, oldAddons);
 
     if(productsAvailable) {
-        const query = 'INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW(), $7, NULL, NULL, NULL)';
+        const query = `INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW() + INTERVAL '4 HOUR', $7, NULL, NULL, NULL)`;
         const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
 
         if(newsletter === 'true') {
-            const query = 'SELECT email FROM users WHERE id = $1';
+            const query = 'SELECT email FROM users WHERE id = $1 AND email NOT IN (SELECT email FROM newsletter WHERE active = TRUE)';
             const values = [user.id];
 
             await db.query(query, values, async(err, res) => {
-                console.log(err);
-                const email = res?.rows[0]?.email;
-                if(email) {
-                    await got.post(`${process.env.API_URL}/newsletter-api/add`, {
-                        json: {
-                            email
-                        },
-                        responseType: 'json',
-                    });
+                if(res?.rows?.length) {
+                    const email = res?.rows[0]?.email;
+                    if(email) {
+                        await got.post(`${process.env.API_URL}/newsletter-api/add`, {
+                            json: {
+                                email
+                            },
+                            responseType: 'json',
+                        });
+                    }
                 }
             });
         }
@@ -274,7 +267,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
 
                     if(sellsIds.length === addons.length) {
                         // ADD ADDONS
-                        console.log('inside if');
                         await addons.forEach(async (item, indexParent, arrayParent) => {
                             const options = item.options;
 
@@ -318,11 +310,6 @@ router.post('/add', (request, response) => {
     // userAddress, deliveryAddress: { street, building, flat, postal_code, city } or integer if already exists
     // sells: { product, price, amount }
     // addons: { sell, options : [1, 2, 3] }
-
-    console.log(request.body);
-
-    console.log(userAddress);
-    console.log(deliveryAddress);
 
     if(sells && user && userAddress && deliveryAddress) {
         try {

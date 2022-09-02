@@ -197,7 +197,7 @@ const AddPost = () => {
             <AdminMenu menuOpen={6} />
             <main className="admin__main">
                 <h2 className="admin__main__header">
-                    Dodaj wpis na bloga
+                    Dodaj artykuł
                 </h2>
                 {status ? <span className="admin__status">
                         {status === -2 ? <span className="admin__status__inner admin__status--error">

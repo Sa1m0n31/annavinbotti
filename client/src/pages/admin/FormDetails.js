@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {getFormDetails} from "../../helpers/orders";
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
-import AdminOrderInfo from "../../components/admin/AdminOrderInfo";
-import AdminOrderCart from "../../components/admin/AdminOrderCart";
+import backArrow from '../../static/img/arrow-back.svg'
 import settings from "../../static/settings";
+import {downloadData} from "../../helpers/others";
 
 const FormDetails = () => {
     const [formLeft, setFormLeft] = useState([]);
@@ -34,6 +34,42 @@ const FormDetails = () => {
         }
     }, []);
 
+    const downloadZip = () => {
+        const left = formLeft
+            .filter((item) => (item.type === 'img'))
+            .map((item) => {
+                return {
+                    url: `${settings.API_URL}/image?url=/media/filled-forms/${item.value}`,
+                    name: `Stopa lewa - ${item.name}`
+                }
+            });
+
+        const right = formRight
+            .filter((item) => (item.type === 'img'))
+            .map((item) => {
+                return {
+                    url: `${settings.API_URL}/image?url=/media/filled-forms/${item.value}`,
+                    name: `Stopa prawa - ${item.name}`
+                }
+            });
+
+        const formContentLeft = formLeft
+            .filter((item) => (item.type === 'txt'))
+            .map((item) => {
+                return `Stopa lewa - ${item.name}: ${item.value}`;
+            });
+
+        const formContentRight = formRight
+            .filter((item) => (item.type === 'txt'))
+            .map((item) => {
+                return `Stopa prawa - ${item.name}: ${item.value}`;
+            });
+
+        downloadData(left?.concat(right),
+            formContentLeft?.concat(formContentRight),
+            order);
+    }
+
     return <div className="container container--admin">
         <AdminTop />
 
@@ -42,7 +78,16 @@ const FormDetails = () => {
             <main className="admin__main">
                 <h2 className="admin__main__header">
                     Szczegóły formularza
+
+                    <a className="admin__main__backBtn" href={`/szczegoly-zamowienia?id=${order}`}>
+                        <img className="img" src={backArrow} alt="powrót" />
+                        Powrót do zamówienia
+                    </a>
                 </h2>
+
+                <button className="btn btn--downloadZip" onClick={() => { downloadZip(); }}>
+                    Pobierz formularz
+                </button>
 
                 <h3 className="admin__main__subheader">
                     <span>
@@ -60,7 +105,7 @@ const FormDetails = () => {
                 <div className="admin__form">
                     <div className="admin__form__section">
                         <h4 className="admin__order__right__header">
-                            But lewy
+                            Stopa lewa
                         </h4>
                         {formLeft?.map((item, index) => {
                             const imageSrc = `${settings.API_URL}/image?url=/media/filled-forms/${item.value}`;
@@ -82,7 +127,7 @@ const FormDetails = () => {
                     </div>
                     <div className="admin__form__section">
                         <h4 className="admin__order__right__header">
-                            But prawy
+                            Stopa prawa
                         </h4>
                         {formRight?.map((item, index) => {
                             const imageSrc = `${settings.API_URL}/image?url=/media/filled-forms/${item.value}`;

@@ -26,6 +26,7 @@ const AddAddon = () => {
     const [tooltipPl, setTooltipPl] = useState("");
     const [tooltipEn, setTooltipEn] = useState("");
     const [addonType, setAddonType] = useState(1);
+    const [adminName, setAdminName] = useState('');
     const [options, setOptions] = useState([
         {
             namePl: '',
@@ -52,7 +53,10 @@ const AddAddon = () => {
             nameEn: '',
             image: null,
             color: '',
-            oldImage: ''
+            oldImage: '',
+            tooltipPl: '',
+            tooltipEn: '',
+            adminName: ''
         }]);
     }
 
@@ -87,14 +91,15 @@ const AddAddon = () => {
                         const result = res?.data?.result[0];
                         if(result) {
                             setId(result.id);
-                            setNamePl(result.name_pl);
-                            setNameEn(result.name_en);
-                            setInfoPl(result.info_pl);
-                            setInfoEn(result.info_en);
-                            setTooltipPl(result.tooltip_pl);
-                            setTooltipEn(result.tooltip_en);
+                            setNamePl(result.name_pl ? result.name_pl : '');
+                            setNameEn(result.name_en ? result.name_en : '');
+                            setInfoPl(result.info_pl ? result.info_pl : '');
+                            setInfoEn(result.info_en ? result.info_en : '');
+                            setTooltipPl(result.tooltip_pl ? result.tooltip_pl : '');
+                            setTooltipEn(result.tooltip_en ? result.tooltip_en : '');
                             setOldMainImage(result.image);
                             setAddonType(result.addon_type);
+                            setAdminName(result.admin_name ? result.admin_name : '');
 
                             const addonTypeToUpdate = result.addon_type;
 
@@ -109,7 +114,10 @@ const AddAddon = () => {
                                                     nameEn: item.name_en,
                                                     image: null,
                                                     color: addonTypeToUpdate === 3 ? item.image : '',
-                                                    oldImage: addonTypeToUpdate === 2 ? item.image : null
+                                                    oldImage: addonTypeToUpdate === 2 ? item.image : null,
+                                                    tooltipPl: item.tooltip_pl,
+                                                    tooltipEn: item.tooltip_en,
+                                                    adminName: item.admin_name
                                                 }
                                             }));
                                         }
@@ -182,7 +190,11 @@ const AddAddon = () => {
     const createAddonOptions = async (insertedId = null) => {
         for(let i=0; i<options.length; i++) {
             const item = options[i];
-            await addAddonOption(insertedId ? insertedId : id, item.namePl, item.nameEn, addonType === 3 ? item.color : null, addonType === 2 ? item.image?.file : null, item.oldImage)
+            await addAddonOption(insertedId ? insertedId : id,
+                item.namePl, item.nameEn,
+                addonType === 3 ? item.color : null,
+                addonType === 2 ? item.image?.file : null,
+                item.oldImage, item.tooltipPl, item.tooltipEn, item.adminName)
                 .then((res) => {
                     if(res.status === 201) {
                         if(i === options.length-1) {
@@ -216,7 +228,7 @@ const AddAddon = () => {
                 deleteAddonOptions(id)
                     .then((res) => {
                         if(res?.status === 201) {
-                            updateAddon(id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, mainImageFile, addonType)
+                            updateAddon(id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, mainImageFile, addonType, adminName)
                                 .then((res) => {
                                     if(res?.status === 201) {
                                         createAddonOptions();
@@ -242,7 +254,7 @@ const AddAddon = () => {
                     });
             }
             else {
-                addAddon(namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, mainImageFile, addonType)
+                addAddon(namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, mainImageFile, addonType, adminName)
                     .then((res) => {
                         if(res.status === 201) {
                             const id = res?.data?.result;
@@ -333,79 +345,86 @@ const AddAddon = () => {
                 </span> : ""}
 
                 <label>
-                    Nazwa dodatku (polski)
+                    Nazwa robocza dodatku
+                    <input className="input"
+                           placeholder="Nazwa robocza"
+                           value={adminName}
+                           onChange={(e) => { setAdminName(e.target.value); }} />
+                </label>
+                <label>
+                    Nazwa wyświetlana dodatku (polski)
                     <input className="input"
                            placeholder="Polska nazwa dodatku"
                            value={namePl}
                            onChange={(e) => { setNamePl(e.target.value); }} />
                 </label>
                 <label>
-                    Nazwa dodatku (angielski)
+                    Nazwa wyświetlana dodatku (angielski)
                     <input className="input"
                            placeholder="Angielska nazwa dodatku"
                            value={nameEn}
                            onChange={(e) => { setNameEn(e.target.value); }} />
                 </label>
                 <label>
-                    Info (polski)
+                    Dodatkowe info (polski)
                     <textarea className="input input--textarea"
                            placeholder="Informacja po polsku"
                            value={infoPl}
                            onChange={(e) => { setInfoPl(e.target.value); }} />
                 </label>
                 <label>
-                    Info (angielski)
+                    Dodatkowe info (angielski)
                     <textarea className="input input--textarea"
                               placeholder="Informacja po angielsku"
                               value={infoEn}
                               onChange={(e) => { setInfoEn(e.target.value); }} />
                 </label>
                 <label>
-                    Tekst po najechaniu myszką (polski)
+                    Tekst kursywą pod opcjami dodatku (polski)
                     <textarea className="input input--textarea"
-                              placeholder="Tekst po najechaniu myszką (polski)"
+                              placeholder="Tekst kursywą pod opcjami dodatku (polski)"
                               value={tooltipPl}
                               onChange={(e) => { setTooltipPl(e.target.value); }} />
                 </label>
                 <label>
-                    Tekst po najechaniu myszką (angielski)
+                    Tekst kursywą pod opcjami dodatku (angielski)
                     <textarea className="input input--textarea"
-                              placeholder="Tekst po najechaniu myszką (angielski)"
+                              placeholder="Tekst kursywą pod opcjami dodatku (angielski)"
                               value={tooltipEn}
                               onChange={(e) => { setTooltipEn(e.target.value); }} />
                 </label>
 
-                <h3 className="addAddon--imageHeader">
-                    Zdjęcie po najechaniu myszką
-                </h3>
-                <div className="uploadGalleryWrapper">
-                    <div className="editor__mainImageWrapper">
-                        {oldMainImage ? <div className="oldImgWrapper z-index-1000">
-                                <button className="deleteOldImg" onClick={() => { setOldMainImage(null); }}>
-                                    &times;
-                                </button>
-                                <img className="editor__video" src={`${settings.API_URL}/image?url=/media/addons/${oldMainImage}`} alt="placeholder" />
-                            </div>
-                            : <div className="oldImgWrapper z-index-0">
-                                {mainImage ? <button className="deleteOldImg" onClick={() => { setOldMainImage(null); setMainImageFile(null); setMainImage(null); }}>
-                                    &times;
-                                </button> : ''}
-                                <img className={mainImage ? "editor__video" : "editor__video opacity-0"} src={mainImage} alt="placeholder" />
-                            </div>}
+                {/*<h3 className="addAddon--imageHeader">*/}
+                {/*    Zdjęcie po najechaniu myszką*/}
+                {/*</h3>*/}
+                {/*<div className="uploadGalleryWrapper">*/}
+                {/*    <div className="editor__mainImageWrapper">*/}
+                {/*        {oldMainImage ? <div className="oldImgWrapper z-index-1000">*/}
+                {/*                <button className="deleteOldImg" onClick={() => { setOldMainImage(null); }}>*/}
+                {/*                    &times;*/}
+                {/*                </button>*/}
+                {/*                <img className="editor__video" src={`${settings.API_URL}/image?url=/media/addons/${oldMainImage}`} alt="placeholder" />*/}
+                {/*            </div>*/}
+                {/*            : <div className="oldImgWrapper z-index-0">*/}
+                {/*                {mainImage ? <button className="deleteOldImg" onClick={() => { setOldMainImage(null); setMainImageFile(null); setMainImage(null); }}>*/}
+                {/*                    &times;*/}
+                {/*                </button> : ''}*/}
+                {/*                <img className={mainImage ? "editor__video" : "editor__video opacity-0"} src={mainImage} alt="placeholder" />*/}
+                {/*            </div>}*/}
 
-                        {!mainImage ? <span className="editor__mainImage__placeholder">
-                                <input type="file" className="editor__files__input" ref={inputRef} multiple={false}
-                                       onChange={(e) => { handleMainImageUpload(e); }} />
-                               <div className="editor__videoWrapper__placeholderContent">
-                                    <p className="editor__videoWrapper__placeholderContent__text">
-                                        Kliknij tutaj lub upuść plik aby dodać zdjęcie
-                                    </p>
-                                    <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
-                            </div>
-                        </span> : <input type="file" className="editor__files__input" ref={inputRef} multiple={false}
-                                         onChange={(e) => { handleMainImageUpload(e); }} />}
-                    </div>
-                </div>
+                {/*        {!mainImage ? <span className="editor__mainImage__placeholder">*/}
+                {/*                <input type="file" className="editor__files__input" ref={inputRef} multiple={false}*/}
+                {/*                       onChange={(e) => { handleMainImageUpload(e); }} />*/}
+                {/*               <div className="editor__videoWrapper__placeholderContent">*/}
+                {/*                    <p className="editor__videoWrapper__placeholderContent__text">*/}
+                {/*                        Kliknij tutaj lub upuść plik aby dodać zdjęcie*/}
+                {/*                    </p>*/}
+                {/*                    <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />*/}
+                {/*            </div>*/}
+                {/*        </span> : <input type="file" className="editor__files__input" ref={inputRef} multiple={false}*/}
+                {/*                         onChange={(e) => { handleMainImageUpload(e); }} />}*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 <label>
                     Typ dodatku (co będzie wybierał klient)
@@ -417,10 +436,6 @@ const AddAddon = () => {
                         <button className={addonType === 2 ? "btn btn--choose btn--choose--selected" : "btn btn--choose"}
                                 onClick={() => { setAddonType(2); }}>
                             Tekst + zdjęcie
-                        </button>
-                        <button className={addonType === 3 ? "btn btn--choose btn--choose--selected" : "btn btn--choose"}
-                                onClick={() => { setAddonType(3); }}>
-                            Kolor
                         </button>
                     </span>
                 </label>
@@ -438,24 +453,46 @@ const AddAddon = () => {
                 </header>
 
                 {options?.map((item, index) => {
-                    return <div className="flex singleOption">
+                    return <div className="singleOption">
                         <span className="singleOption__number">
                             {index+1}
                         </span>
                         <label>
-                            Polska nazwa opcji
+                            Nazwa robocza
+                            <input className="input"
+                                   placeholder="Nazwa robocza"
+                                   value={item.adminName}
+                                   onChange={(e) => { updateOptions(index, 'adminName', e); }} />
+                        </label>
+                        <label>
+                            Nazwa wyświetlana (polski)
                             <input className="input"
                                    placeholder="Polska nazwa opcji"
                                    value={item.namePl}
                                    onChange={(e) => { updateOptions(index, 'namePl', e); }} />
                         </label>
                         <label>
-                            Angielska nazwa opcji
+                            Szczegóły po najechaniu (polski)
+                            <input className="input"
+                                   placeholder="Polskie szczegóły (po najechaniu)"
+                                   value={item.tooltipPl}
+                                   onChange={(e) => { updateOptions(index, 'tooltipPl', e); }} />
+                        </label>
+                        <label>
+                            Nazwa wyświetlana (angielski)
                             <input className="input"
                                    placeholder="Angielska nazwa opcji"
                                    value={item.nameEn}
                                    onChange={(e) => { updateOptions(index, 'nameEn', e); }} />
                         </label>
+                        <label>
+                            Szczegóły po najechaniu (angielski)
+                            <input className="input"
+                                   placeholder="Angielskie szczegóły (po najechaniu)"
+                                   value={item.tooltipEn}
+                                   onChange={(e) => { updateOptions(index, 'tooltipEn', e); }} />
+                        </label>
+
                         <div className={addonType === 1 || addonType === 0 ? 'd-none--margin' : "admin__label admin__flex"}>
                             {addonType === 3 ? 'Kolor' : (addonType === 2 ? 'Zdjęcie' : '')}
                             <span className={addonType !== 3 ? 'hidden' : "admin__label__color flex"}>

@@ -32,17 +32,6 @@ router.get('/', (request, response) => {
     }
 });
 
-router.get('/get-prev-and-next-post', (request, response) => {
-   const id = request.query.id;
-
-   if(id) {
-
-   }
-   else {
-       response.status(400).end();
-   }
-});
-
 router.get('/get-post-by-slug', (request, response) => {
     const id = request.query.slug;
 
