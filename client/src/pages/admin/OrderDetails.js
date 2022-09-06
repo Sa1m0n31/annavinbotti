@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
     changeOrderStatus,
     getOrderById,
-    getOrderForms,
+    getOrderForms, getOrderStatusChanges,
     getOrderStatuses,
     updateDeliveryNumber
 } from "../../helpers/orders";
@@ -12,7 +12,7 @@ import AdminOrderInfo from "../../components/admin/AdminOrderInfo";
 import AdminOrderCart from "../../components/admin/AdminOrderCart";
 import {cancelOrder, rejectClientForm} from "../../helpers/admin";
 import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
-import {groupBy} from "../../helpers/others";
+import {getDate, getTime, groupBy} from "../../helpers/others";
 import Loader from "../../components/shop/Loader";
 
 const OrderDetails = () => {
@@ -28,6 +28,8 @@ const OrderDetails = () => {
     const [cancelOrderModal, setCancelOrderModal] = useState(false);
     const [deliveryNumber, setDeliveryNumber] = useState('');
     const [changeDeliveryNumberStatus, setChangeDeliveryNumberStatus] = useState('');
+    const [orderStatusChanges, setOrderStatusChanges] = useState([]);
+    const [orderStatusChangesDates, setOrderStatusChangesDates] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -41,11 +43,19 @@ const OrderDetails = () => {
                 }
             });
 
+        getOrderStatusChanges(paramId)
+            .then((res) => {
+                const r = res?.data?.result;
+                if(r) {
+
+                    setOrderStatusChanges(r);
+                }
+            });
+
         getOrderById(paramId)
             .then((res) => {
                 const r = res?.data?.result;
                 if(r) {
-                    console.log(r[0]);
                     const result = r[0];
                     setDeliveryNumber(result.delivery_number);
                     setOrder({
@@ -91,7 +101,9 @@ const OrderDetails = () => {
                             addons: productAddons?.map((item) => {
                                 return {
                                     addon: item.addon_name,
-                                    option: item.addon_option_name
+                                    addonAdminName: item.addon_admin_name,
+                                    option: item.addon_option_name,
+                                    optionAdminName: item.addon_option_admin_name
                                 }
                             })
                         }
@@ -99,6 +111,15 @@ const OrderDetails = () => {
                 }
             });
     }, []);
+
+    useEffect(() => {
+        if(statuses && orderStatusChanges) {
+            setOrderStatusChangesDates(statuses.map((item) => {
+                const s = item.id;
+                return orderStatusChanges.find((item) => (item.status === s))?.changed_at;
+            }));
+        }
+    }, [statuses, orderStatusChanges]);
 
     const getFormByProductAndFormType = (product, formType, arr) => {
         return arr.find((item) => {
@@ -129,7 +150,6 @@ const OrderDetails = () => {
     }, [cart]);
 
     useEffect(() => {
-        console.log(orderStatusUpdateStatus);
         if(orderStatusUpdateStatus) {
             setTimeout(() => {
                 setOrderStatusUpdateStatus(0);
@@ -231,6 +251,7 @@ const OrderDetails = () => {
                 <div className="admin__main__order">
                     <section className="admin__order__left">
                         {statuses?.map((item, index) => {
+                            const date = orderStatusChangesDates[index];
                             return <button className="orderStatus" onClick={() => { setCurrentOrderStatus(index+1); }}>
                             <span className={index + 1 === order.status ?
                                 "orderStatus__number orderStatus__number--currentStatus" :
@@ -239,6 +260,9 @@ const OrderDetails = () => {
                             </span>
                                 <p className="orderStatus__text">
                                     {item.name_pl}
+                                    {date ? <span className="orderStatus__text__timestamp">
+                                        {getDate(date)}, {getTime(date)}
+                                    </span> : ''}
                                 </p>
                             </button>
                         })}
@@ -253,7 +277,8 @@ const OrderDetails = () => {
 
                     <section className="admin__order__right">
                         <AdminOrderInfo order={order} />
-                        <AdminOrderCart cart={cart} orderId={order?.id} />
+                        <AdminOrderCart cart={cart}
+                                        orderId={order?.id} />
 
                         <div className="admin__order__sendInfo">
                             {order?.status === 2 ? <div>
@@ -292,10 +317,12 @@ const OrderDetails = () => {
                                 <h3 className="admin__order__sendInfo__header">
                                     Anuluj zamówienie
                                 </h3>
-                                <button className="btn btn--danger"
-                                        onClick={() => { setCancelOrderModal(true); }}>
+                                {order.status ? <button className="btn btn--danger"
+                                                   onClick={() => { setCancelOrderModal(true); }}>
                                     Anuluj zamówienie
-                                </button>
+                                </button> : <p className="canceledOrderInfo">
+                                    Zamówienie anulowane
+                                </p>}
                             </div>
                         </div>
                     </section>

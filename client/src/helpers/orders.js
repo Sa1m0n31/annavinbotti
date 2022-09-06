@@ -12,6 +12,14 @@ const getOrderById = (id) => {
     });
 }
 
+const getOrderStatusChanges = (id) => {
+    return axios.get('/orders/get-order-status-changes', {
+        params: {
+            id
+        }
+    });
+}
+
 const changeOrderStatus = (id, status, email) => {
     return axios.put('/orders/change-status', {
         status, id, email
@@ -86,5 +94,6 @@ const updateDeliveryNumber = (orderId, deliveryNumber) => {
     });
 }
 
-export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, payOrder, addToWaitlist, updateDeliveryNumber,
-    getOrderStatuses, getFormDetails, addOrder, getNumberOfFirstTypeFormsByOrder, getNumberOfSecondTypeFormsByOrder }
+export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, payOrder,
+    addToWaitlist, updateDeliveryNumber, getOrderStatuses, getFormDetails, addOrder,
+    getNumberOfFirstTypeFormsByOrder, getNumberOfSecondTypeFormsByOrder, getOrderStatusChanges }

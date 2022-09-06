@@ -1,87 +1,98 @@
 import React, {useEffect, useState} from 'react';
-import {deleteOrder, getAllOrders} from "../../helpers/orders";
-import {deleteType} from "../../helpers/products";
+import {getAllOrders} from "../../helpers/orders";
 import AdminTop from "../../components/admin/AdminTop";
-import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
 import AdminMenu from "../../components/admin/AdminMenu";
-import TypeListItem from "../../components/admin/TypeListItem";
 import OrderListItem from "../../components/admin/OrderListItem";
 
 const OrderList = () => {
     const [orders, setOrders] = useState([]);
-    const [deleteCandidate, setDeleteCandidate] = useState(0);
-    const [deleteCandidateName, setDeleteCandidateName] = useState("");
-    const [deleteStatus, setDeleteStatus] = useState(0);
+    const [filteredOrders, setFilteredOrders] = useState([]);
+    const [statusSort, setStatusSort] = useState(0);
+    const [dateSort, setDateSort] = useState(0);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         getAllOrders()
             .then((res) => {
                 const result = res?.data?.result;
                 if(result) {
+                    setFilteredOrders(result);
                     setOrders(result);
                 }
             });
     }, []);
 
-    const openDeleteModal = (id, name) => {
-        setDeleteCandidate(id);
-        setDeleteCandidateName(name);
-    }
-
-    const closeDeleteModal = () => {
-        setDeleteCandidate(0);
-        setDeleteCandidateName('');
-    }
-
-    const deleteTypeById = () => {
-        deleteOrder(deleteCandidate)
-            .then((res) => {
-                if(res?.status === 201) {
-                    setDeleteStatus(1);
-                }
-                else {
-                    setDeleteStatus(-1);
-                }
-            })
-            .catch(() => {
-                setDeleteStatus(-1);
-            });
-    }
-
     useEffect(() => {
-        if(deleteStatus !== 0) {
-            setTimeout(() => {
-                setDeleteStatus(0);
-                setDeleteCandidate(0);
-                setDeleteCandidateName("");
-            }, 2000);
+        if(search) {
+            setFilteredOrders(orders?.filter((item) => {
+                return item.id.includes(search);
+            }));
         }
-    }, [deleteStatus]);
+        else {
+            setFilteredOrders(orders);
+        }
+    }, [orders, search]);
+
+    const sortByStatus = () => {
+        if(statusSort === 0 || statusSort === -1) {
+            setStatusSort(1);
+            setOrders(prevState => (prevState.sort((a, b) => {
+                return a.status > b.status ? 1 : -1;
+            })));
+        }
+        else if(statusSort === 1) {
+            setStatusSort(-1);
+            setOrders(prevState => (prevState.sort((a, b) => {
+                return a.status < b.status ? 1 : -1;
+            })));
+        }
+    }
+
+    const sortByDate = () => {
+        if(dateSort === 0 || dateSort === -1) {
+            setDateSort(1);
+            setOrders(prevState => (prevState.sort((a, b) => {
+                return a.date > b.date ? 1 : -1;
+            })));
+        }
+        else if(dateSort === 1) {
+            setDateSort(-1);
+            setOrders(prevState => (prevState.sort((a, b) => {
+                return a.date < b.date ? 1 : -1;
+            })));
+        }
+    }
 
     return <div className="container container--admin">
         <AdminTop />
 
-        {deleteCandidate ? <AdminDeleteModal id={deleteCandidate}
-                                             header="Usuwanie zamówienia"
-                                             text={`Czy na pewno chcesz usunąć zamówienie ${deleteCandidateName}?`}
-                                             btnText="Usuń"
-                                             success="Zamówienie został usunięty"
-                                             fail="Coś poszło nie tak... Prosimy skontaktować się z administratorem systemu"
-                                             deleteStatus={deleteStatus}
-                                             deleteFunction={deleteTypeById}
-                                             closeModalFunction={closeDeleteModal} /> : ''}
-
         <div className="admin">
             <AdminMenu menuOpen={5} />
             <main className="admin__main">
-                <h2 className="admin__main__header">
-                    Lista zamówień
-                </h2>
-                {orders?.map((item, index) => {
-                    console.log(item);
+                <div className="admin__main__top">
+                    <h2 className="admin__main__header">
+                        Lista zamówień
+                    </h2>
+                    <button className="btn btn--sort" onClick={() => { sortByStatus(); }}>
+                        Sortuj wg statusu
+                    </button>
+                    <button className="btn btn--sort" onClick={() => { sortByDate(); }}>
+                        Sortuj wg daty
+                    </button>
+                    <div className="admin__main__top__finder">
+                        <p>
+                            Wyszukaj po id zamówienia
+                        </p>
+                        <input className="input"
+                               value={search}
+                               onChange={(e) => { setSearch(e.target.value); }}
+                               placeholder="Wpisz id zamówienia" />
+                    </div>
+                </div>
+                {filteredOrders?.map((item, index) => {
                     return <OrderListItem index={index}
                                          id={item.id}
-                                         openDeleteModal={openDeleteModal}
+                                         status={item.status}
                                          name={item.first_name + ' ' + item.last_name}
                                          date={item.date} />
                 })}

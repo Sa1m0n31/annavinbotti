@@ -1812,3 +1812,90 @@ a.admin__start__stats:hover {
     font-style: italic;
     font-weight: 400;
 }
+
+.admin__addonStock__input {
+    padding: 10px;
+    width: 100px;
+    height: 30px;
+    background: transparent;
+    border: 1px solid var(--secondary);
+    border-radius: 3px;
+    margin: 10px auto;
+    display: block;
+}
+
+.admin__addonStock__input::-webkit-outer-spin-button,
+.admin__addonStock__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.admin__addonStock__input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.btn--addonsStock {
+    width: fit-content;
+    padding: 8px 15px;
+    border-radius: 5px;
+    background: var(--secondary);
+    color: #fff;
+    margin-top: 10px;
+}
+
+.btn--delete {
+    background: #d83b27;
+    padding: 8px 8px;
+    margin-left: 10px;
+}
+
+.btn--positive {
+    background: green;
+}
+
+.admin__main__notification__item__col .info {
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.admin__order__cart__item__details__addon {
+    margin-bottom: 5px;
+}
+
+.admin__main__top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.btn--sort {
+    padding: 5px 15px;
+    margin: 0 15px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.admin__main__top .admin__main__header {
+    margin-right: 2vw;
+}
+
+.admin__main__top__finder {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.admin__main__top__finder .input {
+    margin-top: 8px;
+    width: 300px;
+    max-width: 100%;
+    height: 40px;
+}
+
+.orderStatus__text__timestamp {
+    display: block;
+    font-size: 13px;
+    font-style: italic;
+}

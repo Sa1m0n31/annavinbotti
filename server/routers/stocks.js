@@ -503,6 +503,20 @@ router.get('/get-product-stock', (request, response) => {
     const values = [id];
 
     dbSelectQuery(query, values, response);
-})
+});
+
+router.patch('/update-addon-stock', (request, response) => {
+   const { id, stock } = request.body;
+
+   if(id && !isNaN(stock)) {
+       const query = `UPDATE addons_options SET stock = $1 WHERE id = $2`;
+       const values = [stock, id];
+
+       dbInsertQuery(query, values, response);
+   }
+   else {
+       response.status(400).end();
+   }
+});
 
 module.exports = router;

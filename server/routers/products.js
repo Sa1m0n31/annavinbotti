@@ -7,6 +7,21 @@ const multer  = require('multer')
 const upload = multer({ dest: 'media/products' })
 const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
+const nodemailer = require("nodemailer");
+const smtpTransport = require('nodemailer-smtp-transport');
+
+let transporter = nodemailer.createTransport(smtpTransport ({
+   auth: {
+      user: process.env.EMAIL_ADDRESS,
+      pass: process.env.EMAIL_PASSWORD
+   },
+   host: process.env.EMAIL_HOST,
+   secureConnection: true,
+   port: 465,
+   tls: {
+      rejectUnauthorized: false
+   },
+}));
 
 const createSlug = (name) => {
    if(name) return name.toLowerCase()
@@ -251,7 +266,7 @@ router.get('/get-homepage-models', (request, response) => {
 router.delete('/delete', (request, response) => {
    const id = request.query.id;
 
-   if(id) {
+   const deleteProductFromDatabase = (id) => {
       const query = 'UPDATE products SET hidden = TRUE WHERE id = $1';
       const values = [id];
 
@@ -263,7 +278,65 @@ router.delete('/delete', (request, response) => {
                )) = 1`;
             const values = [id];
 
-            dbInsertQuery(query, values, response);
+            db.query(query, values, (err, res) => {
+               if(res) {
+                  const query = `DELETE FROM waitlist WHERE product = $1`;
+                  const values = [id];
+
+                  dbInsertQuery(query, values, response);
+               }
+               else {
+                  response.status(500).end();
+               }
+            })
+         }
+         else {
+            response.status(500).end();
+         }
+      });
+   }
+
+   if(id) {
+      // Send info to waitlist and clear it
+      const query = `SELECT email FROM waitlist WHERE product = $1`;
+      const values = [id];
+
+      db.query(query, values, (err, res) => {
+         if(res) {
+            const mails = res?.rows?.map((item) => (item.email));
+
+            if(mails?.length) {
+               let mailOptions = {
+                  from: process.env.EMAIL_ADDRESS_WITH_NAME,
+                  to: mails,
+                  subject: 'Model niedostępny',
+                  html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+font-size: 16px;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Dzień dobry,
+                </p>
+                <p style="color: #B9A16B;">
+                    Model, na który czekałaś/czekałeś nie jest już niestety dostępny w naszym sklepie. Sprawdź nasze pozostałe modele na anna-vinbotti.com.
+                </p>
+                <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                </div>`
+               }
+
+               transporter.sendMail(mailOptions, function(error, info) {
+                  deleteProductFromDatabase(id);
+               });
+            }
+            else {
+               deleteProductFromDatabase(id);
+            }
          }
          else {
             response.status(500).end();

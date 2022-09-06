@@ -1,7 +1,8 @@
 import React, {useEffect, useRef} from 'react';
 import {SketchPicker} from "react-color";
+import Loader from "../shop/Loader";
 
-const AdminDeleteModal = ({id, header, text, btnText, closeModalFunction, deleteStatus, deleteFunction, success, fail}) => {
+const AdminDeleteModal = ({id, header, text, btnText, closeModalFunction, deleteStatus, deleteFunction, success, loading, fail}) => {
     const headerRef = useRef(null);
     const textRef = useRef(null);
     const btnRef = useRef(null);
@@ -43,11 +44,14 @@ const AdminDeleteModal = ({id, header, text, btnText, closeModalFunction, delete
             <p className="colorModal__text" ref={textRef}>
                 {text}
             </p>
-            <button className="btn btn--changeColor"
+            <button className={loading ? "btn btn--changeColor hidden" : "btn btn--changeColor"}
                     ref={btnRef}
                     onClick={() => { deleteFunction(); }}>
                 {btnText}
             </button>
+            {loading ? <div className="center">
+                <Loader />
+            </div> : ''}
         </div>
     </div>
 };

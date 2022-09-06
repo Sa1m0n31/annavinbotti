@@ -373,7 +373,6 @@ router.post('/send-form', upload.fields([
                    const values = [type, orderId];
 
                    db.query(query, values, (err, res) => {
-                       console.log(err);
                        if(res) {
                            const sells = res?.rows?.map((item) => {
                                return item.id;
@@ -384,7 +383,6 @@ router.post('/send-form', upload.fields([
                                const values = [formType, item, formJSON];
 
                                await db.query(query, values, (err, res) => {
-                                   console.log(err);
                                    if(res) {
                                        if(index === array.length - 1) {
                                            // Check if all forms submitted - if yes: change order status
@@ -406,25 +404,27 @@ router.post('/send-form', upload.fields([
                                                        if(parseInt(formType) === 1) {
                                                            query = 'UPDATE orders SET status = 2 WHERE id = $1';
                                                            const values = [orderId];
+
                                                            db.query(query, values, (err, res) => {
-                                                               if(res) {
+                                                               const query = `INSERT INTO order_status_changes VALUES ($1, $2, NOW() + INTERVAL '4 HOUR')`;
+                                                               const values = [orderId, 2];
+
+                                                               db.query(query, values, (err, res) => {
                                                                    sendStatus2Email(email, response);
-                                                               }
-                                                               else {
-                                                                   response.status(500).end();
-                                                               }
+                                                               });
                                                            });
                                                        }
                                                        else {
                                                            query = 'UPDATE orders SET status = 6 WHERE id = $1';
                                                            const values = [orderId];
+
                                                            db.query(query, values, (err, res) => {
-                                                               if(res) {
+                                                               const query = `INSERT INTO order_status_changes VALUES ($1, $2, NOW() + INTERVAL '4 HOUR')`;
+                                                               const values = [orderId, 6];
+
+                                                               db.query(query, values, (err, res) => {
                                                                    sendStatus6Email(email, response);
-                                                               }
-                                                               else {
-                                                                   response.status(500).end();
-                                                               }
+                                                               });
                                                            });
                                                        }
                                                    }

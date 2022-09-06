@@ -25,7 +25,7 @@ let transporter = nodemailer.createTransport(smtpTransport ({
 }));
 
 router.get('/all', (request, response) => {
-   const query = `SELECT o.id, COALESCE(a.first_name, u.first_name) as first_name, COALESCE(a.last_name, u.last_name) as last_name, o.date FROM orders o JOIN addresses a ON o.user_address = a.id JOIN users u ON u.id = o.user WHERE o.hidden = FALSE ORDER BY o.date DESC`;
+   const query = `SELECT o.id, COALESCE(a.first_name, u.first_name) as first_name, COALESCE(a.last_name, u.last_name) as last_name, o.date, o.status FROM orders o JOIN addresses a ON o.user_address = a.id JOIN users u ON u.id = o.user WHERE o.hidden = FALSE ORDER BY o.date DESC`;
 
    dbSelectQuery(query, [], response);
 });
@@ -39,7 +39,7 @@ router.get('/', (request, response) => {
                     da.first_name as delivery_first_name, da.last_name as delivery_last_name, da.phone_number as delivery_phone_number,
                     da.flat as delivery_flat, ua.city as user_city, ua.street as user_street, ua.postal_code as user_postal_code, ua.building as user_building,
                     ua.flat as user_flat, o.nip, o.company_name, p.main_image, p.name_pl as product_name, p.name_en as product_name_en, s.price, t.name_pl as type, t.id as type_id,
-                    ao.name_pl as addon_option_name, ao.name_en as addon_option_name_en, a.name_pl as addon_name, a.name_en as addon_name_en 
+                    ao.name_pl as addon_option_name, ao.name_en as addon_option_name_en, ao.admin_name as addon_option_admin_name, a.name_pl as addon_name, a.name_en as addon_name_en, a.admin_name as addon_admin_name  
                     FROM orders o 
                     JOIN sells s ON o.id = s.order 
                     JOIN sells_addons sa ON s.id = sa.sell 
@@ -231,7 +231,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
     const productsAvailable = await validateStocks(oldSells, oldAddons);
 
     if(productsAvailable) {
-        const query = `INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW() + INTERVAL '4 HOUR', $7, NULL, NULL, NULL)`;
+        const query = `INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW() + INTERVAL '4 HOUR', $7, NULL, NULL, NULL) RETURNING id`;
         const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
 
         if(newsletter === 'true') {
@@ -256,42 +256,45 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
         // ADD ORDER
         await db.query(query, values, (err, res) => {
             if(res) {
-                sells.forEach(async (item, index, array) => {
-                    const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
-                    const values = [item.product, id, item.price];
+                const orderId = res.rows[0].id;
+                const query = `INSERT INTO order_status_changes VALUES ($1, $2, NOW() + INTERVAL '4 HOUR')`;
+                const values = [orderId, 1];
 
-                    const insertSellResult = await db.query(query, values);
-                    await sellsIds.push(insertSellResult.rows[0].id);
-                    await console.log('add ' + index);
-                    await console.log(sellsIds);
+                db.query(query, values, (err, res) => {
+                    sells.forEach(async (item, index, array) => {
+                        const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
+                        const values = [item.product, id, item.price];
 
-                    if(sellsIds.length === addons.length) {
-                        // ADD ADDONS
-                        await addons.forEach(async (item, indexParent, arrayParent) => {
-                            const options = item.options;
+                        const insertSellResult = await db.query(query, values);
+                        await sellsIds.push(insertSellResult.rows[0].id);
 
-                            await options.forEach(async (item, index, array) => {
-                                const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
-                                const values = [sellsIds[indexParent], item];
+                        if(sellsIds.length === addons.length) {
+                            // ADD ADDONS
+                            await addons.forEach(async (item, indexParent, arrayParent) => {
+                                const options = item.options;
 
-                                if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
-                                    await db.query(query, values, (err, res) => {
-                                        console.log(err);
-                                        if(res) {
-                                            // Send mail
-                                            sendStatus1Mail(response, id, user.email);
-                                        }
-                                        else {
-                                            response.status(500).end();
-                                        }
-                                    });
-                                }
-                                else {
-                                    await dbInsertQuery(query, values);
-                                }
+                                await options.forEach(async (item, index, array) => {
+                                    const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
+                                    const values = [sellsIds[indexParent], item];
+
+                                    if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
+                                        await db.query(query, values, (err, res) => {
+                                            if(res) {
+                                                // Send mail
+                                                sendStatus1Mail(response, id, user.email);
+                                            }
+                                            else {
+                                                response.status(500).end();
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        await dbInsertQuery(query, values);
+                                    }
+                                });
                             });
-                        });
-                    }
+                        }
+                    });
                 });
             }
             else {
@@ -303,6 +306,20 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
         response.status(403).end();
     }
 }
+
+router.get('/get-order-status-changes', (request, response) => {
+   const { id } = request.query;
+
+   if(id) {
+       const query = `SELECT * FROM order_status_changes o WHERE o.order = $1`;
+       const values = [id];
+
+       dbSelectQuery(query, values, response);
+   }
+   else {
+       response.status(400).end();
+   }
+});
 
 router.post('/add', (request, response) => {
     let { user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter } = request.body;
@@ -732,31 +749,34 @@ font-size: 16px;
 router.put('/change-status', (request, response) => {
     const { status, email, id } = request.body;
 
-    console.log('change order status');
-
     const query = 'UPDATE orders SET status = $1 WHERE id = $2';
     const values = [status, id];
 
     db.query(query, values, (err, res) => {
         if(res) {
-            if(status === 3) {
-                sendStatus3Email(email, response);
-            }
-            else if(status === 4) {
-                sendStatus4Email(email, id, response);
-            }
-            else if(status === 5) {
-                sendStatus5Email(email, id, response);
-            }
-            else if(status === 7) {
-                sendStatus7Email(email, response);
-            }
-            else if(status === 8) {
-                sendStatus8Email(email, id, response);
-            }
-            else {
-                response.status(201).end();
-            }
+            const query = `INSERT INTO order_status_changes VALUES ($1, $2, NOW() + INTERVAL '4 HOUR')`;
+            const values = [id, status];
+
+            db.query(query, values, (err, res) => {
+                if(status === 3) {
+                    sendStatus3Email(email, response);
+                }
+                else if(status === 4) {
+                    sendStatus4Email(email, id, response);
+                }
+                else if(status === 5) {
+                    sendStatus5Email(email, id, response);
+                }
+                else if(status === 7) {
+                    sendStatus7Email(email, response);
+                }
+                else if(status === 8) {
+                    sendStatus8Email(email, id, response);
+                }
+                else {
+                    response.status(201).end();
+                }
+            });
         }
         else {
             response.status(500).end();
@@ -996,20 +1016,25 @@ router.post('/payment-notification', (request, response) => {
 
                 db.query(query, values, (err, res) => {
                    if(res) {
-                       const query = `SELECT u.email FROM users u JOIN orders o ON u.id = o.user WHERE o.id = $1`;
-                       const values = [body.transaction.orderId];
+                       const query = `INSERT INTO order_status_changes VALUES ($1, $2, NOW() + INTERVAL '4 HOUR')`;
+                       const values = [body.transaction.orderId, 4];
 
                        db.query(query, values, (err, res) => {
-                          if(res) {
-                              const email = res.rows[0]?.email;
-                              if(!mailAfterPaymentSend) {
-                                  mailAfterPaymentSend = true;
-                                  sendStatus4Email(email, body.transaction.orderId, response, true);
-                              }
-                          }
-                          else {
-                              response.status(500).end();
-                          }
+                           const query = `SELECT u.email FROM users u JOIN orders o ON u.id = o.user WHERE o.id = $1`;
+                           const values = [body.transaction.orderId];
+
+                           db.query(query, values, (err, res) => {
+                               if(res) {
+                                   const email = res.rows[0]?.email;
+                                   if(!mailAfterPaymentSend) {
+                                       mailAfterPaymentSend = true;
+                                       sendStatus4Email(email, body.transaction.orderId, response, true);
+                                   }
+                               }
+                               else {
+                                   response.status(500).end();
+                               }
+                           });
                        });
                    }
                    else {
@@ -1113,7 +1138,7 @@ font-family: 'Roboto', sans-serif;
 router.delete('/cancel-order', (request, response) => {
    const { id, email } = request.query;
 
-   const query = `UPDATE orders SET hidden = TRUE WHERE id = $1`;
+   const query = `UPDATE orders SET status = NULL WHERE id = $1`;
    const values = [id];
 
    db.query(query, values, (err, res) => {

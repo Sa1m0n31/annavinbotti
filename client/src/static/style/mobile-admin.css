@@ -428,6 +428,24 @@
         padding-top: 20px;
     }
 
+    .admin__main__top {
+        flex-direction: column;
+    }
+
+    .btn--sort {
+        margin: 10px 0;
+        font-size: 12px;
+        height: 35px;
+    }
+
+    .admin__main__top__finder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 13px;
+    }
+
     .admin__main__backBtn {
         position: relative;
         margin-top: 20px;

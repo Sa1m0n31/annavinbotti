@@ -43,8 +43,8 @@ const AdminOrderCart = ({cart, orderId}) => {
                 {details === index ? <div className="admin__order__cart__item__details">
                     <div className="admin__order__cart__item__details__addons">
                         {item[1][0]?.addons?.map((item, index) => {
-                            return <p className="admin__order__cart__item__details__addon">
-                                {item.addon}: <b>{item.option}</b>
+                            return <p className="admin__order__cart__item__details__addon" key={index}>
+                                {item.addonAdminName} ({item.addon}): <b>{item.optionAdminName} ({item.option})</b>
                             </p>
                         })}
                     </div>

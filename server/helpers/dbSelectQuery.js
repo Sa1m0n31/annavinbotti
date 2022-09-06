@@ -4,7 +4,6 @@ const dbSelectQuery = (query, values, response) => {
     try {
         db.query(query, values, (err, res) => {
             if(res) {
-                console.log(res.rows);
                 response.send({
                     result: res.rows
                 });

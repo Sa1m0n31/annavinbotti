@@ -75,10 +75,8 @@ router.post('/add-option', upload.single('image'), (request, response) => {
     }
 });
 
-router.patch('/update', upload.single('image'), (request, response) => {
-   const { id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type, adminName } = request.body;
-
-   console.log(adminName);
+router.patch('/update', (request, response) => {
+   const { id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, type, adminName } = request.body;
 
    let query, values;
    if(request.file) {
@@ -169,7 +167,7 @@ router.get('/all-addons-with-options', (request, response) => {
 });
 
 router.get('/all-options', (request, response) => {
-    const query = 'SELECT * FROM addons_options WHERE hidden = FALSE ORDER BY addon';
+    const query = 'SELECT * FROM addons_options WHERE hidden = FALSE ORDER BY admin_name ASC';
 
     dbSelectQuery(query, [], response);
 });

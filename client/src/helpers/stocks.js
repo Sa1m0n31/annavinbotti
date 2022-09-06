@@ -96,7 +96,13 @@ const decrementStockByAddon = (addonOption, decrement) => {
     });
 }
 
+const updateAddonStock = (id, stock) => {
+    return axios.patch('/stocks/update-addon-stock', {
+        id, stock
+    });
+}
+
 export { getAllStocks, getAllProductStocks, getAllAddonsStocks, deleteProductStock, deleteAddonStock,
     getProductStockDetails, getAddonStockDetails, addProductStock, addAddonStock, checkAddonsStocks, checkProductsStocks,
-    getProductStock, decrementStockByAddon, decrementStockByProduct
+    getProductStock, decrementStockByAddon, decrementStockByProduct, updateAddonStock
 }

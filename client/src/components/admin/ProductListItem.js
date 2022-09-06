@@ -4,18 +4,7 @@ import trashIcon from '../../static/img/trash.svg'
 import settings from "../../static/settings";
 
 const ProductListItem = ({index, name, img, type, date, id, openDeleteModal, addonType, secondName, options}) => {
-    const getAddonTypeById = (id) => {
-        switch(id) {
-            case 1:
-                return 'Tekst';
-            case 2:
-                return 'Tekst + zdjęcie';
-            default:
-                return 'Kolor';
-        }
-    }
-
-    return <section className={addonType ? "admin__main__notification__item admin__main__notification__item--addon" : "admin__main__notification__item"} key={index}>
+     return <section className={addonType ? "admin__main__notification__item admin__main__notification__item--addon" : "admin__main__notification__item"} key={index}>
         {!addonType ? <section className="admin__main__notification__item__col col-2">
             <img className="btn__img" src={`${settings.API_URL}/image?url=/media/products/${img}`} alt={name} />
         </section> : ''}

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
-import {deleteAddon, deleteProduct, getAllProducts} from "../../helpers/products";
+import {deleteProduct, getAllProducts} from "../../helpers/products";
 import ProductListItem from "../../components/admin/ProductListItem";
 import AdminDeleteModal from "../../components/admin/AdminDeleteModal";
 
@@ -10,6 +10,7 @@ const ProductList = () => {
     const [deleteCandidate, setDeleteCandidate] = useState(0);
     const [deleteCandidateName, setDeleteCandidateName] = useState("");
     const [deleteStatus, setDeleteStatus] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getAllProducts()
@@ -37,6 +38,7 @@ const ProductList = () => {
     }
 
     const deleteAddonById = () => {
+        setLoading(true);
         deleteProduct(deleteCandidate)
             .then((res) => {
                 if(res?.status === 201) {
@@ -45,9 +47,11 @@ const ProductList = () => {
                 else {
                     setDeleteStatus(-1);
                 }
+                setLoading(false);
             })
             .catch(() => {
                 setDeleteStatus(-1);
+                setLoading(false);
             });
     }
 
@@ -72,6 +76,7 @@ const ProductList = () => {
                                              fail="Coś poszło nie tak... Prosimy skontaktować się z administratorem systemu"
                                              deleteStatus={deleteStatus}
                                              deleteFunction={deleteAddonById}
+                                             loading={loading}
                                              closeModalFunction={closeDeleteModal} /> : ''}
 
         <div className="admin">

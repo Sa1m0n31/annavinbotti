@@ -21,6 +21,7 @@ import OrderDetails from "../../pages/admin/OrderDetails";
 import FormDetails from "../../pages/admin/FormDetails";
 import ChangeAdminPassword from "../../pages/admin/ChangeAdminPassword";
 import FormType2Details from "../../pages/admin/FormType2Details";
+import AddonsStocks from "../../pages/admin/AddonsStocks";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -56,7 +57,7 @@ const AdminWrapper = ({page}) => {
                 setRenderPage(<StockList type={0} />);
                 break;
             case 10:
-                setRenderPage(<StockList type={1} />);
+                setRenderPage(<AddonsStocks />);
                 break;
             case 11:
                 setRenderPage(<AddType />);

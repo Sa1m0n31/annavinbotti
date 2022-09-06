@@ -17,6 +17,15 @@ const getDate = (str) => {
     }
 }
 
+const getTime = (str) => {
+    if(str) {
+        return str.substring(11, 19);
+    }
+    else {
+        return '';
+    }
+}
+
 const scrollToTop = () => {
     window.scrollTo({
         top: 0,
@@ -163,4 +172,4 @@ const getFiletype = (mimetype) => {
 }
 
 export { scrollToTop, isPasswordStrong, sendMessageToSupport, isEmail, getDate, sendContactForm, isElementInArray,
-    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, downloadData, getFiletype}
+    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, downloadData, getFiletype, getTime}
