@@ -55,7 +55,7 @@ const AdminOrderCart = ({cart, orderId}) => {
                         </a>
                         <a className={item.secondForm ? "admin__order__cart__item__details__btn" : "admin__order__cart__item__details__btn o-5"}
                            href={`/formularz-weryfikacji?order=${orderId}&model=${item[1][0]?.productId}`}>
-                            Formularz weryfikacji
+                            Formularz weryfikacji buta do miary
                         </a>
                     </div>
                 </div> : ''}

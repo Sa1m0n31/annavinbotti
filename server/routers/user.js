@@ -38,7 +38,6 @@ const sendVerificationEmail = (email, token, response) => {
     }
 
     transporter.sendMail(mailOptions, function(error, info) {
-        console.log(error);
         response.send({
             result: 1
         });
@@ -67,26 +66,24 @@ router.post('/verify-account', (request, response) => {
 });
 
 router.post("/register", (request, response) => {
-    const { login, email, password, newsletter } = request.body;
+    const { email, password, newsletter } = request.body;
 
     /* Password hash */
     const hash = crypto.createHash('sha256').update(password).digest('hex');
 
-    const query = `INSERT INTO users VALUES (nextval('users_id_sequence'), $1, $2, $3, NULL, NULL, NULL, NULL, false) RETURNING email`;
-    const values = [email, login, hash];
+    const query = `INSERT INTO users VALUES (nextval('users_id_sequence'), $1, $2, NULL, NULL, NULL, NULL, false) RETURNING email`;
+    const values = [email, hash];
 
     db.query(query, values, (err, res) => {
         if(res) {
-            console.log('user added');
             const insertedUserEmail = res.rows[0].email;
             const token = uuidv4();
             const query = 'INSERT INTO account_verification VALUES ($1, $2, NOW())';
             const values = [insertedUserEmail, token];
             db.query(query, values, (err, res) => {
-                console.log(err);
                 if(res) {
                     if(newsletter === 'true') {
-                        got.post(`${process.env.API_URL}/newsletter/add`, {
+                        got.post(`${process.env.API_URL}/newsletter-api/add`, {
                             json: {
                                 email
                             },
@@ -100,7 +97,6 @@ router.post("/register", (request, response) => {
                             });
                     }
                     else {
-                        console.log('prepare to send email...');
                         sendVerificationEmail(email, token, response);
                     }
                 }
@@ -149,7 +145,6 @@ router.put('/update-user-data', (request, response) => {
     const values = [street, building, flat, postalCode, city, address];
 
     db.query(query, values, (err, res) => {
-        console.log(res);
         if(res) {
             if(res.rowCount === 0) {
                 const query = `INSERT INTO addresses VALUES (nextval('addresses_seq'), $1, $2, $3, $4, $5, NULL, NULL, NULL) RETURNING id`;
@@ -219,7 +214,7 @@ router.get('/get-user-info', (request, response) => {
        response.status(401).end();
    }
    else {
-       const query = `SELECT u.id, u.first_name, u.last_name, u.email, u.login, u.phone_number, u.address, a.city, a.street, a.postal_code, a.building, a.flat 
+       const query = `SELECT u.id, u.first_name, u.last_name, u.email, u.phone_number, u.address, a.city, a.street, a.postal_code, a.building, a.flat 
                     FROM users u
                     LEFT OUTER JOIN addresses a ON u.address = a.id
                     WHERE u.id = $1`;

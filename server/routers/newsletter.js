@@ -84,16 +84,14 @@ router.delete('/delete', (request, response) => {
 router.post('/add', (request, response) => {
    const { email } = request.body;
 
-   console.log('newsletter add');
-   console.log(email);
-
-   const query = `INSERT INTO newsletter VALUES (nextval('newsletter_seq'), $1, FALSE)`;
+   // Check registered but not confirmed newsletter subscribers
+   const query = `SELECT id FROM newsletter WHERE email = $1 AND active = FALSE`;
    const values = [email];
 
    db.query(query, values, (err, res) => {
-      if(res) {
+      if(res?.rows?.length) {
+         // Add new verification token and send it
          const token = uuidv4();
-
          const query = `INSERT INTO newsletter_verification VALUES ($1, $2, NOW() + INTERVAL '3 DAY')`;
          const values = [email, token];
 
@@ -125,9 +123,56 @@ router.post('/add', (request, response) => {
          });
       }
       else {
-         response.status(500).end();
+         // Insert new user to newsletter
+         const query = `INSERT INTO newsletter VALUES (nextval('newsletter_seq'), $1, FALSE)`;
+         const values = [email];
+
+         db.query(query, values, (err, res) => {
+            if(res) {
+               // New user inserted
+               const token = uuidv4();
+               const query = `INSERT INTO newsletter_verification VALUES ($1, $2, NOW() + INTERVAL '3 DAY')`;
+               const values = [email, token];
+
+               db.query(query, values, (err, res) => {
+                  if(res) {
+                     let mailOptions = {
+                        from: process.env.EMAIL_ADDRESS_WITH_NAME,
+                        to: email,
+                        subject: 'Potwierdź swoją subskrypcję newslettera',
+                        html: emailTemplate('Dziękujemy za zapisanie się do naszego newslettera',
+                            'Kliknij w poniższy link, aby potwierdzić swój zapis do newslettera i być na bieżąco ze światem Anna Vinbotti!',
+                            `${process.env.API_URL}/potwierdzenie-subskrypcji-newslettera?token=${token}`,
+                            'Potwierdź subskrypcję'
+                        )
+                     }
+
+                     transporter.sendMail(mailOptions, function(error, info) {
+                        if(error) {
+                           response.status(500).end();
+                        }
+                        else {
+                           response.status(201).end();
+                        }
+                     });
+                  }
+                  else {
+                     response.status(500).end();
+                  }
+               });
+            }
+            else {
+               // User already registered and active
+               if(err.code === '23505') {
+                  response.status(400).end();
+               }
+               else {
+                  response.status(500).end();
+               }
+            }
+         });
       }
-   })
+   });
 });
 
 module.exports = router;

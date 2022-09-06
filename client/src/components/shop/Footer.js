@@ -23,8 +23,13 @@ const Footer = () => {
                 <img className="footer__logo" src={logoWhite} alt="anna-vinbotti" />
 
                 <span>
-                    office@anna-vinbotti.pl<br/>
-                    123 123 123
+                    office@anna-vinbotti.pl
+                </span>
+                <span className="footer__phoneNumber">
+                    tel. 123 123 123<br/>
+                    <span>
+                        Obsługiwany od poniedziałku do piątku w godzinach 8:00 - 16:00
+                    </span>
                 </span>
             </div>
             <div className="footer__col">
@@ -36,7 +41,7 @@ const Footer = () => {
                         Zaloguj się
                     </a>
                     <a className="footer__link" href="/moje-konto?sekcja=rejestracja">
-                        Załóż konto
+                        Zarejestruj się
                     </a>
                 </> : <a className="footer__link" href="/panel-klienta?sekcja=zamowienia">
                     Moje zamówienia
@@ -52,20 +57,14 @@ const Footer = () => {
                 <a className="footer__link" href="/polityka-prywatnosci">
                     Polityka prywatności
                 </a>
-                <a className="footer__link" href="/odstapienie-od-umowy">
-                    Odstąpienie od umowy
+                <a className="footer__link" href="/gwarancja">
+                    Gwarancja
                 </a>
                 <a className="footer__link" href="/faq">
                     Centrum pomocy / FAQ
                 </a>
-                <a className="footer__link" href="/wysylka">
-                    Wysyłka
-                </a>
-                <a className="footer__link" href="/sposoby-platnosci">
-                    Sposoby płatności
-                </a>
-                <a className="footer__link" href="/adres-do-wysylki">
-                    Adres do wysyłki
+                <a className="footer__link" href="/adres-do-korespondencji">
+                    Adres do korespondencji
                 </a>
             </div>
             <div className="footer__col">

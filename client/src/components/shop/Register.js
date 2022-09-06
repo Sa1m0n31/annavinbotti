@@ -8,7 +8,6 @@ const Register = () => {
     const { language } = useContext(ContentContext);
 
     const [email, setEmail] = useState("");
-    const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -16,13 +15,8 @@ const Register = () => {
 
     const [c1, setC1] = useState(false);
     const [c2, setC2] = useState(false);
-    const [c3, setC3] = useState(false);
 
     const errors = [
-        {
-            pl: 'Wpisz swoją nazwę użytkownika',
-            en: 'Fill your login or e-mail address'
-        },
         {
             pl: 'Wpisz poprawny adres e-amil',
             en: 'Fill proper e-mail address'
@@ -57,28 +51,24 @@ const Register = () => {
         e.preventDefault();
         setLoading(true);
 
-        if(!login) {
+        if(!isEmail(email)) {
             setError(0);
             setLoading(false);
         }
-        else if(!isEmail(email)) {
+        else if(password?.length < 8 || repeatPassword?.length < 8) {
             setError(1);
             setLoading(false);
         }
-        else if(password?.length < 8 || repeatPassword?.length < 8) {
+        else if(password !== repeatPassword) {
             setError(2);
             setLoading(false);
         }
-        else if(password !== repeatPassword) {
+        else if(!c1) {
             setError(3);
             setLoading(false);
         }
-        else if(!c1 || !c2) {
-            setError(4);
-            setLoading(false);
-        }
         else {
-            registerUser(login, email, password, c3 ? 'true' : 'false')
+            registerUser(email, password, c2 ? 'true' : 'false')
                 .then((res) => {
                     const r = res?.data?.result;
                     if(r === 1) {
@@ -106,16 +96,9 @@ const Register = () => {
 
     useEffect(() => {
         setError(-1);
-    }, [login, password]);
+    }, [password]);
 
     return <form className="form form--login">
-        <label>
-            <input className="input"
-                   value={login}
-                   onClick={() => { setError(-1); }}
-                   onChange={(e) => { setLogin(e.target.value); }}
-                   placeholder="Nazwa użytkownika" />
-        </label>
         <label>
             <input className="input"
                    value={email}
@@ -137,7 +120,7 @@ const Register = () => {
                    value={repeatPassword}
                    onClick={() => { setError(-1); }}
                    onChange={(e) => { setRepeatPassword(e.target.value); }}
-                   placeholder="Potwierdź hasło" />
+                   placeholder="Powtórz hasło" />
         </label>
 
         <div className="consents">
@@ -147,8 +130,9 @@ const Register = () => {
                         onClick={() => { setC1(!c1); }}>
                     <span></span>
                 </button>
-                <span>
-                    Wyrażam zgodę na przetwarzanie moich danych osobowych. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                <span className="checkboxText">
+                    Oświadczam, że zapoznałem/-am się z <a href="/regulamin" target="_blank">Regulaminem</a> i <a href="/polityka-prywatnosci" target="_blank">Polityką prywatności</a>
+                    oraz akceptuję ich postanowienia. *
                 </span>
             </label>
             <label className="form__addons__label">
@@ -158,17 +142,7 @@ const Register = () => {
                     <span></span>
                 </button>
                 <span>
-                    Oświadczam, iż zapoznałem się z treścią Regulaminu i akceptuję jego postanowienia. Akceptuję również politykę prywatności
-                </span>
-            </label>
-            <label className="form__addons__label">
-                <button className={c3 ? "form__check form__check--selected" : "form__check"}
-                        type="button"
-                        onClick={() => { setC3(!c3); }}>
-                    <span></span>
-                </button>
-                <span>
-                    Zapisz się do newslettera
+                    Wyrażam zgodę na otrzymywanie informacji handlowych dotyczących bieżącej działalności sklepu Anna Vinbotti oraz aktualności ze świata mody, przesyłanych przez firmę „Anna Kot” pod podany przeze mnie adres poczty elektronicznej.
                 </span>
             </label>
         </div>

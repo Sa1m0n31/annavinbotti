@@ -24,7 +24,12 @@ const NewsletterSection = () => {
                     }
                 })
                 .catch((err) => {
-                    setError(language === 'pl' ? 'Coś poszło nie tak. Prosimy spróbować później' : 'Something goes wrong. Please try again later');
+                    if(err?.response?.status === 400) {
+                        setError(language === 'pl' ? 'Podany adres jest już zapisany do naszego newslettera' : 'Email address already registered to our newsletter');
+                    }
+                    else {
+                        setError(language === 'pl' ? 'Coś poszło nie tak. Prosimy spróbować później' : 'Something goes wrong. Please try again later');
+                    }
                 })
         }
         else {

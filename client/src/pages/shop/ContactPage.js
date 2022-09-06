@@ -62,8 +62,9 @@ const ContactPage = () => {
                     <p className="contact__top__section__data">
                         office@anna-vinbotti.com
                     </p>
-                    <p className="contact__top__section__data">
-                        tel: +48 239 329 321
+                    <p className="contact__top__section__data contact__top__section__data--phone">
+                        tel: +48 239 329 321<br/>
+                        Obsługiwany od poniedziałku do piątku w godzinach 8:00 - 16:00
                     </p>
                 </div>
                 <div className="contact__top__section">
@@ -104,7 +105,7 @@ const ContactPage = () => {
                 {loading ? <div className="center marginTop">
                     <Loader />
                 </div> : (status === 1 ? <span className="info">
-                    Dziękujemy za wiadomość! Odpowiemy najszybciej jak to możliwe!
+                    Dziękujemy za wiadomość. Odpowiemy najszybciej jak to możliwe.
                 </span> : (status === -1 ? <span className="info info--error">
                     Uzupełnij wymagane pola
                 </span> : (status === -2 ? <span className="info info--error">

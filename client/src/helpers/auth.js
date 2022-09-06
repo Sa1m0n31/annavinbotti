@@ -39,9 +39,9 @@ const loginAdmin = (login, password) => {
     });
 }
 
-const registerUser = (login, email, password, newsletter) => {
+const registerUser = (email, password, newsletter) => {
     return axios.post(`${API_URL}/user/register`, {
-        login, email, password, newsletter
+        email, password, newsletter
     });
 }
 

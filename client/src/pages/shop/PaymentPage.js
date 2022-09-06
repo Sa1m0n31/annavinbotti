@@ -9,7 +9,7 @@ import constans from "../../helpers/constants";
 
 const paymentMethods = [
     {
-        pl: 'Płatności internetowe (przelew internetowy, BLIK, karta płatnicza)',
+        pl: 'Płatności internetowe (przelew internetowy, BLIK)',
         en: 'Online payment'
     },
     {
@@ -116,9 +116,9 @@ const PaymentPage = () => {
                     Dane do przelewu
                 </h3>
                 <p className="transferData">
-                    50 5000 5000 5000 5000 500<br/>
-                    Bank ING<br/>
-                    AnnaVinbotti
+                    Nazwa firmy: Anna Kot<br/>
+                    Numer konta: 50 5000 5000 5000 5000 500<br/>
+                    Tytuł przelewu: #{orderId}
                 </p>
                 <p className="transferData">
                     Status Twojego zamówienia zostanie zmieniony po zaksięgowaniu płatności

@@ -1,6 +1,73 @@
 import axios from "axios";
 import {convertToRaw} from "draft-js";
 
+const menu = [
+    {
+        titlePl: 'Filozofia marki',
+        titleEn: 'Our brand',
+        link: '',
+        submenu: [
+            {
+                titlePl: "O nas",
+                titleEn: "About us",
+                link: '/o-nas'
+            },
+            {
+                titlePl: "Nasze wartości",
+                titleEn: "Our values",
+                link: '/nasze-wartosci'
+            }
+        ]
+    },
+    {
+        titlePl: 'Buty',
+        titleEn: 'Boots',
+        link: '',
+        submenu: [
+            {
+                titlePl: 'Jak powstają',
+                titleEn: 'Jak powstają',
+                link: '/jak-powstaja'
+            },
+            {
+                titlePl: 'Jak zamawiać',
+                titleEn: 'Jak zamawiać',
+                link: '/jak-zamawiac'
+            },
+            {
+                titlePl: 'Jak mierzyć stopę - czółenka',
+                titleEn: 'Jak mierzyc stopę - czółenka',
+                link: '/jak-mierzyc-stope-czolenka'
+            },
+            {
+                titlePl: 'Jak mierzyć stopę - oficerki',
+                titleEn: 'Jak mierzyc stopę - oficerki',
+                link: '/jak-mierzyc-stope-oficerki'
+            },
+            {
+                titlePl: 'Jak pielęgnować',
+                titleEn: 'Jak pielęgnować',
+                link: '/jak-pielegnowac'
+            }
+        ]
+    },
+    {
+        titlePl: 'Sklep',
+        titleEn: 'Shop',
+        link: '/sklep'
+    },
+    {
+        titlePl: 'Blog',
+        titleEn: 'Blog',
+        link: '/blog'
+    },
+    {
+        titlePl: 'Kontakt',
+        titleEn: 'Contact',
+        link: '/kontakt'
+    }
+];
+
 const getTermsPl = () => {
     return axios.get('/content/get-terms-pl');
 }
@@ -61,4 +128,4 @@ const getField = (field) => {
     });
 }
 
-export { getTermsPl, getTermsEn, updateTermsPl, updateTermsEn, getStats, getFAQ, getField }
+export { getTermsPl, getTermsEn, updateTermsPl, updateTermsEn, menu, getStats, getFAQ, getField }

@@ -224,23 +224,21 @@ function App() {
       <Route path="/jak-pielegnowac">
         <Page field="page_6" title={language === 'pl' ? 'Jak pielęgnować' : 'Jak pielęgnować'} />
       </Route>
-      <Route path="/odstapienie-od-umowy">
-        <Page field="page_7" title={language === 'pl' ? 'Odstąpienie od umowy' : 'Odstąpienie od umowy'} />
+      <Route path="/gwarancja">
+        <Page field="page_7" title={language === 'pl' ? 'Gwarancja' : 'Gwarancja'} />
       </Route>
-      <Route path="/wysylka">
-        <Page field="page_8" title={language === 'pl' ? 'Wysyłka' : 'Wysyłka'} />
-      </Route>
-      <Route path="/sposoby-platnosci">
-        <Page field="page_9" title={language === 'pl' ? 'Sposoby płatności' : 'Sposoby płatności'} />
-      </Route>
-      <Route path="/adres-do-wysylki">
-        <Page field="page_10" title={language === 'pl' ? 'Adres do wysyłki' : 'Adres do wysyłki'} />
+      <Route path="/adres-do-korespondencji">
+        <Page field="page_10" title={language === 'pl' ? 'Adres do korespondencji' : 'Adres do korespondencji'} />
       </Route>
       <Route path="/regulamin">
-        <Page field="terms_of_service" title={language === 'pl' ? 'Regulamin' : 'Terms of Service'} />
+        <Page field="terms_of_service"
+              width100={true}
+              title={language === 'pl' ? 'Regulamin' : 'Terms of Service'} />
       </Route>
       <Route path="/polityka-prywatnosci">
-        <Page field="privacy_policy" title={language === 'pl' ? 'Polityka prywatności' : 'Privacy policy'} />
+        <Page field="privacy_policy"
+              width100={true}
+              title={language === 'pl' ? 'Polityka prywatności' : 'Privacy policy'} />
       </Route>
 
       {/* USER */}

@@ -11,81 +11,27 @@ import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import facebookIcon from "../../static/img/facebook.svg";
 import instagramIcon from "../../static/img/instagram.svg";
+import {menu} from "../../helpers/content";
+import {isLoggedIn} from "../../helpers/auth";
+import {logout} from "../../helpers/user";
 
 const TopHeader = () => {
     const { language, setLanguage } = useContext(ContentContext);
     const { cartContent } = useContext(CartContext);
 
     const [mobileSubmenu, setMobileSubmenu] = useState(-1);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const mobileMenu = useRef(null);
 
-    const menu = [
-        {
-            titlePl: 'Filozofia marki',
-            titleEn: 'Our brand',
-            link: '',
-            submenu: [
-                {
-                    titlePl: "O nas",
-                    titleEn: "About us",
-                    link: '/o-nas'
-                },
-                {
-                    titlePl: "Nasze watości",
-                    titleEn: "Our values",
-                    link: '/nasze-wartosci'
+    useEffect(() => {
+        isLoggedIn()
+            .then((res) => {
+                if(res?.status === 200) {
+                    setLoggedIn(true);
                 }
-            ]
-        },
-        {
-            titlePl: 'Buty',
-            titleEn: 'Boots',
-            link: '',
-            submenu: [
-                {
-                    titlePl: 'Jak powstają',
-                    titleEn: 'Jak powstają',
-                    link: '/jak-powstaja'
-                },
-                {
-                    titlePl: 'Jak zamawiać',
-                    titleEn: 'Jak zamawiać',
-                    link: '/jak-zamawiac'
-                },
-                {
-                    titlePl: 'Jak mierzyć stopę - czółenka',
-                    titleEn: 'Jak mierzyc stopę - czółenka',
-                    link: '/jak-mierzyc-stope-czolenka'
-                },
-                {
-                    titlePl: 'Jak mierzyć stopę - oficerki',
-                    titleEn: 'Jak mierzyc stopę - oficerki',
-                    link: '/jak-mierzyc-stope-oficerki'
-                },
-                {
-                    titlePl: 'Jak pielęgnować',
-                    titleEn: 'Jak pielęgnować',
-                    link: '/jak-pielegnowac'
-                }
-            ]
-        },
-        {
-            titlePl: 'Sklep',
-            titleEn: 'Shop',
-            link: '/sklep'
-        },
-        {
-            titlePl: 'Blog',
-            titleEn: 'Blog',
-            link: '/blog'
-        },
-        {
-            titlePl: 'Kontakt',
-            titleEn: 'Contact',
-            link: '/kontakt'
-        }
-    ];
+            });
+    }, []);
 
     useEffect(() => {
         if(mobileMenu?.current) {
@@ -156,9 +102,14 @@ const TopHeader = () => {
             </a>
 
             <div className="topHeader__firstRow__right flex d-desktop">
-                <a href="/moje-konto" className="topHeader__firstRow__right__link">
+                <a href="/moje-konto"
+                   className={loggedIn ? "topHeader__firstRow__right__link topHeader__firstRow__right__link--logoutOnHover" : "topHeader__firstRow__right__link"}>
                     <img className="img" src={userIcon} alt="moje-konto" />
                 </a>
+                <button className="topHeader__logout"
+                        onClick={() => { logout(); }}>
+                    Wyloguj się
+                </button>
                 <a href="/zamowienie" className="topHeader__firstRow__right__link">
                     <img className="img" src={cartIcon} alt="koszyk" />
                     {cartContent?.length ? <span className="cartCounter">

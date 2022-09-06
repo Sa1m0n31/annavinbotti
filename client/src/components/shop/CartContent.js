@@ -116,34 +116,38 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
 
             </div>
 
-            <div className="shipping">
-                <h3 className="shipping__header">
-                    Wybierz metodę dostawy
-                </h3>
-                {shippingMethods.map((item, index) => {
-                    return <button className={shipping === index ? "shipping__method shipping__method--selected" : "shipping__method"}
-                                   onClick={() => { setShipping(index); }}>
-                        <span className="shipping__method__left">
-                            <span className="shipping__method__circle">
+            {/*<div className="shipping">*/}
+            {/*    <h3 className="shipping__header">*/}
+            {/*        Wybierz metodę dostawy*/}
+            {/*    </h3>*/}
+            {/*    {shippingMethods.map((item, index) => {*/}
+            {/*        return <button className={shipping === index ? "shipping__method shipping__method--selected" : "shipping__method"}*/}
+            {/*                       onClick={() => { setShipping(index); }}>*/}
+            {/*            <span className="shipping__method__left">*/}
+            {/*                <span className="shipping__method__circle">*/}
 
-                            </span>
-                            <img className="shipping__method__img" src={item.icon} alt={item.pl} />
-                            <span className="shipping__method__name">
-                                {language === 'pl' ? item.pl : item.en}
-                            </span>
-                        </span>
-                        <span className="shipping__method__price">
-                            GRATIS
-                        </span>
-                    </button>
-                })}
-            </div>
+            {/*                </span>*/}
+            {/*                <img className="shipping__method__img" src={item.icon} alt={item.pl} />*/}
+            {/*                <span className="shipping__method__name">*/}
+            {/*                    {language === 'pl' ? item.pl : item.en}*/}
+            {/*                </span>*/}
+            {/*            </span>*/}
+            {/*            <span className="shipping__method__price">*/}
+            {/*                GRATIS*/}
+            {/*            </span>*/}
+            {/*        </button>*/}
+            {/*    })}*/}
+            {/*</div>*/}
         </div>
         <div className="cart__right">
             <div className="cart__summary">
                 <h4 className="cart__summary__header">
                     Podsumowanie
                 </h4>
+                <div className="cart__summary__row flex">
+                    <span>Metoda dostawy</span>
+                    <span>Kurier</span>
+                </div>
                 <div className="cart__summary__row flex">
                     <span>Koszt dostawy</span>
                     <span>Gratis</span>

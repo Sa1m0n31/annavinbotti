@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
-import {verifyPasswordToken} from "../../helpers/user";
 import {verifyNewsletter} from "../../helpers/newsletter";
 import LoadingPage from "../../components/shop/LoadingPage";
 
@@ -22,7 +21,7 @@ const NewsletterVerification = () => {
                         window.location = '/';
                     }
                 })
-                .catch(() => {
+                .catch((err) => {
                     window.location = '/';
                 });
         }

@@ -22,6 +22,7 @@ import FormDetails from "../../pages/admin/FormDetails";
 import ChangeAdminPassword from "../../pages/admin/ChangeAdminPassword";
 import FormType2Details from "../../pages/admin/FormType2Details";
 import AddonsStocks from "../../pages/admin/AddonsStocks";
+import { Helmet } from 'react-helmet'
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -108,7 +109,12 @@ const AdminWrapper = ({page}) => {
         setLoaded(true);
     }, []);
 
-    return loaded ? renderPage : <LoadingPage />
+    return loaded ? <>
+        <Helmet>
+            <title>Anna Vinbotti - panel administracyjny</title>
+        </Helmet>
+        {renderPage}
+    </> : <LoadingPage />
 };
 
 export default AdminWrapper;

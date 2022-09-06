@@ -44,10 +44,6 @@ const SideCart = () => {
             <span>Koszt dostawy</span>
             <span>GRATIS</span>
         </div>
-        <div className="cart__summary__row flex">
-            <span>Koszt płatności</span>
-            <span>GRATIS</span>
-        </div>
         <div className="cart__summary__summaryRow flex">
             <span>Razem</span>
             <span>{cartSum} PLN</span>

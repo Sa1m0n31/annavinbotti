@@ -1,10 +1,4 @@
 @media(max-width: 1600px) {
-    .shop__products__item {
-        width: 43vw;
-        height: calc(40vw / 0.666);
-        margin-bottom: 55px;
-    }
-
     .orderDetails__header {
         font-size: 32px;
     }
@@ -69,11 +63,11 @@
     }
 
     .homepageModels__item {
-        margin-top: 50px;
+        margin-top: 30px;
     }
 
     .homepageModels__item__header {
-        font-size: 18px;
+        font-size: 15px;
     }
 
     .afterSlider__item__header {
@@ -125,6 +119,14 @@
 @media(max-width: 1200px) {
     .productDetails {
         max-width: 90vw;
+    }
+
+    .footer__col > .footer__phoneNumber {
+        margin-top: 0;
+    }
+
+    .footer__logo {
+        transform: none;
     }
 
     .addon__option__tooltip {
@@ -279,6 +281,17 @@
         flex-direction: column;
     }
 
+    .shop__header,
+    .filterSection,
+    .shop__products {
+        max-width: 90%;
+    }
+
+    .shop__products__item {
+        width: 40vw;
+        height: calc(40vw / 0.666666);
+    }
+
     .info--error--order {
         text-align: center;
     }
@@ -414,7 +427,7 @@
     }
 
     .afterSlider {
-        padding: 60px 0 20px;
+        padding: 40px 0 20px;
     }
 
     .newsletter__header {
@@ -450,6 +463,11 @@
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .page__content > figure {
+        max-width: 70vw;
+        margin: 15px auto;
     }
 
     .blog__header {
@@ -1206,11 +1224,14 @@
     }
 
     .homepage__header {
-        font-size: 24px;
+        font-size: 21px;
+        max-width: 80vw;
+        margin: auto;
     }
 
     .afterSlider__item figure {
-        max-width: 80vw;
+        max-width: 50vw;
+        margin: auto;
     }
 
     .afterSlider__item::after {
@@ -1218,15 +1239,16 @@
     }
 
     .afterSlider__item {
-        margin: 40px auto 50px;
+        margin: 40px auto 20px;
     }
 
     .afterSlider__item__header {
         font-size: 18px;
+        margin-top: 8px;
     }
 
     .homepageModels__item {
-        max-width: 80vw;
+        max-width: 70vw;
     }
 
     .input--newsletter {

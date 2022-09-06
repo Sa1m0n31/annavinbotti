@@ -14,7 +14,6 @@ import arrowDownGoldIcon from '../../static/img/arrow-down-gold.svg'
 import {addToWaitlist} from "../../helpers/orders";
 import {isEmail} from "../../helpers/others";
 import Slider from "react-slick";
-import { Tooltip } from "react-tippy";
 
 const settings = {
     dots: false,
@@ -312,9 +311,11 @@ const ProductPage = () => {
                 </p>
 
                 {/* ADDONS */}
+                <h3 className="addons__header">
+                    Wybierz dodatki
+                </h3>
                 {addons?.map((item, index) => {
                     const ad = item[1];
-                    console.log(item);
                     const conditionIf = ad[0].show_if;
                     const conditionIsEqual = ad[0].is_equal;
                     if(ad && (conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf)) {
@@ -361,7 +362,7 @@ const ProductPage = () => {
                 })}
 
                 {waitlistInputVisible ? (waitlistSuccess ? <span className="info info--waitlist">
-                    Dziękujemy za zapisanie się na listę kolejkową! Poinformujemy Cię model, gdy produkt będzie dostępny!
+                    Dziękujemy za zapisanie się na listę kolejkową. Poinformujemy Cię, gdy produkt będzie dostępny!
                 </span> : <>
                     <label className="waitlistLabel">
                         Wpisz swój adres e-mail, a my powiadomimy Cię, gdy produkt będzie dostępny
@@ -374,11 +375,15 @@ const ProductPage = () => {
                         {emailError}
                     </span> : ''}
                     <button className="btn btn--productContent btn--waitlist" onClick={() => { waitlist(); }}>
-                        Zapisz się na waitlistę
+                        Zapisz się na listę kolejkową
                     </button>
                 </>) : <>
                     <p className="productContent__info">
-                        Rezerwacja produktu oznacza, że masz 7 dni kalendarzowych na podanie wymiarów stopy. Po ich podaniu oraz naszej weryfikacji otrzymasz link do płatności. Zamówienie jest przyjęte do realizacji po zaksięgowaniu płatności.
+                        Rezerwacja produktu oznacza, że masz 7 dni kalendarzowych na
+                        podanie wymiarów stopy i przesłanie nam oryginalnych kartek z obrysem stopy prawej
+                        i lewej na nasz adres korespondencyjny. Po ich podaniu oraz naszej weryfikacji
+                        otrzymasz link do płatności. Zamówienie jest przyjęte do realizacji
+                        po zaksięgowaniu płatności.
                     </p>
 
                     {addonsError ? <p className="info info--error">

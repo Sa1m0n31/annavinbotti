@@ -56,9 +56,9 @@ const checkWaitlists = (response) => {
                         from: process.env.EMAIL_ADDRESS_WITH_NAME,
                         to: [],
                         bcc: emails,
-                        subject: 'Twój produkt jest już dostępny!',
-                        html: emailTemplate('Dobra wiadomość!',
-                            'Twój produkt jest już dostępny w naszym sklepie. Wejdź w poniższy link i zarezerwuj:',
+                        subject: 'Twój produkt jest już dostępny',
+                        html: emailTemplate('Dobra wiadomość',
+                            'Produkt jest już dostępny w naszym sklepie. Wejdź w poniższy link i zarezerwuj:',
                             `${process.env.API_URL}/sklep`,
                             'Przejdź do sklepu'
                         )

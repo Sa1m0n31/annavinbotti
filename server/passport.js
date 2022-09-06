@@ -5,12 +5,12 @@ const LocalStrategy = require("passport-local").Strategy;
 const init = (passport) => {
     const userAuth = (username, password, done) => {
         const hash = crypto.createHash('sha256').update(password).digest('hex');
-        let query = 'SELECT id, login, active FROM users WHERE (email = $1 OR login = $1) AND password = $2';
+        let query = 'SELECT id, active FROM users WHERE email = $1 AND password = $2';
         let values = [username, hash];
 
         // Remember me auth
         if(password === process.env.AUTH_SECRET_KEY) {
-            query = 'SELECT id, login, active FROM users WHERE (email = $1 OR login = $1)';
+            query = 'SELECT id, active FROM users WHERE email = $1';
             values = [username];
         }
 

@@ -3,11 +3,11 @@ import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
 import {ContentContext} from "../../App";
 import {getField} from "../../helpers/content";
-import {convertFromRaw, EditorState} from "draft-js";
+import {convertFromRaw} from "draft-js";
 import {stateToHTML} from "draft-js-export-html";
 import LoadingPage from "../../components/shop/LoadingPage";
 
-const Page = ({title, field, addon}) => {
+const Page = ({title, field, width100, addon}) => {
     const { language } = useContext(ContentContext);
 
     const [pageContent, setPageContent] = useState(null);
@@ -29,10 +29,11 @@ const Page = ({title, field, addon}) => {
     return pageContent ? <div className="container">
         <PageHeader />
         <main className="page w">
-            <h1 className="pageHeading">
+            <h1 className={width100 ? "pageHeading page100" : "pageHeading"}>
                 {title}
             </h1>
-            <article className="page__content" dangerouslySetInnerHTML={{__html: stateToHTML((convertFromRaw(JSON.parse(
+            <article className={width100 ? "page__content page100" : "page__content"}
+                     dangerouslySetInnerHTML={{__html: stateToHTML((convertFromRaw(JSON.parse(
                     pageContent)
                 )))}}>
 

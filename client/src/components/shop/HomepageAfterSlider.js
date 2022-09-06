@@ -7,7 +7,7 @@ const HomepageAfterSlider = () => {
         <h2 className="homepage__header">
             Chcesz wiedzieć więcej?
         </h2>
-        <div className="flex">
+        <div className="flex flex--afterSlider">
             <a className="afterSlider__item" href="/jak-zamawiac">
                 <figure>
                     <img className="img" src={img1} alt="img1" />
