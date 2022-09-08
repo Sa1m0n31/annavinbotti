@@ -100,14 +100,14 @@ const emailTemplate = (header, text, btnLink, btnText) => {
             ${text}
         </p>
         <a style="text-decoration: none; background: #B9A16B; 
-        color: #222; width: 400px; max-width: 80vw; display: block; box-sizing: content-box; border-radius: 30px; 
-        padding: 20px 0; height: 20px; min-height: 20px; 
+        color: #222; width: 350px; max-width: 80vw; display: block; box-sizing: content-box; border-radius: 30px; 
+        padding: 10px 0; height: 20px; min-height: 20px; 
         text-align: center; margin: 20px auto 10px; text-transform: uppercase;
         font-weight: 700;" href="${btnLink}">
             ${btnText}
         </a>
         <p style="color: #B9A16B; margin-top: 40px;">Pozdrawiamy</p>
-        <p style="color: #B9A16B;">Zespół AnnaVinbotti</p>
+        <p style="color: #B9A16B;">Zespół Anna Vinbotti</p>
         </div>`
 }
 

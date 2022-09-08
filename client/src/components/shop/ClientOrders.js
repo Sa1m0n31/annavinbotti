@@ -111,7 +111,7 @@ const ClientOrders = () => {
         else if(status === 3) {
             return [
                 {
-                    pl: 'Opłać zamówienie',
+                    pl: 'Zamawiam i płacę',
                     en: 'Pay',
                     link: `/oplac-zamowienie?id=${orderId}`
                 }
@@ -121,8 +121,8 @@ const ClientOrders = () => {
             return getNumberOfSecondTypeForms(cart).map((item) => {
                 console.log(item);
                 return {
-                    pl: 'Zweryfikuj but na miarę',
-                    en: 'Zweryfikuj but na miarę',
+                    pl: 'Zweryfikuj but do miary',
+                    en: 'Zweryfikuj but do miary',
                     link: `/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item}`
                 }
             });

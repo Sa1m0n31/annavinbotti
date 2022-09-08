@@ -69,10 +69,8 @@ const PaymentPage = () => {
     }, [])
 
     const pay = () => {
-        console.log('pay');
         payOrder(orderId, payment, user.firstName, user.lastName, user.email)
             .then((res) => {
-                console.log(res);
                 if(payment === 0) {
                     // imoje - online payment
                     if(res?.data?.id) {
@@ -87,7 +85,6 @@ const PaymentPage = () => {
                 }
             })
             .catch((err) => {
-                console.log(err);
                 if(err?.response?.data?.code === "ERR_NON_2XX_3XX_RESPONSE") {
                     setError('Uzupełnij swoje imię i nazwisko w ustawieniach profilu');
                 }
@@ -149,7 +146,7 @@ const PaymentPage = () => {
                 </span> : ''}
 
                 <button className="btn btn--sendForm" onClick={() => { pay(); }}>
-                    Opłać zamówienie
+                    Zamawiam i płacę
                 </button>
             </div>}
         </main> : <div className="center marginTop">

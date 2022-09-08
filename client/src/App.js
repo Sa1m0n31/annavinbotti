@@ -159,7 +159,11 @@ function App() {
   }, [language]);
 
   return render ? <CartContext.Provider value={{cartContent, addToCart, removeFromCart, decrementFromCart}}>
-    <ContentContext.Provider value={{content, language, setLanguage}}><Router>
+    <ContentContext.Provider value={{content, language, setLanguage}}>
+
+      <script id="CookieDeclaration" src="https://consent.cookiebot.com/2078d6f6-502a-4a67-88a4-8578b7204f5b/cd.js" type="text/javascript" async></script>
+
+      <Router>
       {/* GLOBAL */}
       <Route exact path="/">
         <Homepage />

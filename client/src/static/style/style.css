@@ -1291,6 +1291,12 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     margin-bottom: 15px;
 }
 
+@media(min-width: 1400px) {
+    .page article img {
+        max-width: 1000px;
+    }
+}
+
 .page ul,
 .productDetails > div ul {
     list-style-type: disc;
@@ -1914,25 +1920,25 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .orderDetails__statuses .orderStatus {
     margin-bottom: 50px;
+    position: relative;
 }
 
 .orderDetails__statuses .orderStatus > span {
     position: relative;
 }
 
-.orderDetails__statuses .orderStatus:not(:last-child) > span::before {
+.orderDetails__statuses .orderStatus:not(:last-child)::before {
     content: "";
     position: absolute;
-    bottom: -35px;
-    height: 20px;
+    top: 50px;
+    height: 65%;
     background: var(--secondary);
     width: 2px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 20px;
 }
 
-.orderDetails__statuses .orderStatus:not(:last-child) > .orderStatus__number--currentStatus::before {
-    bottom: -40px;
+.orderDetails__statuses .orderStatus--current::before {
+    top: 70px !important;
 }
 
 .orderStatus__buttons {
@@ -2526,9 +2532,12 @@ textarea {
 }
 
 .blog__header {
-    max-width: 1000px;
     margin: 50px auto;
     text-transform: uppercase;
+}
+
+.blog__header--post {
+    max-width: 1000px;
 }
 
 .blog__content {
@@ -3122,4 +3131,53 @@ textarea {
 
 .checkboxText a:hover {
     opacity: 1;
+}
+
+.colorModal label,
+.colorModal .input {
+    width: 100%;
+    height: 45px;
+}
+
+.colorModal .form__addons__label {
+    margin: 20px 0 0;
+}
+
+.colorModal .checkboxText {
+    font-size: 12px;
+}
+
+.colorModal--waitlist .colorModal__inner {
+    height: 400px;
+}
+
+.colorModal--waitlist .btn {
+    width: 100%;
+}
+
+.colorModal .info {
+    font-size: 12px;
+    padding-top: 15px;
+    margin-bottom: -30px;
+}
+
+.colorModal .btn--marginTop {
+    margin-top: 40px;
+}
+
+.colorModal--waitlist .info--success {
+    font-size: 16px;
+    margin-top: -15px;
+}
+
+.colorModal__header--success {
+    margin-top: 10px;
+    padding-top: 0;
+    text-align: center;
+}
+
+.colorModal--waitlist .btn--success {
+    width: 300px;
+    max-width: 100%;
+    margin-top: 60px;
 }

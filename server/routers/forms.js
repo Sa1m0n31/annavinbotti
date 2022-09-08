@@ -218,7 +218,7 @@ router.delete('/delete', (request, response) => {
 
 // -------------------
 
-const sendStatus2Email = (email, response) => {
+const sendStatus2Email = (email, response, orderId) => {
     let mailOptions = {
         from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
@@ -235,11 +235,26 @@ font-size: 16px;
                 <p style="color: #B9A16B;">
                     Dzień dobry,
                 </p>
-                <p style="color: #B9A16B;">
-                    Dziękujemy za uzupełnienie Formularza Mierzenia Stopy oraz przesłanie nam obrysów stóp. Aktualnie weryfikujemy przesłane dane. Po ich zaakceptowaniu, otrzymasz wiadomość o dalszych krokach.
+                <p style="color: #B9A16B; margin: 10px 0;">
+                    Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.    
                 </p>
+                <p style="color: #B9A16B; margin: 10px 0;">
+                    Dziękujemy za uzupełnienie Formularza Mierzenia Stopy.
+                </p>
+                <p style="color: #B9A16B; margin: 10px 0;">
+                    Prosimy o przesłanie nam oryginalnych kartek z obrysami stopy lewej oraz prawej wraz z dodaną informacją o numerze rezerwacji na nasz adres korespondencyjny
+                </p>
+                <p style="color: #B9A16B; text-align: center;">
+                    Sklep Anna Vinbotti<br/>
+                    Ul. Tomasza Zana 43 / lok. 2.1<br/>
+                    20 – 601 Lublin
+                </p>
+                <p style="color: #B9A16B; margin: 10px 0;">
+                    Gdy otrzymamy obrysy, zweryfikujemy dostarczone nam informacje o wymiarach stóp. Po ich zaakceptowaniu, otrzymasz link do płatności.
+                </p>
+                
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
     }
 
@@ -248,11 +263,11 @@ font-size: 16px;
     });
 }
 
-const sendStatus6Email = (email, response) => {
+const sendStatus6Email = (email, response, orderId) => {
     let mailOptions = {
         from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
-        subject: 'But Do Miary Został Zweryfikowany',
+        subject: 'But do miary został zweryfikowany',
         html: `<head>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <style>
@@ -265,11 +280,14 @@ font-size: 16px;
                 <p style="color: #B9A16B;">
                     Dzień dobry,
                 </p>
+                 <p style="color: #B9A16B;">
+                    Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.    
+                </p>
                 <p style="color: #B9A16B;">
-                    Dziękujemy za weryfikację Buta Do Miary oraz wypełnienie formularza. W kolejnej wiadomości, poinformujemy o dalszym etapie.
+                    Dziękujemy za weryfikację Buta Do Miary oraz wypełnienie formularza. Jeśli z naszej strony pojawią się wątpliwości dotyczące podanych informacji, będziemy się kontaktować.
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
     }
 
@@ -410,7 +428,7 @@ router.post('/send-form', upload.fields([
                                                                const values = [orderId, 2];
 
                                                                db.query(query, values, (err, res) => {
-                                                                   sendStatus2Email(email, response);
+                                                                   sendStatus2Email(email, response, orderId);
                                                                });
                                                            });
                                                        }
@@ -423,7 +441,7 @@ router.post('/send-form', upload.fields([
                                                                const values = [orderId, 6];
 
                                                                db.query(query, values, (err, res) => {
-                                                                   sendStatus6Email(email, response);
+                                                                   sendStatus6Email(email, response, orderId);
                                                                });
                                                            });
                                                        }

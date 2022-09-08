@@ -81,7 +81,7 @@ const BlogPost = () => {
         {rendering ? <div className="container--loader container--loader--blogPost">
             <Loader />
         </div> : <main className="post w">
-            <h1 className="blog__header">
+            <h1 className="blog__header blog__header--post">
                 {language === 'pl' ? post.title_pl : post.title_en}
             </h1>
             <div className="blog__meta flex">

@@ -85,12 +85,14 @@ const sendStatus1Mail = (response, orderId, email) => {
         if(res) {
             const r = res.rows;
 
-            const formsLinks = r.map((item) => {
+            const formsLinksArray = r.map((item) => {
                 return `<a style="margin: 5px 0; display: block; color: #B9A16B; text-decoration: underline;"
  href="${process.env.API_URL}/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item.type}">
                         ${process.env.API_URL}/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item.type}
 </a>`
-            }).join('');
+            });
+
+            const formsLinks = formsLinksArray.join('');
 
             const addons = r.map((item) => {
                 return item.addons.split(';').map((item) => {
@@ -130,31 +132,44 @@ font-size: 16px;
                 </p>
                 ${cart}       
                 <p style="color: #B9A16B;">
-                    Czekamy <b>7 dni</b> na wypełnienie Formularza Mierzenia Stopy oraz wysłanie nam oryginalnych kartek z obrysem stopy prawej oraz lewej na nasz adres korespondencyjny Lublin. 
+                    Czekamy <b>7 dni</b> na wypełnienie Formularza Mierzenia Stopy oraz wysłanie nam oryginalnych kartek z obrysem stopy prawej oraz lewej na nasz adres korespondencyjny. 
+                </p>
+                <p style="color: #B9A16B; text-align: center;">
+                    Sklep Anna Vinbotti<br/>
+                    Ul. Tomasza Zana 43 / lok. 2.1<br/>
+                    20 – 601 Lublin
                 </p>
                 <p style="color: #B9A16B;">
                     Formularz Mierzenia Stopy znajduje się bezpośrednio pod
-                    ${formsLinks?.length > 1 ? 'linkami' : 'linkiem'}:
+                    ${formsLinksArray?.length > 1 ? 'linkami' : 'linkiem'}:
                     
                     ${formsLinks} 
                 </p>
                 <p style="color: #B9A16B;">
                     Można go również otworzyć poprzez Panel Klienta:
                 </p>
-                <img src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/screen.png" 
+                <img src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/screen1.png" 
                 style="display: block; margin: 30px auto; max-width: 90%;" alt="anna-vinbotti" />
                                 
                 <p style="color: #B9A16B;">
-                    Przy wypełnianiu Formularza Mierzenia Stopy, prosimy postępować krok po kroku tak jak jest to opisane w artykule 
-                    <a href="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/jak-mierzyc" target="_blank" style="text-decoration: underline; text-transform: uppercase; color: #B9A16B; font-weight: 700;">
-                    Jak mierzyć?</a>
-                     na naszej stronie www. 
+                    Przy wypełnianiu Formularza Mierzenia Stopy, prosimy postępować krok po kroku tak jak jest to opisane w artykułach na naszej stronie www:
+                    
+                    <a href="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/jak-mierzyc-stope-czolenka" 
+                        target="_blank" 
+                        style="text-decoration: underline; display: block; margin: 15px 0; text-transform: uppercase; color: #B9A16B; font-weight: 700;">
+                        Jak mierzyć stopę - czółenka
+                    </a>
+                    <a href="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/jak-mierzyc-stope-oficerki" 
+                        target="_blank" 
+                        style="text-decoration: underline; display: block; margin: 15px 0; text-transform: uppercase; color: #B9A16B; font-weight: 700;">
+                        Jak mierzyć stopę - oficerki
+                    </a>
                 </p>
                 <p style="color: #B9A16B;">
                     Zastrzegamy, że w przypadku braku wypełnienia Formularza oraz dostarczenia nam obrysów, rezerwacja zostanie anulowana. 
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
             }
 
@@ -409,7 +424,7 @@ router.post('/add', (request, response) => {
     }
 });
 
-const sendStatus3Email = (email, response) => {
+const sendStatus3Email = (email, response, orderId) => {
     let mailOptions = {
         from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
@@ -427,16 +442,26 @@ font-size: 16px;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B;">
+                   Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.
+                </p>  
+                <p style="color: #B9A16B;">
                     Miło nam poinformować, że pomyślnie zweryfikowaliśmy dostarczone informacje, dotyczące wymiaru stóp.
-                    </p>
+                </p>
                 <p style="color: #B9A16B;">
                     Zamówienie zostanie przyjęte do realizacji po zaksięgowaniu płatności.
-                    </p>
-                <p style="color: #B9A16B;">
-                    Prosimy o dokonanie płatności na stronie anna-vinbotti.com, w zakładce Panel Klienta -> Zamówienia.
                 </p>
+                <p style="color: #B9A16B;">
+                    Prosimy o dokonanie płatności na stronie anna-vinbotti.com, w zakładce Panel Klienta/Zamówienia.
+                </p>
+                <a style="text-decoration: none; background: #B9A16B; 
+                    color: #222; width: 350px; max-width: 80vw; display: block; box-sizing: content-box; border-radius: 30px; 
+                    padding: 10px 0; height: 20px; min-height: 20px; 
+                    text-align: center; margin: 20px auto 10px; text-transform: uppercase;
+                    font-weight: 700;" href="${process.env.API_URL}/informacje-o-zamowieniu?id=${orderId}">
+                    Zamawiam i płacę
+                </a>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
     }
 
@@ -490,7 +515,7 @@ const sendStatus4Email = (email, orderId, response = null, responseToPaymentGate
             let mailOptions = {
                 from: process.env.EMAIL_ADDRESS_WITH_NAME,
                 to: email,
-                subject: 'Zamówienie Przyjęto do Realizacji',
+                subject: 'Zamówienie przyjęto do realizacji',
                 html: `<head>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <style>
@@ -504,14 +529,17 @@ font-size: 16px;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B;">
-                    Dziękujemy za dokonanie płatności. Miło nam poinformować, że zamówienie o numerze #${orderId} zostało przyjęte do realizacji. Zamówienie dotyczy ${cart?.length > 1 ? 'następujących produktów' : 'następującego produktu'}:
+                    Dziękujemy za dokonanie płatności. Miło nam poinformować, że zamówienie o numerze #${orderId} zostało przyjęte do realizacji.
                     </p>
+                    <p style="color: #B9A16B;">
+                    Zamówienie dotyczy ${cart?.length > 1 ? 'następujących produktów' : 'następującego produktu'}:
+                </p>
                 ${cart}       
                 <p style="color: #B9A16B;">
                     Przystępujemy do pracy nad kopytem oraz wykonaniem Buta Do Miary.  
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
             }
 
@@ -541,7 +569,6 @@ const sendStatus5Email = (email, orderId, response) => {
     db.query(query, values, (err, res) => {
        if(res) {
            const r = res.rows[0];
-           const shipping = r.shipping;
            const deliveryNumber = r.delivery_number;
 
            const query = `SELECT prod.name_pl as product_name, prod.id,
@@ -568,17 +595,19 @@ const sendStatus5Email = (email, orderId, response) => {
               if(res) {
                   const r = res.rows;
 
-                  const formsLinks = r.map((item) => {
+                  const formsLinksArray = r.map((item) => {
                       return `<a style="margin: 5px 0; display: block; color: #B9A16B; text-decoration: underline;"
  href="${process.env.API_URL}/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}">
                         ${process.env.API_URL}/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}
 </a>`
-                  }).join('');
+                  });
+
+                  const formsLinks = formsLinksArray.join('');
 
                   let mailOptions = {
                       from: process.env.EMAIL_ADDRESS_WITH_NAME,
                       to: email,
-                      subject: 'But Do Miary Został Wysłany',
+                      subject: 'But do miary został wysłany',
                       html: `<head>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <style>
@@ -591,33 +620,36 @@ font-size: 16px;
                 <p style="color: #B9A16B;">
                     Dzień dobry,
                 </p>
+                 <p style="color: #B9A16B;">
+                   Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.
+                </p>  
                 <p style="color: #B9A16B;">
-                    But Do Miary został wysłany. <br/>
-                    Metoda wysyłki: ${shipping}. <br/>
-                    Numer przesyłki: ${deliveryNumber}. 
-                </p>       
+                   But Do Miary jest gotowy i został wysłany kurierem. Numer przesyłki to ${deliveryNumber}.
+                </p>  
                 <p style="color: #B9A16B;">
-                    Po otrzymaniu przesyłki prosimy o przymierzenie Buta do Miary i sprawdzenie, czy jego rozmiar jest odpowiedni. Zalecane jest aby chwilkę w nim pochodzić, tak aby móc stwierdzić, czy nie jest za luźny, lub też nigdzie nie uciska. Jeżeli jest to but na obcasie, warto w miarę możliwości na lewą stopę założyć but o obcasie w podobnej wysokości. 
-                </p>
+                   But Do Miary w żaden sposób nie odzwierciedla jakości oraz wykończenia Buta Finalnego. Nie odzwierciedla również dodatków, jakie zostały wybrane, na przykład koloru skóry. Ten but służy tylko i wyłącznie do weryfikacji, czy podane wymiary stopy są odpowiednie i czy możemy przystąpić do realizacji Buta Finalnego.
+                </p>  
                 <p style="color: #B9A16B;">
-                Prosimy również o wypełnienie ${formsLinks?.length > 1 ? 'Formularzy' : 'Formularza'} Buta do Miary ${formsLinks?.length > 1 ? 'znajdującego' : 'znajdujących'} się w Panelu Klienta.
-                 
-                 </p>
-                 
+                   Po otrzymaniu przesyłki prosimy o przymierzenie Buta do Miary i sprawdzenie, czy jego rozmiar jest odpowiedni. Zalecane jest aby chwilkę w nim pochodzić, tak aby móc stwierdzić, czy nie jest za luźny, lub też nigdzie nie uciska. Jeżeli jest to but na obcasie, warto w miarę możliwości na lewą stopę założyć but o obcasie w podobnej wysokości.
+                </p>  
+                
+                <p style="color: #B9A16B;">
+                   Prosimy również o wypełnienie ${formsLinksArray?.length > 1 ? 'Formularzy' : 'Formularza'} Buta do Miary (link), ${formsLinksArray?.length > 1 ? 'znajdującego' : 'znajdujących'} się w Panelu Klienta. 
+                </p>  
+                
                  ${formsLinks}
                  
-                 <p style="color: #B9A16B;">
-                 Dopiero po wypełnieniu Formularza Buta Do Miary, będziemy mogli przystąpić do pracy nad Finalną Parą Obuwia. 
-                </p>    
-
-                <img src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/screen.png" 
+                 <img src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/screen2.png" 
                 style="display: block; margin: 30px auto; max-width: 90%;" alt="anna-vinbotti" />
-                                
+                
                 <p style="color: #B9A16B;">
-                    Jeżeli istnieje taka możliwość, to prosilibyśmy o odesłanie nam Buta Do Miary. W tym celu prosimy o kontakt, wówczas wyślemy kuriera po przesyłkę. 
+                   Dopiero po wypełnieniu Formularza Buta Do Miary, będziemy mogli przystąpić do pracy nad Finalną Parą Obuwia.
+                </p>  
+                <p style="color: #B9A16B;">
+                   Jeżeli istnieje taka możliwość, prosimy o odesłanie nam Buta Do Miary. W tym celu prosimy o kontakt, wówczas wyślemy kuriera po przesyłkę.
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
                   }
 
@@ -636,11 +668,11 @@ font-size: 16px;
     });
 }
 
-const sendStatus7Email = (email, response) => {
+const sendStatus7Email = (email, response, orderId) => {
     let mailOptions = {
         from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: email,
-        subject: 'Realizacja Finalnej Pary Obuwia',
+        subject: 'Realizacja finalnej pary obuwia',
         html: `<head>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <style>
@@ -654,10 +686,13 @@ font-size: 16px;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B;">
-                    Miło nam poinformować, że przystąpiliśmy do realizacji Finalnej Pary Obuwia. Gdy będzie gotowy, zostaniesz o tym poinformowana w kolejnej wiadomości.
+                   Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.
+                </p>  
+                <p style="color: #B9A16B;">
+                    Miło nam poinformować, że przystąpiliśmy do realizacji Finalnej Pary Obuwia.
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
     }
 
@@ -677,7 +712,7 @@ const sendStatus8Email = (email, orderId, response) => {
             let mailOptions = {
                 from: process.env.EMAIL_ADDRESS_WITH_NAME,
                 to: email,
-                subject: 'Realizacja Finalnej Pary Obuwia',
+                subject: 'Finalna para obuwia została wysłana',
                 html: `<head>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <style>
@@ -691,16 +726,19 @@ font-size: 16px;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B;">
+                   Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.
+                </p>  
+                <p style="color: #B9A16B;">
                     Miło nam poinformować, że Finalna Para Obuwia została wysłana. Numer przesyłki to ${deliveryNumber}.
                 </p>
                 <p style="color: #B9A16B;">
-                    Mamy nadzieję, że nasz produkt będzie...
+                    Dziękujemy, że wspierasz ręczne rzemiosło.
                 </p>
                 <p style="color: #B9A16B;">
-                    Zachęcamy do podzielenia się opinią na... 
+                    Zachęcamy do podzielenia się opinią w mediach społecznościowych i oznaczenia naszej marki.
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
             }
 
@@ -711,7 +749,7 @@ font-size: 16px;
                     subject: 'Gwarancja do obuwia',
                     attachments: [
                         {
-                            filename: 'gwarancja-obuwia.pdf',
+                            filename: 'Gwarancja do obuwia Anna Vinbotti.pdf',
                             path: './media/static/gwarancja.pdf'
                         }
                     ],
@@ -728,10 +766,13 @@ font-size: 16px;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B;">
-                    Nasz produkt objęty jest dwuletnią gwarancją. W załączniku znajduje się dokument gwarancyjny.
+                   Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.
+                </p>  
+                <p style="color: #B9A16B;">
+                    Nasz produkt objęty jest dwuletnią gwarancją. W załączniku znajduje się dokument.
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
                 }
 
@@ -759,7 +800,7 @@ router.put('/change-status', (request, response) => {
 
             db.query(query, values, (err, res) => {
                 if(status === 3) {
-                    sendStatus3Email(email, response);
+                    sendStatus3Email(email, response, id);
                 }
                 else if(status === 4) {
                     sendStatus4Email(email, id, response);
@@ -768,7 +809,7 @@ router.put('/change-status', (request, response) => {
                     sendStatus5Email(email, id, response);
                 }
                 else if(status === 7) {
-                    sendStatus7Email(email, response);
+                    sendStatus7Email(email, response, id);
                 }
                 else if(status === 8) {
                     sendStatus8Email(email, id, response);
@@ -1055,6 +1096,8 @@ router.post('/payment-notification', (request, response) => {
 router.post('/add-to-waitlist', (request, response) => {
    const { email, product } = request.body;
 
+   console.log(email, product);
+
    if(email && product) {
        const query = `INSERT INTO waitlist VALUES ($1, LOWER($2), NOW())`;
        const values = [product, email];
@@ -1121,7 +1164,7 @@ font-family: 'Roboto', sans-serif;
                     W przypadku braku ich dostarczenia, rezerwacja zostanie anulowana.
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
           }
 
@@ -1162,7 +1205,7 @@ font-family: 'Roboto', sans-serif;
                     Nie otrzymaliśmy wszystkich niezbędnych informacji, dotyczących wymiarów stóp, potrzebnych do dalszego procesowania Twojej rezerwacji o numerze #${id} W związku  powyższym, rezerwacja została anulowana. 
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
           }
 

@@ -5,7 +5,13 @@ import {isLoggedIn} from "../../helpers/auth";
 import Loader from "./Loader";
 import {getUserInfo} from "../../helpers/user";
 import OrderFormFields from "./OrderFormFields";
-import {isEmail} from "../../helpers/others";
+import {
+    isAlphanumeric,
+    isEmail,
+    isInteger,
+    validatePhoneNumberChange,
+    validatePostalCodeChange
+} from "../../helpers/others";
 import {addOrder} from "../../helpers/orders";
 import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
@@ -25,7 +31,6 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
     const [error, setError] = useState("");
     const [c1, setC1] = useState(false);
     const [c2, setC2] = useState(false);
-    const [c3, setC3] = useState(false);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [outOfStock, setOutOfStock] = useState(false);
 
@@ -57,7 +62,45 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
 
     const handleFieldChange = (event, fieldId) => {
         let newFields = { ...formFields };
-        newFields[fieldId] = typeof event !== "boolean" ? event.target.value : event;
+
+        if(fieldId === 'phoneNumber' || fieldId === 'deliveryPhoneNumber') {
+            if(validatePhoneNumberChange(event.target.value)) {
+                newFields[fieldId] = event.target.value;
+            }
+        }
+        else if(fieldId === 'postalCode') {
+            newFields[fieldId] = validatePostalCodeChange(formFields.postalCode, event.target.value);
+        }
+        else if(fieldId === 'deliveryPostalCode') {
+            newFields[fieldId] = validatePostalCodeChange(formFields.deliveryPostalCode, event.target.value);
+        }
+        else if(fieldId === 'flat' || fieldId === 'building' || fieldId === 'deliveryFlat' || fieldId === 'deliveryBuilding') {
+            if(event.target.value.length) {
+                if(isAlphanumeric(event.target.value)) {
+                    newFields[fieldId] = event.target.value;
+                }
+                else {
+                    newFields[fieldId] = event.target.value.slice(0, -1);
+                }
+            }
+            else {
+                newFields[fieldId] = '';
+            }
+        }
+        else if(fieldId === 'nip') {
+            const n = event.target.value;
+
+            if(isInteger(n) && n.charAt(n.length-1) !== '.' && n.length <= 10) {
+                newFields[fieldId] = n;
+            }
+            else {
+                newFields[fieldId] = n.slice(0, -1);
+            }
+        }
+        else {
+            newFields[fieldId] = typeof event !== "boolean" ? event.target.value : event;
+        }
+
         setFormFields(newFields);
     }
 
@@ -135,7 +178,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
     }, [formVisible]);
 
     const validateOrder = () => {
-        if(!c1 || !c2) {
+        if(!c1) {
             return 'Uzupełnij wymagane zgody';
         }
         else if(!formFields.firstName || !formFields.lastName || !isEmail(formFields.email) || !formFields.phoneNumber
@@ -210,7 +253,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                         phoneNumber: formFields.differentDeliveryAddress ? formFields.deliveryPhoneNumber : formFields.phoneNumber
                     },
                      formFields.nip ? formFields.nip : null, formFields.companyName ? formFields.companyName : null,
-                    sells, addons, shipping?.pl, c3 ? 'true': null
+                    sells, addons, shipping?.pl, c2 ? 'true': null
                     )
                     .then((res) => {
                         decrementStocks(sells, addons);
@@ -240,7 +283,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                 addOrder(formFields,
                     user.address, user.address,
                     null, null,
-                    sells, addons, shipping?.pl, c3 ? 'true': null)
+                    sells, addons, shipping?.pl, c2 ? 'true': null)
                     .then((res) => {
                         decrementStocks(sells, addons);
                         setLoading(false);
@@ -366,24 +409,15 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                                     onClick={() => { setC1(!c1); }}>
                                 <span></span>
                             </button>
-                            <span>
-                            Wyrażam zgodę na przetwarzanie moich danych osobowych. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor*
-                        </span>
+                            <span className="checkboxText">
+                                Oświadczam, że zapoznałem/-am się z <a href="/polityka-prywatnosci" target="_blank">Polityką prywatności</a> *
+                            </span>
                         </label>
+
                         <label className="form__addons__label">
                             <button className={c2 ? "form__check form__check--selected" : "form__check"}
                                     type="button"
                                     onClick={() => { setC2(!c2); }}>
-                                <span></span>
-                            </button>
-                            <span>
-                            Oświadczam, iż zapoznałem się z regulaminem i akceptuję politykę prywatności.
-                        </span>
-                        </label>
-                        <label className="form__addons__label">
-                            <button className={c3 ? "form__check form__check--selected" : "form__check"}
-                                    type="button"
-                                    onClick={() => { setC3(!c3); }}>
                                 <span></span>
                             </button>
                             <span>

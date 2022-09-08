@@ -24,11 +24,11 @@ const stepHeaders = [
 
 const shippingMethods = [
     {
-        pl: 'Kurier DHL',
+        pl: 'Kurier',
         en: 'DHL',
         icon: shippingIcon1
     },{
-        pl: 'Kurier InPost',
+        pl: 'Kurier',
         en: 'InPost',
         icon: shippingIcon1
     }

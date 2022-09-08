@@ -11,7 +11,7 @@ const AfterRegister = () => {
                 Twoje konto zostało założone
             </h1>
             <p className="remindPassword__text remindPassword__text--success">
-                Na Twój adres mailowy wysłaliśmy link do weryfikacji Twojego konta.
+                Na Twój adres mailowy wysłaliśmy link do weryfikacji Twojego konta. Jeśli mail nie dotarł, prosimy sprawdzić również folder spam.
             </p>
             <a className="btn btn--remindPassword btn--remindPassword--success" href="/">
                 Wróć na stronę główną

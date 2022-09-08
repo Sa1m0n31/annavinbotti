@@ -43,6 +43,8 @@ const ProductPage = () => {
     const [fullScreenGallery, setFullScreenGallery] = useState(false);
     const [outOfStock, setOutOfStock] = useState(false);
 
+    const [lastClick, setLastClick] = useState(0);
+
     const sliderRef = useRef(null);
     const sliderGalleryRef = useRef(null);
 
@@ -241,6 +243,17 @@ const ProductPage = () => {
         }
     }, [fullScreenGallery]);
 
+    const doubleTap = (e) => {
+        e.preventDefault();
+        let date = new Date();
+        let time = date.getTime();
+        const time_between_taps = 200; // 200ms
+        if (time - lastClick < time_between_taps) {
+            setFullScreenGallery(true);
+        }
+        setLastClick(time);
+    }
+
     return <div className="container">
         <PageHeader />
         {loading ? <div className="product--loading center w">
@@ -251,13 +264,16 @@ const ProductPage = () => {
                 <div className="product__gallery__miniatures d-from-900">
                     {gallery?.map((item, index) => {
                         if(index !== galleryIndex) {
-                            return <button className="product__gallery__miniatures__item" onClick={() => { galleryGoTo(index); }}>
+                            return <button className="product__gallery__miniatures__item"
+                                           onClick={() => { galleryGoTo(index); }}>
                                 <img className="img" src={`${constans.IMAGE_URL}/media/products/${item}`} alt={product?.name_pl} />
                             </button>
                         }
                     })}
                 </div>
-                <div className="product__gallery__main">
+                <div className="product__gallery__main"
+                     onDoubleClick={() => { setFullScreenGallery(true); }}
+                     onTouchStart={(e) => { doubleTap(e); }}>
                     <button className="product__gallery__btn product__gallery__btn--prev" onClick={() => { prevImage(); }}>
                         <img className="img" src={arrowLeft} alt="poprzednie" />
                     </button>

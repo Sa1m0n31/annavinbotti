@@ -72,10 +72,13 @@ const ContactPage = () => {
                         Adres do korespondencji
                     </h2>
                     <p className="contact__top__section__data">
-                        ul. Polna 13/9
+                        Sklep Anna Vinbotti
                     </p>
                     <p className="contact__top__section__data">
-                        50-103 Warszawa
+                        Ul. Tomasza Zana 43 / lok. 2.1
+                    </p>
+                    <p className="contact__top__section__data">
+                        20 – 601 Lublin
                     </p>
                 </div>
             </div>

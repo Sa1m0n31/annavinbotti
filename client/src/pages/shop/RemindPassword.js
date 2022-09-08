@@ -77,7 +77,7 @@ const RemindPassword = () => {
                     Udało się!
                 </h2>
                 <p className="remindPassword__text remindPassword__text--success">
-                    Na Twój adres mailowy wysłaliśmy link do ustawienia nowego hasła.
+                    Na Twój adres mailowy wysłaliśmy link do ustawienia nowego hasła. Jeśli mail nie dotarł, prosimy sprawdzić również folder spam.
                 </p>
                 <a className="btn btn--remindPassword btn--remindPassword--success" href="/">
                     Wróć na stronę główną

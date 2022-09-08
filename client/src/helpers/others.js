@@ -17,6 +17,100 @@ const getDate = (str) => {
     }
 }
 
+function isInteger(str) {
+    if (typeof str !== 'string') {
+        return false;
+    }
+
+    const num = Number(str);
+
+    return Number.isInteger(num) && num >= 0 && !(/.*\.+.*/).test(str);
+}
+
+const isAlphanumeric = (str) => {
+    const re = new RegExp(/^[a-z0-9]+$/i);
+    return re.test(str);
+}
+
+const validatePhoneNumberChange = (str) => {
+    if(str.length <= 12) {
+        if(str.length) {
+            const lastChar = str[str.length-1];
+            if(lastChar === ' ') {
+                return false;
+            }
+            else {
+                if(str.length === 1) {
+                    return !!(isInteger(lastChar) || lastChar === '+');
+                }
+                else {
+                    return !!(isInteger(lastChar));
+                }
+            }
+        }
+        else {
+            return true;
+        }
+    }
+    return false;
+}
+
+const isPostalCode = (str) => {
+    return str.match(/\d{2}-\d{3}/);
+}
+
+const validatePostalCodeChange = (prevPostalCode, str) => {
+    const l = str.length;
+
+    if(l === 1 || l === 2) {
+        if(prevPostalCode.length === 3) {
+            // Backspace
+            return str;
+        }
+        else {
+            if(isInteger(str)) {
+                if(l === 2) {
+                    return `${str}-`;
+                }
+                else {
+                    return str;
+                }
+            }
+            else {
+                return str.slice(0, -1);
+            }
+        }
+    }
+    else if(l === 3) {
+        if(str.charAt(2) === '-') {
+            return str;
+        }
+        else {
+            return str.slice(0, -1);
+        }
+    }
+    else if(l === 4 || l === 5 || l === 6) {
+        const secondPart = str.slice(3);
+        if(isInteger(secondPart)) {
+            return str;
+        }
+        else {
+            return str.slice(0, -1);
+        }
+    }
+    else if(l > 6) {
+        if(isPostalCode(str.slice(0, 6))) {
+            return str.slice(0, 6);
+        }
+        else {
+            return '';
+        }
+    }
+    else {
+        return str;
+    }
+}
+
 const getTime = (str) => {
     if(str) {
         return str.substring(11, 19);
@@ -54,8 +148,8 @@ const statusButtons = [
         link: '/formularz-mierzenia-stopy'
     },
     {
-        pl: 'Opłać zamówienie',
-        en: 'Opłać zamówienie',
+        pl: 'Zamawiam i płacę',
+        en: 'Zamawiam i płacę',
         link: '/oplac-zamowienie'
     },
     {
@@ -64,8 +158,8 @@ const statusButtons = [
         link: '/zamowienie'
     },
     {
-        pl: 'Zweryfikuj but na miarę',
-        en: 'Zweryfikuj but na miarę',
+        pl: 'Zweryfikuj but do miary',
+        en: 'Zweryfikuj but do miary',
         link: '/formularz-weryfikacji-buta'
     },
     {
@@ -171,5 +265,5 @@ const getFiletype = (mimetype) => {
     }
 }
 
-export { scrollToTop, isPasswordStrong, sendMessageToSupport, isEmail, getDate, sendContactForm, isElementInArray,
-    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, downloadData, getFiletype, getTime}
+export { scrollToTop, isPasswordStrong, sendMessageToSupport, isEmail, getDate, sendContactForm, isInteger, isAlphanumeric, isElementInArray, validatePhoneNumberChange,
+    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, downloadData, getFiletype, getTime, validatePostalCodeChange}

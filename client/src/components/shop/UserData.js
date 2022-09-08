@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {getUserInfo, updateUser} from "../../helpers/user";
 import Loader from "./Loader";
-import {isEmail} from "../../helpers/others";
+import {isAlphanumeric, isEmail, validatePhoneNumberChange, validatePostalCodeChange} from "../../helpers/others";
 import constans from "../../helpers/constants";
 import {ContentContext} from "../../App";
 
@@ -25,7 +25,32 @@ const UserData = () => {
     const handleChange = (event, fieldId) => {
         setDataChanged(true);
         let newFields = { ...user };
-        newFields[fieldId] = typeof event !== "boolean" ? event.target.value : event;
+
+        if(fieldId === 'phone_number') {
+            if(validatePhoneNumberChange(event.target.value)) {
+                newFields[fieldId] = event.target.value;
+            }
+        }
+        else if(fieldId === 'postal_code') {
+            newFields[fieldId] = validatePostalCodeChange(user.postal_code, event.target.value);
+        }
+        else if(fieldId === 'flat' || fieldId === 'building') {
+            if(event.target.value.length) {
+                if(isAlphanumeric(event.target.value)) {
+                    newFields[fieldId] = event.target.value;
+                }
+                else {
+                    newFields[fieldId] = event.target.value.slice(0, -1);
+                }
+            }
+            else {
+                newFields[fieldId] = '';
+            }
+        }
+        else {
+            newFields[fieldId] = typeof event !== "boolean" ? event.target.value : event;
+        }
+
         setUser(newFields);
     }
 

@@ -23,34 +23,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/shop/WaitlistModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminOrderCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminOrderCart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/CartContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/CartContent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/ClientOrders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/ClientOrders.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/shop/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/Footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/HomepageAfterSlider.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/HomepageAfterSlider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/NewsletterSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/NewsletterSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/SideCart.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/SideCart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/TopHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/TopHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/OrderForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/OrderForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/ShopContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/ShopContent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/UserData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/UserData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/helpers/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AdminLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AdminLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/orders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/AfterRegister.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/AfterRegister.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/BlogPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/BlogPost.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ContactPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/NewsletterVerification.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/NewsletterVerification.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/Page.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/Page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/OrderDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/OrderDetails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/PaymentPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/PaymentPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ProductPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ProductPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/RemindPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/RemindPassword.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ShippingFormPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ShippingFormPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/passport.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/passport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/newsletter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/newsletter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/stocks.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/stocks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/forms.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/forms.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/others.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/products.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +171,8 @@
       <workItem from="1662113726254" duration="17795000" />
       <workItem from="1662375443422" duration="53000" />
       <workItem from="1662383619115" duration="13801000" />
-      <workItem from="1662493469835" duration="10519000" />
+      <workItem from="1662493469835" duration="11734000" />
+      <workItem from="1662632867155" duration="17841000" />
     </task>
     <servers />
   </component>
@@ -218,14 +218,15 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1654448990629" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1657669697079">
+    <state width="498" height="446" key="SwitcherDM" timestamp="1662662505352">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662662505352" />
     <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1657669697079" />
-    <state x="-1253" y="253" width="585" height="558" key="find.popup" timestamp="1662507056559">
+    <state x="-1253" y="253" width="585" height="558" key="find.popup" timestamp="1662668277790">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="558" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662507056559" />
+    <state x="-1253" y="253" width="585" height="558" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662668277790" />
     <state x="-1253" y="253" width="1101" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659556830733" />
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657460868681" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1658359689162">
@@ -233,10 +234,10 @@
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1658359689162" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657058277045" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1662506059502">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1662669169005">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662506059502" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662669169005" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662117302453" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657547908927" />
   </component>

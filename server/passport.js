@@ -5,7 +5,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const init = (passport) => {
     const userAuth = (username, password, done) => {
         const hash = crypto.createHash('sha256').update(password).digest('hex');
-        let query = 'SELECT id, active FROM users WHERE email = $1 AND password = $2';
+        let query = 'SELECT id, active FROM users WHERE LOWER(email) = LOWER($1) AND password = $2';
         let values = [username, hash];
 
         // Remember me auth

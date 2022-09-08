@@ -4,6 +4,7 @@ import {getShopPage, getTypesWithProducts} from "../../helpers/products";
 import constans from "../../helpers/constants";
 import {ContentContext} from "../../App";
 import {isElementInArray} from "../../helpers/others";
+import WaitlistModal from "./WaitlistModal";
 
 const ShopContent = () => {
     const { language, content } = useContext(ContentContext);
@@ -13,6 +14,7 @@ const ShopContent = () => {
     const [products, setProducts] = useState([]);
     const [productsVisible, setProductsVisible] = useState([]);
     const [filterVisible, setFilterVisible] = useState(false);
+    const [waitlistModal, setWaitlistModal] = useState(0);
 
     const filterSection = useRef(null);
     const productsWrapper = useRef(null);
@@ -77,6 +79,10 @@ const ShopContent = () => {
     }, [filterVisible]);
 
     return <main className="shop">
+
+        {waitlistModal ? <WaitlistModal id={waitlistModal}
+                                        closeModalFunction={() => { setWaitlistModal(0); }} /> : ''}
+
         <header className="shop__header w flex">
             <h1 className="pageHeading">
                 Wszystkie produkty
@@ -115,13 +121,18 @@ const ShopContent = () => {
                         <h3 className="shop__products__item__price">
                             {item.price} zł
                         </h3>
-                        {productNotAvailable ? <h4 className="shop__products__item__notAvailable">
-                            Produkt niedostępny
-                        </h4> : ''}
-                        <a href={`/produkt/${item.slug}`}
-                           className={productNotAvailable ? "shop__products__item__btn shop__products__item__btn--notAvailable" : "shop__products__item__btn"}>
-                            {productNotAvailable ? 'Powiadom o dostępności' : 'Rezerwuj'}
-                        </a>
+                        {productNotAvailable ? <>
+                            <h4 className="shop__products__item__notAvailable">
+                                Produkt niedostępny
+                            </h4>
+                            <button onClick={() => { setWaitlistModal(item.id); }}
+                               className="shop__products__item__btn shop__products__item__btn--notAvailable">
+                                Powiadom o dostępności
+                            </button>
+                        </> : <a href={`/produkt/${item.slug}`}
+                                   className="shop__products__item__btn">
+                            Rezerwuj
+                        </a>}
                     </div>
                 </div>
             })}

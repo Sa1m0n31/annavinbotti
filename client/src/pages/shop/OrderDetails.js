@@ -169,7 +169,7 @@ const OrderDetails = () => {
             else if(orderDetails.status === 3) {
                 setButtons([
                     {
-                        pl: 'Opłać zamówienie',
+                        pl: 'Zamawiam i płacę',
                         en: 'Pay',
                         link: `/oplac-zamowienie?id=${orderDetails.id}`
                     }
@@ -177,10 +177,9 @@ const OrderDetails = () => {
             }
             else if(orderDetails.status === 5) {
                 setButtons(getNumberOfSecondTypeForms(cart).map((item) => {
-                    console.log(item);
                     return {
-                        pl: 'Zweryfikuj but na miarę',
-                        en: 'Zweryfikuj but na miarę',
+                        pl: 'Zweryfikuj but do miary',
+                        en: 'Zweryfikuj but do miary',
                         link: `/formularz-weryfikacji-buta?zamowienie=${orderDetails.id}&model=${item}`
                     }
                 }));
@@ -259,7 +258,7 @@ const OrderDetails = () => {
 
                 <section className="orderDetails__statuses">
                     {statuses?.map((item, index) => {
-                        return <div className="orderStatus">
+                        return <div className={index + 1 === orderDetails.status ? "orderStatus orderStatus--current" : "orderStatus"}>
                             <span className={(index + 1 === orderDetails.status) ? "orderStatus__number orderStatus__number--currentStatus" : "orderStatus__number"}>
                                 {index+1}
                             </span>
@@ -305,7 +304,7 @@ const OrderDetails = () => {
                                 </h5>
                                 <div className="orderDetails__bottom__item__addons" key={index}>
                                     {item[1]?.map((item, index) => {
-                                        return <p className="orderDetails__bottom__item__addon">
+                                        return <p className="orderDetails__bottom__item__addon" key={index}>
                                             <span className="orderDetails__bottom__item__key">
                                                 {item.addon}:
                                             </span>

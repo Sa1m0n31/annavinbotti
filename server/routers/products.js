@@ -326,7 +326,7 @@ font-size: 16px;
                     Model, na który czekałaś/czekałeś nie jest już niestety dostępny w naszym sklepie. Sprawdź nasze pozostałe modele na anna-vinbotti.com.
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
-                <p style="color: #B9A16B; margin: 0;">Zespół AnnaVinbotti</p>
+                <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
                }
 
