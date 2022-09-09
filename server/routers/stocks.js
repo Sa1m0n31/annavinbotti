@@ -92,6 +92,12 @@ const checkWaitlists = (response) => {
     });
 }
 
+router.get('/get-options-stocks', (request, response) => {
+    const query = `SELECT id, stock FROM addon_options`;
+
+    db.query(query, [], response);
+})
+
 router.get('/get-all-stocks', (request, response) => {
     const query = `SELECT * FROM stocks`;
 

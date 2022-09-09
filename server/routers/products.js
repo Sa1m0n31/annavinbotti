@@ -10,6 +10,12 @@ const dbInsertQuery = require('../helpers/dbInsertQuery');
 const nodemailer = require("nodemailer");
 const smtpTransport = require('nodemailer-smtp-transport');
 
+const isElementInArray = (el, arr) => {
+   return arr.findIndex((item) => {
+      return item === el;
+   }) !== -1;
+}
+
 let transporter = nodemailer.createTransport(smtpTransport ({
    auth: {
       user: process.env.EMAIL_ADDRESS,
@@ -47,23 +53,75 @@ router.get('/get-all', (request, response) => {
    dbSelectQuery(query, [], response);
 });
 
-router.get('/get-shop-page', (request, response) => {
-   const query = `SELECT p.id, t.name_pl as type_pl, t.name_en as type_en, t.id as type_id,  
-                  p.slug, p.name_pl, p.name_en, p.description_pl, p.description_en, 
-                  p.details_pl, p.details_en, p.price, p.main_image,
-                  s.counter, (SELECT COUNT(*)
-                  FROM addons_for_products afp
-                  LEFT OUTER JOIN addons_options ao ON afp.addon = ao.addon
-                  LEFT OUTER JOIN addons_stocks ad_stocks ON ad_stocks.addon_option = ao.id
-                  LEFT OUTER JOIN stocks s ON s.id = ad_stocks.stock
-                  WHERE afp.product = p.id AND ao.hidden = FALSE AND s.counter <= 0) as addons_not_available
-                  FROM products p 
-                  JOIN types t ON p.type = t.id
-                  JOIN products_stocks ps ON ps.product = p.id
-                  JOIN stocks s ON s.id = ps.stock 
-                  WHERE p.hidden = FALSE ORDER BY p.priority DESC`;
+const getAddonsArray = (productId, addonsWithOptions, addonsForProducts) => {
+   const productAddons = addonsForProducts.filter((item) => (item.product === productId)).map((item) => (item.addon));
 
-   dbSelectQuery(query, [], response);
+   console.log(productAddons);
+   console.log(addonsWithOptions.filter((item) => {
+      return isElementInArray(item.addon_id, productAddons);
+   }));
+   console.log('---');
+   return addonsWithOptions.filter((item) => {
+      return isElementInArray(item.addon_id, productAddons);
+   });
+}
+
+router.get('/get-shop-page', (request, response) => {
+   const query = `SELECT p.id, t.name_pl as type_pl, t.name_en as type_en, t.id as type_id,
+            p.slug, p.name_pl, p.name_en, p.description_pl, p.description_en,
+            p.details_pl, p.details_en, p.price, p.main_image,
+            s.counter
+            FROM products p
+            JOIN types t ON p.type = t.id
+            JOIN products_stocks ps ON ps.product = p.id
+            JOIN stocks s ON s.id = ps.stock
+            WHERE p.hidden = FALSE
+            ORDER BY p.priority DESC`;
+
+   db.query(query, [], (err, res) => {
+      if(res) {
+         const products = res.rows;
+
+         // Get all addons
+         const query = `SELECT a.id as addon_id, ao.id as addon_option_id, ao.stock as addon_option_stock
+                        FROM addons a
+                        JOIN addons_options ao ON a.id = ao.addon 
+                        WHERE a.hidden = FALSE AND ao.hidden = FALSE`;
+
+         db.query(query, [], (err, res) => {
+            if(res) {
+               const addonsWithOptions = res.rows;
+
+               // Get all addons for products
+               const query = `SELECT product, addon FROM addons_for_products`;
+
+               db.query(query, [], (err, res) => {
+                  if(res) {
+                     const addonsForProducts = res.rows;
+
+                     response.send({
+                        result: products.map((item) => {
+                           return {
+                              ...item,
+                              addons: getAddonsArray(item.id, addonsWithOptions, addonsForProducts)
+                           }
+                        })
+                     });
+                  }
+                  else {
+                     response.status(500).end();
+                  }
+               })
+            }
+            else {
+               response.status(500).end();
+            }
+         })
+      }
+      else {
+         response.status(500).end();
+      }
+   });
 });
 
 router.get('/get', (request, response) => {

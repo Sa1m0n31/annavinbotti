@@ -28,6 +28,10 @@ const getAllAddonsStocks = () => {
     return axios.get('/stocks/get-all-addons-stocks');
 }
 
+const getAllOptionsStocks = () => {
+    return axios.get('/stocks/get-options-stocks');
+}
+
 const deleteProductStock = (id) => {
     return axios.delete('/stocks/delete-product-stock', {
         params: {
@@ -102,7 +106,7 @@ const updateAddonStock = (id, stock) => {
     });
 }
 
-export { getAllStocks, getAllProductStocks, getAllAddonsStocks, deleteProductStock, deleteAddonStock,
+export { getAllStocks, getAllProductStocks, getAllOptionsStocks, getAllAddonsStocks, deleteProductStock, deleteAddonStock,
     getProductStockDetails, getAddonStockDetails, addProductStock, addAddonStock, checkAddonsStocks, checkProductsStocks,
     getProductStock, decrementStockByAddon, decrementStockByProduct, updateAddonStock
 }

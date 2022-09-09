@@ -1407,8 +1407,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .cart__table__row {
     position: relative;
-    padding: 30px 0;
-    border-bottom: 1px solid var(--secondary);
+    padding: 30px 0 20px;
 }
 
 .cart__table__cell--image {
@@ -1424,6 +1423,19 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     height: auto;
     overflow: hidden;
     margin-right: 25px;
+}
+
+.cart__table__addons {
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--secondary);
+}
+
+.cart__table__addons__item {
+    font-size: 13px;
+}
+
+.cart__table__addons__item .bold {
+    padding-right: 5px;
 }
 
 .cart__table__amountChange {
@@ -3147,6 +3159,7 @@ textarea {
     font-size: 12px;
 }
 
+.colorModal--redirection .colorModal__inner,
 .colorModal--waitlist .colorModal__inner {
     height: 400px;
 }

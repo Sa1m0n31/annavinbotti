@@ -2,12 +2,13 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import filterIcon from '../../static/img/filter.svg'
 import {getShopPage, getTypesWithProducts} from "../../helpers/products";
 import constans from "../../helpers/constants";
-import {ContentContext} from "../../App";
-import {isElementInArray} from "../../helpers/others";
+import {CartContext, ContentContext} from "../../App";
+import {getNumberOfModelInCart, getNumberOfOptionInCart, isElementInArray} from "../../helpers/others";
 import WaitlistModal from "./WaitlistModal";
 
 const ShopContent = () => {
     const { language, content } = useContext(ContentContext);
+    const { cartContent } = useContext(CartContext);
 
     const [currentFilter, setCurrentFilter] = useState([]);
     const [types, setTypes] = useState([]);
@@ -78,6 +79,21 @@ const ShopContent = () => {
         }
     }, [filterVisible]);
 
+    const isProductAvailable = (addons, stock, modelId) => {
+        /*
+            Product is available if:
+            - model has stock - number of models in cart > 0
+            - at least one option of addon has stock - number of options in cart > 0
+         */
+
+        return addons.filter((item) => {
+            const currentAddonId = item.addon_id;
+            return addons
+                .filter((item) => (item.addon_id === currentAddonId))
+                .findIndex((item) => (item.addon_option_stock - getNumberOfOptionInCart(item.addon_option_id, cartContent) > 0)) !== -1;
+            }).length === addons.length && stock - getNumberOfModelInCart(modelId, cartContent) > 0
+    }
+
     return <main className="shop">
 
         {waitlistModal ? <WaitlistModal id={waitlistModal}
@@ -104,7 +120,7 @@ const ShopContent = () => {
 
         <div className="shop__products w flex" ref={productsWrapper}>
             {productsVisible?.map((item, index) => {
-                const productNotAvailable = parseInt(item.addons_not_available) !== 0 || item.counter <= 0;
+                const productNotAvailable = !isProductAvailable(item.addons, item.counter, item.id);
 
                 return <div className="shop__products__item"
                           key={index}>

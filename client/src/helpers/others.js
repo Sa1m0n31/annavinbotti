@@ -215,6 +215,24 @@ const isElementInArray = (el, arr) => {
     }) !== -1;
 }
 
+const getNumberOfOptionInCart = (optionId, cart) => {
+    return cart.map((item) => (
+            Object.entries(item.addons)
+            .map((item) => (item[1]))
+            .filter((item) => (item === optionId))
+        )).reduce((prev, curr) => {
+            return prev + curr.length;
+    }, 0);
+}
+
+const getNumberOfModelInCart = (modelId, cart) => {
+    return cart.filter((item) => (item.product.id === modelId))
+        .map((item) => (item.amount))
+        .reduce((prev, curr) => {
+            return prev + curr;
+        }, 0);
+}
+
 const isPasswordStrong = (pass) => {
     return pass?.length >= 8;
 }
@@ -265,5 +283,5 @@ const getFiletype = (mimetype) => {
     }
 }
 
-export { scrollToTop, isPasswordStrong, sendMessageToSupport, isEmail, getDate, sendContactForm, isInteger, isAlphanumeric, isElementInArray, validatePhoneNumberChange,
-    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfSecondTypeForms, downloadData, getFiletype, getTime, validatePostalCodeChange}
+export { scrollToTop, isPasswordStrong, sendMessageToSupport, getNumberOfOptionInCart, isEmail, getDate, sendContactForm, isInteger, isAlphanumeric, isElementInArray, validatePhoneNumberChange,
+    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfModelInCart, getNumberOfSecondTypeForms, downloadData, getFiletype, getTime, validatePostalCodeChange}

@@ -14,6 +14,7 @@ import arrowDownGoldIcon from '../../static/img/arrow-down-gold.svg'
 import {addToWaitlist} from "../../helpers/orders";
 import {isEmail} from "../../helpers/others";
 import Slider from "react-slick";
+import RedirectionInfoModal from "../../components/shop/RedirectionInfoModal";
 
 const settings = {
     dots: false,
@@ -42,6 +43,7 @@ const ProductPage = () => {
     const [waitlistSuccess, setWaitlistSuccess] = useState(false);
     const [fullScreenGallery, setFullScreenGallery] = useState(false);
     const [outOfStock, setOutOfStock] = useState(false);
+    const [redirectionInfoModal, setRedirectionInfoModal] = useState(false);
 
     const [lastClick, setLastClick] = useState(0);
 
@@ -62,6 +64,11 @@ const ProductPage = () => {
             .catch((err) => {
                window.location = '/sklep';
             });
+
+        if(localStorage.getItem('redirectionInfoModal') === 'true') {
+            setRedirectionInfoModal(true);
+            localStorage.removeItem('redirectionInfoModal');
+        }
     }, []);
 
     useEffect(() => {
@@ -259,6 +266,8 @@ const ProductPage = () => {
         {loading ? <div className="product--loading center w">
             <Loader />
         </div> : <main className="product w flex">
+            {redirectionInfoModal ? <RedirectionInfoModal closeModalFunction={() => { setRedirectionInfoModal(false); } } /> : ''}
+
             {/* GALLERY */}
             <div className="product__gallery flex">
                 <div className="product__gallery__miniatures d-from-900">

@@ -1,12 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
+import {getAddonsWithOptions} from "../../helpers/products";
 
 const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
     const { cartContent, removeFromCart, decrementFromCart } = useContext(CartContext);
     const { language, content } = useContext(ContentContext);
 
     const [cartSum, setCartSum] = useState(0);
+    const [addonsWithOptions, setAddonsWithOptions] = useState([]);
+    const [cartAddonsNames, setCartAddonsNames] = useState([]);
 
     useEffect(() => {
         if(cartContent?.length) {
@@ -18,8 +21,41 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
                     return prev;
                 }
             }, 0));
+
+            const addonsIds = cartContent.map((item) => {
+                return Object.entries(item.addons).map((item) => (item[0]));
+            });
+
+            getAddonsWithOptions(addonsIds)
+                .then((res) => {
+                   if(res?.status === 200) {
+                       setAddonsWithOptions(res?.data?.result);
+                   }
+                });
         }
     }, [cartContent]);
+
+    useEffect(() => {
+        if(addonsWithOptions?.length && cartContent?.length) {
+            setCartAddonsNames(cartContent.map((item, index) => {
+                return {
+                    id: item.product.id,
+                    names: Object.entries(item.addons)
+                        .map((item) => (item[0]))
+                        .map((item) => {
+                            const addonId = item;
+                            return addonsWithOptions.find((item) => (item.addon_id === parseInt(addonId)))?.addon_name
+                    }),
+                    options: Object.entries(item.addons)
+                        .map((item) => (item[1]))
+                        .map((item) => {
+                            const addonOptionId = item;
+                            return addonsWithOptions.find((item) => (item.addon_option_id === addonOptionId))?.addon_option_name
+                        })
+                }
+            }));
+        }
+    }, [addonsWithOptions, cartContent]);
 
     const decrementAmount = (product, addons, amount) => {
         if(amount === -1) {
@@ -31,6 +67,7 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
     }
 
     const incrementAmount = (slug) => {
+        localStorage.setItem('redirectionInfoModal', 'true');
         window.location = `/produkt/${slug}`
     }
 
@@ -59,7 +96,8 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
                 {cartContent && cartContent?.length ? cartContent?.map((item, index) => {
                     if(item) {
                         const product = item.product;
-                        return <div className="cart__table__row flex">
+                        return <div key={index}>
+                            <div className="cart__table__row flex">
                             <span className="cart__table__cell cart__table__cell--image cart__table__cell--0">
                                 <figure>
                                     <img className="img" src={`${constans.IMAGE_URL}/media/products/${product.main_image}`} alt={product.name_pl} />
@@ -87,10 +125,10 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
                                     </span>
                                 </div>
                             </span>
-                            <span className="cart__table__cell cart__table__cell--1 d-desktop">
+                                <span className="cart__table__cell cart__table__cell--1 d-desktop">
                                 {product.price} PLN
                             </span>
-                            <span className="cart__table__cell cart__table__cell--2 d-desktop">
+                                <span className="cart__table__cell cart__table__cell--2 d-desktop">
                                 <div className="cart__table__amountChange flex">
                                     <button className="cart__table__amountChange__btn" onClick={() => { decrementAmount(product, item.addons, item.amount - 1 > 0 ? item.amount - 1 : -1); }}>
                                         -
@@ -103,13 +141,26 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
                                     </button>
                                 </div>
                             </span>
-                            <span className="cart__table__cell cart__table__cell--3 d-desktop">
+                                <span className="cart__table__cell cart__table__cell--3 d-desktop">
                                 {product.price * item.amount} zł
                             </span>
 
-                            <button className="cart__table__remove" onClick={() => { removeItemFromCart(product, item.addons) }}>
-                                &times;
-                            </button>
+                                <button className="cart__table__remove" onClick={() => { removeItemFromCart(product, item.addons) }}>
+                                    &times;
+                                </button>
+                            </div>
+                            {cartAddonsNames?.length ? <div className="cart__table__addons">
+                                {cartAddonsNames[index].names.map((item, addonIndex) => {
+                                    return <p className="cart__table__addons__item" key={addonIndex}>
+                                        <span className="bold">
+                                            {item}:
+                                        </span>
+                                        <span>
+                                            {cartAddonsNames[index].options[addonIndex]}
+                                        </span>
+                                    </p>
+                                })}
+                            </div> : ''}
                         </div>
                     }
                 }) : ''}

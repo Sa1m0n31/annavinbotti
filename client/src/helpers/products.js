@@ -29,6 +29,15 @@ const getProductGallery = (id) => {
     });
 }
 
+const getAddonsWithOptions = (ids) => {
+    console.log(ids.join(','));
+    return axios.get(`/addons/get-addons-with-options`, {
+        params: {
+            id: ids.join(',')
+        }
+    });
+}
+
 const addProduct = (formData, mainImage, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, type, showOnHomepage, priority) => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
     formData.append('namePl', namePl);
@@ -292,5 +301,5 @@ export { getAllProducts, getProductDetails, getHomepageModels, addProduct, addAd
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct, getShopPage,
     getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
     addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId,
-    getProductBySlug, getProductAddons, getTypeByProduct, getTypesWithProducts, getAllAddonsWithOptions
+    getProductBySlug, getProductAddons, getTypeByProduct, getTypesWithProducts, getAllAddonsWithOptions, getAddonsWithOptions
 }

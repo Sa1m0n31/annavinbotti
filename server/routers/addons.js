@@ -43,6 +43,18 @@ router.post('/add', upload.single('image'), (request, response) => {
    })
 });
 
+router.get('/get-addons-with-options', (request, response) => {
+    const ids = request.query.id.split(',');
+
+    const query = `SELECT a.name_pl as addon_name, ao.name_pl as addon_option_name, a.id as addon_id, ao.id as addon_option_id    
+                    FROM addons_options ao 
+                    JOIN addons a ON a.id = ao.addon 
+                    WHERE a.id = ANY ($1) AND ao.hidden = FALSE`;
+    const values = [ids];
+
+    dbSelectQuery(query, values, response);
+});
+
 router.post('/add-option', upload.single('image'), (request, response) => {
     const { addon, namePl, nameEn, color, oldImage, tooltipPl, tooltipEn, adminName } = request.body;
 
