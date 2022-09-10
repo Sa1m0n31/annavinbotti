@@ -44,6 +44,7 @@ const AddProduct = () => {
     const [priority, setPriority] = useState(0);
     const [currentAddonOptions, setCurrentAddonOptions] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [updateDefaultAddonOption, setUpdateDefaultAddonOption] = useState(-1);
 
     const containerRef = useRef(null);
     const inputRef = useRef(null);
@@ -221,13 +222,8 @@ const AddProduct = () => {
     }, []);
 
     useEffect(() => {
-        if(gallery?.length) {
-
-        }
-        else {
-
-        }
-    }, [gallery, galleryLoaded]);
+        console.log(addons);
+    }, [addons]);
 
     useEffect(() => {
         if(addonsOptions?.length) {
@@ -270,6 +266,10 @@ const AddProduct = () => {
         }));
     }
 
+    useEffect(() => {
+        console.log(currentAddonOptions);
+    }, [currentAddonOptions]);
+
     const getAddonOptions = (addonIndex, addonId) => {
         getOptionsByAddon(addonId)
             .then((res) => {
@@ -287,7 +287,24 @@ const AddProduct = () => {
             });
     }
 
+    useEffect(() => {
+        if(updateDefaultAddonOption >= 0) {
+            console.log(currentAddonOptions[updateDefaultAddonOption]);
+            setAddons(prevState => prevState.map((item, index) => {
+                if(updateDefaultAddonOption === index) {
+                    return {...item, conditionThen: currentAddonOptions[index][0]}
+                }
+                else {
+                    return item;
+                }
+            }))
+        }
+    }, [updateDefaultAddonOption]);
+
     const updateAddons = (i, property, value) => {
+        console.log('update addons');
+        console.log(property, value);
+
         setAddons(addons?.map((item, index) => {
             if(index === i) {
                 if(property === 'conditionIf') {
@@ -311,7 +328,7 @@ const AddProduct = () => {
     }
 
     const addAddonsForProductWrapper = (productId) => {
-        addAddonsForProduct(productId, addons?.filter((item, index) => {
+        addAddonsForProduct(productId, addons?.filter((item) => {
             return item.active;
         })?.map((item) => ({
             addon: item.id,
@@ -559,7 +576,8 @@ const AddProduct = () => {
                                         <select value={item?.conditionThen}
                                                 onChange={(e) => { updateAddons(index, 'conditionThen', e.target.value); }}>
                                             {currentAddonOptions[index]?.map((item, index) => {
-                                                return <option key={index} value={item.id}>
+                                                return <option key={index}
+                                                               value={item.id}>
                                                     {item.name_pl}
                                                 </option>
                                             })}

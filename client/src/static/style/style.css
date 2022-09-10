@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
     color: #fff;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 :root {
@@ -1127,8 +1127,16 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 }
 
 .product__shortDesc {
-    font-size: 16px;
+    font-size: 16px !important;
     margin-bottom: 40px;
+}
+
+.product__shortDesc * {
+    font-size: 16px !important;
+}
+
+.product__shortDesc > * {
+    margin-bottom: 15px;
 }
 
 .product__content {
@@ -1148,13 +1156,28 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     font-weight: 400;
     font-size: 21px;
     margin: 15px 0 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.addon__option {
+.addon__title__infoBtn {
     background: transparent;
-    margin-right: 2%;
-    margin-bottom: 15px;
-    min-width: 170px;
+    width: 15px;
+    margin-left: 25px;
+    display: block;
+    position: relative;
+}
+
+.addon__title .addon__option__tooltip {
+    text-align: center;
+}
+
+.addon__title__infoBtn:hover .addon__option__tooltip {
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #000;
+    font-size: 14px;
 }
 
 .addon__option__textType {
@@ -1183,6 +1206,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 .addon__option__imageType > span {
     margin-top: 10px;
     text-transform: uppercase;
+    font-size: 15px;
 }
 
 .addon__options {
@@ -1192,7 +1216,13 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 }
 
 .addon__option {
-    width: 30%;
+    background: transparent;
+    margin-right: 2%;
+    margin-bottom: 15px;
+    padding-right: 2vw;
+    width: fit-content;
+    width: -moz-max-content;
+    max-width: 30%;
 }
 
 .addon__option--selected .addon__option__imageType > span {
@@ -1212,6 +1242,11 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 .addon__option--selected .addon__option__textType {
     border-width: 2px;
     font-weight: 700;
+}
+
+.addon__option__textType {
+    padding: 5px 40px !important;
+    margin-right: -15px;
 }
 
 .btn--productContent {
@@ -3091,6 +3126,10 @@ textarea {
 
 .addon__option {
     position: relative;
+}
+
+.addon__option--textType {
+    max-width: 48%;
 }
 
 .addon__option__tooltip {

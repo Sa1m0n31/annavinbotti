@@ -69,8 +69,6 @@ router.post('/change-admin-password', (request, response) => {
 router.post('/send-contact-form', (request, response) => {
    const { name, email, message } = request.body;
 
-   console.log('test');
-
     let mailOptions = {
         from: process.env.EMAIL_ADDRESS_WITH_NAME,
         to: process.env.CONTACT_FORM_ADDRESS,

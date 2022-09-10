@@ -70,11 +70,11 @@ router.get('/get-shop-page', (request, response) => {
    const query = `SELECT p.id, t.name_pl as type_pl, t.name_en as type_en, t.id as type_id,
             p.slug, p.name_pl, p.name_en, p.description_pl, p.description_en,
             p.details_pl, p.details_en, p.price, p.main_image,
-            s.counter
+            COALESCE(s.counter, 0) as counter
             FROM products p
             JOIN types t ON p.type = t.id
-            JOIN products_stocks ps ON ps.product = p.id
-            JOIN stocks s ON s.id = ps.stock
+            LEFT OUTER JOIN products_stocks ps ON ps.product = p.id
+            LEFT OUTER JOIN stocks s ON s.id = ps.stock
             WHERE p.hidden = FALSE
             ORDER BY p.priority DESC`;
 
@@ -244,23 +244,32 @@ router.patch('/update', upload.fields([
    WHERE id = $13`;
       const values = [type, namePl, nameEn, descPl, descEn, detailsPl, detailsEn, price, mainImageName, slug, showOnHomepage, priority, id];
 
-      db.query(query, values, (err, res) => {
-         if(res) {
-            if(files.gallery) {
-               deleteProductGallery(id)
-                   .then(() => {
+      if(files.gallery) {
+         deleteProductGallery(id)
+             .then(() => {
+                db.query(query, values, (err, res) => {
+                   if(res) {
                       addGallery(files.gallery, id, response);
-                   });
-            }
-            else {
+                   }
+                   else {
+                      response.status(500).end();
+                   }
+                });
+             })
+             .catch(() => {
+                response.status(500).end();
+             });
+      }
+      else {
+         db.query(query, values, (err, res) => {
+            if(res) {
                response.status(201).end();
             }
-         }
-         else {
-            console.log(err);
-            response.status(500).end();
-         }
-      });
+            else {
+               response.status(500).end();
+            }
+         });
+      }
    }
    catch(err) {
       console.log(err);
@@ -410,6 +419,7 @@ router.post('/add-addons-for-product', (request, response) => {
    const { product, addons } = request.body;
 
    const addonsList = JSON.parse(addons);
+   console.log(addonsList);
 
    if(addonsList?.length) {
       addonsList.forEach((item, index, array) => {
@@ -446,7 +456,7 @@ router.get('/get-product-addons', (request, response) => {
    const product = request.query.id;
 
    const query = `SELECT ao.id as addon_option_id, ao.name_pl as addon_option_name_pl, ao.name_en as addon_option_name_en, a.id, ao.image,
-                  a.name_pl as addon_name_pl, a.name_en as addon_name_en, afp.priority, afp.show_if, afp.is_equal, a.addon_type   
+                  a.name_pl as addon_name_pl, a.name_en as addon_name_en, a.info_pl, a.info_en, ao.tooltip_pl, ao.tooltip_en, afp.priority, afp.show_if, afp.is_equal, a.addon_type   
                   FROM addons a 
                   LEFT OUTER JOIN addons_for_products afp ON afp.addon = a.id 
                   JOIN addons_options ao ON ao.addon = a.id

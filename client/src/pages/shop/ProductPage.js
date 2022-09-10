@@ -8,13 +8,13 @@ import arrowRight from '../../static/img/arrow-right.svg'
 import largeImgIcon from '../../static/img/large-image.svg'
 import Loader from "../../components/shop/Loader";
 import {CartContext, ContentContext} from "../../App";
-import { convertFromRaw } from 'draft-js';
-import {stateToHTML} from 'draft-js-export-html';
+import draftToHtml from 'draftjs-to-html';
 import arrowDownGoldIcon from '../../static/img/arrow-down-gold.svg'
 import {addToWaitlist} from "../../helpers/orders";
 import {isEmail} from "../../helpers/others";
 import Slider from "react-slick";
 import RedirectionInfoModal from "../../components/shop/RedirectionInfoModal";
+import infoIcon from '../../static/img/info-icon.svg'
 
 const settings = {
     dots: false,
@@ -328,9 +328,9 @@ const ProductPage = () => {
                     {product?.price} zł
                 </h2>
                 <p className="product__shortDesc"
-                    dangerouslySetInnerHTML={{__html: stateToHTML((convertFromRaw(JSON.parse(
+                    dangerouslySetInnerHTML={{__html: draftToHtml(JSON.parse(
                             language === 'pl' ? product?.description_pl : product?.description_en)
-                        )))}}
+                        )}}
                 >
 
                 </p>
@@ -343,31 +343,42 @@ const ProductPage = () => {
                     const ad = item[1];
                     const conditionIf = ad[0].show_if;
                     const conditionIsEqual = ad[0].is_equal;
-                    if(ad && (conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf)) {
+
+                    console.log(ad[0].addon_name_pl, conditionIf, conditionIsEqual);
+
+                    if(ad && ((conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf))) {
                         return <div className="addon" key={index}>
                             <h3 className="addon__title">
                                 {language === 'pl' ? ad[0]?.addon_name_pl : ad[0]?.addon_name_en}
+
+                                {ad[0].info_pl ? <div className="addon__title__infoBtn">
+                                    <img className="img" src={infoIcon} alt="info" />
+
+                                    <div className="addon__option__tooltip">
+                                        {ad[0].info_pl}
+                                    </div>
+                                </div> : ''}
                             </h3>
 
                             {/* ADDONS OPTIONS */}
                             <div className="addon__options flex">
                                 {ad?.map((item, index) => {
-                                    return <button className={selectedAddons[item.id] === item.addon_option_id ? "addon__option addon__option--selected" : "addon__option"}
+                                    return <button className={selectedAddons[item.id] === item.addon_option_id ? (item.addon_type === 1 ? "addon__option addon__option--textType addon__option--selected" : "addon__option addon__option--selected") : (item.addon_type === 1 ? "addon__option addon_option--textType" : "addon__option")}
                                                    key={index}
                                                    onClick={() => { changeSelectedAddons(item.id, item.addon_option_id); }}>
 
-                                        <div className="addon__option__tooltip">
+                                        {!(item.addon_type === 1 && !item.tooltip_pl) ? <div className="addon__option__tooltip">
                                             {item.addon_type === 1 ? <span>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sed risus dui.
+                                                {item.tooltip_pl}
                                             </span> : <>
                                                 <figure>
                                                     <img className="img" src={`${constans.IMAGE_URL}/media/addons/${item.image}`} alt="dodatek" />
                                                 </figure>
                                                 <span>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sed risus dui.
+                                                      {item.tooltip_pl}
                                                 </span>
                                             </>}
-                                        </div>
+                                        </div> : ''}
 
                                                     {item.addon_type === 1 ? <span className="addon__option__textType">
                                                 {language === 'pl' ? item.addon_option_name_pl : item.addon_option_name_en}
@@ -441,9 +452,9 @@ const ProductPage = () => {
                 Opis produktu
             </h4>
             <div dangerouslySetInnerHTML={{
-                __html: stateToHTML((convertFromRaw(JSON.parse(
+                __html: draftToHtml(JSON.parse(
                     language === 'pl' ? product?.details_pl : product?.details_en)
-                )))
+                )
             }}>
 
             </div>
