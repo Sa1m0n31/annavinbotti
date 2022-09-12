@@ -33,7 +33,8 @@ import NewsletterVerification from "./pages/shop/NewsletterVerification";
 import Faq from "./pages/shop/FAQ";
 import Page from "./pages/shop/Page";
 import Page3Addon from "./components/shop/Page3Addon";
-import {getProductStock} from "./helpers/stocks";
+import {getProductStock, updateStocksInCart} from "./helpers/stocks";
+import NewsletterResignation from "./pages/shop/NewsletterResignation";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -46,6 +47,8 @@ const CartContext = React.createContext(null);
 function App() {
   {/* CART */}
   const [cartContent, setCartContent] = useState(localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []);
+  const [cartStocksUpdated, setCartStocksUpdated] = useState(false);
+  const [orderReceived, setOrderReceived] = useState(false);
 
   useEffect(() => {
     if(cartContent?.findIndex((item) => {
@@ -57,27 +60,52 @@ function App() {
     }
   }, [cartContent]);
 
-  const addToCart = async (product, addons, amount = false) => {
+  useEffect(() => {
+    if(cartContent?.length && !cartStocksUpdated) {
+      const ids = cartContent.map((item) => {
+        return item.product.id;
+      });
+
+      updateStocksInCart(ids)
+          .then((res) => {
+              if(res?.status === 200) {
+                const r = res?.data?.result;
+                setCartStocksUpdated(true);
+                setCartContent(cartContent.map((item) => {
+                  const newStocksObject = r.find((stockItem) => (stockItem.id === item.product.id));
+
+                  return {
+                    ...item,
+                    product: {
+                      ...item.product,
+                      counter: newStocksObject.counter
+                    },
+                    stockId: newStocksObject.stockId
+                  }
+                }));
+              }
+          });
+    }
+  }, [cartContent]);
+
+  const addToCart = async (product, addons) => {
+    setOrderReceived(false);
+
     // Check if identical product in cart exists
     const addedProductIndex = cartContent?.findIndex((item) => {
       return JSON.stringify(product) === JSON.stringify(item.product) && JSON.stringify(addons) === JSON.stringify(item.addons)
     });
 
     const res = await getProductStock(product.id)
-    const productCount = res?.data?.result[0]?.product_counter !== null ? res?.data?.result[0]?.product_counter : 999999;
-    const addonCount = res?.data?.result[0]?.addon_counter !== null ? res?.data?.result[0]?.addon_counter : 999999;
+    // const productCount = res?.data?.result[0]?.product_counter !== null ? res?.data?.result[0]?.product_counter : 999999;
+    // const addonCount = res?.data?.result[0]?.addon_counter !== null ? res?.data?.result[0]?.addon_counter : 999999;
+    const productStockId = product.stock_id;
 
     if(addedProductIndex !== -1) {
       /* Change product amount - Found identical product in cart (same product and addons) */
-      if(Math.min(productCount, addonCount) > cartContent[addedProductIndex].amount) {
-          // If stock OK - increment product
-          cartContent[addedProductIndex] = { ...cartContent[addedProductIndex], amount: cartContent[addedProductIndex].amount + 1 };
-          localStorage.setItem('cart', JSON.stringify(cartContent));
-          return true;
-        }
-      else {
-          return false;
-      }
+      cartContent[addedProductIndex] = { ...cartContent[addedProductIndex], amount: cartContent[addedProductIndex].amount + 1 };
+      localStorage.setItem('cart', JSON.stringify(cartContent));
+      return true;
     }
     else {
       /* Add new product */
@@ -87,20 +115,19 @@ function App() {
         return prev + curr?.amount;
       }, 0);
 
-      if(Math.min(productCount, addonCount) >= amountInCart + 1) {
-        localStorage.setItem('cart', JSON.stringify([...cartContent, {
-          product, addons, amount: 1
-        }]));
+      localStorage.setItem('cart', JSON.stringify([...cartContent, {
+        product, addons,
+        amount: 1,
+        stockId: productStockId
+      }]));
 
-        setCartContent([...cartContent, {
-          product, addons, amount: 1
-        }]);
+      setCartContent([...cartContent, {
+        product, addons,
+        amount: 1,
+        stockId: productStockId
+      }]);
 
-        return true;
-      }
-      else {
-        return false;
-      }
+      return true;
     }
   }
 
@@ -158,7 +185,8 @@ function App() {
     //     });
   }, [language]);
 
-  return render ? <CartContext.Provider value={{cartContent, addToCart, removeFromCart, decrementFromCart}}>
+  return render ? <CartContext.Provider value={{cartContent, addToCart, removeFromCart,
+    decrementFromCart, orderReceived, setOrderReceived}}>
     <ContentContext.Provider value={{content, language, setLanguage}}>
 
       <script id="CookieDeclaration" src="https://consent.cookiebot.com/2078d6f6-502a-4a67-88a4-8578b7204f5b/cd.js" type="text/javascript" async></script>
@@ -200,6 +228,9 @@ function App() {
       </Route>
       <Route path="/potwierdzenie-subskrypcji-newslettera">
         <NewsletterVerification />
+      </Route>
+      <Route path="/zrezygnuj-z-newslettera">
+        <NewsletterResignation />
       </Route>
       <Route path="/faq">
         <Faq />
@@ -340,6 +371,9 @@ function App() {
       </Route>
       <Route path="/formularz-weryfikacji">
         <AdminWrapper page={24} />
+      </Route>
+      <Route path="/wyslij-newsletter">
+        <AdminWrapper page={25} />
       </Route>
     </Router>
     </ContentContext.Provider>

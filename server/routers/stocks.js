@@ -470,17 +470,11 @@ router.put('/decrement-stock-by-addon', (request, response) => {
     let query, values;
 
     if(decrement) {
-        query = `UPDATE stocks s
-                SET counter = counter - $1
-                FROM addons_stocks ast
-                WHERE s.id = ast.stock AND ast.addon_option = $2`;
+        query = `UPDATE addons_options SET stock = stock - $1 WHERE id = $2`;
         values = [decrement, addonOption];
     }
     else {
-        query = `UPDATE stocks s
-                SET counter = counter - 1
-                FROM addons_stocks ast
-                WHERE s.id = ast.stock AND ast.addon_option = $1`;
+        query = `UPDATE addons_options SET stock = stock - 1 WHERE id = $1`;
         values = [addonOption];
     }
 

@@ -109,4 +109,19 @@ const emailTemplate = (header, text, btnLink, btnText) => {
         </div>`
 }
 
-module.exports = { router, emailTemplate }
+const newsletterTemplate = (content) => {
+    return `<div style="background: #053A26; padding: 25px;">
+        ${content}
+        ${getNewsletterBottom()}        
+    </div>`;
+}
+
+const getNewsletterBottom = () => {
+    return `<p style="border-top: 1px solid #B9A16B; color: #B9A16B; font-size: 12px; padding-top: 6px; margin: 30px 0 10px;">
+    Jeśli chcesz wypisać się z newslettera, kliknij 
+    <a href="${process.env.WEBSITE_URL}/zrezygnuj-z-newslettera" 
+    style="text-decoration: underline; color: #B9A16B; font-weight: 700;">TUTAJ</a>.
+</p>`;
+}
+
+module.exports = { router, emailTemplate, newsletterTemplate, getNewsletterBottom }

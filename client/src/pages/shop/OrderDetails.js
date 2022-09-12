@@ -9,6 +9,7 @@ import constans from "../../helpers/constants";
 import {getFormByStatus, isFormFilled} from "../../components/shop/ClientOrders";
 import {isLoggedIn} from "../../helpers/auth";
 import LoadingPage from "../../components/shop/LoadingPage";
+import {getAllTypes} from "../../helpers/products";
 
 const OrderDetails = () => {
     const { language, content } = useContext(ContentContext);
@@ -21,6 +22,7 @@ const OrderDetails = () => {
     const [statuses, setStatuses] = useState([]);
     const [buttons, setButtons] = useState([]);
     const [products, setProducts] = useState([]);
+    const [types, setTypes] = useState([]);
     const [ordersWithEmptyFirstTypeForms, setOrdersWithEmptyFirstTypeForms] = useState([]);
     const [ordersWithEmptySecondTypeForms, setOrdersWithEmptySecondTypeForms] = useState([]);
 
@@ -32,6 +34,11 @@ const OrderDetails = () => {
                 .then((res) => {
                     if(res?.status === 200) {
                         setRender(true);
+
+                        getAllTypes()
+                            .then((res) => {
+                                setTypes(res?.data?.result);
+                            });
 
                         getOrdersWithEmptyFirstTypeForms()
                             .then((res) => {
@@ -134,6 +141,7 @@ const OrderDetails = () => {
                        addonOption: item.addon_option_name_en,
                        price: item.price,
                        type: item.type_id,
+                       typeName: item.type,
                        img: item.main_image
                    }
                }));
@@ -148,6 +156,7 @@ const OrderDetails = () => {
                        addonOption: item.addon_option_name,
                        price: item.price,
                        type: item.type_id,
+                       typeName: item.type,
                        img: item.main_image
                    }
                }));
@@ -155,13 +164,17 @@ const OrderDetails = () => {
        }
     }, [orderInfo, language]);
 
+    const getTypeById = (id) => {
+        return types.find((item) => (item.id === id))?.name_pl;
+    }
+
     useEffect(() => {
-        if(orderDetails && cart) {
+        if(orderDetails && cart && types) {
             if(orderDetails.status === 1) {
                 setButtons(getNumberOfFirstTypeForms(cart).map((item) => {
                     return {
-                        pl: 'Podaj wymiary stopy',
-                        en: 'Podaj wymiary stopy',
+                        pl: `Podaj wymiary stopy - ${getTypeById(parseInt(item))}`,
+                        en: `Podaj wymiary stopy - ${getTypeById(parseInt(item))}`,
                         link: `/formularz-mierzenia-stopy?zamowienie=${orderDetails.id}&typ=${item}`
                     }
                 }));

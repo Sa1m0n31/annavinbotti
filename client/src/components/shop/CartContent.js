@@ -1,15 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
-import {getAddonsWithOptions} from "../../helpers/products";
+import {getAddonsWithOptions, getProductAddons} from "../../helpers/products";
+import {groupBy, isElementInArray, isProductAvailable} from "../../helpers/others";
 
-const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
+const CartContent = ({nextStep}) => {
     const { cartContent, removeFromCart, decrementFromCart } = useContext(CartContext);
-    const { language, content } = useContext(ContentContext);
+    const { language } = useContext(ContentContext);
 
     const [cartSum, setCartSum] = useState(0);
     const [addonsWithOptions, setAddonsWithOptions] = useState([]);
     const [cartAddonsNames, setCartAddonsNames] = useState([]);
+    const [productsAddons, setProductsAddons] = useState([]);
 
     useEffect(() => {
         if(cartContent?.length) {
@@ -34,6 +36,42 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
                 });
         }
     }, [cartContent]);
+
+    useEffect( () => {
+        if(cartContent?.length) {
+            const getProductsAddons = async () => {
+                let tmpAddons = [];
+                for(const cartItem of cartContent) {
+                    const r = await getProductAddons(cartItem.product.id);
+                    console.log(r);
+
+                    if(r) {
+                        if(tmpAddons.findIndex((item) => (item.product === cartItem.product.id)) === -1) {
+                            tmpAddons.push({
+                                product: cartItem.product.id,
+                                addons: Object.entries(groupBy(r.data.result, 'addon_name_pl'))
+                                    .map((item) => (item[1]))
+                                    .flat()
+                                    .map((item) => ({
+                                        addon_option_id: item.addon_option_id,
+                                        addon_id: item.id,
+                                        addon_option_stock: item.stock
+                                    }))
+                            });
+                        }
+                    }
+                }
+
+                setProductsAddons(tmpAddons);
+            }
+
+            getProductsAddons();
+        }
+    }, [cartContent]);
+
+    useEffect(() => {
+        console.log(productsAddons);
+    }, [productsAddons]);
 
     useEffect(() => {
         if(addonsWithOptions?.length && cartContent?.length) {
@@ -68,7 +106,7 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
 
     const incrementAmount = (slug) => {
         localStorage.setItem('redirectionInfoModal', 'true');
-        window.location = `/produkt/${slug}`
+        window.location = `/produkt/${slug}`;
     }
 
     const removeItemFromCart = (product, addons) => {
@@ -93,9 +131,11 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
                     </span>
                 </div>
 
-                {cartContent && cartContent?.length ? cartContent?.map((item, index) => {
+                {cartContent?.length && productsAddons?.length ? cartContent?.map((item, index) => {
                     if(item) {
                         const product = item.product;
+                        const productAvailable = isProductAvailable(productsAddons.find((item) => (item.product === product.id))?.addons, product.counter, product.id, item.stockId, cartContent);
+
                         return <div key={index}>
                             <div className="cart__table__row flex">
                             <span className="cart__table__cell cart__table__cell--image cart__table__cell--0">
@@ -118,7 +158,9 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
                                             <div className="cart__table__amountChange__amount">
                                                 {item.amount}
                                             </div>
-                                            <button className="cart__table__amountChange__btn" onClick={() => { incrementAmount(product.slug); }}>
+                                            <button className="cart__table__amountChange__btn"
+                                                    disabled={!productAvailable}
+                                                    onClick={() => { incrementAmount(product.slug); }}>
                                                 +
                                             </button>
                                         </div>
@@ -136,7 +178,9 @@ const CartContent = ({nextStep, shippingMethods, shipping, setShipping}) => {
                                     <div className="cart__table__amountChange__amount">
                                         {item.amount}
                                     </div>
-                                    <button className="cart__table__amountChange__btn" onClick={() => { incrementAmount(product.slug); }}>
+                                    <button className="cart__table__amountChange__btn"
+                                            disabled={!productAvailable}
+                                            onClick={() => { incrementAmount(product.slug); }}>
                                         +
                                     </button>
                                 </div>

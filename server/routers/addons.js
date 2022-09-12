@@ -46,7 +46,8 @@ router.post('/add', upload.single('image'), (request, response) => {
 router.get('/get-addons-with-options', (request, response) => {
     const ids = request.query.id.split(',');
 
-    const query = `SELECT a.name_pl as addon_name, ao.name_pl as addon_option_name, a.id as addon_id, ao.id as addon_option_id    
+    const query = `SELECT a.name_pl as addon_name, ao.name_pl as addon_option_name, 
+                    a.id as addon_id, ao.id as addon_option_id, ao.stock as addon_option_stock     
                     FROM addons_options ao 
                     JOIN addons a ON a.id = ao.addon 
                     WHERE a.id = ANY ($1) AND ao.hidden = FALSE`;

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import {getAllNewsletterSubscribers} from "../../helpers/newsletter";
+import {getDate, getTime} from "../../helpers/others";
 
 const AdminNewsletter = () => {
     const [emails, setEmails] = useState([]);
@@ -23,9 +24,14 @@ const AdminNewsletter = () => {
                     Adresy mailowe zapisane do newslettera ({emails?.length})
                 </h2>
                 {emails?.map((item, index) => {
-                    return <p className="newsletterList__item">
-                        {item.email}
-                    </p>
+                    return <div className="newsletterList__item flex" key={index}>
+                        <p>
+                            {item.email}
+                        </p>
+                        <p>
+                            {getDate(item.register_date)}, {getTime(item.register_date)}
+                        </p>
+                    </div>
                 })}
             </main>
         </div>

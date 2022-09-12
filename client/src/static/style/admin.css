@@ -500,9 +500,10 @@ a, button, label {
     height: auto;
 }
 
+.dzu-inputLabel,
 .dzu-dropzone > label {
     margin-top: 5px;
-    color: transparent;
+    color: transparent !important;
 }
 
 .dzu-dropzone > label > input {
@@ -1083,6 +1084,7 @@ div[data-testid=three-dots-loading] {
     color: #fff;
     font-size: 15px;
     margin: 30px auto;
+    text-align: center;
 }
 
 .modal__btn {

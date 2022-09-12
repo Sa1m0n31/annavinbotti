@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import SideCart from "./SideCart";
 import Login from "./Login";
-import {isLoggedIn} from "../../helpers/auth";
 import Loader from "./Loader";
 import {getUserInfo} from "../../helpers/user";
 import OrderFormFields from "./OrderFormFields";
@@ -269,7 +268,6 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                     })
                     .catch((err) => {
                         setLoading(false);
-                        console.log(err);
                         if(err.response.status === 403) {
                             setOutOfStock(true);
                         }

@@ -36,7 +36,7 @@ const shippingMethods = [
 
 const ShippingFormPage = () => {
     const { content, language } = useContext(ContentContext);
-    const { cartContent } = useContext(CartContext);
+    const { cartContent, setOrderReceived } = useContext(CartContext);
 
     const [orderStep, setOrderStep] = useState(localStorage.getItem('orderStep') ? parseInt(localStorage.getItem('orderStep')) : 0);
     const [orderStepDisplay, setOrderStepDisplay] = useState(0);
@@ -55,6 +55,7 @@ const ShippingFormPage = () => {
                 orderProgress.current.style.width = '63%';
             }
             else if(orderStep === 2) {
+                setOrderReceived(true);
                 orderProgress.current.style.width = '100%';
             }
         }
@@ -84,7 +85,7 @@ const ShippingFormPage = () => {
     return <div className="container container--order">
         <PageHeader />
         <main className="order w">
-            {!cartContent || cartContent?.length === 0 ? <div className="emptyCart">
+            {(!cartContent || cartContent?.length === 0) && orderStep === 0 ? <div className="emptyCart">
                 <h2 className="emptyCart__header">
                     Twój koszyk jest pusty
                 </h2>

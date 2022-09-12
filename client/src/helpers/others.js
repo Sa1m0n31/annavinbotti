@@ -216,17 +216,64 @@ const isElementInArray = (el, arr) => {
 }
 
 const getNumberOfOptionInCart = (optionId, cart) => {
-    return cart.map((item) => (
+    const cartAmounts = cart.map((item) => (item.amount));
+
+    return cart.map((item, parentIndex) => (
             Object.entries(item.addons)
-            .map((item) => (item[1]))
-            .filter((item) => (item === optionId))
-        )).reduce((prev, curr) => {
-            return prev + curr.length;
-    }, 0);
+            .map((item, index) => ({
+                optionId: item[1],
+                amount: cartAmounts[parentIndex]
+            }))
+            .filter((item) => (item.optionId === optionId))
+        ))
+        .reduce((prev, curr) => {
+            return prev + curr.length * (curr?.length ? curr[0].amount : 0);
+        }, 0);
 }
 
-const getNumberOfModelInCart = (modelId, cart) => {
-    return cart.filter((item) => (item.product.id === modelId))
+const isAddonAvailable = (addonOption, addonOptionStock, cart) => {
+    return addonOptionStock - getNumberOfOptionInCart(addonOption, cart) > 0;
+}
+
+const isProductAvailable = (addons, stock, modelId, stockId, cart) => {
+    /*
+        Product is available if:
+        - model has: stock - number of models with that stock in cart > 0
+        - at least one option of every addon has: stock - number of options in cart > 0
+     */
+
+    /*
+        addons: [
+            {
+                addon_id,
+                addon_option_id,
+                addon_option_stock
+            }
+        ]
+     */
+
+    if(cart) {
+        return (addons.filter((item) => {
+            const currentAddonId = item.addon_id;
+            return addons
+                .filter((item) => {
+                    return item.addon_id === currentAddonId;
+                })
+                .findIndex((item) => {
+                    // if(item.addon_id === 18) {
+                    //     console.log(item.addon_option_id, item.addon_option_stock, getNumberOfOptionInCart(item.addon_option_id, cart));
+                    // }
+                    return (item.addon_option_stock - getNumberOfOptionInCart(item.addon_option_id, cart) > 0);
+                }) !== -1;
+        }).length === addons.length) && (stock - getNumberOfModelsWithTheSameStockInCart(stockId, cart) > 0);
+    }
+    else {
+        return 0;
+    }
+}
+
+const getNumberOfModelsWithTheSameStockInCart = (stockId, cart) => {
+    return cart.filter((item) => (item.stockId === stockId))
         .map((item) => (item.amount))
         .reduce((prev, curr) => {
             return prev + curr;
@@ -283,5 +330,8 @@ const getFiletype = (mimetype) => {
     }
 }
 
-export { scrollToTop, isPasswordStrong, sendMessageToSupport, getNumberOfOptionInCart, isEmail, getDate, sendContactForm, isInteger, isAlphanumeric, isElementInArray, validatePhoneNumberChange,
-    statusButtons, groupBy, getNumberOfFirstTypeForms, getNumberOfModelInCart, getNumberOfSecondTypeForms, downloadData, getFiletype, getTime, validatePostalCodeChange}
+export { scrollToTop, isPasswordStrong, sendMessageToSupport, isProductAvailable, isAddonAvailable,
+    getNumberOfOptionInCart, isEmail, getDate, sendContactForm, isInteger, isAlphanumeric,
+    isElementInArray, validatePhoneNumberChange, statusButtons, groupBy, getNumberOfFirstTypeForms,
+    getNumberOfModelsWithTheSameStockInCart, getNumberOfSecondTypeForms, downloadData,
+    getFiletype, getTime, validatePostalCodeChange}

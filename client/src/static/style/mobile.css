@@ -48,10 +48,6 @@
         margin-bottom: 15px;
     }
 
-    .btn--orderDetails {
-        height: 40px;
-    }
-
     .footer__col > span,
     .footer__link {
         font-size: 14px;
@@ -485,6 +481,15 @@
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .newPasswordForm .shipping__header {
+        margin-top: 40px;
+        max-width: 90%;
+    }
+
+    .newsletterPage .btn--remindPassword--success {
+        margin-bottom: 40px;
     }
 
     .addon__option__imageType > span {

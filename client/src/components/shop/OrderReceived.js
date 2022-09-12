@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import SideCart from "./SideCart";
 import {getOrderById} from "../../helpers/orders";
 import {groupBy} from "../../helpers/others";
@@ -38,7 +38,7 @@ const OrderReceived = ({orderId}) => {
             {cart?.map((item, index) => {
                 return <a key={index} className="btn btn--orderReceived"
                           href={`/formularz-mierzenia-stopy?zamowienie=${item[1][0].id}&typ=${item[0]}`}>
-                    Podaj wymiary stopy
+                    Podaj wymiary stopy - {item[1][0].type}
                 </a>
             })}
 

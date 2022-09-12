@@ -61,7 +61,8 @@ const AdminMenu = ({menuOpen}) => {
             { name: "Lista artykułów", link: '/lista-artykulow' }
         ],
         [
-            { name: "Lista mailingowa", link: '/newsletter' }
+            { name: "Lista mailingowa", link: '/newsletter' },
+            { name: "Wyślij newsletter", link: '/wyslij-newsletter' }
         ],
         [
             { name: "Wersja polska", link: '/regulaminy-polski' },

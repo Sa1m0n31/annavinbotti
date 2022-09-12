@@ -23,6 +23,7 @@ import ChangeAdminPassword from "../../pages/admin/ChangeAdminPassword";
 import FormType2Details from "../../pages/admin/FormType2Details";
 import AddonsStocks from "../../pages/admin/AddonsStocks";
 import { Helmet } from 'react-helmet'
+import SendNewsletter from "../../pages/admin/SendNewsletter";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -101,6 +102,9 @@ const AdminWrapper = ({page}) => {
                 break;
             case 24:
                 setRenderPage(<FormType2Details />);
+                break;
+            case 25:
+                setRenderPage(<SendNewsletter />);
                 break;
             default:
                 window.location = '/';

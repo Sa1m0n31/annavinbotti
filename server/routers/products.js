@@ -70,7 +70,7 @@ router.get('/get-shop-page', (request, response) => {
    const query = `SELECT p.id, t.name_pl as type_pl, t.name_en as type_en, t.id as type_id,
             p.slug, p.name_pl, p.name_en, p.description_pl, p.description_en,
             p.details_pl, p.details_en, p.price, p.main_image,
-            COALESCE(s.counter, 0) as counter
+            COALESCE(s.counter, 0) as counter, s.id as stock_id
             FROM products p
             JOIN types t ON p.type = t.id
             LEFT OUTER JOIN products_stocks ps ON ps.product = p.id
@@ -143,7 +143,7 @@ router.get('/get-by-slug', (request, response) => {
 
    if(slug) {
       const query = `SELECT p.id, p.slug, t.name_pl as type_pl, t.name_en as type_en, p.name_pl, p.name_en,
-                  p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image, s.counter,
+                  p.description_pl, p.description_en, p.details_pl, p.details_en, p.price, p.main_image, s.counter, s.id as stock_id, 
                   (SELECT COUNT(*)
                   FROM addons_for_products afp
                   JOIN products p ON afp.product = p.id
@@ -419,7 +419,6 @@ router.post('/add-addons-for-product', (request, response) => {
    const { product, addons } = request.body;
 
    const addonsList = JSON.parse(addons);
-   console.log(addonsList);
 
    if(addonsList?.length) {
       addonsList.forEach((item, index, array) => {
@@ -452,10 +451,29 @@ router.get('/get-addons-conditions-by-product', (request, response) => {
    dbSelectQuery(query, values, response);
 });
 
+router.get('/update-stocks-in-cart', (request, response) => {
+   const ids = request.query.ids;
+   const idsArray = ids?.split(',');
+
+   if(idsArray?.length) {
+      const query = `SELECT p.id, s.counter, s.id as stock_id 
+                     FROM products p
+                     JOIN products_stocks ps ON p.id = ps.product
+                     JOIN stocks s ON s.id = ps.stock
+                     WHERE p.id = ANY($1)`;
+      const values = [idsArray];
+
+      dbSelectQuery(query, values, response);
+   }
+   else {
+      response.status(400).end();
+   }
+});
+
 router.get('/get-product-addons', (request, response) => {
    const product = request.query.id;
 
-   const query = `SELECT ao.id as addon_option_id, ao.name_pl as addon_option_name_pl, ao.name_en as addon_option_name_en, a.id, ao.image,
+   const query = `SELECT ao.id as addon_option_id, ao.name_pl as addon_option_name_pl, ao.name_en as addon_option_name_en, a.id, ao.image, ao.stock, 
                   a.name_pl as addon_name_pl, a.name_en as addon_name_en, a.info_pl, a.info_en, ao.tooltip_pl, ao.tooltip_en, afp.priority, afp.show_if, afp.is_equal, a.addon_type   
                   FROM addons a 
                   LEFT OUTER JOIN addons_for_products afp ON afp.addon = a.id 

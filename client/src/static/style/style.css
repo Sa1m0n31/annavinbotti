@@ -1832,7 +1832,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     width: 100%;
     max-width: 400px;
     height: 60px;
-    font-size: 18px;
+    font-size: 16px;
     border-radius: 60px;
     color: #fff !important;
     margin: 20px auto;
@@ -1902,8 +1902,12 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     text-decoration: underline;
 }
 
+.ordersTable > div > *:nth-child(2) {
+    flex-basis: 12%;
+}
+
 .ordersTable > div > *:not(:first-child) {
-    flex-basis: 30%;
+    flex-basis: 39%;
 }
 
 .ordersTable__header {
@@ -1919,6 +1923,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     padding: 0 15px;
     font-size: 14px;
     margin: 10px auto;
+    max-width: 45%;
 }
 
 .marginTop {
@@ -2001,12 +2006,12 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     border-radius: 40px;
     color: #000;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     margin: 10px 0;
     min-width: 300px;
-    max-width: 350px;
-    padding: 5px 15px;
+    max-width: 420px;
+    padding: 5px 35px;
 }
 
 .orderDetails__statuses .orderStatus {
@@ -3232,4 +3237,53 @@ textarea {
     width: 300px;
     max-width: 100%;
     margin-top: 60px;
+}
+
+.shipping__header--newsletterResignation {
+    text-transform: none;
+}
+
+.newsletterPage--resignation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.label--newsletterResignation {
+    max-width: 90%;
+}
+
+.label--newsletterResignation,
+.label--newsletterResignation .input {
+    width: 400px;
+    height: 45px;
+}
+
+.label--newsletterResignation .input {
+    max-width: 100%;
+}
+
+.btn--newsletterResignation {
+    width: 400px;
+    max-width: 90%;
+    margin: 25px auto 100px;
+}
+
+.newsletterPage--resignation .info {
+    font-size: 13px;
+}
+
+.newsletterPage--resignation .center {
+    margin: 25px auto;
+}
+
+.shipping__header--afterResignationLinkSend {
+    margin-bottom: -10px;
+}
+
+.cart__table__amountChange__btn:disabled {
+    opacity: .5;
+    pointer-events: none;
+    cursor: default;
 }

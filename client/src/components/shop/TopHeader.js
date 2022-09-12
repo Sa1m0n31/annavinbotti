@@ -17,7 +17,7 @@ import {logout} from "../../helpers/user";
 
 const TopHeader = () => {
     const { language, setLanguage } = useContext(ContentContext);
-    const { cartContent } = useContext(CartContext);
+    const { cartContent, orderReceived } = useContext(CartContext);
 
     const [mobileSubmenu, setMobileSubmenu] = useState(-1);
     const [loggedIn, setLoggedIn] = useState(false);
@@ -112,7 +112,7 @@ const TopHeader = () => {
                 </button>
                 <a href="/zamowienie" className="topHeader__firstRow__right__link">
                     <img className="img" src={cartIcon} alt="koszyk" />
-                    {cartContent?.length ? <span className="cartCounter">
+                    {cartContent?.length && !orderReceived ? <span className="cartCounter">
                         {cartContent.length}
                     </span> : ''}
                 </a>

@@ -30,16 +30,18 @@ const HomepageModels = () => {
         </h2>
         <div className="flex">
             {models?.map((item, index) => {
-                return <a className="homepageModels__item"
-                          key={index}
-                          href={item.link}>
-                    <figure>
-                        <img className="img" src={`${constans.IMAGE_URL}/media/products/${item.img}`} alt={item.name} />
-                    </figure>
-                    <h3 className="homepageModels__item__header">
-                        {language === 'pl' ? item.namePl : item.nameEn}
-                    </h3>
-                </a>
+                if(index <= 2) {
+                    return <a className="homepageModels__item"
+                              key={index}
+                              href={item.link}>
+                        <figure>
+                            <img className="img" src={`${constans.IMAGE_URL}/media/products/${item.img}`} alt={item.name} />
+                        </figure>
+                        <h3 className="homepageModels__item__header">
+                            {language === 'pl' ? item.namePl : item.nameEn}
+                        </h3>
+                    </a>
+                }
             })}
         </div>
     </section>

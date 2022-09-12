@@ -17,7 +17,7 @@ const NewsletterSection = () => {
             registerToNewsletter(email)
                 .then((res) => {
                     if(res?.status === 201) {
-                        setStatus(language === 'pl' ? 'Dziękujemy za zapisanie się do newslettera! Na podany adres e-mail został wysłany link aktywacyjny.' : 'Thank you for subscribing to the newsletter! An activation link has been sent to the e-mail address provided.');
+                        setStatus(language === 'pl' ? 'Dziękujemy za zapisanie się do newslettera! Na podany adres e-mail został wysłany link aktywacyjny. W przypadku braku wiadomości w skrzynce, sprawdź folder spam.' : 'Thank you for subscribing to the newsletter! An activation link has been sent to the e-mail address provided.');
                     }
                     else {
                         setError(language === 'pl' ? 'Podany adres jest już zapisany do naszego newslettera' : 'Email address already registered to our newsletter');

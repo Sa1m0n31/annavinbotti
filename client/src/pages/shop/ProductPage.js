@@ -11,10 +11,11 @@ import {CartContext, ContentContext} from "../../App";
 import draftToHtml from 'draftjs-to-html';
 import arrowDownGoldIcon from '../../static/img/arrow-down-gold.svg'
 import {addToWaitlist} from "../../helpers/orders";
-import {isEmail} from "../../helpers/others";
+import {isAddonAvailable, isEmail, isProductAvailable} from "../../helpers/others";
 import Slider from "react-slick";
 import RedirectionInfoModal from "../../components/shop/RedirectionInfoModal";
 import infoIcon from '../../static/img/info-icon.svg'
+import LoadingPage from "../../components/shop/LoadingPage";
 
 const settings = {
     dots: false,
@@ -26,9 +27,10 @@ const settings = {
 }
 
 const ProductPage = () => {
-    const { content, language } = useContext(ContentContext);
-    const { addToCart } = useContext(CartContext);
+    const { language } = useContext(ContentContext);
+    const { addToCart, cartContent } = useContext(CartContext);
 
+    const [render, setRender] = useState(false);
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
     const [gallery, setGallery] = useState([]);
@@ -93,8 +95,31 @@ const ProductPage = () => {
                 .then((res) => {
                     const r = res?.data?.result;
                     if(r) {
+                        const addonsToCheckAvailability = Object.entries(groupBy(r, 'addon_name_pl'))
+                            .map((item) => (item[1]))
+                            .flat()
+                            .map((item) => ({
+                                addon_option_id: item.addon_option_id,
+                                addon_id: item.id,
+                                addon_option_stock: item.stock
+                            }));
+
+                        if(!isProductAvailable(addonsToCheckAvailability, product.counter, product.id, product.stock_id, cartContent)) {
+                            window.location = '/sklep';
+                        }
+                        else {
+                            setRender(true);
+                        }
+
                         setAddons(Object.entries(groupBy(r, 'addon_name_pl')).sort((a, b) => {
                             return a[1][0].priority > b[1][0].priority ? 1 : -1;
+                        })?.map((item) => {
+                            return [
+                                item[0],
+                                item[1].filter((item) => {
+                                    return isAddonAvailable(item.addon_option_id, item.stock, cartContent);
+                                })
+                            ];
                         }));
                     }
                 });
@@ -179,27 +204,16 @@ const ProductPage = () => {
         });
     }
 
-    const validateAddons = () => {
-        return requiredAddons.filter((item) => {
-            return selectedAddons[item];
-        })?.length === requiredAddons?.length;
-    }
-
     const buy = async () => {
-        if(validateAddons()) {
-            if(await addToCart(product, Object.fromEntries(Object.entries(selectedAddons).filter((item) => {
-                return item[1];
-            })))) {
-                // Added to cart
-                window.location = '/zamowienie';
-            }
-            else {
-                // Product not available
-                setOutOfStock(true);
-            }
+        if(await addToCart(product, Object.fromEntries(Object.entries(selectedAddons).filter((item) => {
+            return item[1];
+        })))) {
+            // Added to cart
+            window.location = '/zamowienie';
         }
         else {
-            setAddonsError(true);
+            // Product not available
+            setOutOfStock(true);
         }
     }
 
@@ -261,7 +275,7 @@ const ProductPage = () => {
         setLastClick(time);
     }
 
-    return <div className="container">
+    return render ? <div className="container">
         <PageHeader />
         {loading ? <div className="product--loading center w">
             <Loader />
@@ -328,9 +342,9 @@ const ProductPage = () => {
                     {product?.price} zł
                 </h2>
                 <p className="product__shortDesc"
-                    dangerouslySetInnerHTML={{__html: draftToHtml(JSON.parse(
-                            language === 'pl' ? product?.description_pl : product?.description_en)
-                        )}}
+                   dangerouslySetInnerHTML={{__html: draftToHtml(JSON.parse(
+                           language === 'pl' ? product?.description_pl : product?.description_en)
+                       )}}
                 >
 
                 </p>
@@ -343,8 +357,6 @@ const ProductPage = () => {
                     const ad = item[1];
                     const conditionIf = ad[0].show_if;
                     const conditionIsEqual = ad[0].is_equal;
-
-                    console.log(ad[0].addon_name_pl, conditionIf, conditionIsEqual);
 
                     if(ad && ((conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf))) {
                         return <div className="addon" key={index}>
@@ -380,7 +392,7 @@ const ProductPage = () => {
                                             </>}
                                         </div> : ''}
 
-                                                    {item.addon_type === 1 ? <span className="addon__option__textType">
+                                        {item.addon_type === 1 ? <span className="addon__option__textType">
                                                 {language === 'pl' ? item.addon_option_name_pl : item.addon_option_name_en}
                                             </span> : <span className="addon__option__imageType">
                                                 <figure>
@@ -460,7 +472,7 @@ const ProductPage = () => {
             </div>
         </section>}
         <Footer />
-    </div>
+    </div> : <LoadingPage />
 };
 
 export default ProductPage;

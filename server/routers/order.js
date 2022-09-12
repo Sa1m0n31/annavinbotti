@@ -229,7 +229,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
 
     let sells = [], addons = [];
 
-
     // Add if multiple identical (product + addons) products
     for(let i=0; i<oldSells.length; i++) {
         for(let j=0; j<oldSells[i].amount; j++) {

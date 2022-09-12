@@ -140,21 +140,10 @@ const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '', toolti
 }
 
 const updateAddon = (id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, type, adminName) => {
-    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-    let formData = new FormData();
-
-    formData.append('id', id);
-    formData.append('namePl', namePl);
-    formData.append('nameEn', nameEn);
-    formData.append('infoPl', infoPl);
-    formData.append('infoEn', infoEn);
-    formData.append('tooltipPl', tooltipPl);
-    formData.append('tooltipEn', tooltipEn);
-    formData.append('image', image);
-    formData.append('type', type);
-    formData.append('adminName', adminName ? adminName : '');
-
-    return axios.patch('/addons/update', formData, config);
+    return axios.patch('/addons/update', {
+        id, namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, type,
+        adminName: adminName ? adminName : ''
+    });
 }
 
 const updateAddonOption = (id, addon, namePl, nameEn, color, img, tooltipPl, tooltipEn, adminName) => {

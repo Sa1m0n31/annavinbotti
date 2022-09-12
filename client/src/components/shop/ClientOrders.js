@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
     getOrdersWithEmptyFirstTypeForms,
-    getOrdersWithEmptyForms,
     getOrdersWithEmptySecondTypeForms,
     getUserOrders
 } from "../../helpers/user";
@@ -9,12 +8,12 @@ import {
     getDate,
     getNumberOfFirstTypeForms,
     getNumberOfSecondTypeForms,
-    groupBy,
-    statusButtons
+    groupBy
 } from "../../helpers/others";
 import {getOrderStatuses} from "../../helpers/orders";
 import {ContentContext} from "../../App";
 import Loader from "./Loader";
+import {getAllTypes} from "../../helpers/products";
 
 const getFormByStatus = (status) => {
     if(status === 1) return 1;
@@ -43,12 +42,18 @@ const ClientOrders = () => {
     const [orders, setOrders] = useState([]);
     const [statuses, setStatuses] = useState([]);
     const [buttons, setButtons] = useState([]);
+    const [types, setTypes] = useState([]);
     const [ordersWithEmptyFirstTypeForms, setOrdersWithEmptyFirstTypeForms] = useState([]);
     const [ordersWithEmptySecondTypeForms, setOrdersWithEmptySecondTypeForms] = useState([]);
     const [render, setRender] = useState(false);
     const [emptyOrderList, setEmptyOrderList] = useState(false);
 
     useEffect(() => {
+        getAllTypes()
+            .then((res) => {
+                setTypes(res?.data?.result);
+            });
+
         getUserOrders()
             .then((res) => {
                 if(res?.status === 200) {
@@ -89,7 +94,6 @@ const ClientOrders = () => {
         if(orders?.length) {
             setEmptyOrderList(false);
             setButtons(orders.map((item) => {
-                console.log(item);
                 return setButtonParams(item[0], item[1][0].status, item[1]);
             }));
         }
@@ -98,12 +102,16 @@ const ClientOrders = () => {
         }
     }, [orders, statuses]);
 
+    const getTypeById = (id) => {
+        return types.find((item) => (item.id === id))?.name_pl;
+    }
+
     const setButtonParams = (orderId, status, cart) => {
         if(status === 1) {
             return getNumberOfFirstTypeForms(cart).map((item) => {
                 return {
-                    pl: 'Podaj wymiary stopy',
-                    en: 'Podaj wymiary stopy',
+                    pl: `Podaj wymiary stopy - ${getTypeById(parseInt(item))}`,
+                    en: `Podaj wymiary stopy - ${getTypeById(parseInt(item))}`,
                     link: `/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item}`
                 }
             })
@@ -119,7 +127,6 @@ const ClientOrders = () => {
         }
         else if(status === 5) {
             return getNumberOfSecondTypeForms(cart).map((item) => {
-                console.log(item);
                 return {
                     pl: 'Zweryfikuj but do miary',
                     en: 'Zweryfikuj but do miary',
@@ -161,6 +168,7 @@ const ClientOrders = () => {
             {orders?.map((item, index) => {
                 const orderId = item[0];
                 const parentItem = item;
+
                 return <div className="ordersTable__row flex" key={index}>
                     <a href={`/informacje-o-zamowieniu?id=${orderId}`} className="ordersTable__row__cell">
                         #{orderId}
@@ -169,7 +177,8 @@ const ClientOrders = () => {
                         {getDate(item[1][0].date)}
                     </span>
                     <span className="ordersTable__row__cell">
-                        {language === 'pl' ? statuses[item[1][0]?.status-1]?.name_pl : statuses[item[1][0]?.status-1]?.name_en}
+                        {language === 'pl' ? (item[1][0]?.status ? statuses[item[1][0]?.status-1]?.name_pl : 'Anulowane')
+                            : (item[1][0]?.status ? statuses[item[1][0]?.status-1]?.name_en : 'Cancelled')}
                     </span>
                     <span className="ordersTable__row__cell ordersTable__row__cell--buttonsWrapper">
                         {buttons[index]?.map((item, index) => {

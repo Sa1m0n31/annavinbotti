@@ -106,7 +106,15 @@ const updateAddonStock = (id, stock) => {
     });
 }
 
+const updateStocksInCart = (ids) => {
+    return axios.get('/products/update-stocks-in-cart', {
+        params: {
+            ids: ids.join(',')
+        }
+    });
+}
+
 export { getAllStocks, getAllProductStocks, getAllOptionsStocks, getAllAddonsStocks, deleteProductStock, deleteAddonStock,
     getProductStockDetails, getAddonStockDetails, addProductStock, addAddonStock, checkAddonsStocks, checkProductsStocks,
-    getProductStock, decrementStockByAddon, decrementStockByProduct, updateAddonStock
+    getProductStock, decrementStockByAddon, decrementStockByProduct, updateAddonStock, updateStocksInCart
 }
