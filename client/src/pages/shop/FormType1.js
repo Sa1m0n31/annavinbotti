@@ -9,6 +9,9 @@ import {getTypeById} from "../../helpers/products";
 import ConfirmForm from "../../components/shop/ConfirmForm";
 import OldFormData from "../../components/shop/OldFormData";
 import LoadingPage from "../../components/shop/LoadingPage";
+import {isInteger} from "../../helpers/others";
+import FormType1Boot1 from "../../components/shop/FormType1Boot1";
+import checkIcon from '../../static/img/check.svg'
 
 const FormType1 = () => {
     const { language } = useContext(ContentContext);
@@ -26,6 +29,7 @@ const FormType1 = () => {
     const [validationSucceed, setValidationSucceed] = useState(false);
     const [formData, setFormData] = useState([]);
     const [oldForm, setOldForm] = useState(null);
+    const [formToRender, setFormToRender] = useState(null);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -65,7 +69,7 @@ const FormType1 = () => {
     }, [language]);
 
     useEffect(() => {
-        if(form) {
+        if(form && typeId) {
             setRender(true);
             setRequiredInputs(form?.sections?.reduce((prev, curr) => {
                 return prev + curr?.fields?.filter((item) => {
@@ -77,6 +81,20 @@ const FormType1 = () => {
                     return item?.type === 2;
                 })?.length;
             }, 0));
+
+            switch(typeId) {
+                case 1:
+                    setFormToRender(<FormType1Boot1 form={form}
+                                                    inputs={inputs}
+                                                    images={images}
+                                                    handleInputUpdate={handleInputUpdate}
+                                                    handleImageUpload={handleImageUpload}
+                                                    deleteImg={deleteImg}
+                    />);
+                    break;
+                default:
+                    break;
+            }
         }
     }, [form]);
 
@@ -98,9 +116,73 @@ const FormType1 = () => {
     }
 
     const handleInputUpdate = (e, fieldId) => {
+        e.preventDefault();
         const content = e.target.value;
         let newInputs = { ...inputs };
-        newInputs[fieldId] = content;
+
+        if(content.length) {
+            if(parseFloat(content) < 1000) {
+                const lastChar = content[content.length-1];
+
+                if(isInteger(lastChar) || lastChar === '.' || lastChar === ',') {
+                    if(lastChar === '.') {
+                        if(content.length > 1) {
+                            if(content.slice(0, -1).split('').findIndex((item) => (item === '.')) === -1) {
+                                newInputs[fieldId] = content;
+                            }
+                            else {
+                                newInputs[fieldId] = content.slice(0, -1);
+                            }
+                        }
+                        else {
+                            newInputs[fieldId] = '';
+                        }
+                    }
+                    else if(lastChar === ',') {
+                        if(content.length > 1) {
+                            if(content.split('').findIndex((item) => (item === '.')) === -1) {
+                                newInputs[fieldId] = content.slice(0, -1) + '.';
+                            }
+                            else {
+                                newInputs[fieldId] = content.slice(0, -1);
+                            }
+                        }
+                        else {
+                            newInputs[fieldId] = '';
+                        }
+                    }
+                    else {
+                        if(content.split('').findIndex((item) => (item === '.')) !== -1) {
+                            const decimalPart = content.split('.')[content.split('.').length-1];
+                            if(decimalPart.length <= 2) {
+                                newInputs[fieldId] = content;
+                            }
+                            else {
+                                newInputs[fieldId] = content.slice(0, -1);
+                            }
+                        }
+                        else {
+                            if(content.length < 3) {
+                                newInputs[fieldId] = content;
+                            }
+                            else {
+                                newInputs[fieldId] = content.slice(0, -1);
+                            }
+                        }
+                    }
+                }
+                else {
+                    newInputs[fieldId] = content.slice(0, -1);
+                }
+            }
+            else {
+                newInputs[fieldId] = content.slice(0, -1);
+            }
+        }
+        else {
+            newInputs[fieldId] = content;
+        }
+
         setInputs(newInputs);
     }
 
@@ -127,10 +209,17 @@ const FormType1 = () => {
                                 [item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]: inputs[item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]
                             }
                         }
-                        else {
+                        else if(item.type === 2) {
                             return {
                                 type: 2,
                                 [item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]: images[item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]
+                            }
+                        }
+                        else {
+                            return {
+                                type: 3,
+                                [item.caption + '-number-leg' + (index < form.sections.length / 2 ? 0 : 1)]: images[item.caption + '-number-leg' + (index < form.sections.length / 2 ? 0 : 1)],
+                                [item.caption + '-image-leg' + (index < form.sections.length / 2 ? 0 : 1)]: images[item.caption + '-image-leg' + (index < form.sections.length / 2 ? 0 : 1)]
                             }
                         }
                     });
@@ -174,9 +263,11 @@ const FormType1 = () => {
                 </div>
             </div>
 
-            {oldForm ? <OldFormData data={oldForm} orderId={orderId} type={type} /> : <main className="formPage">
+            {oldForm ? <OldFormData data={oldForm}
+                                    orderId={orderId}
+                                    type={type} /> : <main className="formPage formPage--1">
                 <h1 className="pageHeader">
-                    {!validationSucceed ? form.header : 'Twoje wymiary'}
+                    {!validationSucceed ? form.header : 'Twoje wymiary w centymetrach'}
                 </h1>
                 <div className="formPage__info">
                     <p className="formPage__info__p">
@@ -210,28 +301,34 @@ const FormType1 = () => {
 
                             <div className="formSection__content">
                                 {item.fields?.map((item, index) => {
+
                                     if(item.type === 1) {
-                                        return <label className="formPage__label" key={index}>
-                                            {item.caption}
+                                        return <label className="formPage__label formPage__label--type1" key={index}>
+                                            <span className="formPage__label__caption">
+                                                {item.caption}
+                                            </span>
                                             <input className="input"
                                                    name={item.caption}
+                                                   value={inputs[item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)]}
                                                    onChange={(e) => { handleInputUpdate(e, item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }}
                                                    placeholder={item.placeholder} />
                                         </label>
                                     }
                                     else if(item.type === 2) {
                                         return <div className="formPage__label">
-                                            {item.caption}
+                                            <span className="formPage__label__caption">
+                                                {item.caption}
+                                            </span>
                                             {!images[item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)] ? <span key={index} className="formPage__imageWrapper">
-                                        <input type="file" className="formPage__imageInput" multiple={false}
-                                               onChange={(e) => { handleImageUpload(e, item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }} />
-                                       <div className="editor__videoWrapper__placeholderContent">
-                                            <p className="editor__videoWrapper__placeholderContent__text">
-                                                Kliknij tutaj lub upuść plik aby dodać zdjęcie
-                                            </p>
-                                            <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
-                                    </div>
-                                </span> : <div className="formPage__imgWrapper">
+                                            <input type="file" className="formPage__imageInput" multiple={false}
+                                                   onChange={(e) => { handleImageUpload(e, item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }} />
+                                           <div className="editor__videoWrapper__placeholderContent">
+                                                <p className="editor__videoWrapper__placeholderContent__text">
+                                                    Kliknij tutaj lub upuść plik aby dodać zdjęcie
+                                                </p>
+                                                <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
+                                        </div>
+                                    </span> : <div className="formPage__imgWrapper">
                                                 <button className="formPage__deleteBtn"
                                                         onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImg(item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }}>
                                                     &times;
@@ -240,8 +337,51 @@ const FormType1 = () => {
                                             </div>}
                                         </div>
                                     }
+                                    else {
+                                        return <div className="formPage__label flex" key={index}>
+                                            <span className="formPage__label__caption">
+                                                {item.caption}
+                                            </span>
+                                            <label className="formPage__label formPage__label--half">
+                                                <input className="input"
+                                                       name={item.caption}
+                                                       value={inputs[item.caption + '-number-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)]}
+                                                       onChange={(e) => { handleInputUpdate(e, item.caption + '-number-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }}
+                                                       placeholder={item.placeholder} />
+                                            </label>
+
+                                            {!images[item.caption + '-image-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)] ?
+                                                <span key={index} className="formPage__imageWrapper">
+                                            <input type="file"
+                                                   className="formPage__imageInput"
+                                                   multiple={false}
+                                                   onChange={(e) => {
+                                                       handleImageUpload(e, item.caption + '-image-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }} />
+                                           <div className="editor__videoWrapper__placeholderContent">
+                                                <p className="editor__videoWrapper__placeholderContent__text">
+                                                    Dodaj zdjęcie
+                                                </p>
+                                                <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
+                                        </div>
+                                    </span> :  <span key={index} className="formPage__imageWrapper">
+                                                    <button className="formPage__deleteBtn"
+                                                            onClick={(e) => { e.stopPropagation();
+                                                                e.preventDefault();
+                                                                deleteImg(item.caption + '-image-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }}>
+                                                        &times;
+                                                    </button>
+                                                    <div className="editor__videoWrapper__placeholderContent editor__videoWrapper__placeholderContent--check">
+                                                        <p className="editor__videoWrapper__placeholderContent__text">
+                                                            Zdjęcie dodane
+                                                        </p>
+                                                        <img className="editor__videoWrapper__icon editor__videoWrapper__icon--check" src={checkIcon} alt="video" />
+                                                    </div>
+                                                </span>}
+                                        </div>
+                                    }
                                 })}
                             </div>
+
                             {item.img ? <figure className="formSection__img">
                                 {item.imgCaption ? <figcaption>
                                     {item.imgCaption}
@@ -254,6 +394,18 @@ const FormType1 = () => {
                     <p className="formEnd">
                         {form.end}
                     </p>
+
+                    <div className="form__address">
+                        <p className="contact__top__section__data">
+                            Sklep Anna Vinbotti
+                        </p>
+                        <p className="contact__top__section__data">
+                            Ul. Tomasza Zana 43 / lok. 2.1
+                        </p>
+                        <p className="contact__top__section__data">
+                            20 – 601 Lublin
+                        </p>
+                    </div>
 
                     {error ? <span className="info info--error">
                         {error}

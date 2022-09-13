@@ -110,8 +110,8 @@ const ClientOrders = () => {
         if(status === 1) {
             return getNumberOfFirstTypeForms(cart).map((item) => {
                 return {
-                    pl: `Podaj wymiary stopy - ${getTypeById(parseInt(item))}`,
-                    en: `Podaj wymiary stopy - ${getTypeById(parseInt(item))}`,
+                    pl: `Podaj wymiary stopy - ${getTypeById(parseInt(item)) ? getTypeById(parseInt(item)) : ''}`,
+                    en: `Podaj wymiary stopy - ${getTypeById(parseInt(item)) ? getTypeById(parseInt(item)) : ''}`,
                     link: `/formularz-mierzenia-stopy?zamowienie=${orderId}&typ=${item}`
                 }
             })

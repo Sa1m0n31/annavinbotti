@@ -2137,7 +2137,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 }
 
 .formEnd {
-    margin: 40px auto;
+    margin: 40px auto 15px;
     text-align: center;
 }
 
@@ -2184,14 +2184,31 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     width: 100%;
 }
 
+.formPage__label__caption {
+    display: block;
+    width: 100%;
+}
+
+.formPage__label.flex {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.formPage__label--half {
+    width: 45%;
+}
+
 .formPage__label .input {
     width: 100%;
     height: 50px;
-    margin-top: 5px;
 }
 
 .formPage__label .input::placeholder {
     color: rgba(255, 255, 255, .8);
+}
+
+.flex > .formPage__imageWrapper {
+    margin-left: 3%;
 }
 
 .formSection__img {
@@ -2218,17 +2235,31 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     position: relative;
     height: 200px;
     width: 100%;
-    border: 2px dashed #fff;
-    margin: 5px 0 30px;
+    border: 1px dashed #fff;
+    border-radius: 5px;
+    margin: 10px 0;
     transition: .2s all;
 }
 
+.formPage__label--type1 .formPage__label__caption {
+    margin-bottom: 10px;
+}
+
 .formPage__imageWrapper .editor__videoWrapper__icon {
-    width: 40px;
+    width: 20px;
+    margin-left: 10px;
 }
 
 .formPage__imageWrapper:hover {
     border-color: var(--secondary);
+}
+
+.editor__videoWrapper__placeholderContent--check .editor__videoWrapper__placeholderContent__text {
+    color: var(--secondary);
+}
+
+.editor__videoWrapper__icon--check {
+    filter: none !important;
 }
 
 .formPage__imageInput {
@@ -2239,6 +2270,28 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     opacity: 0;
     cursor: pointer;
     z-index: 5;
+}
+
+.formPage__imageInput {
+    position: relative;
+}
+
+.formPage__imageWrapper {
+    width: 50%;
+    height: 50px;
+}
+
+.formPage .editor__videoWrapper__placeholderContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+.editor__videoWrapper__placeholderContent__text {
+    font-size: 12px;
+    margin-bottom: 0 !important;
 }
 
 .formPage__info {
@@ -2265,12 +2318,21 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     margin: 7px 0 20px;
 }
 
+.formPage .input::placeholder {
+    opacity: .6;
+}
+
+.form__address {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 .formPage__deleteBtn {
     position: absolute;
     top: -15px;
     right: -15px;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: none;
     display: flex;
@@ -2337,7 +2399,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     text-align: center;
     font-size: 15px;
     max-width: 400px;
-    margin: 20px auto;
+    margin: 20px auto 50px;
 }
 
 .btn--sendForm {

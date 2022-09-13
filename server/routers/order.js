@@ -1201,7 +1201,7 @@ font-family: 'Roboto', sans-serif;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B;">
-                    Nie otrzymaliśmy wszystkich niezbędnych informacji, dotyczących wymiarów stóp, potrzebnych do dalszego procesowania Twojej rezerwacji o numerze #${id} W związku  powyższym, rezerwacja została anulowana. 
+                    Nie otrzymaliśmy wszystkich niezbędnych informacji, dotyczących wymiarów stóp, potrzebnych do dalszego procesowania Twojej rezerwacji o numerze #${id}. W związku z powyższym, rezerwacja została anulowana. 
                 </p>
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
                 <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>

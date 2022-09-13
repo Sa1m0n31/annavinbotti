@@ -23,7 +23,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/json-editor.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/shop/FormType1Boot1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/check.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/ClientOrders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/ClientOrders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/ConfirmForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/ConfirmForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/FormType1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/FormType1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/order.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +65,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="16.11.41" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../draft4u" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/static/img" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -67,10 +77,10 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\shop" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\admin" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\components\shop" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\components\admin" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\admin" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -149,6 +159,9 @@
       <workItem from="1662632867155" duration="27337000" />
       <workItem from="1662724955970" duration="602000" />
       <workItem from="1662728206083" duration="12172000" />
+      <workItem from="1662976420313" duration="29477000" />
+      <workItem from="1663072482049" duration="2982000" />
+      <workItem from="1663079715042" duration="6007000" />
     </task>
     <servers />
   </component>
@@ -172,10 +185,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656589000856" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1662975314832">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1662987667035">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662721099298" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662987667035" />
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661973551214" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1662975314832" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1657530869472" />
@@ -200,21 +213,22 @@
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662662505352" />
     <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1657669697079" />
-    <state x="-1253" y="253" width="585" height="558" key="find.popup" timestamp="1662668277790">
+    <state x="-1253" y="253" width="585" height="558" key="find.popup" timestamp="1663020261278">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="558" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662668277790" />
+    <state x="-1253" y="253" width="585" height="558" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1663020261278" />
     <state x="-1253" y="253" width="1101" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659556830733" />
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657460868681" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1658359689162">
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1662999231212">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662999231212" />
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1658359689162" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657058277045" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1662769533753">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1663085951158">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662769533753" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1663085951158" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1662117302453" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657547908927" />
   </component>

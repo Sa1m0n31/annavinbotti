@@ -97,6 +97,10 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
 
         {success ? <FormSubmitted header={language === 'pl' ? 'Formularz został wysłany' : 'Form has been submitted'} /> : ''}
 
+        {!success ? <p className="confirmForm__info">
+            Upewnij się, że przesłane dane są poprawne. Po przesłaniu wymiarów nie ma możliwości ich zmiany.
+        </p> : ''}
+
         {!success ? data?.map((item, index) => {
             return <div className="formSection formSection--confirm" key={index}>
                 {index === 0 || index === data?.length / 2 ? <h2 className="formSection__header">
@@ -127,10 +131,6 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
         }) : ''}
 
         {!success ? <>
-            <p className="confirmForm__info">
-                Upewnij się, że przesłane dane są poprawne. Po przesłaniu wymiarów nie ma możliwości ich zmiany.
-            </p>
-
             {error ? <span className="info info--error">
             {language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN}
         </span> : ''}
