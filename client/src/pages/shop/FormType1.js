@@ -1,16 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
-import {getFirstTypeFilledForm, getForm, logout, sendForm, sendWorkingForm} from "../../helpers/user";
+import {getFirstTypeFilledForm, getForm, getWorkingForm, logout, sendForm, sendWorkingForm} from "../../helpers/user";
 import {ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import imageIcon from "../../static/img/image-gallery.svg";
 import {getTypeById} from "../../helpers/products";
 import ConfirmForm from "../../components/shop/ConfirmForm";
-import OldFormData from "../../components/shop/OldFormData";
 import LoadingPage from "../../components/shop/LoadingPage";
-import {isInteger} from "../../helpers/others";
-import FormType1Boot1 from "../../components/shop/FormType1Boot1";
+import {isInteger, scrollToTop} from "../../helpers/others";
 import checkIcon from '../../static/img/check.svg'
 import settings from "../../static/settings";
 import Loader from "../../components/shop/Loader";
@@ -53,20 +51,42 @@ const FormType1 = () => {
                     }
                 });
 
-
-
-            getFirstTypeFilledForm(order, type)
+            getWorkingForm(order, type)
                 .then((res) => {
-                   if(res?.data?.result?.length) {
-                       setOldForm(res?.data?.result[0].form_data);
-                   }
-                    getForm(type, 1)
-                        .then((res) => {
-                            if(res?.status === 200) {
-                                setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
-                            }
-                        });
+                    if(res?.data?.result?.length) {
+                        const form = res.data.result[0].form_data;
+                        console.log(JSON.parse(form));
+                        setOldForm(JSON.parse(form));
+
+                        getForm(type, 1)
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
+                                }
+                            });
+                    }
+                    else {
+                        getFilledForm();
+                    }
+                })
+                .catch(() => {
+                    getFilledForm();
                 });
+
+            const getFilledForm = () => {
+                getFirstTypeFilledForm(order, type)
+                    .then((res) => {
+                        if(res?.data?.result?.length) {
+                            setOldForm(res?.data?.result[0].form_data);
+                        }
+                        getForm(type, 1)
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
+                                }
+                            });
+                    });
+            }
         }
         else {
             window.location = '/';
@@ -134,13 +154,13 @@ const FormType1 = () => {
                     return item.name === officialName && item.type === 'img';
                 }).value;
 
-                setImages(prevState => ({...prevState, [item.name]: {
+                setImages(prevState => ({...prevState, [item.name]: val ? {
                     file: null,
                     fileUrl: `${settings.API_URL}/image?url=/media/filled-forms/${val}`
-                }}));
+                } : null}));
             });
         }
-}, [oldForm, formData, formRender]);
+    }, [oldForm, formData, formRender]);
 
     const handleInputUpdate = (e, fieldId) => {
         e.preventDefault();
@@ -263,16 +283,19 @@ const FormType1 = () => {
     useEffect(() => {
         if(formData?.length) {
             if(!workingForm) {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                scrollToTop();
                 setValidationSucceed(true);
             }
         }
     }, [formData]);
 
-        const prepareWorkingForm = () => {
+    useEffect(() => {
+        if(!validationSucceed) {
+            scrollToTop();
+        }
+    }, [validationSucceed]);
+
+    const prepareWorkingForm = () => {
         setLoading(true);
 
         const gallery = formData?.map((item) => {
@@ -589,7 +612,7 @@ const FormType1 = () => {
                     {!loading && !success ? <button className="btn btn--submit btn--saveForm"
                                                     onClick={() => { saveWorkingForm(); }}>
                         Dokończę później
-                    </button> : (loading ? <div className="center">
+                    </button> : (loading ? <div className="center marginBottom">
                         <Loader />
                     </div> : <span className="info info--success">
                         Zmiany zostały zapisane.
@@ -602,6 +625,7 @@ const FormType1 = () => {
                 </> : <ConfirmForm data={formData}
                                    formType={1}
                                    type={typeId}
+                                   backToEdition={() => { setValidationSucceed(false); }}
                                    orderId={orderId} />}
             </main>
 

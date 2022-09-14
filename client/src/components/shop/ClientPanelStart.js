@@ -22,7 +22,7 @@ const ClientPanelStart = () => {
                 Cześć{name ? <span className="bold"> {name}</span> : ''}!
             </h2>
             <p className="panel__main--start__text">
-                Witaj na Twoim koncie, możesz tutaj. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Witaj na Twoim koncie, możesz tutaj sprawdzić status swoich zamówień, edytować swoje dane oraz formularze do zamówień.
             </p>
         </> : <div className="center marginTop">
             <Loader />

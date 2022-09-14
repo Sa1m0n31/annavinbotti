@@ -14,12 +14,17 @@ const ContactPage = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
+    const [c1, setC1] = useState(false);
+
+    useEffect(() => {
+        setStatus(0);
+    }, [c1]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
 
-        if(isEmail(email) && name && message) {
+        if(isEmail(email) && name && message && c1) {
             sendContactForm(name, email, message)
                 .then((res) => {
                     if(res?.status === 201) {
@@ -105,6 +110,20 @@ const ContactPage = () => {
                               value={message}
                               onChange={(e) => { setMessage(e.target.value); }} />
                 </label>
+
+                <div className="formSection__checkbox">
+                    <label className="form__addons__label">
+                        <button className={c1 ? "form__check form__check--selected" : "form__check"}
+                                type="button"
+                                onClick={() => { setC1(!c1); }}>
+                            <span></span>
+                        </button>
+                        <span className="checkboxText">
+                        Oświadczam, że zapoznałem/-am się z <a href="/polityka-prywatnosci" target="_blank">Polityką prywatności</a> *
+                    </span>
+                    </label>
+                </div>
+
                 {loading ? <div className="center marginTop">
                     <Loader />
                 </div> : (status === 1 ? <span className="info">

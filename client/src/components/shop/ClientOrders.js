@@ -91,10 +91,6 @@ const ClientOrders = () => {
     }, []);
 
     useEffect(() => {
-        console.log(orders);
-    }, [orders]);
-
-    useEffect(() => {
         if(orders?.length) {
             setEmptyOrderList(false);
             setButtons(orders.map((item) => {
@@ -130,8 +126,6 @@ const ClientOrders = () => {
             ]
         }
         else if(status === 5) {
-            const firstTypeForms = getNumberOfFirstTypeForms(cart);
-
             return getNumberOfSecondTypeForms(cart).map((item, index) => {
                 return {
                     pl: `Zweryfikuj but do miary`,
@@ -172,10 +166,8 @@ const ClientOrders = () => {
                 </span>
             </div>
             {orders?.map((item, index) => {
-                console.log(item);
                 const orderId = item[0];
                 const parentItem = item;
-                const formRejected = item[1].length > 1 && item[1][0].status === 1;
 
                 return <div className="ordersTable__row flex" key={index}>
                     <a href={`/informacje-o-zamowieniu?id=${orderId}`} className="ordersTable__row__cell">

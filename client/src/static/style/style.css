@@ -2471,6 +2471,29 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     height: 30px;
 }
 
+.newsletterSection .formSection__checkbox > label span,
+.contact__bottom .formSection__checkbox > label span {
+    display: block;
+}
+
+.newsletterSection .formSection__checkbox > label .form__check,
+.contact__bottom .formSection__checkbox > label .form__check {
+    width: 20px;
+    max-width: 20px;
+    height: 20px;
+}
+
+.newsletterSection .formSection__checkbox > label > span,
+.contact__bottom .formSection__checkbox > label > span {
+    padding-top: 0;
+    font-size: 12px;
+}
+
+.newsletterSection .formSection__checkbox > label,
+.contact__bottom .formSection__checkbox > label {
+    align-items: center;
+}
+
 .formSection__header--formType2 {
     margin-bottom: 20px;
 }
@@ -2580,6 +2603,10 @@ textarea {
     text-align: center;
 }
 
+.marginBottom {
+    margin-bottom: 25px;
+}
+
 .payment .pageHeader {
     position: relative;
     top: unset;
@@ -2668,7 +2695,7 @@ textarea {
     max-width: 1000px;
 }
 
-.contact__bottom label {
+.contact__bottom label:not(.form__addons__label) {
     width: 100%;
     margin: 40px auto;
     display: flex;
@@ -3421,4 +3448,24 @@ textarea {
 
 .btn--saveForm:hover {
     opacity: .8;
+}
+
+.btn--backToEdition {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn--backToEdition .img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.formSection__checkbox--newsletter {
+    max-width: 700px;
+    margin: 40px auto 20px;
+}
+
+.newsletterSection .formSection__checkbox {
+    margin-top: 20px;
 }

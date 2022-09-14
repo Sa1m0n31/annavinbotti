@@ -359,6 +359,20 @@ router.get('/get-form', (request, response) => {
    dbSelectQuery(query, values, response);
 });
 
+router.get('/get-working-form', (request, response) => {
+    const { order, type } = request.query;
+
+    const query = `SELECT fip.form_data, s.id FROM forms_in_progress fip
+                JOIN sells s ON fip.sell = s.id
+                JOIN orders o ON s.order = o.id
+                JOIN products p ON p.id = s.product
+                JOIN types t ON p.type = t.id
+                WHERE t.id = $1 AND o.id = $2`;
+    const values = [type, order];
+
+    dbSelectQuery(query, values, response);
+});
+
 router.post('/send-form', upload.fields([
     { name: 'images', maxCount: 100 }
 ]), (request, response) => {
@@ -383,8 +397,6 @@ router.post('/send-form', upload.fields([
 
                // Map to schema
                if(parseInt(formType) === 1) {
-                   console.log(JSON.parse(formJSON));
-
                    formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
                        return {
                            type: item.type,
@@ -458,6 +470,11 @@ router.post('/send-form', upload.fields([
                            });
 
                            sells?.forEach(async (item, index, array) => {
+                               const deleteQuery = `DELETE FROM forms_in_progress WHERE sell = $1`;
+                               const deleteValues = [item];
+
+                               db.query(deleteQuery, deleteValues);
+
                                const query = `INSERT INTO filled_forms VALUES ($1, $2, $3, TRUE) ON CONFLICT (form, sell) 
                                                DO UPDATE SET form_data = $3, confirmed = TRUE`;
                                const values = [formType, item, formJSON];

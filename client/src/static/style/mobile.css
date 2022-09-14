@@ -483,6 +483,14 @@
         display: none !important;
     }
 
+    .contact__bottom .formSection__checkbox .form__addons__label {
+        margin: 0;
+    }
+
+    .contact__bottom .formSection__checkbox .form__addons__label span {
+        font-size: 12px;
+    }
+
     .singleOption__top {
         justify-content: center;
     }

@@ -65,10 +65,10 @@ const sendWorkingForm = (formData, orderId, type, formJSON) => {
     return axios.post('/forms/send-working-form', formData, config);
 }
 
-const getWorkingForm = (sell) => {
+const getWorkingForm = (order, type) => {
     return axios.get('/forms/get-working-form', {
         params: {
-            sell
+            order, type
         }
     });
 }

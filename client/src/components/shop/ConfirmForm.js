@@ -4,8 +4,9 @@ import Loader from "./Loader";
 import constans from "../../helpers/constants";
 import {ContentContext} from "../../App";
 import FormSubmitted from "./FormSubmitted";
+import backArrow from '../../static/img/arrow-back.svg'
 
-const ConfirmForm = ({data, formType, type, orderId}) => {
+const ConfirmForm = ({data, formType, type, orderId, backToEdition}) => {
     const { language } = useContext(ContentContext);
 
     const [loading, setLoading] = useState(false);
@@ -164,11 +165,16 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
             {language === 'pl' ? constans.ERROR_PL : constans.ERROR_EN}
         </span> : ''}
 
+            <button className="btn btn--submit btn--saveForm btn--backToEdition"
+                    onClick={() => { backToEdition(); }}>
+                <img className="img" src={backArrow} alt="back" />
+                Wróć do edycji
+            </button>
             {!loading ? <button className="btn btn--sendForm" onClick={() => { prepareForm(); }}>
                 Prześlij wymiary
-            </button> : <div className="center marginTop">
+            </button> : <aside className="center marginTop">
                 <Loader />
-            </div>}
+            </aside>}
         </> : ''}
     </div>
 };
