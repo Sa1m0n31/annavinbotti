@@ -259,7 +259,34 @@ font-size: 16px;
     }
 
     transporter.sendMail(mailOptions, function(error, info) {
-        response.status(201).end();
+        let mailOptions = {
+            from: process.env.EMAIL_ADDRESS_WITH_NAME,
+            to: process.env.ADMIN_MAIL_ADDRESS,
+            subject: 'Klient wysłał formularz mierzenia stopy',
+            html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+font-size: 16px;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Ktoś przesłał formularz mierzenia stopy.
+                </p>
+                <p style="color: #B9A16B; margin: 10px 0;">
+                    Sprawdź informacje przesłane przez Klienta logując się do panelu administratora:    
+                </p>
+                <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/admin">
+                    Zaloguj się do panelu admina
+                </a>
+                </div>`
+        }
+
+        transporter.sendMail(mailOptions, function(error, info) {
+            response.status(201).end();
+        });
     });
 }
 
@@ -292,7 +319,34 @@ font-size: 16px;
     }
 
     transporter.sendMail(mailOptions, function(error, info) {
-        response.status(201).end();
+        let mailOptions = {
+            from: process.env.EMAIL_ADDRESS_WITH_NAME,
+            to: process.env.ADMIN_MAIL_ADDRESS,
+            subject: 'Klient wysłał formularz weryfikacji buta do miary',
+            html: `<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+* {
+font-family: 'Roboto', sans-serif;
+font-size: 16px;
+}
+</style>
+</head><div style="background: #053A26; padding: 25px;">
+                <p style="color: #B9A16B;">
+                    Ktoś przesłał formularz weryfikacji buta do miary.
+                </p>
+                <p style="color: #B9A16B; margin: 10px 0;">
+                    Sprawdź informacje przesłane przez Klienta logując się do panelu administratora:    
+                </p>
+                <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/admin">
+                    Zaloguj się do panelu admina
+                </a>
+                </div>`
+        }
+
+        transporter.sendMail(mailOptions, function(error, info) {
+            response.status(201).end();
+        });
     });
 }
 
@@ -332,7 +386,12 @@ router.post('/send-form', upload.fields([
                    formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
                        return {
                            type: item.type,
-                           name: item.name?.replace('-leg0', '')?.replace('-leg1', ''),
+                           name: item.name?.replace('-number-leg0', '')
+                               ?.replace('-number-leg1', '')
+                               ?.replace('-image-leg0', '')
+                               ?.replace('-image-leg1', '')
+                               ?.replace('-leg0', '')
+                               ?.replace('-leg1', ''),
                            value: item.type === 'txt' ? item.value : getFileName(item.name)?.filename
                        }
                    }));

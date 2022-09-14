@@ -47,6 +47,10 @@
         display: none;
     }
 
+    .singleOption__top .btn--addOption {
+        margin-left: 0;
+    }
+
     .container--addProduct label {
         margin-right: 0;
     }

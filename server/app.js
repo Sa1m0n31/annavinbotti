@@ -54,7 +54,7 @@ app.use(
         resave: true,
         rolling: true,
         saveUninitialized: false,
-        cookie: { secure: false, expires: 1000 * 60 * 30 } /* Session expire in 30 minutes */
+        cookie: { secure: false, expires: 1000 * 60 * 60 * 24 } /* Session expire in 24 hours */
     })
 );
 app.use(flash());

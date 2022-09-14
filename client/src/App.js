@@ -35,6 +35,7 @@ import Page from "./pages/shop/Page";
 import Page3Addon from "./components/shop/Page3Addon";
 import {getProductStock, updateStocksInCart} from "./helpers/stocks";
 import NewsletterResignation from "./pages/shop/NewsletterResignation";
+import ExamplePage1 from "./pages/shop/ExamplePage1";
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -195,6 +196,9 @@ function App() {
       {/* GLOBAL */}
       <Route exact path="/">
         <Homepage />
+      </Route>
+      <Route path="/przyklad">
+        <ExamplePage1 />
       </Route>
       <Route path="/sklep">
         <Shop />

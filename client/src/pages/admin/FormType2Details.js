@@ -4,6 +4,8 @@ import AdminMenu from "../../components/admin/AdminMenu";
 import backArrow from '../../static/img/arrow-back.svg'
 import {getSecondTypeFilledForm} from "../../helpers/user";
 import constans from "../../helpers/constants";
+import settings from "../../static/settings";
+import {downloadData} from "../../helpers/others";
 
 const FormType2Details = () => {
     const [order, setOrder] = useState(null);
@@ -32,6 +34,30 @@ const FormType2Details = () => {
         }
     }, []);
 
+    const downloadZip = () => {
+        const formImages = form
+            .filter((item) => (item.type === 'img'))
+            .map((item) => {
+                return item.answer.map((item) => {
+                    return {
+                        url: `${settings.API_URL}/image?url=/media/filled-forms/${Object.entries(item)[0][1]}`,
+                        name: Object.entries(item)[0][0]
+                    }
+                })
+            })
+            .flat();
+
+        const formContent = form
+            .filter((item) => (item.type === 'txt'))
+            .map((item) => {
+                return `${item.question}: ${item.answer.join('; ')}`;
+            });
+
+        downloadData(formImages,
+            formContent,
+            order, true);
+    }
+
     return <div className="container container--admin">
         <AdminTop />
 
@@ -45,6 +71,10 @@ const FormType2Details = () => {
                         Powrót do zamówienia
                     </a>
                 </h2>
+
+                <button className="btn btn--downloadZip" onClick={() => { downloadZip(); }}>
+                    Pobierz formularz
+                </button>
 
                 <h3 className="admin__main__subheader">
                     <span>
@@ -64,8 +94,8 @@ const FormType2Details = () => {
                         {form?.map((item, index) => {
                             const type = item.type;
                             return <div className="formSection formSection--confirm" key={index}>
-                                <h2 className="formSection__header">
-                                    {item.question}
+                                <h2 className="formSection__header" dangerouslySetInnerHTML={{__html: item.question}}>
+
                                 </h2>
                                 {item?.answer?.map((item, index) => {
                                     if(type === 'txt') {

@@ -13,6 +13,7 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
     const [success, setSuccess] = useState(false);
 
     const handleFormSubmit = (formData) => {
+        console.log('handleFormSubmit');
         getUserInfo()
             .then((res) => {
                 const email = res?.data?.result[0]?.email;
@@ -50,15 +51,25 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
         setLoading(true);
         const gallery = data?.map((item) => {
             return item?.filter((item) => {
-                return item.type === 2;
+                return item.type !== 1;
             });
         })
             ?.flat()
             ?.map((item) => {
-                return {
-                    [Object.entries(item)[1][0]]: Object.entries(item)[1][1]?.fileUrl
+                console.log(Object.entries(item));
+                if(item.type === 2) {
+                    return {
+                        [Object.entries(item)[1][0]]: Object.entries(item)[1][1]?.fileUrl
+                    }
+                }
+                else {
+                    return {
+                        [Object.entries(item)[2][0]]: Object.entries(item)[2][1]?.fileUrl
+                    }
                 }
             });
+
+        console.log(gallery);
 
         let formData = new FormData();
         for(let i=0; i<gallery.length; i++) {
@@ -108,6 +119,7 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
                 </h2> : ''}
 
                 {item?.map((item, index) => {
+                    console.log(Object.entries(item)[1][1]?.fileUrl);
                     if(item.type === 1) {
                         return <p className="confirmForm__type1" key={index}>
                             <span className="confirmForm__type1__key">
@@ -125,6 +137,19 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
                             </figcaption>
                             <img className="img" src={Object.entries(item)[1][1]?.fileUrl} alt={Object.entries(item)[1][0]} />
                         </figure>
+                    }
+                    else {
+                        return <p className="confirmForm__type1" key={index}>
+                            <span className="confirmForm__type1__key">
+                                {Object.entries(item)[1][0]?.split('-number-leg')[0]}:
+                            </span>
+                            <span>
+                                {Object.entries(item)[1][1]}
+                            </span>
+                            {Object.entries(item)?.length > 2 ? <figure className="confirmForm__type2">
+                                <img className="img" src={Object.entries(item)[2][1]?.fileUrl} alt={Object.entries(item)[1][0]?.split('-image-leg')[0]} />
+                            </figure> : ''}
+                        </p>
                     }
                 })}
             </div>

@@ -30,8 +30,8 @@ const OldFormDataType2 = ({data, orderId, model}) => {
             {data?.map((item, index) => {
                 const type = item.type;
                 return <div className="formSection formSection--confirm" key={index}>
-                    <h2 className="formSection__header">
-                        {item.question}
+                    <h2 className="formSection__header" dangerouslySetInnerHTML={{__html: item.question}}>
+
                     </h2>
                     {item?.answer?.map((item, index) => {
                         if(type === 'txt') {

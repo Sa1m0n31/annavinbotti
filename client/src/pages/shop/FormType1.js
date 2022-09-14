@@ -73,12 +73,12 @@ const FormType1 = () => {
             setRender(true);
             setRequiredInputs(form?.sections?.reduce((prev, curr) => {
                 return prev + curr?.fields?.filter((item) => {
-                    return item?.type === 1;
+                    return item?.type !== 2;
                 })?.length;
             }, 0));
             setRequiredImages(form?.sections?.reduce((prev, curr) => {
                 return prev + curr?.fields?.filter((item) => {
-                    return item?.type === 2;
+                    return item?.type !== 1;
                 })?.length;
             }, 0));
 
@@ -98,6 +98,11 @@ const FormType1 = () => {
         }
     }, [form]);
 
+    useEffect(() => {
+        console.log(requiredInputs);
+        console.log(requiredImages);
+    }, [requiredInputs, requiredImages]);
+
     const deleteImg = (caption) => {
         let newImages = { ...images };
         newImages[caption] = null;
@@ -114,6 +119,10 @@ const FormType1 = () => {
         }
         setImages(newImages);
     }
+
+    useEffect(() => {
+        console.log(inputs);
+    }, [inputs]);
 
     const handleInputUpdate = (e, fieldId) => {
         e.preventDefault();
@@ -218,7 +227,7 @@ const FormType1 = () => {
                         else {
                             return {
                                 type: 3,
-                                [item.caption + '-number-leg' + (index < form.sections.length / 2 ? 0 : 1)]: images[item.caption + '-number-leg' + (index < form.sections.length / 2 ? 0 : 1)],
+                                [item.caption + '-number-leg' + (index < form.sections.length / 2 ? 0 : 1)]: inputs[item.caption + '-number-leg' + (index < form.sections.length / 2 ? 0 : 1)],
                                 [item.caption + '-image-leg' + (index < form.sections.length / 2 ? 0 : 1)]: images[item.caption + '-image-leg' + (index < form.sections.length / 2 ? 0 : 1)]
                             }
                         }

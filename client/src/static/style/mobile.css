@@ -483,6 +483,19 @@
         display: none !important;
     }
 
+    .singleOption__top {
+        justify-content: center;
+    }
+
+    .flex--mobile {
+        flex-direction: column;
+    }
+
+    .example__img {
+        width: 90%;
+        margin-bottom: 15px;
+    }
+
     .newPasswordForm .shipping__header {
         margin-top: 40px;
         max-width: 90%;
@@ -837,17 +850,20 @@
     }
 
     .input--rendered {
-        max-width: 50%;
         max-height: 100px;
         margin: 0 4px;
     }
 
-    .formSubmitted__header {
-        font-size: 18px;
+    .label--withW100Input {
+        margin-bottom: 130px !important;
     }
 
-    textarea.input--rendered {
-        margin: 0 0 0 20px;
+    .formSection__imagesMultiple {
+        flex-direction: column;
+    }
+
+    .formSubmitted__header {
+        font-size: 18px;
     }
 
     .formSection__checkbox {

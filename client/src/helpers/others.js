@@ -284,14 +284,19 @@ const isPasswordStrong = (pass) => {
     return pass?.length >= 8;
 }
 
-async function downloadData(files, formContent, orderId) {
+async function downloadData(files, formContent, orderId, secondForm = false) {
     const zip = require('jszip')();
     let img = zip.folder('zdjecia');
     zip.file('formularz.txt', formContent.join('\n'));
 
+    console.log(files);
+
     for(const file of files) {
+        console.log(file.url);
         // Fetch the image and parse the response stream as a blob
         const imageBlob = await fetch(file.url).then(response => response.blob());
+
+        console.log(imageBlob);
 
         // create a new file from the blob object
         const imgData = new File([imageBlob], 'filename.jpg');
@@ -302,7 +307,7 @@ async function downloadData(files, formContent, orderId) {
     }
 
     zip.generateAsync({ type: 'blob' }).then(function(content) {
-        saveAs(content, `zamowienie-${orderId}.zip`);
+        saveAs(content, `zamowienie-${orderId}${secondForm ? '-formularz-weryfikacji-buta' : ''}.zip`);
     });
 }
 

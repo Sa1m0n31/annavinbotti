@@ -126,9 +126,11 @@ const ClientOrders = () => {
             ]
         }
         else if(status === 5) {
-            return getNumberOfSecondTypeForms(cart).map((item) => {
+            const firstTypeForms = getNumberOfFirstTypeForms(cart);
+
+            return getNumberOfSecondTypeForms(cart).map((item, index) => {
                 return {
-                    pl: 'Zweryfikuj but do miary',
+                    pl: `Zweryfikuj but do miary`,
                     en: 'Zweryfikuj but do miary',
                     link: `/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item}`
                 }
@@ -186,8 +188,9 @@ const ClientOrders = () => {
                                 parentItem[1][0]?.status === 1 ? ordersWithEmptyFirstTypeForms : ordersWithEmptySecondTypeForms);
                             return <a href={item?.link}
                                       key={index}
+                                      onClick={(e) => { if(formFilled) e.preventDefault(); }}
                                       className={formFilled ? "btn btn--orderList btn--orderList--hidden" : "btn btn--orderList"}>
-                                {formFilled ? (language === 'pl' ? "Zobacz formularz" : 'See form') : (language === 'pl' ? item?.pl : item?.en)}
+                                {formFilled ? (language === 'pl' ? `Formularz wysłano` : 'See form') : (language === 'pl' ? item?.pl : item?.en)}
                             </a>
                         })}
                     </span>

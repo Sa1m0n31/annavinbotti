@@ -181,9 +181,9 @@ const AddAddon = () => {
         }));
     }
 
-    const deleteAddonOption = () => {
-        setOptions(options?.filter((item, index, array) => {
-            return index !== array.length-1;
+    const deleteAddonOption = (i) => {
+        setOptions(options?.filter((item, index) => {
+            return index !== i;
         }));
     }
 
@@ -447,16 +447,18 @@ const AddAddon = () => {
                     <button className="btn btn--addOption" onClick={() => { addNewOption(); }}>
                         +
                     </button>
-                    <button className="btn btn--addOption" onClick={() => { deleteAddonOption(); }}>
-                        -
-                    </button>
                 </header>
 
                 {options?.map((item, index) => {
                     return <div className="singleOption">
-                        <span className="singleOption__number">
-                            {index+1}
-                        </span>
+                        <div className="singleOption__top">
+                            <span className="singleOption__number">
+                                {index+1}
+                            </span>
+                            <button className="btn btn--addOption" onClick={() => { deleteAddonOption(index); }}>
+                                &times;
+                            </button>
+                        </div>
                         <label>
                             Nazwa robocza
                             <input className="input"

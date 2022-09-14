@@ -476,6 +476,20 @@ a, button, label {
     width: 100%;
 }
 
+.singleOption__top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.singleOption__top .btn--addOption {
+    width: 35px !important;
+    height: 35px !important;
+    min-width: 35px !important;
+    max-height: 35px !important;
+    background: #d83b27;
+}
+
 .singleOption__number {
     margin-right: 25px;
     display: flex;

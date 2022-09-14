@@ -2172,7 +2172,6 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-right: 10%;
 }
 
 .formPage__label {
@@ -2260,6 +2259,12 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .editor__videoWrapper__icon--check {
     filter: none !important;
+    max-width: 20px !important;
+    margin-left: 10px;
+}
+
+.formEnd--type2 {
+    margin-bottom: 35px !important;
 }
 
 .formPage__imageInput {
@@ -2314,8 +2319,15 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 .formPage__imgWrapper {
     width: 100%;
     height: auto;
+    min-height: 45px;
+    border: 1px dashed #fff;
+    border-radius: 5px;
     position: relative;
-    margin: 7px 0 20px;
+    margin: 25px 0 20px;
+}
+
+.formPage__imgWrapper {
+    max-width: 200px;
 }
 
 .formPage .input::placeholder {
@@ -2383,7 +2395,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 }
 
 .confirmForm__type2 .img {
-    margin-top: 5px;
+    margin-top: 25px;
 }
 
 .confirmForm__type2 {
@@ -2419,6 +2431,12 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .btn--orderList--hidden {
     opacity: .6;
+    pointer-events: none;
+    cursor: default;
+}
+
+.btn--orderList--hidden:hover {
+    opacity: .6;
 }
 
 .formSection:last-of-type {
@@ -2433,6 +2451,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     width: 100%;
     flex-basis: 100%;
     cursor: pointer;
+    position: relative;
 }
 
 .formSection__checkbox > label > span {
@@ -2456,23 +2475,55 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     margin-bottom: 20px;
 }
 
+.formSection__header--formType2 a {
+    text-decoration: underline;
+}
+
 .formSection--type2 .formSection__content {
     width: 100%;
 }
 
 .formSection__imagesMultiple {
     width: 100%;
-    max-width: 400px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.formSection__imagesMultiple .formPage__label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center !important;
 }
 
 .input--rendered {
     margin: 0 20px;
 }
 
+textarea.input--rendered {
+    width: 100%;
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    transform: translateY(100%);
+    margin-left: 0;
+    padding: 10px;
+}
+
+.formSection__checkbox {
+    width: 100%;
+}
+
 .formSection__checkbox > label input {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+}
+
+.label--withW100Input {
+    margin-bottom: 160px !important;
 }
 
 textarea {
@@ -3348,4 +3399,8 @@ textarea {
     opacity: .5;
     pointer-events: none;
     cursor: default;
+}
+
+.example__img {
+    width: 32%;
 }

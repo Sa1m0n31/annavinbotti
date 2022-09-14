@@ -9,6 +9,8 @@ import FormSubmitted from "../../components/shop/FormSubmitted";
 import Loader from "../../components/shop/Loader";
 import OldFormDataType2 from "../../components/shop/OldFormDataType2";
 import LoadingPage from "../../components/shop/LoadingPage";
+import {isInteger, scrollToTop} from "../../helpers/others";
+import checkIcon from "../../static/img/check.svg";
 
 const FormType2 = () => {
     const { language } = useContext(ContentContext);
@@ -30,6 +32,7 @@ const FormType2 = () => {
     const [selectedButtons, setSelectedButtons] = useState([]);
     const [oldForm, setOldForm] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [confirmForm, setConfirmForm] = useState(false);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -145,7 +148,13 @@ const FormType2 = () => {
     }
 
     const validateFields = (obj, required) => {
+        console.log('validateFields');
+
         const entries = Object.entries(obj);
+
+        console.log(entries);
+        console.log(required);
+
         if(entries.length !== required) {
             return false;
         }
@@ -220,6 +229,12 @@ const FormType2 = () => {
         }
     }
 
+    useEffect(() => {
+        if(confirmForm) {
+            scrollToTop();
+        }
+    }, [confirmForm]);
+
     const validateForm = () => {
         if(requiredImages !== null && requiredInputs !== null) {
             setLoading(true);
@@ -249,9 +264,17 @@ const FormType2 = () => {
             });
 
             if(validateFields(images, requiredImages) && validateButtons(formJSON)) {
-                prepareForm(formJSON);
+                if(confirmForm) {
+                    prepareForm(formJSON);
+                }
+                else {
+                    setConfirmForm(true);
+                    setLoading(false);
+                    scrollToTop();
+                }
             }
             else {
+                setLoading(false);
                 setValidationError(true);
             }
         }
@@ -259,10 +282,7 @@ const FormType2 = () => {
 
     useEffect(() => {
         if(formData?.length) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            scrollToTop();
             setValidationSucceed(true);
         }
     }, [formData]);
@@ -285,18 +305,17 @@ const FormType2 = () => {
                                                   handleButtonUpdate(question, index, 'input', e.target.value);
                                               }}
                                            style={{
-                                               width: inputWidth + 'px',
                                                height: inputHeight + 'px'
                                            }} />:
                     <input className="input input--rendered"
                            onChange={(e) => {
-                                handleButtonUpdate(question, index, 'input', e.target.value);
+                                handleButtonUpdate(question, index, 'input', e.target.value, inputType);
                            }}
+                           value={selectedButtons?.length > question ? !isNaN(selectedButtons[question][index]?.toString()) ? selectedButtons[question][index] : '' : ''}
                            style={{
                                width: inputWidth + 'px',
                                height: inputHeight + 'px'
-                           }}
-                           type={inputType === 'input-number' ? 'number' : 'text'} />
+                           }} />
                 }
                 <span>
                     {input.split(regex)[1]}
@@ -308,7 +327,7 @@ const FormType2 = () => {
         }
     }
 
-    const handleButtonUpdate = (question, field, questionType, value = null) => {
+    const handleButtonUpdate = (question, field, questionType, value = null, inputType = null) => {
         if(questionType === 'checkbox-single') {
             setSelectedButtons(selectedButtons.map((item, index) => {
                 if(index === question) {
@@ -339,21 +358,57 @@ const FormType2 = () => {
             }));
         }
         else if(questionType === 'input') {
-            setSelectedButtons(selectedButtons.map((item, index) => {
-                if(index === question) {
-                    return item.map((item, index) => {
-                        if(index === field) {
-                            return value;
-                        }
-                        else {
-                            return item;
-                        }
-                    });
+            if(validateNumber(value)) {
+                setSelectedButtons(selectedButtons.map((item, index) => {
+                    if(index === question) {
+                        return item.map((item, index) => {
+                            if(index === field) {
+                                return value.replace(',', '.');
+                            }
+                            else {
+                                return item;
+                            }
+                        });
+                    }
+                    else {
+                        return item;
+                    }
+                }));
+            }
+        }
+    }
+
+    const validateNumber = (content) => {
+        const lastChar = content[content.length-1];
+
+        if(isInteger(lastChar) || lastChar === '.' || lastChar === ',') {
+            if(lastChar === '.') {
+                if(content.length > 1) {
+                    return content.slice(0, -1).split('').findIndex((item) => (item === '.')) === -1;
                 }
                 else {
-                    return item;
+                    return false;
                 }
-            }));
+            }
+            else if(lastChar === ',') {
+                return content.length > 1;
+            }
+            else {
+                if(content.split('').findIndex((item) => (item === '.')) !== -1) {
+                    const decimalPart = content.split('.')[content.split('.').length-1];
+
+                    return decimalPart.length <= 2;
+                }
+                else {
+                    return content.length < 3;
+                }
+            }
+        }
+        else if(content === '') {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -381,7 +436,7 @@ const FormType2 = () => {
 
             {!oldForm ? <main className="formPage">
                 <h1 className="pageHeader">
-                    Formularz weryfikacji buta
+                    Formularz weryfikacji buta do miary
                 </h1>
                 <div className="formPage__info">
                     <p className="formPage__info__p">
@@ -402,6 +457,10 @@ const FormType2 = () => {
                     </p>
                 </div>
 
+                {confirmForm && !success ? <p className="confirmForm__info">
+                    Upewnij się, ze przesłane dane są poprawne. Po ich przesłaniu nie będzie możliwości ich zmiany.
+                </p> : ''}
+
                 {success ? <FormSubmitted header="Formularz został wysłany" /> : ''}
 
                 {!success ? <>
@@ -409,8 +468,9 @@ const FormType2 = () => {
                         let questionType = item.type;
                         return <section key={sectionIndex}
                                         className="formSection formSection--type2">
-                            <h2 className="formSection__header formSection__header--formType2">
-                                {item.question}
+                            <h2 className="formSection__header formSection__header--formType2"
+                                dangerouslySetInnerHTML={{__html: item.question}} >
+
                             </h2>
 
                             <div className="formSection__content">
@@ -431,7 +491,7 @@ const FormType2 = () => {
 
                                 {item.type === 'checkbox-multiple' ? <div className="formSection__checkbox">
                                     {item.fields?.map((item, index) => {
-                                        return <label key={index}>
+                                        return <label key={index} className={item.includes('input-text') ? 'label--withW100Input' : ''}>
                                             <button className={selectedButtons[sectionIndex] ? (selectedButtons[sectionIndex][index] ? "form__check form__check--selected" : "form__check") : "form__check"}
                                                     onClick={() => { handleButtonUpdate(sectionIndex, index, questionType); }}
                                                     name={item}>
@@ -453,7 +513,7 @@ const FormType2 = () => {
                                                onChange={(e) => { handleImageUpload(e, item); }} />
                                        <div className="editor__videoWrapper__placeholderContent">
                                             <p className="editor__videoWrapper__placeholderContent__text">
-                                                Kliknij tutaj lub upuść plik aby dodać zdjęcie
+                                                Dodaj zdjęcie
                                             </p>
                                             <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
                                     </div>
@@ -462,7 +522,12 @@ const FormType2 = () => {
                                                         onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImg(item); }}>
                                                     &times;
                                                 </button>
-                                                <img className="img" src={images[item].fileUrl} alt={item} />
+                                                <div className="editor__videoWrapper__placeholderContent editor__videoWrapper__placeholderContent--check">
+                                                    <p className="editor__videoWrapper__placeholderContent__text">
+                                                        Zdjęcie dodane
+                                                    </p>
+                                                    <img className="editor__videoWrapper__icon editor__videoWrapper__icon--check" src={checkIcon} alt="video" />
+                                                </div>
                                             </div>}
                                         </div>
                                     })}
@@ -471,12 +536,16 @@ const FormType2 = () => {
                         </section>
                     })}
 
+                    <p className="formEnd formEnd--type2">
+                        W przypadku wątpliwości dotyczących przesłanych informacji, będziemy się dodatkowo kontaktować.
+                    </p>
+
                     {validationError ? <span className="info info--error">
                         {language === 'pl' ? 'Odpowiedz na wszystkie pytania' : 'Answer all questions'}
                     </span> : ''}
 
                     {!loading ? <button className="btn btn--submit" onClick={() => { validateForm(); }}>
-                        Wyślij formularz
+                        {confirmForm ? 'Prześlij' : 'Wyślij formularz'}
                     </button> : <div className="center marginTop">
                         <Loader />
                     </div>}
