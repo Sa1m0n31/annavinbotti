@@ -32,7 +32,7 @@ const isFormFilled = (formType, link, ordersList) => {
     const model = parseInt(params.searchParams.get('model'));
 
     return ordersList?.findIndex((item) => {
-        return item.order_id === orderId && item.type === (formType === 1 ? type : model);
+        return (item.order_id === orderId) && (item.type === (formType === 1 ? type : model));
     }) === -1;
 }
 
@@ -89,6 +89,10 @@ const ClientOrders = () => {
                 }
             });
     }, []);
+
+    useEffect(() => {
+        console.log(orders);
+    }, [orders]);
 
     useEffect(() => {
         if(orders?.length) {
@@ -168,8 +172,10 @@ const ClientOrders = () => {
                 </span>
             </div>
             {orders?.map((item, index) => {
+                console.log(item);
                 const orderId = item[0];
                 const parentItem = item;
+                const formRejected = item[1].length > 1 && item[1][0].status === 1;
 
                 return <div className="ordersTable__row flex" key={index}>
                     <a href={`/informacje-o-zamowieniu?id=${orderId}`} className="ordersTable__row__cell">

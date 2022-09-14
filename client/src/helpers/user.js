@@ -28,6 +28,51 @@ const getForm = (type, formType) => {
     });
 }
 
+const sendWorkingForm = (formData, orderId, type, formJSON) => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+    formData.append('orderId', orderId);
+    formData.append('type', type);
+
+    formData.append('formJSON', JSON.stringify(formJSON
+        .flat()
+        .map((item) => {
+            if(item.type === 3) {
+                return [
+                    {
+                        type: 'txt',
+                        name: Object.entries(item)[1][0],
+                        value: Object.entries(item)[1][1]
+                    },
+                    {
+                        type: 'img',
+                        name: Object.entries(item)[2][0],
+                        value: Object.entries(item)[2][1]
+                    }
+                ]
+            }
+            else {
+                return {
+                    type: item.type === 1 ? 'txt' : 'img',
+                    name: Object.entries(item)[1][0],
+                    value: Object.entries(item)[1][1]
+                }
+            }
+        })
+        .flat()
+    ));
+
+    return axios.post('/forms/send-working-form', formData, config);
+}
+
+const getWorkingForm = (sell) => {
+    return axios.get('/forms/get-working-form', {
+        params: {
+            sell
+        }
+    });
+}
+
 const sendForm = (formData, formType, orderId, type, formJSON, email) => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
@@ -37,33 +82,6 @@ const sendForm = (formData, formType, orderId, type, formJSON, email) => {
     formData.append('email', email);
 
     if(formType === 1) {
-        console.log(formJSON
-            .flat()
-            .map((item) => {
-                if(item.type === 3) {
-                    return [
-                        {
-                            type: 'txt',
-                            name: Object.entries(item)[1][0],
-                            value: Object.entries(item)[1][1]
-                        },
-                        {
-                            type: 'img',
-                            name: Object.entries(item)[2][0],
-                            value: Object.entries(item)[2][1]
-                        }
-                    ]
-                }
-                else {
-                    return {
-                        type: item.type === 1 ? 'txt' : 'img',
-                        name: Object.entries(item)[1][0],
-                        value: Object.entries(item)[1][1]
-                    }
-                }
-            })
-            .flat());
-
         formData.append('formJSON', JSON.stringify(formJSON
             .flat()
             .map((item) => {
@@ -159,5 +177,5 @@ const logout = () => {
 }
 
 export { changePassword, getUserInfo, getUserOrders, updateUser, logout, getForm, sendForm, verifyPasswordToken,
-    getFirstTypeFilledForm, getSecondTypeFilledForm, remindPassword, verifyAccount,
-    getOrdersWithEmptyFirstTypeForms, getOrdersWithEmptySecondTypeForms }
+    getFirstTypeFilledForm, getSecondTypeFilledForm, remindPassword, verifyAccount, sendWorkingForm,
+    getOrdersWithEmptyFirstTypeForms, getOrdersWithEmptySecondTypeForms, getWorkingForm }

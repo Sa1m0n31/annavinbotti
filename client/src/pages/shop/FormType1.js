@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
-import {getFirstTypeFilledForm, getForm, logout} from "../../helpers/user";
+import {getFirstTypeFilledForm, getForm, logout, sendForm, sendWorkingForm} from "../../helpers/user";
 import {ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import imageIcon from "../../static/img/image-gallery.svg";
@@ -12,6 +12,8 @@ import LoadingPage from "../../components/shop/LoadingPage";
 import {isInteger} from "../../helpers/others";
 import FormType1Boot1 from "../../components/shop/FormType1Boot1";
 import checkIcon from '../../static/img/check.svg'
+import settings from "../../static/settings";
+import Loader from "../../components/shop/Loader";
 
 const FormType1 = () => {
     const { language } = useContext(ContentContext);
@@ -29,7 +31,10 @@ const FormType1 = () => {
     const [validationSucceed, setValidationSucceed] = useState(false);
     const [formData, setFormData] = useState([]);
     const [oldForm, setOldForm] = useState(null);
-    const [formToRender, setFormToRender] = useState(null);
+    const [workingForm, setWorkingForm] = useState(false);
+    const [formRender, setFormRender] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -48,19 +53,19 @@ const FormType1 = () => {
                     }
                 });
 
+
+
             getFirstTypeFilledForm(order, type)
                 .then((res) => {
                    if(res?.data?.result?.length) {
                        setOldForm(res?.data?.result[0].form_data);
                    }
-                   else {
-                       getForm(type, 1)
-                           .then((res) => {
-                               if(res?.status === 200) {
-                                   setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
-                               }
-                           });
-                   }
+                    getForm(type, 1)
+                        .then((res) => {
+                            if(res?.status === 200) {
+                                setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
+                            }
+                        });
                 });
         }
         else {
@@ -81,27 +86,8 @@ const FormType1 = () => {
                     return item?.type !== 1;
                 })?.length;
             }, 0));
-
-            switch(typeId) {
-                case 1:
-                    setFormToRender(<FormType1Boot1 form={form}
-                                                    inputs={inputs}
-                                                    images={images}
-                                                    handleInputUpdate={handleInputUpdate}
-                                                    handleImageUpload={handleImageUpload}
-                                                    deleteImg={deleteImg}
-                    />);
-                    break;
-                default:
-                    break;
-            }
         }
     }, [form]);
-
-    useEffect(() => {
-        console.log(requiredInputs);
-        console.log(requiredImages);
-    }, [requiredInputs, requiredImages]);
 
     const deleteImg = (caption) => {
         let newImages = { ...images };
@@ -121,8 +107,40 @@ const FormType1 = () => {
     }
 
     useEffect(() => {
-        console.log(inputs);
-    }, [inputs]);
+        if(oldForm && formData && formRender) {
+            const inputsArray = Array.from(document.querySelectorAll('.input'));
+            const imagesArray = Array.from(document.querySelectorAll('.formPage__imageInput'));
+
+            inputsArray.forEach((item) => {
+               const legIndex = parseInt(item.name.slice(-1));
+               const form = legIndex === 0 ? oldForm.right : oldForm.left;
+               const officialName = item.name.split('-leg')[0]?.replace('-number', '');
+
+               const val = form.find((item) => {
+                   return item.name === officialName && item.type === 'txt';
+               }).value;
+
+               item.value = val;
+
+               setInputs(prevState => ({...prevState, [item.name]: val}))
+            });
+
+            imagesArray.forEach((item) => {
+                const legIndex = parseInt(item.name.slice(-1));
+                const form = legIndex === 0 ? oldForm.right : oldForm.left;
+                const officialName = item.name.split('-leg')[0]?.replace('-image', '');
+
+                const val = form.find((item) => {
+                    return item.name === officialName && item.type === 'img';
+                }).value;
+
+                setImages(prevState => ({...prevState, [item.name]: {
+                    file: null,
+                    fileUrl: `${settings.API_URL}/image?url=/media/filled-forms/${val}`
+                }}));
+            });
+        }
+}, [oldForm, formData, formRender]);
 
     const handleInputUpdate = (e, fieldId) => {
         e.preventDefault();
@@ -208,6 +226,8 @@ const FormType1 = () => {
     }
 
     const validateForm = () => {
+        setWorkingForm(false);
+
         if(requiredImages !== null && requiredInputs !== null) {
             if(validateFields(inputs, requiredInputs) && validateFields(images, requiredImages)) {
                 setFormData(form?.sections?.map((item, index) => {
@@ -242,13 +262,152 @@ const FormType1 = () => {
 
     useEffect(() => {
         if(formData?.length) {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            setValidationSucceed(true);
+            if(!workingForm) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                setValidationSucceed(true);
+            }
         }
     }, [formData]);
+
+        const prepareWorkingForm = () => {
+        setLoading(true);
+
+        const gallery = formData?.map((item) => {
+            return item?.filter((item) => {
+                return item.type !== 1;
+            });
+        })
+            ?.flat()
+            ?.map((item) => {
+                if(item.type === 2) {
+                    return {
+                        [Object.entries(item)[1][0]]: Object.entries(item)[1][1]?.fileUrl
+                    }
+                }
+                else {
+                    return {
+                        [Object.entries(item)[2][0]]: Object.entries(item)[2][1]?.fileUrl
+                    }
+                }
+            });
+
+        let formDataObject = new FormData();
+        for(let i=0; i<gallery.length; i++) {
+            const item = Object.entries(gallery[i])[0][1];
+            const itemName = Object.entries(gallery[i])[0][0];
+
+            if(item) {
+                if(item.split(':')[0] === 'blob') {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('GET', item, true);
+                    xhr.responseType = 'blob';
+                    xhr.onload = async function(e) {
+                        if(this.status == 200) {
+                            let myBlob = this.response;
+                            new Promise((resolve, reject) => {
+                                formDataObject.append('images', new File([myBlob], itemName));
+                                resolve();
+                            })
+                                .then(() => {
+                                    if(i === gallery.length-1) {
+                                        setTimeout(() => {
+                                            handleWorkingFormSubmit(formDataObject);
+                                        }, 500);
+                                    }
+                                });
+                        }
+                        else {
+                            setTimeout(() => {
+                                handleWorkingFormSubmit(formDataObject);
+                            }, 500);
+                        }
+                    };
+                    xhr.send();
+                }
+                else {
+                    if(i === gallery.length-1) {
+                        setTimeout(() => {
+                            handleWorkingFormSubmit(formDataObject);
+                        }, 500);
+                    }
+                }
+            }
+            else {
+                if(i === gallery.length-1) {
+                    setTimeout(() => {
+                        handleWorkingFormSubmit(formDataObject);
+                    }, 500);
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        if(formData && workingForm) {
+            prepareWorkingForm();
+        }
+    }, [formData, workingForm]);
+
+    useEffect(() => {
+        if(success) {
+            setTimeout(() => {
+                setSuccess(false);
+            }, 3000);
+        }
+    }, [success]);
+
+    const handleWorkingFormSubmit = (formDataObject) => {
+        sendWorkingForm(formDataObject, orderId, typeId, formData)
+            .then((res) => {
+                if(res?.status === 201) {
+                    setSuccess(true);
+                    setError('');
+                }
+                else {
+                    setError('Coś poszło nie tak... Prosimy spróbować później');
+                }
+                setLoading(false);
+            })
+            .catch(() => {
+                setError('Coś poszło nie tak... Prosimy spróbować później');
+                setLoading(false);
+            });
+    }
+
+    const saveWorkingForm = () => {
+        setWorkingForm(true);
+
+        setFormData(form?.sections?.map((item, index) => {
+            return item?.fields?.map((item) => {
+                if(item.type === 1) {
+                    const inputVal = inputs[item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)];
+                    return {
+                        type: 1,
+                        [item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]: inputVal ? inputVal : ''
+                    }
+                }
+                else if(item.type === 2) {
+                    const inputVal = images[item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)];
+                    return {
+                        type: 2,
+                        [item.caption + '-leg' + (index < form.sections.length / 2 ? 0 : 1)]: inputVal ? inputVal : ''
+                    }
+                }
+                else {
+                    const inputVal = inputs[item.caption + '-number-leg' + (index < form.sections.length / 2 ? 0 : 1)];
+                    const imageVal = images[item.caption + '-image-leg' + (index < form.sections.length / 2 ? 0 : 1)];
+                    return {
+                        type: 3,
+                        [item.caption + '-number-leg' + (index < form.sections.length / 2 ? 0 : 1)]: inputVal ? inputVal : '',
+                        [item.caption + '-image-leg' + (index < form.sections.length / 2 ? 0 : 1)]: imageVal ? imageVal : ''
+                    }
+                }
+            });
+        }));
+    }
 
     return render ? <div className="container">
         <PageHeader />
@@ -272,9 +431,7 @@ const FormType1 = () => {
                 </div>
             </div>
 
-            {oldForm ? <OldFormData data={oldForm}
-                                    orderId={orderId}
-                                    type={type} /> : <main className="formPage formPage--1">
+             <main className="formPage formPage--1">
                 <h1 className="pageHeader">
                     {!validationSucceed ? form.header : 'Twoje wymiary w centymetrach'}
                 </h1>
@@ -298,9 +455,14 @@ const FormType1 = () => {
                 </div>
 
                 {!validationSucceed ? <>
-                    {form?.sections?.map((item, sectionIndex) => {
+                    {form?.sections?.map((item, sectionIndex, array) => {
+                        if(sectionIndex === array.length - 1) {
+                            setTimeout(() => {
+                                setFormRender(true);
+                            }, 500);
+                        }
                         return <section key={sectionIndex}
-                                        className={item.border ? "formSection" : "formSection formSection--noBorder"}>
+                                        className={item.border ? "formSection formSection--type1" : "formSection formSection--type1 formSection--noBorder"}>
                             {item.header ? <h2 className="formSection__header">
                                 {item.header}
                             </h2> : ''}
@@ -317,7 +479,7 @@ const FormType1 = () => {
                                                 {item.caption}
                                             </span>
                                             <input className="input"
-                                                   name={item.caption}
+                                                   name={item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)}
                                                    value={inputs[item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)]}
                                                    onChange={(e) => { handleInputUpdate(e, item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }}
                                                    placeholder={item.placeholder} />
@@ -329,7 +491,10 @@ const FormType1 = () => {
                                                 {item.caption}
                                             </span>
                                             {!images[item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)] ? <span key={index} className="formPage__imageWrapper">
-                                            <input type="file" className="formPage__imageInput" multiple={false}
+                                            <input type="file"
+                                                   className="formPage__imageInput"
+                                                   multiple={false}
+                                                   name={item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)}
                                                    onChange={(e) => { handleImageUpload(e, item.caption + '-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }} />
                                            <div className="editor__videoWrapper__placeholderContent">
                                                 <p className="editor__videoWrapper__placeholderContent__text">
@@ -353,7 +518,7 @@ const FormType1 = () => {
                                             </span>
                                             <label className="formPage__label formPage__label--half">
                                                 <input className="input"
-                                                       name={item.caption}
+                                                       name={item.caption + '-number-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)}
                                                        value={inputs[item.caption + '-number-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)]}
                                                        onChange={(e) => { handleInputUpdate(e, item.caption + '-number-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }}
                                                        placeholder={item.placeholder} />
@@ -364,6 +529,7 @@ const FormType1 = () => {
                                             <input type="file"
                                                    className="formPage__imageInput"
                                                    multiple={false}
+                                                   name={item.caption + '-image-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)}
                                                    onChange={(e) => {
                                                        handleImageUpload(e, item.caption + '-image-leg' + (sectionIndex < form.sections.length / 2 ? 0 : 1)); }} />
                                            <div className="editor__videoWrapper__placeholderContent">
@@ -420,14 +586,24 @@ const FormType1 = () => {
                         {error}
                     </span> : ''}
 
-                    <button className="btn btn--submit" onClick={() => { validateForm(); }}>
-                        Zapisz
+                    {!loading && !success ? <button className="btn btn--submit btn--saveForm"
+                                                    onClick={() => { saveWorkingForm(); }}>
+                        Dokończę później
+                    </button> : (loading ? <div className="center">
+                        <Loader />
+                    </div> : <span className="info info--success">
+                        Zmiany zostały zapisane.
+                    </span>)}
+
+                    <button className="btn btn--submit"
+                            onClick={() => { validateForm(); }}>
+                        Prześlij
                     </button>
                 </> : <ConfirmForm data={formData}
                                    formType={1}
                                    type={typeId}
                                    orderId={orderId} />}
-            </main>}
+            </main>
 
         </main>
 

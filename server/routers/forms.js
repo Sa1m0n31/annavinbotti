@@ -383,6 +383,8 @@ router.post('/send-form', upload.fields([
 
                // Map to schema
                if(parseInt(formType) === 1) {
+                   console.log(JSON.parse(formJSON));
+
                    formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
                        return {
                            type: item.type,
@@ -392,7 +394,7 @@ router.post('/send-form', upload.fields([
                                ?.replace('-image-leg1', '')
                                ?.replace('-leg0', '')
                                ?.replace('-leg1', ''),
-                           value: item.type === 'txt' ? item.value : getFileName(item.name)?.filename
+                           value: item.type === 'txt' ? item.value : (getFileName(item.name)?.filename ? getFileName(item.name)?.filename : item.value.fileUrl.split('/')[item.value.fileUrl.split('/').length-1])
                        }
                    }));
 
@@ -456,7 +458,8 @@ router.post('/send-form', upload.fields([
                            });
 
                            sells?.forEach(async (item, index, array) => {
-                               const query = `INSERT INTO filled_forms VALUES ($1, $2, $3)`;
+                               const query = `INSERT INTO filled_forms VALUES ($1, $2, $3, TRUE) ON CONFLICT (form, sell) 
+                                               DO UPDATE SET form_data = $3, confirmed = TRUE`;
                                const values = [formType, item, formJSON];
 
                                await db.query(query, values, (err, res) => {
@@ -466,7 +469,7 @@ router.post('/send-form', upload.fields([
                                            const query = `SELECT s.id FROM orders o
                                         JOIN sells s ON o.id = s.order
                                         WHERE o.id = $1 AND s.id NOT IN (
-                                            SELECT sell FROM filled_forms WHERE form = $2
+                                            SELECT sell FROM filled_forms WHERE form = $2 AND confirmed = TRUE
                                         )`;
                                            const values = [orderId, parseInt(formType)];
 
@@ -538,6 +541,104 @@ router.post('/send-form', upload.fields([
    });
 });
 
+router.post('/send-working-form', upload.fields([
+    { name: 'images', maxCount: 100 }
+]), (request, response) => {
+    let { orderId, type, formJSON } = request.body;
+    const user = request.user;
+
+    const query = `SELECT o.user FROM orders o WHERE id = $1`;
+    const values = [orderId];
+
+    db.query(query, values, (err, res) => {
+        console.log(err);
+        const selectedUser = res?.rows[0]?.user;
+
+        if(selectedUser) {
+            if(parseInt(selectedUser) === parseInt(user)) {
+                const files = request.files;
+
+                const getFileName = (name) => {
+                    return files?.images?.find((item) => {
+                        return item.originalname === name;
+                    });
+                }
+
+                // Map to schema
+                formJSON = JSON.stringify(JSON.parse(formJSON)?.map((item) => {
+                    return {
+                        type: item.type,
+                        name: item.name?.replace('-number-leg0', '')
+                            ?.replace('-number-leg1', '')
+                            ?.replace('-image-leg0', '')
+                            ?.replace('-image-leg1', '')
+                            ?.replace('-leg0', '')
+                            ?.replace('-leg1', ''),
+                        value: item.type === 'txt' ? item.value : (getFileName(item.name)?.filename ? getFileName(item.name)?.filename : (item?.value?.fileUrl ? item.value.fileUrl.split('/')[item.value.fileUrl.split('/').length-1] : null))
+                    }
+                }));
+
+                // Divide form by right and left foot
+                const formJSONParsed = JSON.parse(formJSON);
+                const middleIndex = Math.ceil(formJSONParsed.length / 2);
+                const firstHalf = formJSONParsed.splice(0, middleIndex);
+                const secondHalf = formJSONParsed.splice(-middleIndex);
+                formJSON = {
+                    right: firstHalf,
+                    left: secondHalf
+                };
+
+                formJSON = JSON.stringify(formJSON);
+
+                if(orderId && type && formJSON) {
+                    let query = `SELECT s.id FROM sells s 
+                               JOIN orders o ON s.order = o.id
+                               JOIN products p ON p.id = s.product
+                               JOIN types t ON p.type = t.id
+                               WHERE t.id = $1 AND o.id = $2`;
+                    const values = [type, orderId];
+
+                    db.query(query, values, (err, res) => {
+                        console.log(err);
+                        if(res) {
+                            const sells = res?.rows?.map((item) => {
+                                return item.id;
+                            });
+
+                            sells?.forEach(async (item, index, array) => {
+                                const query = `INSERT INTO forms_in_progress VALUES ($1, $2) ON CONFLICT (sell) 
+                                               DO UPDATE SET form_data = $2`;
+                                const values = [item, formJSON];
+
+                                db.query(query, values, (err, res) => {
+                                    console.log(err);
+                                    if(index === array.length-1) {
+                                        if(res) {
+                                            response.status(201).end();
+                                        }
+                                        else {
+                                            response.status(500).end();
+                                        }
+                                    }
+                                })
+                            });
+                        }
+                        else {
+                            response.status(500).end();
+                        }
+                    });
+                }
+            }
+            else {
+                response.status(401).end();
+            }
+        }
+        else {
+            response.status(401).end();
+        }
+    });
+});
+
 router.get('/get-orders-with-empty-first-type-forms', (request, response) => {
    const user = request.user;
 
@@ -546,7 +647,7 @@ router.get('/get-orders-with-empty-first-type-forms', (request, response) => {
                     JOIN sells s ON o.id = s.order
                     JOIN products p ON p.id = s.product
                     LEFT OUTER JOIN filled_forms ff ON ff.sell = s.id 
-                    WHERE o.user = $1 AND ff.form IS NULL`;
+                    WHERE o.user = $1 AND ff.form IS NULL OR ff.confirmed = FALSE`;
        const values = [user];
 
        dbSelectQuery(query, values, response);

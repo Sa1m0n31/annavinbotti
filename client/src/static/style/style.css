@@ -2536,6 +2536,10 @@ textarea {
     margin: 60px auto 30px;
 }
 
+.formPage--1 .info--success {
+    padding-bottom: 25px;
+}
+
 .formPage--oldForm .formSection__header {
     margin: 40px 0 20px;
     padding: 15px 0;
@@ -3403,4 +3407,18 @@ textarea {
 
 .example__img {
     width: 32%;
+}
+
+.formSection--type1 {
+    justify-content: space-between;
+}
+
+.btn--saveForm {
+    margin-bottom: 25px !important;
+    background: transparent !important;
+    text-decoration: underline;
+}
+
+.btn--saveForm:hover {
+    opacity: .8;
 }

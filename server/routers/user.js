@@ -194,12 +194,13 @@ router.get('/get-user-orders', (request, response) => {
        response.status(400).end();
    }
    else {
-       const query = `SELECT o.id, o.date, o.status, s.product, t.id as type
+       const query = `SELECT o.id, o.date, o.status, s.product, osc.changed_at, t.id as type
                 FROM orders o 
                 JOIN users u ON o.user = u.id
                 JOIN sells s ON o.id = s.order
                 JOIN products p ON p.id = s.product
                 JOIN types t ON p.type = t.id
+                LEFT OUTER JOIN order_status_changes osc ON osc.order = o.id 
                 WHERE u.id = $1 AND o.hidden = FALSE ORDER BY date DESC`;
        const values = [user];
 

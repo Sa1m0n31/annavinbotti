@@ -9,6 +9,12 @@ const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 const got = require('got');
 
+const isElementInArray = (el, arr) => {
+    return arr.findIndex((item) => {
+        return item === el;
+    }) !== -1;
+}
+
 let mailAfterPaymentSend = false;
 
 let transporter = nodemailer.createTransport(smtpTransport ({
@@ -199,28 +205,81 @@ const validateStocks = async (sells, addons) => {
     // sells: { product, price, amount }
     // addons: { sell, options : [1, 2, 3] }
 
+    const res = await got.get(`${process.env.API_URL}/stocks/get-product-stock-table`);
+    const resAddons = await got.get(`${process.env.API_URL}/stocks/get-addon-stock-table`);
+
+    console.log(res.body);
+
+    let productsStocksTable = JSON.parse(res.body).result; // { id, counter, product }
+    let addonsStocksTable = JSON.parse(resAddons.body).result; // { id, stock }
+
+    const zeroProductsStocks = productsStocksTable.filter((item) => (item.counter <= 0)).length;
+    const zeroAddonsStocks = addonsStocksTable.filter((item) => (item.stock <= 0)).length;
+
+    let i = 0;
+
+    console.log('before:');
+    console.log(productsStocksTable);
+    console.log(addonsStocksTable);
+
     for(const sell of sells) {
-        const res = await got.get(`${process.env.API_URL}/stocks/get-product-stock`, {
-            searchParams: {
-                id: sell.product
+        const currentSellAddons = addons.find((item) => (item.sell === i))?.options;
+
+        // Subtract from products stocks
+        productsStocksTable = productsStocksTable.map((item) => {
+            const productStockId = item.id;
+
+            // Subtract from all rows with the same stockId
+            const productsWithTheSameStockId = productsStocksTable.filter((item) => {
+                return item.id === productStockId;
+            }).map((item) => (item.product));
+
+            console.log('!!!!!!!!!!!');
+            console.log(productsWithTheSameStockId);
+            console.log('!!!!!!!!!!!');
+
+            if(isElementInArray(sell.product, productsWithTheSameStockId)) {
+                let newCounter = item.counter - sell.amount;
+                return {...item,
+                    counter: newCounter
+                };
+            }
+            else {
+                return item;
             }
         });
 
-        const amount = sells.filter((item) => {
-            return item.product === sell.product;
-        }).reduce((prev, cur) => {
-            return prev + cur.amount;
-        }, 0);
+        // Subtract from addons stocks
+        addonsStocksTable = addonsStocksTable.map((item) => {
+            let stock = item.stock;
 
-        const productCounter = JSON.parse(res?.body)?.result[0]?.product_counter !== null ? JSON.parse(res?.body)?.result[0]?.product_counter : 999999;
-        const addonCounter = JSON.parse(res?.body)?.result[0]?.addon_counter !== null ? JSON.parse(res?.body)?.result[0]?.addon_counter : 999999;
+            for(const addon of currentSellAddons) {
+                if(addon === item.id) {
+                    stock = stock - sell.amount;
+                }
+            }
 
-        if(Math.min(productCounter, addonCounter) < amount) {
-            return false;
-        }
+            return {...item,
+                stock: stock
+            }
+        });
+
+        i++;
     }
 
-    return true;
+    const zeroProductsStocksAfterSubtraction = productsStocksTable.filter((item) => (item.counter < 0)).length;
+    const zeroAddonsStocksAfterSubtraction = addonsStocksTable.filter((item) => (item.stock < 0)).length;
+
+    console.log('---');
+    console.log('after:');
+    console.log(productsStocksTable);
+    console.log(addonsStocksTable);
+
+    console.log(zeroProductsStocks, zeroProductsStocksAfterSubtraction);
+    console.log(zeroAddonsStocks, zeroAddonsStocksAfterSubtraction);
+
+    return zeroProductsStocks === zeroProductsStocksAfterSubtraction
+        && zeroAddonsStocksAfterSubtraction === 0;
 }
 
 const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, shipping, oldSells, oldAddons, newsletter, response) => {
@@ -273,6 +332,8 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                 const orderId = res.rows[0].id;
                 const query = `INSERT INTO order_status_changes VALUES ($1, $2, NOW() + INTERVAL '4 HOUR')`;
                 const values = [orderId, 1];
+
+                console.log(sells);
 
                 db.query(query, values, (err, res) => {
                     sells.forEach(async (item, index, array) => {
@@ -1129,12 +1190,23 @@ router.post('/reject-client-form', (request, response) => {
    const values = [orderId];
 
    db.query(query, values, (err, res) => {
+       console.log(err);
       if(res) {
-          let mailOptions = {
-              from: process.env.EMAIL_ADDRESS_WITH_NAME,
-              to: email,
-              subject: 'Niepełne dane - prośba o uzupełnienie',
-              html: `<head>
+          const query = `UPDATE filled_forms SET confirmed = FALSE WHERE form = 1 AND sell IN (
+            SELECT id FROM sells WHERE sells.order = $1
+          )`;
+          const values = [orderId];
+
+          console.log(orderId);
+
+          db.query(query, values, (err, res) => {
+              console.log(err);
+              if(res) {
+                  let mailOptions = {
+                      from: process.env.EMAIL_ADDRESS_WITH_NAME,
+                      to: email,
+                      subject: 'Niepełne dane - prośba o uzupełnienie',
+                      html: `<head>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <style>
 * {
@@ -1165,11 +1237,16 @@ font-family: 'Roboto', sans-serif;
                 <p style="color: #B9A16B; margin: 20px 0 0 0;">Pozdrawiamy</p>
                 <p style="color: #B9A16B; margin: 0;">Zespół Anna Vinbotti</p>
                 </div>`
-          }
+                  }
 
-          transporter.sendMail(mailOptions, function(error, info) {
-              response.status(201).end();
-          });
+                  transporter.sendMail(mailOptions, function(error, info) {
+                      response.status(201).end();
+                  });
+              }
+              else {
+                  response.status(500).end();
+              }
+          })
       }
       else {
           response.status(500).end();

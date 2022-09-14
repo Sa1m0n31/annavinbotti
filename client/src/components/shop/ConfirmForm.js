@@ -13,7 +13,6 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
     const [success, setSuccess] = useState(false);
 
     const handleFormSubmit = (formData) => {
-        console.log('handleFormSubmit');
         getUserInfo()
             .then((res) => {
                 const email = res?.data?.result[0]?.email;
@@ -56,7 +55,6 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
         })
             ?.flat()
             ?.map((item) => {
-                console.log(Object.entries(item));
                 if(item.type === 2) {
                     return {
                         [Object.entries(item)[1][0]]: Object.entries(item)[1][1]?.fileUrl
@@ -69,38 +67,45 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
                 }
             });
 
-        console.log(gallery);
-
         let formData = new FormData();
         for(let i=0; i<gallery.length; i++) {
             const item = Object.entries(gallery[i])[0][1];
             const itemName = Object.entries(gallery[i])[0][0];
 
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', item, true);
-            xhr.responseType = 'blob';
-            xhr.onload = async function(e) {
-                if(this.status == 200) {
-                    let myBlob = this.response;
-                    new Promise((resolve, reject) => {
-                        formData.append('images', new File([myBlob], itemName));
-                        resolve();
-                    })
-                        .then(() => {
-                            if(i === gallery.length-1) {
-                                setTimeout(() => {
-                                    handleFormSubmit(formData);
-                                }, 500);
-                            }
-                        });
-                }
-                else {
+            if(item.split(':')[0] === 'blob') {
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', item, true);
+                xhr.responseType = 'blob';
+                xhr.onload = async function(e) {
+                    if(this.status == 200) {
+                        let myBlob = this.response;
+                        new Promise((resolve, reject) => {
+                            formData.append('images', new File([myBlob], itemName));
+                            resolve();
+                        })
+                            .then(() => {
+                                if(i === gallery.length-1) {
+                                    setTimeout(() => {
+                                        handleFormSubmit(formData);
+                                    }, 500);
+                                }
+                            });
+                    }
+                    else {
+                        setTimeout(() => {
+                            handleFormSubmit(formData);
+                        }, 500);
+                    }
+                };
+                xhr.send();
+            }
+            else {
+                if(i === gallery.length-1) {
                     setTimeout(() => {
                         handleFormSubmit(formData);
                     }, 500);
                 }
-            };
-            xhr.send();
+            }
         }
     }
 
@@ -119,7 +124,6 @@ const ConfirmForm = ({data, formType, type, orderId}) => {
                 </h2> : ''}
 
                 {item?.map((item, index) => {
-                    console.log(Object.entries(item)[1][1]?.fileUrl);
                     if(item.type === 1) {
                         return <p className="confirmForm__type1" key={index}>
                             <span className="confirmForm__type1__key">

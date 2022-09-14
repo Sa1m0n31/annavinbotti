@@ -97,7 +97,6 @@ function App() {
       return JSON.stringify(product) === JSON.stringify(item.product) && JSON.stringify(addons) === JSON.stringify(item.addons)
     });
 
-    const res = await getProductStock(product.id)
     // const productCount = res?.data?.result[0]?.product_counter !== null ? res?.data?.result[0]?.product_counter : 999999;
     // const addonCount = res?.data?.result[0]?.addon_counter !== null ? res?.data?.result[0]?.addon_counter : 999999;
     const productStockId = product.stock_id;

@@ -289,7 +289,7 @@ const OrderDetails = () => {
                                         return <a href={item.link}
                                                   key={index}
                                                   className={formFilled ? "btn btn--orderDetails btn--orderList--hidden" : "btn btn--orderDetails"}>
-                                            {formFilled ? (language === 'pl' ? "Zobacz formularz" : 'See form') : (language === 'pl' ? item?.pl : item?.en)}
+                                            {formFilled ? (language === 'pl' ? "Formularz wysłany" : 'See form') : (language === 'pl' ? item?.pl : item?.en)}
                                         </a>
                                     })}
                                 </span> : ''}

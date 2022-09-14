@@ -203,9 +203,10 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
         sells.forEach((item) => {
             decrementStockByProduct(item.product, item.amount);
         })
-        addons.forEach((item) => {
+        addons.forEach((item, index) => {
+            const sellAmount = sells[index].amount;
             item.options.forEach((addonOption) => {
-                decrementStockByAddon(addonOption, 1);
+                decrementStockByAddon(addonOption, sellAmount);
             });
         });
     }
