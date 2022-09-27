@@ -24,7 +24,7 @@ const AdminMenu = ({menuOpen}) => {
         { name: 'Zamówienia', icon: orders, link: '/lista-zamowien' },
         { name: 'Blog', icon: blog, link: '/lista-artykulow' },
         { name: 'Newsletter', icon: newsletter, link: '/newsletter' },
-        { name: 'Regulaminy', icon: terms, link: '/regulaminy-polski' }
+        { name: 'Podstrony', icon: terms, link: '/regulaminy-polski' }
     ]
 
     const submenus = [
@@ -66,7 +66,8 @@ const AdminMenu = ({menuOpen}) => {
         ],
         [
             { name: "Wersja polska", link: '/regulaminy-polski' },
-            { name: "Wersja angielska", link: '/regulaminy-angielski' }
+            { name: "Wersja angielska", link: '/regulaminy-angielski' },
+            { name: "FAQ", link: '/edycja-faq' }
         ]
     ]
 

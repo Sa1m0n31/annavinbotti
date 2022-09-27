@@ -25,14 +25,14 @@ const SendNewsletter = () => {
     const linkModal = useRef(null);
     const addImageToArticlePlaceholder = useRef(null);
 
-    useEffect(() => {
-        if(imgForLink) {
-            addImageToArticlePlaceholder.current.style.visibility = 'hidden';
-        }
-        else {
-            addImageToArticlePlaceholder.current.style.visibility = 'visible';
-        }
-    }, [imgForLink]);
+    // useEffect(() => {
+    //     if(imgForLink) {
+    //         addImageToArticlePlaceholder.current.style.visibility = 'hidden';
+    //     }
+    //     else {
+    //         addImageToArticlePlaceholder.current.style.visibility = 'visible';
+    //     }
+    // }, [imgForLink]);
 
     useEffect(() => {
         if(linkModal?.current) {
@@ -129,32 +129,32 @@ const SendNewsletter = () => {
                                placeholder="Tu wpisz tytuł maila" />
                     </label>
                 </section>
-                <div className="flex adminBlog__images">
-                    <div>
-                        <h3 className="addAddon--imageHeader">
-                            Dodaj zdjęcie do maila
-                        </h3>
-                        <label className="admin__label admin__flex admin__label--imageForLink">
-                            <span className="admin__label__imgUpload">
-                                {imgForLink ? <button className="admin__label__imgUpload__trashBtn" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImgForLink(); }}>
-                                    <img className="img" src={trashIcon} alt="usun" />
-                                </button> : ""}
-                                <div className="editor__videoWrapper__placeholderContent" ref={addImageToArticlePlaceholder}>
-                                    <p className="editor__videoWrapper__placeholderContent__text">
-                                        Kliknij tutaj lub upuść plik aby dodać zdjęcie
-                                    </p>
-                                    <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />
-                                </div>
-                                <Dropzone
-                                    canRemove={true}
-                                    getUploadParams={getUploadImage}
-                                    onChangeStatus={(status) => { handleChangeStatusForImageForLink(status); }}
-                                    accept="image/*"
-                                    maxFiles={1} />
-                            </span>
-                        </label>
-                    </div>
-                </div>
+                {/*<div className="flex adminBlog__images">*/}
+                {/*    <div>*/}
+                {/*        <h3 className="addAddon--imageHeader">*/}
+                {/*            Dodaj zdjęcie do maila*/}
+                {/*        </h3>*/}
+                {/*        <label className="admin__label admin__flex admin__label--imageForLink">*/}
+                {/*            <span className="admin__label__imgUpload">*/}
+                {/*                {imgForLink ? <button className="admin__label__imgUpload__trashBtn" onClick={(e) => { e.stopPropagation(); e.preventDefault(); deleteImgForLink(); }}>*/}
+                {/*                    <img className="img" src={trashIcon} alt="usun" />*/}
+                {/*                </button> : ""}*/}
+                {/*                <div className="editor__videoWrapper__placeholderContent" ref={addImageToArticlePlaceholder}>*/}
+                {/*                    <p className="editor__videoWrapper__placeholderContent__text">*/}
+                {/*                        Kliknij tutaj lub upuść plik aby dodać zdjęcie*/}
+                {/*                    </p>*/}
+                {/*                    <img className="editor__videoWrapper__icon" src={imageIcon} alt="video" />*/}
+                {/*                </div>*/}
+                {/*                <Dropzone*/}
+                {/*                    canRemove={true}*/}
+                {/*                    getUploadParams={getUploadImage}*/}
+                {/*                    onChangeStatus={(status) => { handleChangeStatusForImageForLink(status); }}*/}
+                {/*                    accept="image/*"*/}
+                {/*                    maxFiles={1} />*/}
+                {/*            </span>*/}
+                {/*        </label>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <section className="admin__editorWrapper">
                     <h3 className="editorWrapper__header">
                         Treść maila

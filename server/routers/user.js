@@ -87,6 +87,9 @@ router.post("/register", (request, response) => {
                             json: {
                                 email
                             },
+                            headers: {
+                                Authorization: `Basic ${process.env.API_AUTH_HEADER}`
+                            },
                             responseType: 'json',
                         })
                             .then(() => {

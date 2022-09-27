@@ -409,7 +409,8 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                                 <span></span>
                             </button>
                             <span className="checkboxText">
-                                Oświadczam, że zapoznałem/-am się z <a href="/polityka-prywatnosci" target="_blank">Polityką prywatności</a> *
+                                Oświadczam, że zapoznałem/-am się z <a href="/polityka-prywatnosci" target="_blank">Polityką prywatności</a> i
+                                <a href="/regulamin" target="_blank">Regulaminem</a> *
                             </span>
                         </label>
 

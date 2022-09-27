@@ -222,10 +222,6 @@ const AddProduct = () => {
     }, []);
 
     useEffect(() => {
-        console.log(addons);
-    }, [addons]);
-
-    useEffect(() => {
         if(addonsOptions?.length) {
             const optionsByAddonLocal = {};
             addonsOptions.forEach((item) => {
@@ -266,10 +262,6 @@ const AddProduct = () => {
         }));
     }
 
-    useEffect(() => {
-        console.log(currentAddonOptions);
-    }, [currentAddonOptions]);
-
     const getAddonOptions = (addonIndex, addonId) => {
         getOptionsByAddon(addonId)
             .then((res) => {
@@ -289,7 +281,6 @@ const AddProduct = () => {
 
     useEffect(() => {
         if(updateDefaultAddonOption >= 0) {
-            console.log(currentAddonOptions[updateDefaultAddonOption]);
             setAddons(prevState => prevState.map((item, index) => {
                 if(updateDefaultAddonOption === index) {
                     return {...item, conditionThen: currentAddonOptions[index][0]}
@@ -301,15 +292,22 @@ const AddProduct = () => {
         }
     }, [updateDefaultAddonOption]);
 
-    const updateAddons = (i, property, value) => {
-        console.log('update addons');
-        console.log(property, value);
+    const getFirstOptionByAddon = (ad) => {
+        return addonsOptions.find((item) => {
+            return item.addon === parseInt(ad);
+        }).id;
+    }
 
-        setAddons(addons?.map((item, index) => {
+    const updateAddons = (i, property, value) => {
+       setAddons(addons?.map((item, index) => {
             if(index === i) {
                 if(property === 'conditionIf') {
                     getAddonOptions(i, value);
-                    return {...item, conditionIf: value};
+                    return {
+                        ...item,
+                        conditionIf: value,
+                        conditionThen: getFirstOptionByAddon(value)
+                    };
                 }
                 else if(property === 'conditionThen') {
                     return {...item, conditionThen: value};
@@ -343,8 +341,10 @@ const AddProduct = () => {
                 else {
                     setStatus(-2);
                 }
+                setLoading(false);
             })
             .catch(() => {
+                setLoading(false);
                 setStatus(-2);
             });
     }
@@ -361,14 +361,17 @@ const AddProduct = () => {
                             }
                             else {
                                 setStatus(-2);
+                                setLoading(false);
                             }
                         })
                         .catch(() => {
                             setStatus(-2);
+                            setLoading(false);
                         });
                 })
                 .catch((err) => {
                     setStatus(-2);
+                    setLoading(false);
                 });
         }
         else {
@@ -380,10 +383,12 @@ const AddProduct = () => {
                         addAddonsForProductWrapper(productId);
                     }
                     else {
+                        setLoading(false);
                         setStatus(-2);
                     }
                 })
                 .catch(() => {
+                    setLoading(false);
                     setStatus(-2);
                 });
         }

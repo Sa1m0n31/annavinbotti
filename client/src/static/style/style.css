@@ -1340,7 +1340,7 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .productContent__info {
     font-size: 13px;
-    max-width: 400px;
+    max-width: 100%;
     text-align: justify;
 }
 
@@ -2120,6 +2120,14 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     display: block;
 }
 
+.page p {
+    text-align: justify;
+}
+
+.page img {
+    border-radius: 25px;
+}
+
 .formPage {
     position: relative;
     padding: 0 0 60px;
@@ -2309,6 +2317,15 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
 
 .formPage__info__p {
     font-size: 18px;
+}
+
+.formPage__info__bottom {
+    padding-top: 20px;
+}
+
+.formPage__info__bottom > a {
+    font-weight: 700;
+    text-decoration: underline;
 }
 
 .formPage__info__p span:first-of-type {
@@ -2666,6 +2683,21 @@ textarea {
 .blog *,
 .contact *:not(input, textarea, button) {
     color: var(--secondary);
+}
+
+.post__mainImg {
+    max-width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post * {
+    text-align: justify;
+}
+
+.post img:not(.post__mainImg img) {
+    max-height: 800px;
+    width: auto;
 }
 
 .contact__top {
@@ -3208,6 +3240,10 @@ textarea {
     transition: .3s all ease-in-out;
 }
 
+.faq__section__question__answer a {
+    text-decoration: underline;
+}
+
 .faq__section__question__answer--visible {
     height: auto;
     opacity: 1;
@@ -3432,8 +3468,19 @@ textarea {
     cursor: default;
 }
 
-.example__img {
+.example__item {
     width: 32%;
+}
+
+.example__img {
+    width: 100%;
+}
+
+.example__header {
+    margin-top: 20px;
+    font-size: 21px;
+    color: var(--secondary);
+    text-align: center;
 }
 
 .formSection--type1 {

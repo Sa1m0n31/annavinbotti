@@ -432,6 +432,31 @@
         padding-top: 20px;
     }
 
+    .admin__login {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .admin__login .input {
+        height: 40px;
+        max-width: 100%;
+    }
+
+    .admin__login__logo {
+        width: 70%;
+    }
+
+    .admin__login__header {
+        font-size: 19px;
+        margin: 30px auto 20px;
+    }
+
+    .admin__login__subheader {
+        font-size: 14px;
+        text-align: center;
+        font-weight: 400;
+    }
+
     .admin__main__top {
         flex-direction: column;
     }

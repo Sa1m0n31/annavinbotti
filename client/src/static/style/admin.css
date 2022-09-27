@@ -383,9 +383,21 @@ a, button, label {
     display: block;
 }
 
+.addProduct__addonsSection__condition {
+    line-height: 2em;
+}
+
 .addProduct__addonsSection__condition label {
     color: #000 !important;
     margin: 0 10px !important;
+}
+
+.rdw-link-modal, .rdw-link-modal * {
+    color: #000 !important;
+}
+
+.rdw-link-modal label {
+    margin: 0 !important;
 }
 
 .addProduct__addonsSection__condition label * {
@@ -1939,4 +1951,83 @@ a.admin__start__stats:hover {
 
 .rdw-justify-aligned-block * {
     text-align: justify !important;
+}
+
+.admin__faq__section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 3px solid var(--secondary);
+}
+
+.admin__faq__section__questions:not(:last-of-type) {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed var(--secondary);
+}
+
+.btn--addSection {
+    padding: 5px 15px;
+    border-radius: 5px;
+    height: 40px;
+    margin-left: 20px;
+}
+
+.admin__main__header--faq {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.admin__faq__section__headerWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px;
+}
+
+.admin__faq__section__header__label {
+    width: 70%;
+    margin-right: 0 !important;
+}
+
+.btn--deleteQuestion {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    border-radius: 50%;
+}
+
+.btn--deleteQuestion:hover {
+    background: #d83b27;
+    filter: brightness(.8);
+}
+
+.admin__faq__section__header__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.btn--addQuestion.btn--delete {
+    margin-top: 15px;
+}
+
+.btn--addQuestion.btn--delete:hover {
+    background: #d83b27;
+    filter: brightness(.9);
+}
+
+.admin__faq .input--textarea {
+    padding: 10px 15px;
+    height: 200px !important;
+    max-height: 300px;
+}
+
+.container--adminLogin .info--error {
+    margin: 20px auto;
+}
+
+.admin__login__subheader {
+    margin-bottom: 40px;
 }

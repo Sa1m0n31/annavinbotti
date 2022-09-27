@@ -12,6 +12,7 @@ import {isInteger, scrollToTop} from "../../helpers/others";
 import checkIcon from '../../static/img/check.svg'
 import settings from "../../static/settings";
 import Loader from "../../components/shop/Loader";
+import {isLoggedIn} from "../../helpers/auth";
 
 const FormType1 = () => {
     const { language } = useContext(ContentContext);
@@ -35,62 +36,72 @@ const FormType1 = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
+        isLoggedIn()
+            .then((res) => {
+                if(res?.status === 200) {
+                    const params = new URLSearchParams(window.location.search);
 
-        const order = params.get('zamowienie');
-        const type = params.get('typ');
+                    const order = params.get('zamowienie');
+                    const type = params.get('typ');
 
-        if(order && type) {
-            setOrderId(order);
-            setTypeId(parseInt(type));
+                    if(order && type) {
+                        setOrderId(order);
+                        setTypeId(parseInt(type));
 
-            getTypeById(type)
-                .then((res) => {
-                    if(res?.status === 200) {
-                        setType(res?.data?.result[0]?.[language === 'pl' ? 'name_pl' : 'name_en']);
-                    }
-                });
-
-            getWorkingForm(order, type)
-                .then((res) => {
-                    if(res?.data?.result?.length) {
-                        const form = res.data.result[0].form_data;
-                        console.log(JSON.parse(form));
-                        setOldForm(JSON.parse(form));
-
-                        getForm(type, 1)
+                        getTypeById(type)
                             .then((res) => {
                                 if(res?.status === 200) {
-                                    setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
+                                    setType(res?.data?.result[0]?.[language === 'pl' ? 'name_pl' : 'name_en']);
                                 }
                             });
+
+                        getWorkingForm(order, type)
+                            .then((res) => {
+                                if(res?.data?.result?.length) {
+                                    const form = res.data.result[0].form_data;
+                                    setOldForm(JSON.parse(form));
+
+                                    getForm(type, 1)
+                                        .then((res) => {
+                                            if(res?.status === 200) {
+                                                setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
+                                            }
+                                        });
+                                }
+                                else {
+                                    getFilledForm();
+                                }
+                            })
+                            .catch(() => {
+                                getFilledForm();
+                            });
+
+                        const getFilledForm = () => {
+                            getFirstTypeFilledForm(order, type)
+                                .then((res) => {
+                                    if(res?.data?.result?.length) {
+                                        setOldForm(res?.data?.result[0].form_data);
+                                    }
+                                    getForm(type, 1)
+                                        .then((res) => {
+                                            if(res?.status === 200) {
+                                                setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
+                                            }
+                                        });
+                                });
+                        }
                     }
                     else {
-                        getFilledForm();
+                        window.location = '/';
                     }
-                })
-                .catch(() => {
-                    getFilledForm();
-                });
-
-            const getFilledForm = () => {
-                getFirstTypeFilledForm(order, type)
-                    .then((res) => {
-                        if(res?.data?.result?.length) {
-                            setOldForm(res?.data?.result[0].form_data);
-                        }
-                        getForm(type, 1)
-                            .then((res) => {
-                                if(res?.status === 200) {
-                                    setForm(JSON.parse(res?.data?.result[0]?.[language === 'pl' ? 'form_pl' : 'form_en']));
-                                }
-                            });
-                    });
-            }
-        }
-        else {
-            window.location = '/';
-        }
+                }
+                else {
+                    window.location = '/moje-konto';
+                }
+            })
+            .catch(() => {
+                window.location = '/moje-konto';
+            });
     }, [language]);
 
     useEffect(() => {
@@ -460,20 +471,26 @@ const FormType1 = () => {
                 </h1>
                 <div className="formPage__info">
                     <p className="formPage__info__p">
-                    <span>
-                        Zamówienie:
-                    </span>
                         <span>
-                        #{orderId}
-                    </span>
+                            Zamówienie:
+                        </span>
+                            <span>
+                            #{orderId}
+                        </span>
                     </p>
                     <p className="formPage__info__p">
-                    <span>
-                        Typ obuwia:
-                    </span>
                         <span>
-                        {type}
-                    </span>
+                            Typ obuwia:
+                        </span>
+                            <span>
+                            {type}
+                        </span>
+                    </p>
+                    <p className="formPage__info__bottom">
+                        Instrukcja: <a href={`https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/jak-mierzyc-stope-${type === 'Czółenka' ? 'czolenka' : 'oficerki'}`}
+                                       target="_blank">
+                        Jak mierzyć stopę - {type}
+                    </a>
                     </p>
                 </div>
 

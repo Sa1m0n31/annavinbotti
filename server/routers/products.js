@@ -56,11 +56,6 @@ router.get('/get-all', (request, response) => {
 const getAddonsArray = (productId, addonsWithOptions, addonsForProducts) => {
    const productAddons = addonsForProducts.filter((item) => (item.product === productId)).map((item) => (item.addon));
 
-   console.log(productAddons);
-   console.log(addonsWithOptions.filter((item) => {
-      return isElementInArray(item.addon_id, productAddons);
-   }));
-   console.log('---');
    return addonsWithOptions.filter((item) => {
       return isElementInArray(item.addon_id, productAddons);
    });

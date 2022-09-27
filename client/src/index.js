@@ -15,8 +15,6 @@ axios.defaults.withCredentials = true;
 //   </React.StrictMode>
 // );
 
-// TODO: sprawdzic proces dodawania opcji dodatkow - problem z ta sama nazwa opcji dodatku
-
 ReactDOM.render(
     <React.StrictMode>
         <App />

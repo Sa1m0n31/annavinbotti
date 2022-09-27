@@ -24,93 +24,106 @@ import FormType2Details from "../../pages/admin/FormType2Details";
 import AddonsStocks from "../../pages/admin/AddonsStocks";
 import { Helmet } from 'react-helmet'
 import SendNewsletter from "../../pages/admin/SendNewsletter";
+import AdminFAQ from "../../pages/admin/AdminFAQ";
+import {authAdmin} from "../../helpers/auth";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
     const [renderPage, setRenderPage] = useState(null);
 
     useEffect(() => {
-        switch(page) {
-            case 1:
-                setRenderPage(<AdminStart />);
-                break;
-            case 2:
-                setRenderPage(<AddProduct />);
-                break;
-            case 3:
-                setRenderPage(<ProductList />);
-                break;
-            case 4:
-                setRenderPage(<AddAddon />);
-                break;
-            case 5:
-                setRenderPage(<AddonList />);
-                break;
-            case 6:
-                setRenderPage(<AddAddon update={true} />);
-                break;
-            case 7:
-                setRenderPage(<AddStock type={0} />);
-                break;
-            case 8:
-                setRenderPage(<AddStock type={1} />);
-                break;
-            case 9:
-                setRenderPage(<StockList type={0} />);
-                break;
-            case 10:
-                setRenderPage(<AddonsStocks />);
-                break;
-            case 11:
-                setRenderPage(<AddType />);
-                break;
-            case 12:
-                setRenderPage(<TypesList />);
-                break;
-            case 13:
-                setRenderPage(<AddPost />);
-                break;
-            case 14:
-                setRenderPage(<PostList />);
-                break;
-            case 15:
-                setRenderPage(<AdminNewsletter />);
-                break;
-            case 16:
-                setRenderPage(<AdminTermsPl />);
-                break;
-            case 17:
-                setRenderPage(<AdminTermsEn />);
-                break;
-            case 18:
-                setRenderPage(<Waitlist />);
-                break;
-            case 19:
-                setRenderPage(<OrderList />);
-                break;
-            case 20:
-                setRenderPage(<WaitlistDetails />);
-                break;
-            case 21:
-                setRenderPage(<OrderDetails />);
-                break;
-            case 22:
-                setRenderPage(<FormDetails />);
-                break;
-            case 23:
-                setRenderPage(<ChangeAdminPassword />);
-                break;
-            case 24:
-                setRenderPage(<FormType2Details />);
-                break;
-            case 25:
-                setRenderPage(<SendNewsletter />);
-                break;
-            default:
-                window.location = '/';
-                break;
-        }
-        setLoaded(true);
+        authAdmin()
+            .then((res) => {
+                console.log(res);
+
+                switch(page) {
+                    case 1:
+                        setRenderPage(<AdminStart />);
+                        break;
+                    case 2:
+                        setRenderPage(<AddProduct />);
+                        break;
+                    case 3:
+                        setRenderPage(<ProductList />);
+                        break;
+                    case 4:
+                        setRenderPage(<AddAddon />);
+                        break;
+                    case 5:
+                        setRenderPage(<AddonList />);
+                        break;
+                    case 6:
+                        setRenderPage(<AddAddon update={true} />);
+                        break;
+                    case 7:
+                        setRenderPage(<AddStock type={0} />);
+                        break;
+                    case 8:
+                        setRenderPage(<AddStock type={1} />);
+                        break;
+                    case 9:
+                        setRenderPage(<StockList type={0} />);
+                        break;
+                    case 10:
+                        setRenderPage(<AddonsStocks />);
+                        break;
+                    case 11:
+                        setRenderPage(<AddType />);
+                        break;
+                    case 12:
+                        setRenderPage(<TypesList />);
+                        break;
+                    case 13:
+                        setRenderPage(<AddPost />);
+                        break;
+                    case 14:
+                        setRenderPage(<PostList />);
+                        break;
+                    case 15:
+                        setRenderPage(<AdminNewsletter />);
+                        break;
+                    case 16:
+                        setRenderPage(<AdminTermsPl />);
+                        break;
+                    case 17:
+                        setRenderPage(<AdminTermsEn />);
+                        break;
+                    case 18:
+                        setRenderPage(<Waitlist />);
+                        break;
+                    case 19:
+                        setRenderPage(<OrderList />);
+                        break;
+                    case 20:
+                        setRenderPage(<WaitlistDetails />);
+                        break;
+                    case 21:
+                        setRenderPage(<OrderDetails />);
+                        break;
+                    case 22:
+                        setRenderPage(<FormDetails />);
+                        break;
+                    case 23:
+                        setRenderPage(<ChangeAdminPassword />);
+                        break;
+                    case 24:
+                        setRenderPage(<FormType2Details />);
+                        break;
+                    case 25:
+                        setRenderPage(<SendNewsletter />);
+                        break;
+                    case 26:
+                        setRenderPage(<AdminFAQ />);
+                        break;
+                    default:
+                        window.location = '/';
+                        break;
+                }
+                setLoaded(true);
+            })
+            .catch((err) => {
+                window.location = '/admin';
+            });
     }, []);
 
     return loaded ? <>

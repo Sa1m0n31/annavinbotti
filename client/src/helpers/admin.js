@@ -128,5 +128,11 @@ const cancelOrder = (id, email) => {
     });
 }
 
+const updateFaq = (content) => {
+    return axios.post(`${API_URL}/content/update-faq`, {
+        content
+    });
+}
+
 export { getAdminById, getAdminData, changeAdminPassword, banUser, unlockUser, deleteUser, changeUserName, getUsersVideosNumber, getUsersParametersCompleted, getAdvancedUsersInfo, getCustomFields, updateCustomFields, updateCustomImages, getCustomImages, updateTerms, getTerms,
-    cancelOrder, sendInfoAboutTermsUpdate, rejectClientForm }
+    cancelOrder, sendInfoAboutTermsUpdate, rejectClientForm, updateFaq }

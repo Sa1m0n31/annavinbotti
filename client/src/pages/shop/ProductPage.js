@@ -11,7 +11,7 @@ import {CartContext, ContentContext} from "../../App";
 import draftToHtml from 'draftjs-to-html';
 import arrowDownGoldIcon from '../../static/img/arrow-down-gold.svg'
 import {addToWaitlist} from "../../helpers/orders";
-import {isAddonAvailable, isEmail, isProductAvailable} from "../../helpers/others";
+import {displayPrice, isAddonAvailable, isEmail, isProductAvailable} from "../../helpers/others";
 import Slider from "react-slick";
 import RedirectionInfoModal from "../../components/shop/RedirectionInfoModal";
 import infoIcon from '../../static/img/info-icon.svg'
@@ -46,7 +46,6 @@ const ProductPage = () => {
     const [fullScreenGallery, setFullScreenGallery] = useState(false);
     const [outOfStock, setOutOfStock] = useState(false);
     const [redirectionInfoModal, setRedirectionInfoModal] = useState(false);
-
     const [lastClick, setLastClick] = useState(0);
 
     const sliderRef = useRef(null);
@@ -85,9 +84,9 @@ const ProductPage = () => {
                    setLoading(false);
                    const r = res?.data?.result;
                    if(r) {
-                       setGallery(r?.map((item) => {
+                       setGallery([product?.main_image]?.concat(r?.map((item) => {
                            return item.path;
-                       }));
+                       })));
                    }
                 });
 
@@ -205,15 +204,24 @@ const ProductPage = () => {
     }
 
     const buy = async () => {
-        if(await addToCart(product, Object.fromEntries(Object.entries(selectedAddons).filter((item) => {
-            return item[1];
-        })))) {
-            // Added to cart
-            window.location = '/zamowienie';
+        const allAddonsSelected = requiredAddons.filter((item) => {
+            return !selectedAddons[item];
+        }).length === 0;
+
+        if(allAddonsSelected) {
+            if(await addToCart(product, Object.fromEntries(Object.entries(selectedAddons).filter((item) => {
+                return item[1];
+            })))) {
+                // Added to cart
+                window.location = '/zamowienie';
+            }
+            else {
+                // Product not available
+                setOutOfStock(true);
+            }
         }
         else {
-            // Product not available
-            setOutOfStock(true);
+            setAddonsError(true);
         }
     }
 
@@ -275,6 +283,10 @@ const ProductPage = () => {
         setLastClick(time);
     }
 
+    const getGalleryMiniatures = () => {
+        return gallery.filter((item, index) => (index !== galleryIndex)).slice(0, 4);
+    }
+
     return render ? <div className="container">
         <PageHeader />
         {loading ? <div className="product--loading center w">
@@ -285,13 +297,11 @@ const ProductPage = () => {
             {/* GALLERY */}
             <div className="product__gallery flex">
                 <div className="product__gallery__miniatures d-from-900">
-                    {gallery?.map((item, index) => {
-                        if(index !== galleryIndex) {
-                            return <button className="product__gallery__miniatures__item"
-                                           onClick={() => { galleryGoTo(index); }}>
-                                <img className="img" src={`${constans.IMAGE_URL}/media/products/${item}`} alt={product?.name_pl} />
-                            </button>
-                        }
+                    {getGalleryMiniatures()?.map((item, index) => {
+                        return <button className="product__gallery__miniatures__item"
+                                       onClick={() => { galleryGoTo(index); }}>
+                            <img className="img" src={`${constans.IMAGE_URL}/media/products/${item}`} alt={product?.name_pl} />
+                        </button>
                     })}
                 </div>
                 <div className="product__gallery__main"
@@ -339,7 +349,7 @@ const ProductPage = () => {
                     {language === 'pl' ? product?.name_pl : product?.name_en}
                 </h1>
                 <h2 className="product__price">
-                    {product?.price} zł
+                    {displayPrice(product?.price)} zł
                 </h2>
                 <p className="product__shortDesc"
                    dangerouslySetInnerHTML={{__html: draftToHtml(JSON.parse(

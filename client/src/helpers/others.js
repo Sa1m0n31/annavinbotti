@@ -7,6 +7,10 @@ const sendMessageToSupport = (content) => {
     });
 }
 
+const displayPrice = (price) => {
+    return price?.toString()?.length === 4 ? `${price.toString()[0]} ${price.toString().slice(1, 4)}` : price;
+}
+
 const getDate = (str) => {
     if(str) {
         const date = str.substring(0, 10);
@@ -337,6 +341,6 @@ const getFiletype = (mimetype) => {
 
 export { scrollToTop, isPasswordStrong, sendMessageToSupport, isProductAvailable, isAddonAvailable,
     getNumberOfOptionInCart, isEmail, getDate, sendContactForm, isInteger, isAlphanumeric,
-    isElementInArray, validatePhoneNumberChange, statusButtons, groupBy, getNumberOfFirstTypeForms,
+    isElementInArray, validatePhoneNumberChange, statusButtons, displayPrice, groupBy, getNumberOfFirstTypeForms,
     getNumberOfModelsWithTheSameStockInCart, getNumberOfSecondTypeForms, downloadData,
     getFiletype, getTime, validatePostalCodeChange}

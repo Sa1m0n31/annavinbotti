@@ -379,20 +379,20 @@ const AddAddon = () => {
                               value={infoEn}
                               onChange={(e) => { setInfoEn(e.target.value); }} />
                 </label>
-                <label>
-                    Tekst kursywą pod opcjami dodatku (polski)
-                    <textarea className="input input--textarea"
-                              placeholder="Tekst kursywą pod opcjami dodatku (polski)"
-                              value={tooltipPl}
-                              onChange={(e) => { setTooltipPl(e.target.value); }} />
-                </label>
-                <label>
-                    Tekst kursywą pod opcjami dodatku (angielski)
-                    <textarea className="input input--textarea"
-                              placeholder="Tekst kursywą pod opcjami dodatku (angielski)"
-                              value={tooltipEn}
-                              onChange={(e) => { setTooltipEn(e.target.value); }} />
-                </label>
+                {/*<label>*/}
+                {/*    Tekst kursywą pod opcjami dodatku (polski)*/}
+                {/*    <textarea className="input input--textarea"*/}
+                {/*              placeholder="Tekst kursywą pod opcjami dodatku (polski)"*/}
+                {/*              value={tooltipPl}*/}
+                {/*              onChange={(e) => { setTooltipPl(e.target.value); }} />*/}
+                {/*</label>*/}
+                {/*<label>*/}
+                {/*    Tekst kursywą pod opcjami dodatku (angielski)*/}
+                {/*    <textarea className="input input--textarea"*/}
+                {/*              placeholder="Tekst kursywą pod opcjami dodatku (angielski)"*/}
+                {/*              value={tooltipEn}*/}
+                {/*              onChange={(e) => { setTooltipEn(e.target.value); }} />*/}
+                {/*</label>*/}
 
                 {/*<h3 className="addAddon--imageHeader">*/}
                 {/*    Zdjęcie po najechaniu myszką*/}

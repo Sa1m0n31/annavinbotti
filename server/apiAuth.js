@@ -4,6 +4,8 @@ class BasicAuth {
             return username === process.env.API_AUTH_USERNAME && password === process.env.API_AUTH_PASSWORD;
         }
 
+        console.log(req.headers.authorization);
+
         if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
             return res.status(401).json({ message: 'Missing Authorization Header' });
         }

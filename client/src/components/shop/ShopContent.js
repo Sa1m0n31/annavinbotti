@@ -4,6 +4,7 @@ import {getShopPage, getTypesWithProducts} from "../../helpers/products";
 import constans from "../../helpers/constants";
 import {CartContext, ContentContext} from "../../App";
 import {
+    displayPrice,
     getNumberOfModelsWithTheSameStockInCart,
     getNumberOfOptionInCart,
     isElementInArray, isProductAvailable
@@ -124,7 +125,7 @@ const ShopContent = () => {
                             {language === 'pl' ? item.name_pl : item.name_en}
                         </h2>
                         <h3 className="shop__products__item__price">
-                            {item.price} zł
+                            {displayPrice(item.price)} zł
                         </h3>
                         {productNotAvailable ? <>
                             <h4 className="shop__products__item__notAvailable">

@@ -8,6 +8,8 @@ const smtpTransport = require('nodemailer-smtp-transport');
 const dbSelectQuery = require('../helpers/dbSelectQuery.js');
 const dbInsertQuery = require('../helpers/dbInsertQuery');
 const got = require('got');
+const authApi = require('./../apiAuth');
+const basicAuth = new authApi().basicAuth;
 
 const isElementInArray = (el, arr) => {
     return arr.findIndex((item) => {
@@ -30,13 +32,13 @@ let transporter = nodemailer.createTransport(smtpTransport ({
     },
 }));
 
-router.get('/all', (request, response) => {
+router.get('/all', basicAuth, (request, response) => {
    const query = `SELECT o.id, COALESCE(a.first_name, u.first_name) as first_name, COALESCE(a.last_name, u.last_name) as last_name, o.date, o.status FROM orders o JOIN addresses a ON o.user_address = a.id JOIN users u ON u.id = o.user WHERE o.hidden = FALSE ORDER BY o.date DESC`;
 
    dbSelectQuery(query, [], response);
 });
 
-router.get('/', (request, response) => {
+router.get('/', basicAuth, (request, response) => {
    const id = request.query.id;
 
    if(id) {
@@ -192,7 +194,7 @@ font-size: 16px;
     });
 }
 
-router.put('/update-order-delivery-number', (request, response) => {
+router.put('/update-order-delivery-number', basicAuth,  (request, response) => {
    const { deliveryNumber, orderId } = request.body;
 
    const query = `UPDATE orders SET delivery_number = $1 WHERE id = $2`;
@@ -205,22 +207,23 @@ const validateStocks = async (sells, addons) => {
     // sells: { product, price, amount }
     // addons: { sell, options : [1, 2, 3] }
 
-    const res = await got.get(`${process.env.API_URL}/stocks/get-product-stock-table`);
-    const resAddons = await got.get(`${process.env.API_URL}/stocks/get-addon-stock-table`);
-
-    console.log(res.body);
+    const res = await got.get(`${process.env.API_URL}/stocks/get-product-stock-table`, {
+        headers: {
+            Authorization: `Basic ${process.env.API_AUTH_HEADER}`
+        },
+    });
+    const resAddons = await got.get(`${process.env.API_URL}/stocks/get-addon-stock-table`, {
+        headers: {
+            Authorization: `Basic ${process.env.API_AUTH_HEADER}`
+        },
+    });
 
     let productsStocksTable = JSON.parse(res.body).result; // { id, counter, product }
     let addonsStocksTable = JSON.parse(resAddons.body).result; // { id, stock }
 
     const zeroProductsStocks = productsStocksTable.filter((item) => (item.counter <= 0)).length;
-    const zeroAddonsStocks = addonsStocksTable.filter((item) => (item.stock <= 0)).length;
 
     let i = 0;
-
-    console.log('before:');
-    console.log(productsStocksTable);
-    console.log(addonsStocksTable);
 
     for(const sell of sells) {
         const currentSellAddons = addons.find((item) => (item.sell === i))?.options;
@@ -233,10 +236,6 @@ const validateStocks = async (sells, addons) => {
             const productsWithTheSameStockId = productsStocksTable.filter((item) => {
                 return item.id === productStockId;
             }).map((item) => (item.product));
-
-            console.log('!!!!!!!!!!!');
-            console.log(productsWithTheSameStockId);
-            console.log('!!!!!!!!!!!');
 
             if(isElementInArray(sell.product, productsWithTheSameStockId)) {
                 let newCounter = item.counter - sell.amount;
@@ -269,14 +268,6 @@ const validateStocks = async (sells, addons) => {
 
     const zeroProductsStocksAfterSubtraction = productsStocksTable.filter((item) => (item.counter < 0)).length;
     const zeroAddonsStocksAfterSubtraction = addonsStocksTable.filter((item) => (item.stock < 0)).length;
-
-    console.log('---');
-    console.log('after:');
-    console.log(productsStocksTable);
-    console.log(addonsStocksTable);
-
-    console.log(zeroProductsStocks, zeroProductsStocksAfterSubtraction);
-    console.log(zeroAddonsStocks, zeroAddonsStocksAfterSubtraction);
 
     return zeroProductsStocks === zeroProductsStocksAfterSubtraction
         && zeroAddonsStocksAfterSubtraction === 0;
@@ -318,6 +309,9 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                         await got.post(`${process.env.API_URL}/newsletter-api/add`, {
                             json: {
                                 email
+                            },
+                            headers: {
+                                Authorization: `Basic ${process.env.API_AUTH_HEADER}`
                             },
                             responseType: 'json',
                         });
@@ -382,7 +376,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
     }
 }
 
-router.get('/get-order-status-changes', (request, response) => {
+router.get('/get-order-status-changes', basicAuth,  (request, response) => {
    const { id } = request.query;
 
    if(id) {
@@ -396,7 +390,7 @@ router.get('/get-order-status-changes', (request, response) => {
    }
 });
 
-router.post('/add', (request, response) => {
+router.post('/add', basicAuth,  (request, response) => {
     let { user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter } = request.body;
 
     // userAddress, deliveryAddress: { street, building, flat, postal_code, city } or integer if already exists
@@ -502,7 +496,7 @@ font-size: 16px;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B;">
-                   Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.
+                   Poniższa wiadomość dotyczy rezerwacji o numerze #${orderId}.
                 </p>  
                 <p style="color: #B9A16B;">
                     Miło nam poinformować, że pomyślnie zweryfikowaliśmy dostarczone informacje, dotyczące wymiaru stóp.
@@ -539,16 +533,16 @@ const sendStatus4Email = (email, orderId, response = null, responseToPaymentGate
                 JOIN products p ON p.id = s.product
                 JOIN addons_options ao ON ao.id = sa.option
                 JOIN addons a ON a.id = ao.addon 
-                WHERE o.id = $1 AND p.name_pl = prod.name_pl
+                WHERE o.id = $1 AND s.id = sl.id
                 ) as addons
             FROM orders o
-            JOIN sells s ON s.order = o.id
-            JOIN sells_addons sa ON s.id = sa.sell
-            JOIN products prod ON prod.id = s.product
+            JOIN sells sl ON sl.order = o.id
+            JOIN sells_addons sa ON sl.id = sa.sell
+            JOIN products prod ON prod.id = sl.product
             JOIN addons_options ao ON ao.id = sa.option
             JOIN addons a ON a.id = ao.addon
             WHERE o.id = $1
-            GROUP BY (prod.name_pl, prod.type, s.id)`;
+            GROUP BY (prod.name_pl, prod.type, sl.id)`;
     const values = [orderId];
 
     db.query(query, values, async (err, res) => {
@@ -655,12 +649,16 @@ const sendStatus5Email = (email, orderId, response) => {
               if(res) {
                   const r = res.rows;
 
+                  function onlyUnique(value, index, self) {
+                      return self.indexOf(value) === index;
+                  }
+
                   const formsLinksArray = r.map((item) => {
                       return `<a style="margin: 5px 0; display: block; color: #B9A16B; text-decoration: underline;"
  href="${process.env.API_URL}/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}">
                         ${process.env.API_URL}/formularz-weryfikacji-buta?zamowienie=${orderId}&model=${item.id}
 </a>`
-                  });
+                  }).filter(onlyUnique);
 
                   const formsLinks = formsLinksArray.join('');
 
@@ -694,7 +692,7 @@ font-size: 16px;
                 </p>  
                 
                 <p style="color: #B9A16B;">
-                   Prosimy również o wypełnienie ${formsLinksArray?.length > 1 ? 'Formularzy' : 'Formularza'} Buta do Miary (link), ${formsLinksArray?.length > 1 ? 'znajdującego' : 'znajdujących'} się w Panelu Klienta. 
+                   Prosimy również o wypełnienie ${formsLinksArray?.length > 1 ? 'Formularzy' : 'Formularza'} Buta do Miary, ${formsLinksArray?.length > 1 ? 'znajdującego' : 'znajdujących'} się w Panelu Klienta. 
                 </p>  
                 
                  ${formsLinks}
@@ -847,7 +845,7 @@ font-size: 16px;
     });
 }
 
-router.put('/change-status', (request, response) => {
+router.put('/change-status', basicAuth,  (request, response) => {
     const { status, email, id } = request.body;
 
     const query = 'UPDATE orders SET status = $1 WHERE id = $2';
@@ -885,7 +883,7 @@ router.put('/change-status', (request, response) => {
     })
 });
 
-router.get('/get-order-forms', (request, response) => {
+router.get('/get-order-forms', basicAuth,  (request, response) => {
     const id = request.query.id;
 
     const query = `SELECT ff.form, ff.form_data, ff.sell, p.name_pl as product FROM filled_forms ff
@@ -898,7 +896,7 @@ router.get('/get-order-forms', (request, response) => {
     dbSelectQuery(query, values, response);
 });
 
-router.delete('/delete', (request, response) => {
+router.delete('/delete', basicAuth, (request, response) => {
     const id = request.query.id;
 
     const query = 'UPDATE orders SET hidden = TRUE WHERE id = $1';
@@ -907,13 +905,13 @@ router.delete('/delete', (request, response) => {
     dbInsertQuery(query, values, response);
 });
 
-router.get('/get-order-statuses', (request, response) => {
+router.get('/get-order-statuses', basicAuth,  (request, response) => {
    const query = 'SELECT * FROM order_statuses ORDER BY id';
 
    dbSelectQuery(query, [], response);
 });
 
-router.get('/get-form-details', (request, response) => {
+router.get('/get-form-details', basicAuth,  (request, response) => {
     const form = request.query.form;
     const sell = request.query.sell;
 
@@ -927,12 +925,7 @@ router.get('/get-form-details', (request, response) => {
     dbSelectQuery(query, values, response);
 });
 
-router.get('/get-form-info', (request, response) => {
-    const form = request.query.form;
-    const sell = request.query.sell;
-});
-
-router.post('/set-status', (req, res) => {
+router.post('/set-status', basicAuth,  (req, res) => {
     const { v1, v2, v3, v4, v5, v6, v7, v8 } = req.body;
 
     const q1 = 'UPDATE order_statuses SET name_pl = $1 WHERE id = 1';
@@ -954,7 +947,7 @@ router.post('/set-status', (req, res) => {
     db.query(q8, [v8]);
 });
 
-router.get('/get-number-of-first-type-forms-by-order', (request, response) => {
+router.get('/get-number-of-first-type-forms-by-order', basicAuth,  (request, response) => {
    const id = request.query.id;
 
    if(id) {
@@ -983,7 +976,7 @@ router.get('/get-number-of-first-type-forms-by-order', (request, response) => {
    }
 });
 
-router.get('/get-number-of-second-type-forms-by-order', (request, response) => {
+router.get('/get-number-of-second-type-forms-by-order', basicAuth, (request, response) => {
     const id = request.query.id;
 
     if(id) {
@@ -1012,7 +1005,7 @@ router.get('/get-number-of-second-type-forms-by-order', (request, response) => {
     }
 });
 
-router.post('/pay', (request, response) => {
+router.post('/pay', basicAuth, (request, response) => {
     const { paymentMethod, orderId, firstName, lastName, email } = request.body;
 
     const query = `UPDATE orders SET payment = $1 WHERE id = $2 `;
@@ -1030,12 +1023,6 @@ router.post('/pay', (request, response) => {
                     const orderPrice = res?.rows[0]?.price;
                     if(orderPrice) {
                         if(parseInt(paymentMethod) === 0) {
-
-
-                            console.log(orderPrice);
-                            console.log(orderId);
-                            console.log(firstName, lastName, email);
-
                             // imoje
                             got.post(`${process.env.IMOJE_API}merchant/${process.env.IMOJE_CLIENT_ID}/payment`, {
                                 json: {
@@ -1043,7 +1030,7 @@ router.post('/pay', (request, response) => {
                                     amount: parseFloat(orderPrice) * 100,
                                     currency: 'PLN',
                                     orderId: orderId,
-                                    title: `Płatność za zakupy w sklepie AnnaVinbotti`,
+                                    title: `Płatność za zakupy w sklepie Anna Vinbotti`,
                                     successReturnUrl: process.env.IMOJE_RETURN_URL,
                                     customer: {
                                         firstName: firstName,
@@ -1079,18 +1066,15 @@ router.post('/pay', (request, response) => {
                         }
                     }
                     else {
-                        console.log(err);
                         response.status(500).end();
                     }
                 }
                 else {
-                    console.log(err);
                     response.status(500).end();
                 }
             });
         }
         else {
-            console.log(err);
             response.status(500).end();
         }
     })
@@ -1112,7 +1096,7 @@ router.post('/payment-notification', (request, response) => {
             const ownSignature = crypto.createHash(alg).update(JSON.stringify(body) + process.env.IMOJE_SHOP_KEY).digest('hex');
 
             if(ownSignature === signature && (body.transaction.status === 'settled')) {
-                const query = `UPDATE orders SET status = 4 WHERE id = $1`;
+                const query = `UPDATE orders SET status = 4 WHERE id = $1 AND status = 3`;
                 const values = [body.transaction.orderId];
 
                 db.query(query, values, (err, res) => {
@@ -1153,10 +1137,8 @@ router.post('/payment-notification', (request, response) => {
     }
 });
 
-router.post('/add-to-waitlist', (request, response) => {
+router.post('/add-to-waitlist', basicAuth, (request, response) => {
    const { email, product } = request.body;
-
-   console.log(email, product);
 
    if(email && product) {
        const query = `INSERT INTO waitlist VALUES ($1, LOWER($2), NOW())`;
@@ -1183,24 +1165,20 @@ router.post('/add-to-waitlist', (request, response) => {
    }
 });
 
-router.post('/reject-client-form', (request, response) => {
+router.post('/reject-client-form', basicAuth, (request, response) => {
    const { data, orderId, email } = request.body;
 
    const query = `UPDATE orders SET status = 1 WHERE id = $1`;
    const values = [orderId];
 
    db.query(query, values, (err, res) => {
-       console.log(err);
       if(res) {
           const query = `UPDATE filled_forms SET confirmed = FALSE WHERE form = 1 AND sell IN (
             SELECT id FROM sells WHERE sells.order = $1
           )`;
           const values = [orderId];
 
-          console.log(orderId);
-
           db.query(query, values, (err, res) => {
-              console.log(err);
               if(res) {
                   let mailOptions = {
                       from: process.env.EMAIL_ADDRESS_WITH_NAME,
@@ -1229,7 +1207,7 @@ font-family: 'Roboto', sans-serif;
                  </p>
                 
                 <p style="color: #B9A16B;">
-                    Czekamy <b>4 dni</b> na powyższe informacje.  
+                    Czekamy <b>7 dni roboczych</b> na powyższe informacje.  
                 </p>
                 <p style="color: #B9A16B;">
                     W przypadku braku ich dostarczenia, rezerwacja zostanie anulowana.
@@ -1254,7 +1232,7 @@ font-family: 'Roboto', sans-serif;
    });
 });
 
-router.delete('/cancel-order', (request, response) => {
+router.delete('/cancel-order', basicAuth, (request, response) => {
    const { id, email } = request.query;
 
    const query = `UPDATE orders SET status = NULL WHERE id = $1`;

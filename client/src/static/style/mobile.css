@@ -364,7 +364,6 @@
 
     .addon__title,
     .product__price,
-    .product__shortDesc,
     .product__title {
         text-align: center;
     }
@@ -389,7 +388,7 @@
     }
 
     .productDetails {
-        margin-bottom: 0;
+        margin-bottom: 50px;
     }
 
     .productDetails > div *,
@@ -458,7 +457,11 @@
 
     .productContent__info {
         margin: auto;
-        text-align: center;
+        text-align: justify;
+    }
+
+    .contact .info {
+        margin-top: 20px;
     }
 
     .btn--productContent {
@@ -483,6 +486,26 @@
         display: none !important;
     }
 
+    .footer__logo {
+        max-width: 140px;
+    }
+
+    .footer__phoneNumber {
+        margin-top: 6px !important;
+    }
+
+    .footer__phoneNumber > span {
+        font-size: 12px;
+    }
+
+    .post__mainImg {
+        max-width: 100%;
+    }
+
+    .post__mainImg .img {
+        border-radius: 15px;
+    }
+
     .contact__bottom .formSection__checkbox .form__addons__label {
         margin: 0;
     }
@@ -499,9 +522,17 @@
         flex-direction: column;
     }
 
-    .example__img {
+    .example__item {
         width: 90%;
-        margin-bottom: 15px;
+        margin-bottom: 55px;
+    }
+
+    .example__item:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .example__header {
+        font-size: 16px;
     }
 
     .newPasswordForm .shipping__header {
@@ -1199,7 +1230,7 @@
     .topHeader__menu--mobile__btn {
         position: relative;
         background: transparent;
-        width: 25px;
+        width: 20px;
         margin: 15px 0;
     }
 
@@ -1308,7 +1339,7 @@
     }
 
     .topHeader__firstRow__link {
-        width: 150px;
+        width: 165px;
     }
 
     .slick-dots li button:before,

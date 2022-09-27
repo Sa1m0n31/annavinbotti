@@ -232,12 +232,6 @@ const addAddonsForProduct = (product, addons) => {
     });
 }
 
-const addAddonsConditionsForProduct = (product, conditions) => {
-    return axios.post('/products/add-addons-conditions-for-product', {
-        product, conditions: JSON.stringify(conditions)
-    });
-}
-
 const deleteAddonsForProduct = (id) => {
     return axios.delete('/products/delete-addons-for-product', {
         params: {
@@ -289,6 +283,6 @@ const getAllAddonsWithOptions = () => {
 export { getAllProducts, getProductDetails, getHomepageModels, addProduct, addAddon, addAddonOption, getAllAddons, getAddonById, getAllAddonsAndAddonsOptions,
         deleteAddon, getOptionsByAddon, updateAddon, updateAddonOption, deleteAddonOptions, getAddonsByProduct, getShopPage,
     getAllTypes, deleteType, updateType, addType, getTypeById, deleteProduct, getProductGallery, getAllAddonsOptions,
-    addAddonsForProduct, addAddonsConditionsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId,
+    addAddonsForProduct, updateProduct, deleteAddonsForProduct, getAllWaitlists, getWaitlistByProductId,
     getProductBySlug, getProductAddons, getTypeByProduct, getTypesWithProducts, getAllAddonsWithOptions, getAddonsWithOptions
 }

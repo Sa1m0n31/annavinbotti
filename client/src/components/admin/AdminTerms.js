@@ -280,7 +280,7 @@ const AdminTerms = ({lang}) => {
                 </section>
                 <section className="admin__editorWrapper">
                     <h3 className="editorWrapper__header">
-                        Odstąpienie od umowy
+                        Gwarancja
                     </h3>
                     <Editor
                         editorState={page7}
@@ -292,31 +292,19 @@ const AdminTerms = ({lang}) => {
                 </section>
                 <section className="admin__editorWrapper">
                     <h3 className="editorWrapper__header">
-                        Wysyłka
+                        Oświadczenie reklamacyjne
                     </h3>
                     <Editor
                         editorState={page8}
                         toolbarClassName="toolbarClassName"
                         wrapperClassName="wrapperClassName"
                         editorClassName="editor"
-                        onEditorStateChange={(text) => { setPage8(text); }}
+                        onEditorStateChange={(text) => { setPage7(text); }}
                     />
                 </section>
                 <section className="admin__editorWrapper">
                     <h3 className="editorWrapper__header">
-                        Sposoby płatności
-                    </h3>
-                    <Editor
-                        editorState={page9}
-                        toolbarClassName="toolbarClassName"
-                        wrapperClassName="wrapperClassName"
-                        editorClassName="editor"
-                        onEditorStateChange={(text) => { setPage9(text); }}
-                    />
-                </section>
-                <section className="admin__editorWrapper">
-                    <h3 className="editorWrapper__header">
-                        Adres do wysyłki
+                        Adres korespondencyjny
                     </h3>
                     <Editor
                         editorState={page10}

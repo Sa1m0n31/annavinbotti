@@ -37,7 +37,7 @@ const isFormFilled = (formType, link, ordersList) => {
 }
 
 const ClientOrders = () => {
-    const { language, content } = useContext(ContentContext);
+    const { language } = useContext(ContentContext);
 
     const [orders, setOrders] = useState([]);
     const [statuses, setStatuses] = useState([]);
@@ -57,7 +57,12 @@ const ClientOrders = () => {
         getUserOrders()
             .then((res) => {
                 if(res?.status === 200) {
-                    setOrders(Object.entries(groupBy(res?.data?.result, 'id')));
+                    setOrders(Object.entries(groupBy(res?.data?.result, 'id')).sort((a, b) => {
+                        const aDate = a[1].date;
+                        const bDate = b[1].date;
+
+                        return new Date(aDate) > new Date(bDate) ? 1 : -1;
+                    }));
                     setRender(true);
                 }
                 else {

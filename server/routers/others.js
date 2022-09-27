@@ -80,7 +80,6 @@ router.post('/send-contact-form', (request, response) => {
 
     transporter.sendMail(mailOptions, function(error, info) {
         if(error) {
-            console.log(error);
             response.status(500).end();
         }
         else {

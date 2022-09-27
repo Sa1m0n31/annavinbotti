@@ -4,13 +4,15 @@ const cors = require("cors");
 const path = require("path");
 const session = require('express-session');
 const app = express();
-const morgan = require('morgan');
+const authApi = require('./apiAuth');
 const flash = require('connect-flash');
 require('dotenv').config();
 
+const basicAuth = new authApi().basicAuth;
+
 /* Redirect http to https */
 // app.enable('trust proxy');
-
+//
 // function redirectWwwTraffic(req, res, next) {
 //     if (req.headers.host.slice(0, 4) === "www.") {
 //         var newHost = req.headers.host.slice(4);
@@ -18,7 +20,7 @@ require('dotenv').config();
 //     }
 //     next();
 // }
-
+//
 // app.use(function (req, res, next) {
 //     if (req.secure) {
 //         // request was via https, so do no special handling
@@ -29,8 +31,6 @@ require('dotenv').config();
 //     }
 // });
 // app.use(redirectWwwTraffic);
-
-app.use(morgan("dev"));
 
 /* Middleware */
 app.use(cors({
@@ -58,6 +58,7 @@ app.use(
     })
 );
 app.use(flash());
+
 const passport = require("passport");
 app.use(passport.initialize());
 app.use(passport.session());
@@ -67,7 +68,7 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 const urls = [
     'admin', 'panel', 'dodaj-produkt', 'lista-produktow', 'dodaj-dodatek', 'lista-dodatkow',
     'edytuj-dodatek', 'dodaj-stan-magazynowy-produktow', 'dodaj-stan-magazynowy-dodatkow',
-    'lista-stanow-magazynowych-produktow', 'lista-stanow-magazynowych-dodatkow',
+    'lista-stanow-magazynowych-produktow', 'lista-stanow-magazynowych-dodatkow', 'przyklad',
     'dodaj-kategorie', 'lista-kategorii', 'dodaj-artykul', 'lista-artykulow', 'newsletter',
     'regulaminy-polski', 'regulaminy-angielski', 'waitlista', 'lista-zamowien', 'szczegoly-waitlisty',
     'szczegoly-zamowienia', 'formularz', 'zmien-haslo-administratora', 'formularz-weryfikacji',
@@ -76,7 +77,8 @@ const urls = [
     'nasze-wartosci', 'jak-powstaja', 'jak-zamawiac', 'jak-mierzyc-stope-czolenka', 'jak-mierzyc-stope-oficerki',
     'odstapienie-od-umowy', 'wysylka', 'sposoby-platnosci', 'adres-do-wysylki', 'regulamin', 'polityka-prywatnosci',
     'panel-klienta', 'informacje-o-zamowieniu', 'formularz-mierzenia-stopy', 'formularz-weryfikacji-buta',
-    'oplac-zamowienie', 'weryfikacja'
+    'oplac-zamowienie', 'weryfikacja', 'edycja-faq', 'wyslij-newsletter', 'oswiadczenie-reklamacyjne',
+    'zrezygnuj-z-newslettera', 'gwarancja'
 ]
 
 /* Routers */
@@ -92,19 +94,21 @@ const contentRouter = require('./routers/content');
 const othersRouter = require('./routers/others');
 const userRouter = require('./routers/user');
 const formsRouter = require('./routers/forms');
+const adminRouter = require('./routers/admin');
 
 app.use('/orders', orderRouter);
-app.use('/products', productRouter);
-app.use('/addons', addonRouter);
-app.use('/types', typesRouter);
-app.use('/stocks', stocksRouter);
-app.use('/blog-api', blogRouter);
-app.use('/newsletter-api', newsletterRouter);
-app.use('/content', contentRouter);
-app.use('/others', othersRouter.router);
-app.use('/user', userRouter);
-app.use('/forms', formsRouter);
-app.use("/image", imageRouter); // only / not restricted (display image)
+app.use('/products', basicAuth, productRouter);
+app.use('/addons', basicAuth, addonRouter);
+app.use('/types', basicAuth, typesRouter);
+app.use('/stocks', basicAuth, stocksRouter);
+app.use('/blog-api', basicAuth, blogRouter);
+app.use('/newsletter-api', basicAuth, newsletterRouter);
+app.use('/content', basicAuth, contentRouter);
+app.use('/others', basicAuth, othersRouter.router);
+app.use('/user', basicAuth, userRouter);
+app.use('/forms', basicAuth, formsRouter);
+app.use('/admin-api', basicAuth, adminRouter);
+app.use("/image", imageRouter);
 
 urls.forEach((item) => {
     app.get(`/${item}`, (req, res) => {

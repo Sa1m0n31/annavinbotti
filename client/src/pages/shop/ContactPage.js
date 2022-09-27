@@ -68,8 +68,8 @@ const ContactPage = () => {
                         office@anna-vinbotti.com
                     </p>
                     <p className="contact__top__section__data contact__top__section__data--phone">
-                        tel: +48 239 329 321<br/>
-                        Obsługiwany od poniedziałku do piątku w godzinach 8:00 - 16:00
+                        tel: +48 570 272 901<br/>
+                        (Obsługiwany od poniedziałku do piątku w godzinach 10:00 - 14:00)
                     </p>
                 </div>
                 <div className="contact__top__section">

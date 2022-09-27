@@ -1,6 +1,15 @@
 const db = require("./database/db");
 const crypto = require('crypto');
 const LocalStrategy = require("passport-local").Strategy;
+const JWTStrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
+
+const jwtOptions = {};
+jwtOptions.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken();
+jwtOptions.secretOrKey = process.env.JWT_SECRET;
+jwtOptions.expiresIn = process.env.JWT_EXPIRE;
+jwtOptions.issuer = process.env.JWT_ISSUER;
+jwtOptions.audience = process.env.JWT_AUDIENCE;
 
 const init = (passport) => {
     const userAuth = (username, password, done) => {

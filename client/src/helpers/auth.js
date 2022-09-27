@@ -1,5 +1,6 @@
 import axios from "axios";
 import settings from '../static/settings'
+import Cookies from 'universal-cookie';
 
 const { API_URL } = settings;
 
@@ -28,13 +29,17 @@ const loginUser = (email, password) => {
 }
 
 const loginAdmin = (login, password) => {
-    return axios.post(`${API_URL}/auth/admin`, {
-        username: login,
-        password: password
+    return axios.post(`${API_URL}/admin-api/auth`, {
+        login, password
     }, {
-        headers: {
-            'Access-Control-Allow-Origin': API_URL
-        },
+        withCredentials: true
+    });
+}
+
+const secondLoginAdmin = (code) => {
+    return axios.post(`${API_URL}/admin-api/auth-code`, {
+        code
+    }, {
         withCredentials: true
     });
 }
@@ -55,12 +60,21 @@ const verifyUser = (token) => {
 
 const logoutUser = () => {
     return axios.get(`${API_URL}/user/logout`, {
-        headers: {
-            'Access-Control-Allow-Origin': API_URL
-        },
         withCredentials: true
     });
 }
 
-export { isLoggedIn, loginUser, loginAdmin,
-    registerUser, verifyUser, logoutUser, autoLogin }
+const authAdmin = () => {
+    return axios.get(`${API_URL}/admin-api/auth`, {}, {
+        withCredentials: true
+    });
+}
+
+const logoutAdmin = () => {
+    const cookies = new Cookies();
+    cookies.remove('access_token', { path: '/' });
+    window.location = '/admin';
+}
+
+export { authAdmin, isLoggedIn, loginUser, loginAdmin, secondLoginAdmin,
+    registerUser, verifyUser, logoutUser, autoLogin, logoutAdmin }

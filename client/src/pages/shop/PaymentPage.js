@@ -9,12 +9,8 @@ import constans from "../../helpers/constants";
 
 const paymentMethods = [
     {
-        pl: 'Płatności internetowe (przelew internetowy, BLIK)',
+        pl: 'Płatności internetowe (przelew internetowy, BLIK, automatyczny przelew tradycyjny)',
         en: 'Online payment'
-    },
-    {
-        pl: 'Przelew tradycyjny',
-        en: 'Traditional transfer'
     }
 ]
 
@@ -134,9 +130,6 @@ const PaymentPage = () => {
                             <span className="shipping__method__name">
                                 {language === 'pl' ? item.pl : item.en}
                             </span>
-                        </span>
-                        <span className="shipping__method__price">
-                            GRATIS
                         </span>
                     </button>
                 })}

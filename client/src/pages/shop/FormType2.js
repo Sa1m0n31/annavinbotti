@@ -11,6 +11,7 @@ import OldFormDataType2 from "../../components/shop/OldFormDataType2";
 import LoadingPage from "../../components/shop/LoadingPage";
 import {isInteger, scrollToTop} from "../../helpers/others";
 import checkIcon from "../../static/img/check.svg";
+import {isLoggedIn} from "../../helpers/auth";
 
 const FormType2 = () => {
     const { language } = useContext(ContentContext);
@@ -35,32 +36,43 @@ const FormType2 = () => {
     const [confirmForm, setConfirmForm] = useState(false);
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
+        isLoggedIn()
+            .then((res) => {
+                if(res?.status === 200) {
+                    const params = new URLSearchParams(window.location.search);
 
-        const order = params.get('zamowienie');
-        const model = params.get('model');
+                    const order = params.get('zamowienie');
+                    const model = params.get('model');
 
-        if(order && model) {
-            setOrderId(order);
-            setModelId(parseInt(model));
+                    if(order && model) {
+                        setOrderId(order);
+                        setModelId(parseInt(model));
 
-            getProductDetails(model)
-                .then((res) => {
-                    if(res?.status === 200) {
-                        setModel(res?.data?.result[0]?.[language === 'pl' ? 'name_pl' : 'name_en']);
+                        getProductDetails(model)
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setModel(res?.data?.result[0]?.[language === 'pl' ? 'name_pl' : 'name_en']);
+                                }
+                            });
+
+                        getTypeByProduct(model)
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setTypeId(res?.data?.result[0]?.type);
+                                }
+                            });
                     }
-                });
-
-            getTypeByProduct(model)
-                .then((res) => {
-                    if(res?.status === 200) {
-                        setTypeId(res?.data?.result[0]?.type);
+                    else {
+                        window.location = '/';
                     }
-                });
-        }
-        else {
-            window.location = '/';
-        }
+                }
+                else {
+                    window.location = '/moje-konto';
+                }
+            })
+            .catch(() => {
+                window.location = '/moje-konto';
+            });
     }, [language]);
 
     useEffect(() => {

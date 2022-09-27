@@ -123,5 +123,14 @@ router.get('/get-faq', (request, response) => {
    dbSelectQuery(query, [], response);
 });
 
+router.post('/update-faq', (request, response) => {
+   const { content } = request.body;
+
+   const query = `UPDATE content SET value_pl = $1 WHERE field = 'faq'`;
+   const values = [content];
+
+   dbInsertQuery(query, values, response);
+});
+
 
 module.exports = router;

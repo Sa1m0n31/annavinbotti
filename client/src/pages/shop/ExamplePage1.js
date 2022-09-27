@@ -13,15 +13,30 @@ const ExamplePage1 = () => {
                 Formularz weryfikacji buta do miary - przykład
             </h1>
             <div className="flex flex--mobile">
-                <figure className="example__img">
-                    <img className="img" src={img2} alt="przyklad" />
-                </figure>
-                <figure className="example__img">
-                    <img className="img" src={img1} alt="przyklad" />
-                </figure>
-                <figure className="example__img">
-                    <img className="img" src={img3} alt="przyklad" />
-                </figure>
+                <div className="example__item">
+                    <figure className="example__img">
+                        <img className="img" src={img2} alt="przyklad" />
+                    </figure>
+                    <h4 className="example__header">
+                        Zdjęcie od boku wewnętrznego
+                    </h4>
+                </div>
+                <div className="example__item">
+                    <figure className="example__img">
+                        <img className="img" src={img1} alt="przyklad" />
+                    </figure>
+                    <h4 className="example__header">
+                        Zdjęcie od góry
+                    </h4>
+                </div>
+                <div className="example__item">
+                    <figure className="example__img">
+                        <img className="img" src={img3} alt="przyklad" />
+                    </figure>
+                    <h4 className="example__header">
+                        Zdjęcie od boku zewnętrznego
+                    </h4>
+                </div>
             </div>
         </main>
         <Footer />

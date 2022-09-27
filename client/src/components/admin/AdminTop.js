@@ -4,7 +4,7 @@ import profileImg from '../../static/img/profile-picture.png'
 import {getAdminData} from '../../helpers/admin'
 import padlock from '../../static/img/padlock.svg'
 import logoutIcon from '../../static/img/logout.svg'
-import {logoutUser} from '../../helpers/auth'
+import {logoutAdmin, logoutUser} from '../../helpers/auth'
 
 const AdminTop = () => {
     const [username, setUsername] = useState("");
@@ -16,15 +16,6 @@ const AdminTop = () => {
                 setUsername(res?.data?.result?.login);
             });
     }, []);
-
-    const logout = () => {
-        logoutUser()
-            .then(res => {
-                if(res?.data?.result) {
-                    window.location = "/admin";
-                }
-            });
-    }
 
     return <header className="adminTop">
         <a className="adminTop__logoWrapper" href="/panel">
@@ -50,7 +41,7 @@ const AdminTop = () => {
                             <img className="profileMenu__list__img" src={padlock} alt="zmien-haslo" />
                             Zmiana hasła
                         </a>
-                        <button className="profileMenu__list__link" onClick={() => { logout(); }}>
+                        <button className="profileMenu__list__link" onClick={() => { logoutAdmin(); }}>
                             <img className="profileMenu__list__img" src={logoutIcon} alt="wyloguj-sie" />
                             Wyloguj się
                         </button>

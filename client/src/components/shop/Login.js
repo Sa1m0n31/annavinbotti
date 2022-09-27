@@ -100,7 +100,7 @@ const Login = ({setFormType, fromCart, setUserLoggedIn}) => {
                    value={login}
                    onClick={() => { setError(-1); }}
                    onChange={(e) => { setLogin(e.target.value); }}
-                   placeholder="Nazwa użytkownika lub e-mail" />
+                   placeholder="Adres e-mail" />
         </label>
         <label>
             <input className="input"

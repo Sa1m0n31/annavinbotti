@@ -18,23 +18,27 @@ const Faq = () => {
                     setSections(JSON.parse(language === 'pl' ? r.value_pl : r.value_en));
                 }
                 else {
-                    window.location = '/';
+                    // window.location = '/';
                 }
             })
-            .catch(() => {
-                window.location = '/';
+            .catch((err) => {
+                console.log(err);
+                // window.location = '/';
             });
     }, []);
 
     useEffect(() => {
         if(sections?.length) {
             setVisibleQuestions(sections?.map((item) => {
+                console.log(item.questions);
                 return item?.questions?.map(() => false);
             }));
         }
     }, [sections]);
 
     const changeVisibleQuestions = (section, question) => {
+        console.log(visibleQuestions);
+
         setVisibleQuestions(visibleQuestions?.map((item, index) => {
             if(index === section) {
                 return item.map((item, index) => {
@@ -48,7 +52,7 @@ const Faq = () => {
     }
 
     const isQuestionVisible = (section, question) => {
-        if(visibleQuestions?.length > section && visibleQuestions[0]?.length > question) {
+        if(visibleQuestions?.length > section && visibleQuestions[section]?.length > question) {
             return visibleQuestions[section][question];
         }
         else {
@@ -80,8 +84,9 @@ const Faq = () => {
                                     {!isQuestionVisible(sectionIndex, index) ? '+' : '-'}
                                 </span>
                             </button>
-                            <p className={isQuestionVisible(sectionIndex, index) ? "faq__section__question__answer faq__section__question__answer--visible flex" : "faq__section__question__answer flex"}>
-                                {item.answer}
+                            <p dangerouslySetInnerHTML={{__html: item.answer}}
+                                className={isQuestionVisible(sectionIndex, index) ? "faq__section__question__answer faq__section__question__answer--visible" : "faq__section__question__answer"}>
+
                             </p>
                         </div>
                     })}

@@ -26,9 +26,9 @@ const Footer = () => {
                     office@anna-vinbotti.pl
                 </span>
                 <span className="footer__phoneNumber">
-                    tel. 123 123 123<br/>
+                    tel. +48 570 272 901<br/>
                     <span>
-                        Obsługiwany od poniedziałku do piątku w godzinach 8:00 - 16:00
+                        (Obsługiwany od poniedziałku do piątku w godzinach 10:00 - 14:00)
                     </span>
                 </span>
             </div>

@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 
-import 'react-tippy/dist/tippy.css'
-import './static/style/style.css'
-import './static/style/admin.css'
-import './static/style/mobile.css'
-import './static/style/mobile-admin.css'
+import 'react-tippy/dist/tippy.css?n=1'
+import './static/style/style.css?n=1'
+import './static/style/admin.css?n=1'
+import './static/style/mobile.css?n=1'
+import './static/style/mobile-admin.css?n=1'
 
-import 'react-upload-gallery/dist/style.css'
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import 'react-upload-gallery/dist/style.css?n=1'
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css?n=1";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminWrapper from "./components/admin/AdminWrapper";
 import Homepage from "./pages/shop/Homepage";
@@ -33,9 +33,12 @@ import NewsletterVerification from "./pages/shop/NewsletterVerification";
 import Faq from "./pages/shop/FAQ";
 import Page from "./pages/shop/Page";
 import Page3Addon from "./components/shop/Page3Addon";
-import {getProductStock, updateStocksInCart} from "./helpers/stocks";
+import {updateStocksInCart} from "./helpers/stocks";
 import NewsletterResignation from "./pages/shop/NewsletterResignation";
 import ExamplePage1 from "./pages/shop/ExamplePage1";
+import axios from "axios";
+
+axios.defaults.headers.common['Authorization'] = `Basic ${process.env.REACT_APP_API_KEY}`;
 
 const LanguageContext = React.createContext({
   language: localStorage.getItem('lang') || 'pl',
@@ -265,6 +268,9 @@ function App() {
       <Route path="/gwarancja">
         <Page field="page_7" title={language === 'pl' ? 'Gwarancja' : 'Gwarancja'} />
       </Route>
+        <Route path="/oswiadczenie-reklamacyjne">
+          <Page field="page_8" title={language === 'pl' ? 'Oświadczenie reklamacyjne' : 'Gwarancja'} />
+        </Route>
       <Route path="/adres-do-korespondencji">
         <Page field="page_10" title={language === 'pl' ? 'Adres do korespondencji' : 'Adres do korespondencji'} />
       </Route>
@@ -300,6 +306,7 @@ function App() {
       </Route>
 
       {/* ADMIN */}
+        {/* TODO: change /admin to /vzh2sffqjn */}
       <Route path="/admin">
         <AdminLogin />
       </Route>
@@ -377,6 +384,9 @@ function App() {
       </Route>
       <Route path="/wyslij-newsletter">
         <AdminWrapper page={25} />
+      </Route>
+      <Route path="/edycja-faq">
+        <AdminWrapper page={26} />
       </Route>
     </Router>
     </ContentContext.Provider>

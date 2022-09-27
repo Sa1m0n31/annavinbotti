@@ -236,7 +236,7 @@ font-size: 16px;
                     Dzień dobry,
                 </p>
                 <p style="color: #B9A16B; margin: 10px 0;">
-                    Poniższa wiadomość dotyczy zamówienia o numerze #${orderId}.    
+                    Poniższa wiadomość dotyczy rezerwacji o numerze #${orderId}.    
                 </p>
                 <p style="color: #B9A16B; margin: 10px 0;">
                     Dziękujemy za uzupełnienie Formularza Mierzenia Stopy.
@@ -273,7 +273,7 @@ font-size: 16px;
 </style>
 </head><div style="background: #053A26; padding: 25px;">
                 <p style="color: #B9A16B;">
-                    Ktoś przesłał formularz mierzenia stopy.
+                    Klient przesłał formularz mierzenia stopy do rezerwacji numer #${orderId}.
                 </p>
                 <p style="color: #B9A16B; margin: 10px 0;">
                     Sprawdź informacje przesłane przez Klienta logując się do panelu administratora:    
@@ -333,7 +333,7 @@ font-size: 16px;
 </style>
 </head><div style="background: #053A26; padding: 25px;">
                 <p style="color: #B9A16B;">
-                    Ktoś przesłał formularz weryfikacji buta do miary.
+                    Klient przesłał formularz weryfikacji buta do miary do zamówienia numer #${orderId}.
                 </p>
                 <p style="color: #B9A16B; margin: 10px 0;">
                     Sprawdź informacje przesłane przez Klienta logując się do panelu administratora:    
