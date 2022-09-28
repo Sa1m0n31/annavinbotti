@@ -117,6 +117,16 @@
         max-width: 90vw;
     }
 
+    .footer .contact__top__section__header {
+        text-align: center;
+        font-size: 15px;
+        margin-top: 15px;
+    }
+
+    .footer .contact__top__section__data {
+        text-align: center;
+    }
+
     .footer__col > .footer__phoneNumber {
         margin-top: 0;
     }
@@ -484,6 +494,16 @@
 @media(max-width: 768px) {
     .d-desktop {
         display: none !important;
+    }
+
+    .homepageModels .slick-slide > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .formSection__checkbox--newsletter {
+        max-width: 80% !important;
     }
 
     .footer__logo {
@@ -884,8 +904,16 @@
         height: 45px;
     }
 
-    .contact__top__section {
+    .contact__top__section:not(.footer .contact__top__section) {
         margin-bottom: 40px;
+    }
+
+    .footer .contact__top__section__header {
+        font-size: 14px;
+    }
+
+    .footer .contact__top__section__data {
+        font-size: 12px;
     }
 
     .input--rendered {

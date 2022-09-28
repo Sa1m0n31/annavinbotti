@@ -86,7 +86,9 @@ const AddonList = () => {
                                             openDeleteModal={openDeleteModal}
                                             name={item[1][0].addon_admin_name}
                                             secondName={item[1][0].addon_name}
-                                            options={item[1]}
+                                            options={item[1]?.sort((a, b) => {
+                                                return a.addon_option_id > b.addon_option_id ? 1 : -1;
+                                            })}
                                             addonType={1} />
                 })}
             </main>

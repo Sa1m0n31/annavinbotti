@@ -108,10 +108,10 @@ const emailTemplate = (header, text, btnLink, btnText) => {
         </div>`
 }
 
-const newsletterTemplate = (content) => {
+const newsletterTemplate = (content, includeBottom = true) => {
     return `<div style="background: #053A26; padding: 25px;">
         ${content}
-        ${getNewsletterBottom()}        
+        ${includeBottom ? getNewsletterBottom() : ''}        
     </div>`;
 }
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import logo from '../../static/img/logo.svg'
+import logo from '../../static/img/logo.png'
 import profileImg from '../../static/img/profile-picture.png'
 import {getAdminData} from '../../helpers/admin'
 import padlock from '../../static/img/padlock.svg'

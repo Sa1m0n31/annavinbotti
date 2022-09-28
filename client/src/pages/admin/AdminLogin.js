@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import logo from '../../static/img/logo.svg'
+import logo from '../../static/img/logo.png'
 import {Helmet} from "react-helmet";
 import {loginAdmin, secondLoginAdmin} from "../../helpers/auth";
 import Loader from "../../components/shop/Loader";

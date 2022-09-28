@@ -45,5 +45,14 @@ const sendNewsletter = (title, content, image) => {
     });
 }
 
+const sendMailToClients = (title, content) => {
+    let htmlContent = stateToHTML((convertFromRaw(convertToRaw(content?.getCurrentContent()))));
+
+    return axios.post(`/newsletter-api/send-email-to-clients`, {
+        title,
+        content: htmlContent
+    });
+}
+
 export { getAllNewsletterSubscribers, registerToNewsletter, deleteFromNewsletter,
-    verifyNewsletter, sendNewsletter, sendResignationLink }
+    verifyNewsletter, sendNewsletter, sendResignationLink, sendMailToClients }

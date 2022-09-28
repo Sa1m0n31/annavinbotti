@@ -26,6 +26,7 @@ import { Helmet } from 'react-helmet'
 import SendNewsletter from "../../pages/admin/SendNewsletter";
 import AdminFAQ from "../../pages/admin/AdminFAQ";
 import {authAdmin} from "../../helpers/auth";
+import SendEmailToClients from "../../pages/admin/SendEmailToClients";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -114,6 +115,9 @@ const AdminWrapper = ({page}) => {
                         break;
                     case 26:
                         setRenderPage(<AdminFAQ />);
+                        break;
+                    case 27:
+                        setRenderPage(<SendEmailToClients />);
                         break;
                     default:
                         window.location = '/';

@@ -8,6 +8,7 @@ import blog from '../../static/img/writing.svg'
 import newsletter from '../../static/img/newsletter.svg'
 import terms from '../../static/img/terms-and-conditions.svg'
 import home from '../../static/img/home.svg'
+import email from '../../static/img/user-icon.svg'
 
 const AdminMenu = ({menuOpen}) => {
     const [submenu, setSubmenu] = useState(-1);
@@ -24,7 +25,8 @@ const AdminMenu = ({menuOpen}) => {
         { name: 'Zamówienia', icon: orders, link: '/lista-zamowien' },
         { name: 'Blog', icon: blog, link: '/lista-artykulow' },
         { name: 'Newsletter', icon: newsletter, link: '/newsletter' },
-        { name: 'Podstrony', icon: terms, link: '/regulaminy-polski' }
+        { name: 'Podstrony', icon: terms, link: '/regulaminy-polski' },
+        { name: 'Mail do klientów', icon: email, link: '/zbiorczy-mail' },
     ]
 
     const submenus = [
@@ -68,6 +70,9 @@ const AdminMenu = ({menuOpen}) => {
             { name: "Wersja polska", link: '/regulaminy-polski' },
             { name: "Wersja angielska", link: '/regulaminy-angielski' },
             { name: "FAQ", link: '/edycja-faq' }
+        ],
+        [
+            { name: 'Wyślij zbiorczego maila', link: '/zbiorczy-mail' }
         ]
     ]
 
@@ -101,7 +106,8 @@ const AdminMenu = ({menuOpen}) => {
     return <menu className="panelMenu scroll" ref={panelMenu}>
         <ul className="panelMenu__list">
             {menu.map((item, index) => {
-                return <li className="panelMenu__list__item" key={index}>
+                return <li className="panelMenu__list__item"
+                           key={index}>
                     <button className={submenu === index || menuOpen === index && (window.innerWidth > 996) ? "panelMenu__list__item__link panelMenu__list__item__link--selected" : "panelMenu__list__item__link"}
                             onClick={() => { mainMenuItemClick(index); }}>
                         <img className="panelMenu__list__item__icon" src={item.icon} alt={item.name} />
@@ -115,7 +121,8 @@ const AdminMenu = ({menuOpen}) => {
                     </button>
                     {submenu === index || menuOpen === index && (index !== 0) ? (window.innerWidth > 996 ? <ul className="panelMenu__submenu">
                         {submenus[index].map((item, index) => {
-                            return <li className="panelMenu__submenu__item" key={index}>
+                            return <li className="panelMenu__submenu__item"
+                                       key={index}>
                                 <a className="panelMenu__submenu__link" href={item.link}>
                                     {item.name}
                                 </a>
@@ -132,7 +139,8 @@ const AdminMenu = ({menuOpen}) => {
                             </h3>
                             <ul>
                                 {submenus[submenu].map((item, index) => {
-                                    return <li className="panelMenu__submenu__item" key={index}>
+                                    return <li className="panelMenu__submenu__item"
+                                               key={index}>
                                         <a className="panelMenu__submenu__link" href={item.link}>
                                             {item.name}
                                         </a>

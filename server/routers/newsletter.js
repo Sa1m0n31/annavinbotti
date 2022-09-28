@@ -299,6 +299,52 @@ ${newsletterTemplate(content)}
    else {
       response.status(400).end();
    }
+});
+
+router.post('/send-email-to-clients', (request, response) => {
+   const { title, content } = request.body;
+
+   if(title && content) {
+      const query = `SELECT email FROM users WHERE active = TRUE`;
+
+      db.query(query, [], (err, res) => {
+         if(res) {
+            const emails = res?.rows?.map((item) => (item.email));
+
+            let mailOptions = {
+               from: process.env.EMAIL_ADDRESS_WITH_NAME,
+               to: [],
+               bcc: emails,
+               subject: title,
+               html: `<head>
+<style>
+* {
+color: #B9A16B !important;
+}
+</style>
+</head>
+<body>
+${newsletterTemplate(content, false)}
+</body>`
+            }
+
+            transporter.sendMail(mailOptions, function(error, info) {
+               if(error) {
+                  response.status(500).end();
+               }
+               else {
+                  response.status(201).end();
+               }
+            });
+         }
+         else {
+            response.status(500).end();
+         }
+      });
+   }
+   else {
+      response.status(400).end();
+   }
 })
 
 module.exports = router;

@@ -388,6 +388,9 @@ function App() {
       <Route path="/edycja-faq">
         <AdminWrapper page={26} />
       </Route>
+      <Route path="/zbiorczy-mail">
+        <AdminWrapper page={27} />
+      </Route>
     </Router>
     </ContentContext.Provider>
   </CartContext.Provider> : <LoadingPage />

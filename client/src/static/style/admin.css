@@ -106,7 +106,7 @@ a, button, label {
     opacity: .75;
 }
 
-.panelMenu__list__item__link:hover .panelMenu__list__item__icon {
+.panelMenu__list__item__link .panelMenu__list__item__icon {
     filter: brightness(0) invert(1);
 }
 
@@ -674,6 +674,10 @@ a, button, label {
     position: absolute;
     top: 50px;
     left: 400px;
+}
+
+.admin__status--sendMail {
+    left: 75%;
 }
 
 .admin__status--right {
@@ -2030,4 +2034,8 @@ a.admin__start__stats:hover {
 
 .admin__login__subheader {
     margin-bottom: 40px;
+}
+
+.rdw-link-decorator-wrapper img {
+    display: none !important;
 }

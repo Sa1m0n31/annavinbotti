@@ -104,7 +104,8 @@ const ProductPage = () => {
                             }));
 
                         if(!isProductAvailable(addonsToCheckAvailability, product.counter, product.id, product.stock_id, cartContent)) {
-                            window.location = '/sklep';
+                            // window.location = '/sklep';
+                            setRender(true);
                         }
                         else {
                             setRender(true);
@@ -175,7 +176,9 @@ const ProductPage = () => {
         }) !== -1;
     }
 
-    const changeSelectedAddons = (addon, addon_option) => {
+    const changeSelectedAddons = (addon, addon_option, e) => {
+        console.log(e);
+
         setRequiredAddons(addons?.filter((item) => {
             const showIf = item[1][0].show_if;
             const isEqual = item[1][0].is_equal;
@@ -387,7 +390,7 @@ const ProductPage = () => {
                                 {ad?.map((item, index) => {
                                     return <button className={selectedAddons[item.id] === item.addon_option_id ? (item.addon_type === 1 ? "addon__option addon__option--textType addon__option--selected" : "addon__option addon__option--selected") : (item.addon_type === 1 ? "addon__option addon_option--textType" : "addon__option")}
                                                    key={index}
-                                                   onClick={() => { changeSelectedAddons(item.id, item.addon_option_id); }}>
+                                                   onClick={(e) => { changeSelectedAddons(item.id, item.addon_option_id, e); }}>
 
                                         {!(item.addon_type === 1 && !item.tooltip_pl) ? <div className="addon__option__tooltip">
                                             {item.addon_type === 1 ? <span>
@@ -433,7 +436,7 @@ const ProductPage = () => {
                         {emailError}
                     </span> : ''}
                     <button className="btn btn--productContent btn--waitlist" onClick={() => { waitlist(); }}>
-                        Zapisz się na listę kolejkową
+                        Powiadom o dostępności
                     </button>
                 </>) : <>
                     <p className="productContent__info">

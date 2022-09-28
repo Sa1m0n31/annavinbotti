@@ -19,6 +19,7 @@
     "react-dom": "^18.1.0",
     "react-draft-wysiwyg": "^1.14.7",
     "react-dropzone-uploader": "^2.11.0",
+    "react-facebook-pixel": "^1.0.4",
     "react-helmet": "^6.1.0",
     "react-loader-spinner": "^6.0.0-0",
     "react-router": "^5.2.0",

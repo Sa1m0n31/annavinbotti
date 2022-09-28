@@ -31,6 +31,21 @@ const Footer = () => {
                         (Obsługiwany od poniedziałku do piątku w godzinach 10:00 - 14:00)
                     </span>
                 </span>
+
+                <div className="contact__top__section">
+                    <h2 className="contact__top__section__header">
+                        Adres do korespondencji
+                    </h2>
+                    <p className="contact__top__section__data">
+                        Sklep Anna Vinbotti
+                    </p>
+                    <p className="contact__top__section__data">
+                        Ul. Tomasza Zana 43 / lok. 2.1
+                    </p>
+                    <p className="contact__top__section__data">
+                        20 – 601 Lublin
+                    </p>
+                </div>
             </div>
             <div className="footer__col">
                 <h5 className="footer__col__header">

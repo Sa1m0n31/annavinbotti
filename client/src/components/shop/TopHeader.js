@@ -1,12 +1,10 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import logo from '../../static/img/logo.svg'
+import logo from '../../static/img/logo.png'
 import userIcon from '../../static/img/user-icon.svg'
 import cartIcon from '../../static/img/cart-icon.svg'
 import menuIcon from '../../static/img/menu.svg'
 import backIcon from '../../static/img/arrow-back.svg'
 import arrowDownIcon from '../../static/img/arrow-down.svg'
-import poland from '../../static/img/poland.png'
-import uk from '../../static/img/united-kingdom.png'
 import {CartContext, ContentContext} from "../../App";
 import constans from "../../helpers/constants";
 import facebookIcon from "../../static/img/facebook.svg";

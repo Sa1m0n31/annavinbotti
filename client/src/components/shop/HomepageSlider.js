@@ -1,6 +1,10 @@
 import React, {useRef} from 'react';
 import Slider from 'react-slick'
-import sliderImg from '../../static/img/slider.png'
+import slider1 from '../../static/img/slider1.jpg'
+import slider2 from '../../static/img/slider2.jpg'
+import slider3 from '../../static/img/slider3.jpg'
+import slider4 from '../../static/img/slider4.jpg'
+import slider5 from '../../static/img/slider5.jpg'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -13,27 +17,31 @@ const HomepageSlider = () => {
         slidesToScroll: 1,
         draggable: false,
         waitForAnimate: true,
-        // autoplay: true,
-        autoplaySpeed: 3000
+        autoplay: true,
+        autoplaySpeed: 5000
     };
 
     const sliderRef = useRef(null);
 
     const slider = [
         {
-            image: sliderImg,
+            image: slider1,
             link: '/sklep'
         },
         {
-            image: sliderImg,
+            image: slider2,
             link: '/sklep'
         },
         {
-            image: sliderImg,
+            image: slider3,
             link: '/sklep'
         },
         {
-            image: sliderImg,
+            image: slider4,
+            link: '/sklep'
+        },
+        {
+            image: slider5,
             link: '/sklep'
         }
     ]

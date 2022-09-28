@@ -170,7 +170,7 @@ router.get('/all', (request, response) => {
 
 router.get('/all-addons-with-options', (request, response) => {
     const query = `SELECT a.id, a.admin_name as addon_admin_name, a.name_pl as addon_name, ao.admin_name as addon_option_admin_name,
-            ao.name_pl as addon_option_name
+            ao.name_pl as addon_option_name, ao.id as addon_option_id 
             FROM addons a
             LEFT OUTER JOIN addons_options ao ON a.id = ao.addon
             WHERE a.hidden = FALSE and ao.hidden = FALSE
