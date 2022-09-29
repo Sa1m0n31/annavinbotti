@@ -496,6 +496,20 @@
         display: none !important;
     }
 
+    .instruction__row {
+        flex-direction: column;
+    }
+
+    .instruction__row .img {
+        width: 80%;
+        max-width: 100px;
+    }
+
+    .instruction__row .img--icon {
+        transform: rotate(90deg);
+        margin: 40px auto;
+    }
+
     .homepageModels .slick-slide > div {
         display: flex;
         justify-content: center;

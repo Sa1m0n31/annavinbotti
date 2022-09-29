@@ -58,10 +58,10 @@ const ClientOrders = () => {
             .then((res) => {
                 if(res?.status === 200) {
                     setOrders(Object.entries(groupBy(res?.data?.result, 'id')).sort((a, b) => {
-                        const aDate = a[1].date;
-                        const bDate = b[1].date;
+                        const aDate = a[1][0].date;
+                        const bDate = b[1][0].date;
 
-                        return new Date(aDate) > new Date(bDate) ? 1 : -1;
+                        return new Date(aDate) > new Date(bDate) ? -1 : 1;
                     }));
                     setRender(true);
                 }

@@ -73,8 +73,8 @@ const AddStock = ({type}) => {
                     .then((res) => {
                         const result = res?.data?.result;
                         if(result) {
-                            setName(result[0].name);
-                            setCounter(result[0].counter);
+                            setName(result[0]?.name);
+                            setCounter(result[0]?.counter);
                             const selectedIds = result?.map((item) => (item.product_id));
                             setSelectedItems(selectedItems?.map((item, index) => {
                                 if(isElementInArray(allItems[index].id, selectedIds)) {

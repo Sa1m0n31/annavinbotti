@@ -21,72 +21,115 @@ let transporter = nodemailer.createTransport(smtpTransport ({
 }));
 
 const checkWaitlists = (response) => {
-    const query = `SELECT p.id, s.counter, w.email, (SELECT COUNT(*)
-                    FROM addons_for_products afp
-                    LEFT OUTER JOIN addons_options ao ON afp.addon = ao.addon
-                    LEFT OUTER JOIN addons_stocks ad_stocks ON ad_stocks.addon_option = ao.id
-                    LEFT OUTER JOIN stocks s ON s.id = ad_stocks.stock
-                    WHERE afp.product = p.id AND ao.hidden = FALSE AND s.counter <= 0) as addons_not_available
+    // Check product availability
+    const query = `SELECT p.id, s.counter, w.email, afp.addon, ao.id as addon_option, ao.stock as addon_stock
                     FROM products p 
                     JOIN products_stocks ps ON ps.product = p.id
+                    JOIN addons_for_products afp ON afp.product = p.id
+                    JOIN addons_options ao ON ao.addon = afp.addon
                     JOIN stocks s ON s.id = ps.stock 
                     JOIN waitlist w ON w.product = p.id
-                    WHERE p.hidden = FALSE AND s.counter > 0`;
-
-    console.log('checking waitlists');
+                    WHERE p.hidden = FALSE AND ao.hidden = FALSE AND s.counter > 0`;
 
     db.query(query, [], async (err, res) => {
         if(res) {
-            let emails = res.rows;
-            if(emails) {
-                const waitlistRowsToDelete = emails.filter((item) => {
-                    return parseInt(item.addons_not_available) === 0;
-                });
+            let i = 0;
+            const bigTable = res.rows;
+            const rowsAvailable = bigTable.filter((item) => (item.addon_stock > 0));
 
-                console.log(waitlistRowsToDelete);
-
-                emails = await emails.filter((item) => {
-                    return parseInt(item.addons_not_available) === 0;
-                }).map((item) => {
-                    return item.email;
-                });
-
-                if(emails?.length) {
-                    let mailOptions = {
-                        from: process.env.EMAIL_ADDRESS_WITH_NAME,
-                        to: [],
-                        bcc: emails,
-                        subject: 'Twój produkt jest już dostępny',
-                        html: emailTemplate('Dobra wiadomość',
-                            'Produkt jest już dostępny w naszym sklepie. Wejdź w poniższy link i zarezerwuj:',
-                            `${process.env.API_URL}/sklep`,
-                            'Przejdź do sklepu'
-                        )
+            if(bigTable?.length) {
+                // Get distinct products
+                let distinctProducts = [];
+                for(const row of bigTable) {
+                    if(!distinctProducts.includes(row.id)) {
+                        distinctProducts.push(row.id);
                     }
+                }
 
-                    await transporter.sendMail(mailOptions, function(error, info) {
-                        console.log(error);
-                        if(error) {
-                            response.status(500).end();
+                console.log('distinct products');
+                console.log(distinctProducts);
+
+                // For each product
+                for(const product of distinctProducts) {
+                    let distinctAddons = [];
+                    let distinctAvailableAddons = [];
+
+                    console.log(`product: ${product}`);
+
+                    // Get number of addons
+                    for(const row of bigTable) {
+                        if(!distinctAddons.includes(row.addon) && row.id === product) {
+                            distinctAddons.push(row.addon);
                         }
-                        else {
-                            waitlistRowsToDelete.forEach(async (item, index, array) => {
-                                const query = 'DELETE FROM waitlist WHERE product = $1 AND email = $2';
-                                const values = [item.id, item.email];
+                    }
+                    const numberOfAddonsInProduct = distinctAddons.length;
 
-                                if(index === array.length-1) {
-                                    await dbInsertQuery(query, values, response);
+                    console.log(`number of addons: ${numberOfAddonsInProduct}`);
+
+                    console.log(bigTable);
+                    console.log('---');
+                    console.log(rowsAvailable);
+
+                    // Get number of available addons
+                    for(const row of rowsAvailable) {
+                        if(!distinctAvailableAddons.includes(row.addon) && row.id === product) {
+                            distinctAvailableAddons.push(row.addon);
+                        }
+                    }
+                    const numberOfAvailableAddonsInProduct = distinctAvailableAddons.length;
+
+                    console.log(`number of available addons: ${numberOfAvailableAddonsInProduct}`);
+
+                    // If addons for product available
+                    if(numberOfAddonsInProduct === numberOfAvailableAddonsInProduct) {
+                        let emails = bigTable
+                            .filter((item) => {
+                                return item.id === product;
+                            })
+                            .map((item) => {
+                                return item.email;
+                            });
+
+                        if(emails?.length) {
+                            let mailOptions = {
+                                from: process.env.EMAIL_ADDRESS_WITH_NAME,
+                                to: [],
+                                bcc: emails,
+                                subject: 'Twój produkt jest już dostępny',
+                                html: emailTemplate('Dobra wiadomość',
+                                    'Produkt jest już dostępny w naszym sklepie. Wejdź w poniższy link i zarezerwuj:',
+                                    `${process.env.API_URL}/sklep`,
+                                    'Przejdź do sklepu'
+                                )
+                            }
+
+                            await transporter.sendMail(mailOptions, function(error, info) {
+                                if(error) {
+                                    response.status(500).end();
                                 }
                                 else {
-                                    await dbInsertQuery(query, values);
+                                    const query = 'DELETE FROM waitlist WHERE product = $1';
+                                    const values = [product];
+
+                                    if(i === distinctProducts.length - 1) {
+                                        dbInsertQuery(query, values, response);
+                                    }
+                                    else {
+                                        db.query(query, values);
+                                    }
                                 }
-                            })
+                            });
                         }
-                    });
+                        else {
+                            response.status(201).end();
+                        }
+                    }
+
+                    i++;
                 }
-                else {
-                    response.status(201).end();
-                }
+            }
+            else {
+                response.status(201).end();
             }
         }
     });
@@ -508,7 +551,14 @@ router.patch('/update-addon-stock', (request, response) => {
        const query = `UPDATE addons_options SET stock = $1 WHERE id = $2`;
        const values = [stock, id];
 
-       dbInsertQuery(query, values, response);
+       db.query(query, values, (err, res) => {
+           if(res) {
+               checkWaitlists(response);
+           }
+           else {
+               response.status(500).end();
+           }
+       })
    }
    else {
        response.status(400).end();

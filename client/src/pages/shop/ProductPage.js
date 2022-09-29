@@ -104,27 +104,40 @@ const ProductPage = () => {
                             }));
 
                         if(!isProductAvailable(addonsToCheckAvailability, product.counter, product.id, product.stock_id, cartContent)) {
-                            // window.location = '/sklep';
+                            setAddons(Object.entries(groupBy(r, 'addon_name_pl')).sort((a, b) => {
+                                return a[1][0].priority > b[1][0].priority ? 1 : -1;
+                            })?.map((item) => {
+                                return [
+                                    item[0],
+                                    item[1]
+                                ];
+                            }));
+
+                            setWaitlistInputVisible(true);
                             setRender(true);
                         }
                         else {
+                            setAddons(Object.entries(groupBy(r, 'addon_name_pl')).sort((a, b) => {
+                                return a[1][0].priority > b[1][0].priority ? 1 : -1;
+                            })?.map((item) => {
+                                return [
+                                    item[0],
+                                    item[1].filter((item) => {
+                                        return isAddonAvailable(item.addon_option_id, item.stock, cartContent);
+                                    })
+                                ];
+                            }));
+
                             setRender(true);
                         }
-
-                        setAddons(Object.entries(groupBy(r, 'addon_name_pl')).sort((a, b) => {
-                            return a[1][0].priority > b[1][0].priority ? 1 : -1;
-                        })?.map((item) => {
-                            return [
-                                item[0],
-                                item[1].filter((item) => {
-                                    return isAddonAvailable(item.addon_option_id, item.stock, cartContent);
-                                })
-                            ];
-                        }));
                     }
                 });
         }
     }, [product]);
+
+    useEffect(() => {
+        console.log(addons);
+    }, [addons]);
 
     const convertArrayToObject = (array) => {
         const initialValue = {};
@@ -368,8 +381,10 @@ const ProductPage = () => {
                 </h3>
                 {addons?.map((item, index) => {
                     const ad = item[1];
-                    const conditionIf = ad[0].show_if;
-                    const conditionIsEqual = ad[0].is_equal;
+                    const conditionIf = ad[0]?.show_if;
+                    const conditionIsEqual = ad[0]?.is_equal;
+
+                    console.log(ad);
 
                     if(ad && ((conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf))) {
                         return <div className="addon" key={index}>

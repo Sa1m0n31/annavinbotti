@@ -126,7 +126,7 @@ const AdminWrapper = ({page}) => {
                 setLoaded(true);
             })
             .catch((err) => {
-                window.location = '/admin';
+                window.location = '/vzh2sffqjn';
             });
     }, []);
 

@@ -8,7 +8,7 @@ import {stateToHTML} from "draft-js-export-html";
 import LoadingPage from "../../components/shop/LoadingPage";
 import OrderInstruction from "../../components/shop/OrderInstruction";
 
-const Page = ({title, field, width100, addon}) => {
+const PageWithDownload = ({title, text, field, downloadName, width100, link, buttonText}) => {
     const { language } = useContext(ContentContext);
 
     const [pageContent, setPageContent] = useState(null);
@@ -34,19 +34,22 @@ const Page = ({title, field, width100, addon}) => {
                 {title}
             </h1>
 
-            {field === 'page_4' ? <OrderInstruction /> : ''}
-
-            <article id={field} className={width100 ? "page__content page100" : "page__content"}
-                     dangerouslySetInnerHTML={{__html: stateToHTML((convertFromRaw(JSON.parse(
-                    pageContent)
-                )))}}>
-
+            <article id={field} className={width100 ? "page__content page100" : "page__content"}>
+                <p>
+                    {text}
+                </p>
+                <div className="page__linkWrapper">
+                    <a href={link}
+                       target="_blank"
+                       className="page__link"
+                       download={downloadName}>
+                        {buttonText}
+                    </a>
+                </div>
             </article>
-
-            {addon ? addon : ''}
         </main>
         <Footer />
     </div> : <LoadingPage />
 };
 
-export default Page;
+export default PageWithDownload;

@@ -11,26 +11,26 @@ require('dotenv').config();
 const basicAuth = new authApi().basicAuth;
 
 /* Redirect http to https */
-// app.enable('trust proxy');
-//
-// function redirectWwwTraffic(req, res, next) {
-//     if (req.headers.host.slice(0, 4) === "www.") {
-//         var newHost = req.headers.host.slice(4);
-//         return res.redirect(301, req.protocol + "://" + newHost + req.originalUrl);
-//     }
-//     next();
-// }
-//
-// app.use(function (req, res, next) {
-//     if (req.secure) {
-//         // request was via https, so do no special handling
-//         next();
-//     } else {
-//         // request was via http, so redirect to https
-//         res.redirect('https://' + req.headers.host + req.url);
-//     }
-// });
-// app.use(redirectWwwTraffic);
+app.enable('trust proxy');
+
+function redirectWwwTraffic(req, res, next) {
+    if (req.headers.host.slice(0, 4) === "www.") {
+        var newHost = req.headers.host.slice(4);
+        return res.redirect(301, req.protocol + "://" + newHost + req.originalUrl);
+    }
+    next();
+}
+
+app.use(function (req, res, next) {
+    if (req.secure) {
+        // request was via https, so do no special handling
+        next();
+    } else {
+        // request was via http, so redirect to https
+        res.redirect('https://' + req.headers.host + req.url);
+    }
+});
+app.use(redirectWwwTraffic);
 
 /* Middleware */
 app.use(cors({
@@ -78,7 +78,7 @@ const urls = [
     'odstapienie-od-umowy', 'wysylka', 'sposoby-platnosci', 'adres-do-wysylki', 'regulamin', 'polityka-prywatnosci',
     'panel-klienta', 'informacje-o-zamowieniu', 'formularz-mierzenia-stopy', 'formularz-weryfikacji-buta',
     'oplac-zamowienie', 'weryfikacja', 'edycja-faq', 'wyslij-newsletter', 'oswiadczenie-reklamacyjne',
-    'zrezygnuj-z-newslettera', 'gwarancja', 'zbiorczy-mail'
+    'zrezygnuj-z-newslettera', 'gwarancja', 'zbiorczy-mail', 'vzh2sffqjn'
 ]
 
 /* Routers */

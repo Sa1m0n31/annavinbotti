@@ -221,8 +221,6 @@ const validateStocks = async (sells, addons) => {
     let productsStocksTable = JSON.parse(res.body).result; // { id, counter, product }
     let addonsStocksTable = JSON.parse(resAddons.body).result; // { id, stock }
 
-    const zeroProductsStocks = productsStocksTable.filter((item) => (item.counter <= 0)).length;
-
     let i = 0;
 
     for(const sell of sells) {
@@ -269,8 +267,7 @@ const validateStocks = async (sells, addons) => {
     const zeroProductsStocksAfterSubtraction = productsStocksTable.filter((item) => (item.counter < 0)).length;
     const zeroAddonsStocksAfterSubtraction = addonsStocksTable.filter((item) => (item.stock < 0)).length;
 
-    return zeroProductsStocks === zeroProductsStocksAfterSubtraction
-        && zeroAddonsStocksAfterSubtraction === 0;
+    return zeroProductsStocksAfterSubtraction === 0 && zeroAddonsStocksAfterSubtraction === 0;
 }
 
 const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, shipping, oldSells, oldAddons, newsletter, response) => {
@@ -410,9 +407,9 @@ router.post('/add', basicAuth,  (request, response) => {
                     if(res?.rows) {
                         userAddress = res.rows[0].id;
 
-                        // ADD USER FIRST AND LAST NAME (neccessary for payment process)
-                        const query = `UPDATE users SET first_name = $1, last_name = $2 WHERE id = $3 AND (first_name IS NULL OR last_name IS NULL)`;
-                        const values = [ad.firstName, ad.lastName, request.user];
+                        // UPDATE USER DATA (first and last name necessary for payment process)
+                        const query = `UPDATE users SET first_name = $1, last_name = $2, address = $3, phone_number = $4 WHERE id = $5`;
+                        const values = [ad.firstName, ad.lastName, userAddress, ad.phoneNumber, request.user];
 
                         db.query(query, values, (err, res) => {
                             if(res) {
@@ -1126,6 +1123,9 @@ router.post('/payment-notification', (request, response) => {
                        response.status(500).end();
                    }
                 });
+            }
+            else {
+                response.status(500).end();
             }
         }
         catch(err) {

@@ -236,6 +236,7 @@ const getNumberOfOptionInCart = (optionId, cart) => {
 }
 
 const isAddonAvailable = (addonOption, addonOptionStock, cart) => {
+    console.log(addonOption, addonOptionStock, getNumberOfOptionInCart(addonOption, cart), addonOptionStock - getNumberOfOptionInCart(addonOption, cart) > 0);
     return addonOptionStock - getNumberOfOptionInCart(addonOption, cart) > 0;
 }
 
@@ -264,9 +265,6 @@ const isProductAvailable = (addons, stock, modelId, stockId, cart) => {
                     return item.addon_id === currentAddonId;
                 })
                 .findIndex((item) => {
-                    // if(item.addon_id === 18) {
-                    //     console.log(item.addon_option_id, item.addon_option_stock, getNumberOfOptionInCart(item.addon_option_id, cart));
-                    // }
                     return (item.addon_option_stock - getNumberOfOptionInCart(item.addon_option_id, cart) > 0);
                 }) !== -1;
         }).length === addons.length) && (stock - getNumberOfModelsWithTheSameStockInCart(stockId, cart) > 0);

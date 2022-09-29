@@ -73,7 +73,7 @@ const authAdmin = () => {
 const logoutAdmin = () => {
     const cookies = new Cookies();
     cookies.remove('access_token', { path: '/' });
-    window.location = '/admin';
+    window.location = '/vzh2sffqjn';
 }
 
 export { authAdmin, isLoggedIn, loginUser, loginAdmin, secondLoginAdmin,

@@ -37,6 +37,7 @@ import {updateStocksInCart} from "./helpers/stocks";
 import NewsletterResignation from "./pages/shop/NewsletterResignation";
 import ExamplePage1 from "./pages/shop/ExamplePage1";
 import axios from "axios";
+import PageWithDownload from "./pages/shop/PageWithDownload";
 
 axios.defaults.headers.common['Authorization'] = `Basic ${process.env.REACT_APP_API_KEY}`;
 
@@ -266,10 +267,20 @@ function App() {
         <Page field="page_6" title={language === 'pl' ? 'Jak pielęgnować' : 'Jak pielęgnować'} />
       </Route>
       <Route path="/gwarancja">
-        <Page field="page_7" title={language === 'pl' ? 'Gwarancja' : 'Gwarancja'} />
+        <PageWithDownload field="page_7"
+                          text="Gwarancja do pobrania znajduje się pod poniższym linkiem."
+                          buttonText="Pobierz dokument gwarancyjny"
+                          downloadName="Gwarancja.docx"
+                          link="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/Gwarancja.docx"
+                          title={language === 'pl' ? 'Gwarancja' : 'Gwarancja'} />
       </Route>
         <Route path="/oswiadczenie-reklamacyjne">
-          <Page field="page_8" title={language === 'pl' ? 'Oświadczenie reklamacyjne' : 'Gwarancja'} />
+          <PageWithDownload field="page_8"
+                            text="Odstąpienie od umowy sprzedaży do pobrania znajduje się pod poniższym linkiem."
+                            buttonText="Pobierz odstąpienie od umowy sprzedaży"
+                            downloadName="Oswiadczenie_o_odstapieniu_od_umowy_sprzedazy.docx"
+                            link="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/Oswiadczenie_o_odstapieniu_od_umowy_sprzedazy.docx"
+                            title={language === 'pl' ? 'Oświadczenie reklamacyjne' : 'Gwarancja'} />
         </Route>
       <Route path="/adres-do-korespondencji">
         <Page field="page_10" title={language === 'pl' ? 'Adres do korespondencji' : 'Adres do korespondencji'} />
@@ -306,8 +317,7 @@ function App() {
       </Route>
 
       {/* ADMIN */}
-        {/* TODO: change /admin to /vzh2sffqjn */}
-      <Route path="/admin">
+      <Route path="/vzh2sffqjn">
         <AdminLogin />
       </Route>
       <Route path="/panel">

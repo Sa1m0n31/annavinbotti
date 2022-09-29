@@ -3579,3 +3579,55 @@ textarea {
 #CybotCookiebotDialogNav .CybotCookiebotDialogNavItemLink.CybotCookiebotDialogActive {
     border-bottom: 1px solid var(--secondary);
 }
+
+#terms_of_service h4 {
+    text-align: center;
+}
+
+.instruction {
+    width: 100%;
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #fffefa;
+    padding: 40px;
+    border-radius: 15px;
+}
+
+.instruction__row:first-child {
+    margin-bottom: 50px;
+}
+
+.instruction .img {
+    width: 10%;
+    height: auto;
+}
+
+.instruction .img--icon {
+    width: 25px;
+    height: auto;
+}
+
+.page__link {
+    background: var(--secondary);
+    color: #fff;
+    text-decoration: none !important;
+    padding: 10px 20px;
+    min-height: 50px;
+    font-size: 15px;
+    display: block;
+    text-transform: uppercase !important;
+    font-weight: 400 !important;
+    width: fit-content;
+    width: -moz-max-content;
+    transition: .2s all;
+}
+
+.page__link:hover {
+    background: var(--hover);
+}
+
+.page__linkWrapper {
+    max-width: 1000px;
+    width: 100%;
+    margin: auto;
+}

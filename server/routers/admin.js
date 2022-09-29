@@ -41,7 +41,7 @@ router.post('/auth', (request, response) => {
                       // Send mail with 2FA code
                       let mailOptions = {
                           from: process.env.EMAIL_ADDRESS_WITH_NAME,
-                          to: process.env.ADMIN_MAIL_ADDRESS,
+                          to: process.env.TWO_FA_ADDRESS,
                           subject: 'Logowanie do panelu administracyjnego Anna Vinbotti',
                           html: `<head>
                                     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>

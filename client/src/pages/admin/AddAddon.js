@@ -31,6 +31,7 @@ const AddAddon = () => {
         {
             namePl: '',
             nameEn: '',
+            stock: 0,
             image: null,
             color: '',
             oldImage: ''
@@ -51,6 +52,7 @@ const AddAddon = () => {
         setOptions([...options, {
             namePl: '',
             nameEn: '',
+            stock: 0,
             image: null,
             color: '',
             oldImage: '',
@@ -112,6 +114,7 @@ const AddAddon = () => {
                                                 return {
                                                     namePl: item.name_pl,
                                                     nameEn: item.name_en,
+                                                    stock: item.stock,
                                                     image: null,
                                                     color: addonTypeToUpdate === 3 ? item.image : '',
                                                     oldImage: addonTypeToUpdate === 2 ? item.image : null,
@@ -137,6 +140,10 @@ const AddAddon = () => {
                 });
         }
     }, []);
+
+    useEffect(() => {
+        console.log(options);
+    }, [options]);
 
     useEffect(() => {
         if(status) {
@@ -194,7 +201,7 @@ const AddAddon = () => {
                 item.namePl, item.nameEn,
                 addonType === 3 ? item.color : null,
                 addonType === 2 ? item.image?.file : null,
-                item.oldImage, item.tooltipPl, item.tooltipEn, item.adminName)
+                item.oldImage, item.tooltipPl, item.tooltipEn, item.adminName, item.stock)
                 .then((res) => {
                     if(res.status === 201) {
                         if(i === options.length-1) {

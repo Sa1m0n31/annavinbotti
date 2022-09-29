@@ -123,7 +123,7 @@ const addAddon = (namePl, nameEn, infoPl, infoEn, tooltipPl, tooltipEn, image, t
     return axios.post('/addons/add', formData, config);
 }
 
-const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '', tooltipPl, tooltipEn, adminName) => {
+const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '', tooltipPl, tooltipEn, adminName, stock) => {
     let formData = new FormData();
 
     formData.append('oldImage', oldImage)
@@ -132,6 +132,7 @@ const addAddonOption = (addon, namePl, nameEn, color, img, oldImage = '', toolti
     formData.append('namePl', namePl);
     formData.append('nameEn', nameEn);
     formData.append('color', color);
+    formData.append('stock', stock);
     formData.append('tooltipPl', tooltipPl ? tooltipPl : '');
     formData.append('tooltipEn', tooltipEn ? tooltipEn : '');
     formData.append('adminName', adminName ? adminName : '');
