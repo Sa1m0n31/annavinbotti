@@ -12,13 +12,13 @@ import icon10 from '../../static/img/info-10.svg'
 import arrow from '../../static/img/info-arrow.svg'
 
 const OrderInstruction = () => {
-    return <div className="instruction">
+    return <div className="instruction instruction--order">
         <div className="instruction__row flex">
             <img className="img" src={icon1} alt="instrukcja" />
             <img className="img--icon" src={arrow} alt="strzalka" />
             <img className="img" src={icon2} alt="instrukcja" />
             <img className="img--icon" src={arrow} alt="strzalka" />
-            <img className="img" src={icon3} alt="instrukcja" />
+            <img className="img img--bigger" src={icon3} alt="instrukcja" />
             <img className="img--icon" src={arrow} alt="strzalka" />
             <img className="img" src={icon4} alt="instrukcja" />
             <img className="img--icon" src={arrow} alt="strzalka" />
@@ -30,9 +30,9 @@ const OrderInstruction = () => {
             <img className="img--icon" src={arrow} alt="strzalka" />
             <img className="img" src={icon7} alt="instrukcja" />
             <img className="img--icon" src={arrow} alt="strzalka" />
-            <img className="img" src={icon8} alt="instrukcja" />
+            <img className="img img--bigger img--bigger--2" src={icon8} alt="instrukcja" />
             <img className="img--icon" src={arrow} alt="strzalka" />
-            <img className="img" src={icon9} alt="instrukcja" />
+            <img className="img img--bigger" src={icon9} alt="instrukcja" />
             <img className="img--icon" src={arrow} alt="strzalka" />
             <img className="img" src={icon10} alt="instrukcja" />
         </div>

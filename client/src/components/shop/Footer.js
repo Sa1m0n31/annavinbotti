@@ -23,7 +23,7 @@ const Footer = () => {
                 <img className="footer__logo" src={logoWhite} alt="anna-vinbotti" />
 
                 <span>
-                    office@anna-vinbotti.pl
+                    office@anna-vinbotti.com
                 </span>
                 <span className="footer__phoneNumber">
                     tel. +48 570 272 901<br/>
@@ -75,14 +75,14 @@ const Footer = () => {
                 <a className="footer__link" href="/oswiadczenie-reklamacyjne">
                     Oświadczenie reklamacyjne
                 </a>
+                <a className="footer__link" href="/odstapienie-od-umowy">
+                    Odstąpienie od umowy
+                </a>
                 <a className="footer__link" href="/gwarancja">
                     Gwarancja
                 </a>
                 <a className="footer__link" href="/faq">
                     Centrum pomocy / FAQ
-                </a>
-                <a className="footer__link" href="/adres-do-korespondencji">
-                    Adres do korespondencji
                 </a>
             </div>
             <div className="footer__col">

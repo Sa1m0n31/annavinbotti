@@ -3631,3 +3631,63 @@ textarea {
     width: 100%;
     margin: auto;
 }
+
+.page__content--instruction ul {
+    padding-left: 30px;
+}
+
+.page__images {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 30px auto 40px;
+}
+
+.page__images img {
+    margin: 0 20px;
+    border-radius: 10px;
+    max-width: 500px !important;
+}
+
+.img--3 {
+    width: 30%;
+}
+
+.img--2 {
+    width: 45%;
+}
+
+.img--4 {
+    width: 22%;
+}
+
+.m1 {
+    padding-left: 20px;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.page__content--instruction iframe {
+    margin: 30px auto;
+    display: block;
+    max-width: 95% !important;
+}
+
+.instruction--example {
+    font-style: italic;
+}
+
+.instruction--order .img {
+    border-radius: 0 !important;
+}
+
+.img--bigger {
+    transform: scale(1.1);
+    transform-origin: center;
+}
+
+.img--bigger--2 {
+    transform: scale(1.2);
+}

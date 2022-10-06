@@ -496,6 +496,27 @@
         display: none !important;
     }
 
+    .instruction__row:first-child {
+        margin-bottom: 10px;
+    }
+
+    .page__images img {
+        margin: 0 5px;
+    }
+
+    .m1 {
+        padding-left: 8px;
+        max-width: 90% !important;
+    }
+
+    .page__link {
+        font-size: 12px !important;
+        padding: 7px 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .instruction__row {
         flex-direction: column;
     }

@@ -38,6 +38,8 @@ import NewsletterResignation from "./pages/shop/NewsletterResignation";
 import ExamplePage1 from "./pages/shop/ExamplePage1";
 import axios from "axios";
 import PageWithDownload from "./pages/shop/PageWithDownload";
+import InstructionType1 from "./pages/shop/InstructionType1";
+import InstructionType2 from "./pages/shop/InstructionType2";
 
 axios.defaults.headers.common['Authorization'] = `Basic ${process.env.REACT_APP_API_KEY}`;
 
@@ -258,10 +260,10 @@ function App() {
         <Page field="page_4" title={language === 'pl' ? 'Jak zamawiać' : 'Jak zamawiać'} />
       </Route>
       <Route path="/jak-mierzyc-stope-czolenka">
-        <Page field="page_5" title={language === 'pl' ? 'Jak mierzyć stopę - czółenka' : 'Jak mierzyć stopę'} />
+        <InstructionType1 />
       </Route>
       <Route path="/jak-mierzyc-stope-oficerki">
-        <Page field="page_11" title={language === 'pl' ? 'Jak mierzyć stopę - oficerki' : 'Jak mierzyć stopę'} />
+        <InstructionType2 />
       </Route>
       <Route path="/jak-pielegnowac">
         <Page field="page_6" title={language === 'pl' ? 'Jak pielęgnować' : 'Jak pielęgnować'} />
@@ -274,17 +276,22 @@ function App() {
                           link="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/Gwarancja.docx"
                           title={language === 'pl' ? 'Gwarancja' : 'Gwarancja'} />
       </Route>
-        <Route path="/oswiadczenie-reklamacyjne">
-          <PageWithDownload field="page_8"
+      <Route path="/oswiadczenie-reklamacyjne">
+        <PageWithDownload field="page_8"
+                          text="Oświadczenie reklamacyjne do pobrania znajduje się pod poniższym linkiem."
+                          buttonText="Pobierz oświadczenie reklamacyjne"
+                          downloadName="Oswiadczenie_reklamacyjne.docx"
+                          link="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/Oswiadczenie_reklamacyjne.docx"
+                          title={language === 'pl' ? 'Oświadczenie reklamacyjne' : 'Gwarancja'} />
+      </Route>
+        <Route path="/odstapienie-od-umowy">
+          <PageWithDownload field="page_9"
                             text="Odstąpienie od umowy sprzedaży do pobrania znajduje się pod poniższym linkiem."
                             buttonText="Pobierz odstąpienie od umowy sprzedaży"
                             downloadName="Oswiadczenie_o_odstapieniu_od_umowy_sprzedazy.docx"
                             link="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/Oswiadczenie_o_odstapieniu_od_umowy_sprzedazy.docx"
-                            title={language === 'pl' ? 'Oświadczenie reklamacyjne' : 'Gwarancja'} />
+                            title={language === 'pl' ? 'Odstąpienie od umowy sprzedaży' : 'Gwarancja'} />
         </Route>
-      <Route path="/adres-do-korespondencji">
-        <Page field="page_10" title={language === 'pl' ? 'Adres do korespondencji' : 'Adres do korespondencji'} />
-      </Route>
       <Route path="/regulamin">
         <Page field="terms_of_service"
               width100={true}

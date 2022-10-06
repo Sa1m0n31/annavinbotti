@@ -23,38 +23,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/shop/OrderInstruction.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/PageWithDownload.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-1.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-10.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-2.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-3.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-4.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-5.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-6.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-7.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-8.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-9.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/info-arrow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i10.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i11.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i12.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i13.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i14.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i15.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i16.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i17.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i18.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i19.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i20.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i21.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i22.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i23.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i24.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i25.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i26.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i27.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i28.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i29.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i30.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i31.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i32.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i33.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i34.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i35.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i36.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i37.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i38.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i39.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i40.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i41.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i42.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i43.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i44.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i45.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i5.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i7.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i8.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/i9.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/in-1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/in-2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/in-3.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/ClientOrders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/ClientOrders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/products.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddAddon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddStock.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddStock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/Page.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/Page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ProductPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ProductPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-2.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-2.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-3.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-3.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-6.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-6.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-7.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-7.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-8.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-8.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-9.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-9.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/addons.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/addons.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routers/stocks.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/stocks.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,22 +114,22 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="16.11.41" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../job-portal" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/static/img" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\shop" />
+      <recent name="i11.jpg" />
+      <recent name="i11" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\admin" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\media\static" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\shop" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\admin" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\routers" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\components\shop" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -199,7 +227,11 @@
       <workItem from="1664286365067" duration="1848000" />
       <workItem from="1664376948952" duration="14462000" />
       <workItem from="1664444943581" duration="1396000" />
-      <workItem from="1664454586448" duration="19559000" />
+      <workItem from="1664454586448" duration="19726000" />
+      <workItem from="1664523938960" duration="1026000" />
+      <workItem from="1664540720204" duration="221000" />
+      <workItem from="1664789373118" duration="609000" />
+      <workItem from="1665060207092" duration="7154000" />
     </task>
     <servers />
   </component>
@@ -223,12 +255,12 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656589000856" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1664485451091">
-      <screen x="-1920" y="0" width="1920" height="1040" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1664792587040">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664485451091" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664540941732" />
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664288732578" />
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1662975314832" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1664792587040" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1657530869472" />
     <state x="-1220" y="222" key="RollbackChangesDialog" timestamp="1663253105561">
       <screen x="-1920" y="0" width="1920" height="1040" />
@@ -247,11 +279,11 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-916" y="0" width="469" height="1027" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664286988474" />
-    <state x="-1253" y="253" width="585" height="558" key="find.popup" timestamp="1664490613226">
+    <state x="-1253" y="253" width="1101" height="534" key="find.popup" timestamp="1665060275426">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="558" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664490613226" />
-    <state x="-1253" y="253" width="1101" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664380660029" />
+    <state x="-1253" y="253" width="585" height="558" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664494354459" />
+    <state x="-1253" y="253" width="1101" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665060275426" />
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657460868681" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1664383640416">
       <screen x="-1920" y="0" width="1920" height="1040" />
@@ -259,11 +291,11 @@
     <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1663158080883" />
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664383640416" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657058277045" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1664492763944">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1665074632337">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664492763944" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664476053975" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665074632337" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665072282633" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657547908927" />
   </component>
 </project>
