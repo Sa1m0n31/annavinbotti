@@ -288,6 +288,8 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
         }
     }
 
+    console.log(addons);
+
     // Validate stocks
     const productsAvailable = await validateStocks(oldSells, oldAddons);
 
@@ -295,6 +297,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
         const query = `INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW() + INTERVAL '4 HOUR', $7, NULL, NULL, NULL) RETURNING id`;
         const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
 
+        // Add to newsletter
         if(newsletter === 'true') {
             const query = 'SELECT email FROM users WHERE id = $1 AND email NOT IN (SELECT email FROM newsletter WHERE active = TRUE)';
             const values = [user.id];
@@ -324,25 +327,31 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                 const query = `INSERT INTO order_status_changes VALUES ($1, $2, NOW() + INTERVAL '4 HOUR')`;
                 const values = [orderId, 1];
 
-                db.query(query, values, (err, res) => {
-                    sells.forEach(async (item, index, array) => {
+                let i = 0;
+
+                db.query(query, values, async (err, res) => {
+                    for(const item of sells) {
                         const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
                         const values = [item.product, id, item.price];
 
                         const insertSellResult = await db.query(query, values);
-                        await sellsIds.push(insertSellResult.rows[0].id);
+                        sellsIds.push(insertSellResult.rows[0].id);
+                        console.log(sellsIds);
+                        let j = 0;
 
+                        // When all sells inserted
                         if(sellsIds.length === addons.length) {
                             // ADD ADDONS
-                            await addons.forEach(async (item, indexParent, arrayParent) => {
+                            for(const item of addons) {
                                 const options = item.options;
+                                let k = 0;
 
-                                await options.forEach(async (item, index, array) => {
+                                for(const item of options) {
                                     const query = 'INSERT INTO sells_addons VALUES ($1, $2)';
-                                    const values = [sellsIds[indexParent], item];
+                                    const values = [sellsIds[j], item];
 
-                                    if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
-                                        db.query(query, values, (err, res) => {
+                                    if((k === options.length-1) && (j === addons.length-1)) {
+                                        await db.query(query, values, (err, res) => {
                                             if(res) {
                                                 // Send notification to admin
                                                 let mailOptions = {
@@ -382,12 +391,16 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                                         });
                                     }
                                     else {
-                                        await dbInsertQuery(query, values);
+                                        await db.query(query, values);
                                     }
-                                });
-                            });
+
+                                    k += 1;
+                                }
+                                j += 1;
+                            }
                         }
-                    });
+                        i += 1;
+                    }
                 });
             }
             else {

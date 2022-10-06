@@ -78,7 +78,7 @@ const urls = [
     'odstapienie-od-umowy', 'wysylka', 'sposoby-platnosci', 'adres-do-wysylki', 'regulamin', 'polityka-prywatnosci',
     'panel-klienta', 'informacje-o-zamowieniu', 'formularz-mierzenia-stopy', 'formularz-weryfikacji-buta',
     'oplac-zamowienie', 'weryfikacja', 'edycja-faq', 'wyslij-newsletter', 'oswiadczenie-reklamacyjne',
-    'zrezygnuj-z-newslettera', 'gwarancja', 'zbiorczy-mail', 'vzh2sffqjn'
+    'zrezygnuj-z-newslettera', 'gwarancja', 'zbiorczy-mail', 'vzh2sffqjn', 'wyslane-newslettery'
 ]
 
 /* Routers */

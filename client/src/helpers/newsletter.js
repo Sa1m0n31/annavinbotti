@@ -33,11 +33,11 @@ const verifyNewsletter = (token) => {
 }
 
 const sendNewsletter = (title, content) => {
-    let htmlContent = stateToHTML((convertFromRaw(convertToRaw(content?.getCurrentContent()))));
+    let newsletterContent = stateToHTML((convertFromRaw(convertToRaw(content?.getCurrentContent()))));
 
     return axios.post(`/newsletter-api/send`, {
         title,
-        content: htmlContent
+        newsletterContent
     });
 }
 
@@ -72,5 +72,9 @@ const saveNewsletter = (title, content) => {
     })
 }
 
+const getAllNewsletters = () => {
+    return axios.get('/newsletter-api/get-all');
+}
+
 export { getAllNewsletterSubscribers, saveNewsletter, getNewsletterInProgress, registerToNewsletter, deleteFromNewsletter, sendTestNewsletter,
-    verifyNewsletter, sendNewsletter, sendResignationLink, sendMailToClients }
+    verifyNewsletter, sendNewsletter, sendResignationLink, sendMailToClients, getAllNewsletters }

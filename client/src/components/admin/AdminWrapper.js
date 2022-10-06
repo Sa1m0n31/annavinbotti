@@ -27,6 +27,8 @@ import SendNewsletter from "../../pages/admin/SendNewsletter";
 import AdminFAQ from "../../pages/admin/AdminFAQ";
 import {authAdmin} from "../../helpers/auth";
 import SendEmailToClients from "../../pages/admin/SendEmailToClients";
+import NewsletterMails from "../../pages/admin/NewsletterMails";
+import ProductPagePreview from "../../pages/admin/ProductPagePreview";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -118,6 +120,12 @@ const AdminWrapper = ({page}) => {
                         break;
                     case 27:
                         setRenderPage(<SendEmailToClients />);
+                        break;
+                    case 28:
+                        setRenderPage(<NewsletterMails />);
+                        break;
+                    case 29:
+                        setRenderPage(<ProductPagePreview />);
                         break;
                     default:
                         window.location = '/';

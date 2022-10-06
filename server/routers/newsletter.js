@@ -255,6 +255,12 @@ router.post('/save-work-in-progress', (request, response) => {
    dbInsertQuery(query, values, response);
 });
 
+router.get('/get-all', (request, response) => {
+   const query = `SELECT * FROM newsletter_mails WHERE in_progress = FALSE`;
+
+   dbSelectQuery(query, [], response);
+});
+
 router.post('/send-resignation-link', (request, response) => {
    const { email } = request.body;
 
@@ -313,7 +319,7 @@ router.post('/send', (request, response) => {
 
       db.query(query, [], (err, res) => {
          // Save email to database
-         const query = `INSERT INTO newsletter_mails VALUES (nextval("newsletter_mail_seq"), $1, $2, NOW(), FALSE)`;
+         const query = `INSERT INTO newsletter_mails VALUES (nextval('newsletter_mail_seq'), $1, $2, NOW() + INTERVAL '4 HOUR', FALSE)`;
          const values = [title, newsletterContent];
 
          db.query(query, values, (err, res) => {

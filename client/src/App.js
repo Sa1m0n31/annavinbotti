@@ -404,6 +404,15 @@ function App() {
       <Route path="/zbiorczy-mail">
         <AdminWrapper page={27} />
       </Route>
+      <Route path="/wyslane-newslettery">
+        <AdminWrapper page={28} />
+      </Route>
+      <Route path="/podglad-produktu">
+        <AdminWrapper page={29} />
+      </Route>
+      <Route path="/podglad-artykulu">
+        <AdminWrapper page={30} />
+      </Route>
     </Router>
     </ContentContext.Provider>
   </CartContext.Provider> : <LoadingPage />

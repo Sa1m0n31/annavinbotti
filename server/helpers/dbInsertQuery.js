@@ -6,11 +6,11 @@ const dbInsertQuery = (query, values, response = null) => {
             if(response) {
                 console.log(res);
                 if(res) {
-                    response.status(201).end();
+                    response?.status(201)?.end();
                 }
                 else {
                     console.log(err);
-                    response.status(500).end();
+                    response?.status(500)?.end();
                 }
             }
         });
