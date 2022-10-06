@@ -278,7 +278,7 @@ font-size: 16px;
                 <p style="color: #B9A16B; margin: 10px 0;">
                     Sprawdź informacje przesłane przez Klienta logując się do panelu administratora:    
                 </p>
-                <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/admin">
+                <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/vzh2sffqjn">
                     Zaloguj się do panelu admina
                 </a>
                 </div>`
@@ -338,7 +338,7 @@ font-size: 16px;
                 <p style="color: #B9A16B; margin: 10px 0;">
                     Sprawdź informacje przesłane przez Klienta logując się do panelu administratora:    
                 </p>
-                <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/admin">
+                <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/vzh2sffqjn">
                     Zaloguj się do panelu admina
                 </a>
                 </div>`

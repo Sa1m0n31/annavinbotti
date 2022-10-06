@@ -185,9 +185,6 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
         ) {
             return 'Uzupełnij wymagane pola';
         }
-        else if(formFields.invoice && (!formFields.companyName || !formFields.nip)) {
-            return 'Uzupełnij dane do faktury';
-        }
         else if(formFields.differentDeliveryAddress && (
             !formFields.deliveryFirstName || !formFields.deliveryLastName || !formFields.deliveryPhoneNumber
             || !formFields.deliveryBuilding || !formFields.deliveryStreet || !formFields.deliveryCity || !formFields.deliveryPostalCode
@@ -252,7 +249,7 @@ const OrderForm = ({backToCart, nextStep, setOrderId, shipping}) => {
                         lastName: formFields.differentDeliveryAddress ? formFields.deliveryLastName : formFields.lastName,
                         phoneNumber: formFields.differentDeliveryAddress ? formFields.deliveryPhoneNumber : formFields.phoneNumber
                     },
-                     formFields.nip ? formFields.nip : null, formFields.companyName ? formFields.companyName : null,
+                     formFields.invoice ? (formFields.nip ? formFields.nip : '1') : null, formFields.companyName ? formFields.companyName : null,
                     sells, addons, shipping?.pl, c2 ? 'true': null
                     )
                     .then((res) => {

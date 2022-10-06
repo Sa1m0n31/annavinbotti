@@ -4,6 +4,7 @@ const dbInsertQuery = (query, values, response = null) => {
     try {
         db.query(query, values, (err, res) => {
             if(response) {
+                console.log(res);
                 if(res) {
                     response.status(201).end();
                 }

@@ -32,12 +32,8 @@ const verifyNewsletter = (token) => {
     });
 }
 
-const sendNewsletter = (title, content, image) => {
+const sendNewsletter = (title, content) => {
     let htmlContent = stateToHTML((convertFromRaw(convertToRaw(content?.getCurrentContent()))));
-
-    if(image) {
-       htmlContent = `<img src="${image}" alt="img" style="display: block; width: 90%; margin: 0 auto 30px;" />${htmlContent}`;
-    }
 
     return axios.post(`/newsletter-api/send`, {
         title,
@@ -45,14 +41,36 @@ const sendNewsletter = (title, content, image) => {
     });
 }
 
-const sendMailToClients = (title, content) => {
-    let htmlContent = stateToHTML((convertFromRaw(convertToRaw(content?.getCurrentContent()))));
+const sendTestNewsletter = (title, content) => {
+    let newsletterContent = stateToHTML((convertFromRaw(convertToRaw(content?.getCurrentContent()))));
 
-    return axios.post(`/newsletter-api/send-email-to-clients`, {
+    return axios.post(`/newsletter-api/send-test-newsletter`, {
         title,
-        content: htmlContent
+        newsletterContent,
     });
 }
 
-export { getAllNewsletterSubscribers, registerToNewsletter, deleteFromNewsletter,
+const sendMailToClients = (title, content) => {
+    let newsletterContent = stateToHTML((convertFromRaw(convertToRaw(content?.getCurrentContent()))));
+
+    return axios.post(`/newsletter-api/send-email-to-clients`, {
+        title,
+        newsletterContent
+    });
+}
+
+const getNewsletterInProgress = () => {
+    return axios.get(`/newsletter-api/get-newsletter-in-progress`);
+}
+
+const saveNewsletter = (title, content) => {
+    let htmlContent = JSON.stringify(convertToRaw(content?.getCurrentContent()));
+
+    return axios.post(`/newsletter-api/save-work-in-progress`, {
+        title,
+        content: htmlContent
+    })
+}
+
+export { getAllNewsletterSubscribers, saveNewsletter, getNewsletterInProgress, registerToNewsletter, deleteFromNewsletter, sendTestNewsletter,
     verifyNewsletter, sendNewsletter, sendResignationLink, sendMailToClients }

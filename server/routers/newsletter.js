@@ -212,6 +212,49 @@ router.post('/add', (request, response) => {
    });
 });
 
+router.post('/send-test-newsletter', (request, response) => {
+   const { title, newsletterContent } = request.body;
+
+   if(title && newsletterContent) {
+      let mailOptions = {
+         from: process.env.EMAIL_ADDRESS_WITH_NAME,
+         to: process.env.ADMIN_MAIL_ADDRESS,
+         subject: title,
+         html: `<head>
+<style>
+* {
+color: #B9A16B !important;
+}
+</style>
+</head>
+<body>
+${newsletterTemplate(newsletterContent)}
+</body>`
+      }
+
+      transporter.sendMail(mailOptions, function(error, info) {
+         if(error) {
+            response.status(500).end();
+         }
+         else {
+            response.status(201).end();
+         }
+      });
+   }
+   else {
+      response.status(400).end();
+   }
+});
+
+router.post('/save-work-in-progress', (request, response) => {
+   const { title, content } = request.body;
+
+   const query = `UPDATE newsletter_mails SET title = $1, content = $2 WHERE in_progress = TRUE`;
+   const values = [title, content];
+
+   dbInsertQuery(query, values, response);
+});
+
 router.post('/send-resignation-link', (request, response) => {
    const { email } = request.body;
 
@@ -255,22 +298,38 @@ router.post('/send-resignation-link', (request, response) => {
    });
 });
 
-router.post('/send', (request, response) => {
-   const { title, content } = request.body;
+router.get('/get-newsletter-in-progress', (request, response) => {
+   const query = `SELECT * FROM newsletter_mails WHERE in_progress = TRUE`;
 
-   if(title && content) {
-      const query = `SELECT email FROM newsletter WHERE active = TRUE`;
+   dbSelectQuery(query, [], response);
+})
+
+router.post('/send', (request, response) => {
+   const { title, newsletterContent } = request.body;
+
+   if(title && newsletterContent) {
+      // Clear newsletter in progress
+      const query = `UPDATE newsletter_mails SET title = '', content = '' WHERE in_progress = TRUE`;
 
       db.query(query, [], (err, res) => {
-         if(res) {
-            const emails = res?.rows?.map((item) => (item.email));
+         // Save email to database
+         const query = `INSERT INTO newsletter_mails VALUES (nextval("newsletter_mail_seq"), $1, $2, NOW(), FALSE)`;
+         const values = [title, newsletterContent];
 
-            let mailOptions = {
-               from: process.env.EMAIL_ADDRESS_WITH_NAME,
-               to: [],
-               bcc: emails,
-               subject: title,
-               html: `<head>
+         db.query(query, values, (err, res) => {
+            // Send newsletter email
+            const query = `SELECT email FROM newsletter WHERE active = TRUE`;
+
+            db.query(query, [], (err, res) => {
+               if(res) {
+                  const emails = res?.rows?.map((item) => (item.email));
+
+                  let mailOptions = {
+                     from: process.env.EMAIL_ADDRESS_WITH_NAME,
+                     to: [],
+                     bcc: emails,
+                     subject: title,
+                     html: `<head>
 <style>
 * {
 color: #B9A16B !important;
@@ -278,22 +337,24 @@ color: #B9A16B !important;
 </style>
 </head>
 <body>
-${newsletterTemplate(content)}
+${newsletterTemplate(newsletterContent)}
 </body>`
-            }
+                  }
 
-            transporter.sendMail(mailOptions, function(error, info) {
-               if(error) {
-                  response.status(500).end();
+                  transporter.sendMail(mailOptions, function(error, info) {
+                     if(error) {
+                        response.status(500).end();
+                     }
+                     else {
+                        response.status(201).end();
+                     }
+                  });
                }
                else {
-                  response.status(201).end();
+                  response.status(500).end();
                }
             });
-         }
-         else {
-            response.status(500).end();
-         }
+         });
       });
    }
    else {

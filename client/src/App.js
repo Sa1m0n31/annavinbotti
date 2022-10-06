@@ -40,6 +40,7 @@ import axios from "axios";
 import PageWithDownload from "./pages/shop/PageWithDownload";
 import InstructionType1 from "./pages/shop/InstructionType1";
 import InstructionType2 from "./pages/shop/InstructionType2";
+import Warranty from "./pages/shop/Warranty";
 
 axios.defaults.headers.common['Authorization'] = `Basic ${process.env.REACT_APP_API_KEY}`;
 
@@ -269,12 +270,7 @@ function App() {
         <Page field="page_6" title={language === 'pl' ? 'Jak pielęgnować' : 'Jak pielęgnować'} />
       </Route>
       <Route path="/gwarancja">
-        <PageWithDownload field="page_7"
-                          text="Gwarancja do pobrania znajduje się pod poniższym linkiem."
-                          buttonText="Pobierz dokument gwarancyjny"
-                          downloadName="Gwarancja.docx"
-                          link="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/Gwarancja.docx"
-                          title={language === 'pl' ? 'Gwarancja' : 'Gwarancja'} />
+        <Warranty />
       </Route>
       <Route path="/oswiadczenie-reklamacyjne">
         <PageWithDownload field="page_8"

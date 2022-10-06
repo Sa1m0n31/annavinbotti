@@ -101,13 +101,13 @@ const OrderFormFields = ({formAnchor, fields, handleChange}) => {
                 </label>
                 {fields.invoice ? <div className="flex">
                     <label>
-                        Nazwa firmy*
+                        Nazwa firmy
                         <input className="input input--order"
                                value={fields.companyName}
                                onChange={(e) => { handleChange(e, 'companyName'); }} />
                     </label>
                     <label>
-                        NIP*
+                        NIP
                         <input className="input input--order"
                                value={fields.nip}
                                onChange={(e) => { handleChange(e, 'nip'); }} />

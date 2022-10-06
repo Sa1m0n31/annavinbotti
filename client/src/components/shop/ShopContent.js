@@ -135,6 +135,10 @@ const ShopContent = () => {
                                className="shop__products__item__btn shop__products__item__btn--notAvailable">
                                 Powiadom o dostępności
                             </button>
+                            <a href={`/produkt/${item.slug}`}
+                               className="shop__products__item__btn shop__products__item__btn--showModel">
+                                Zobacz model
+                            </a>
                         </> : <a href={`/produkt/${item.slug}`}
                                    className="shop__products__item__btn">
                             Rezerwuj

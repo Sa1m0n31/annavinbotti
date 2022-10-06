@@ -1138,6 +1138,7 @@ div[data-testid=three-dots-loading] {
     margin-bottom: 0;
 }
 
+.admin__label__imgUpload__trashBtn--newsletter,
 .adminBlog__images .admin__label__imgUpload__trashBtn {
     width: 35px;
     height: 35px;
@@ -1148,6 +1149,7 @@ div[data-testid=three-dots-loading] {
     align-items: center;
 }
 
+.admin__label__imgUpload__trashBtn--newsletter .img,
 .adminBlog__images .admin__label__imgUpload__trashBtn .img {
     width: 45%;
 }
@@ -2038,4 +2040,29 @@ a.admin__start__stats:hover {
 
 .rdw-link-decorator-wrapper img {
     display: none !important;
+}
+
+.withInvoice span:last-of-type {
+    font-weight: 700;
+    padding-top: 10px;
+}
+
+.m2 {
+   padding-left: 40px;
+}
+
+.page__content--warranty * {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.btn--half {
+    margin-top: 40px;
+    width: 48%;
+    font-size: 17px;
+    border-radius: 40px;
+}
+
+.newsletterButtons > .flex {
+    justify-content: space-between;
 }

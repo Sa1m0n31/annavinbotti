@@ -160,12 +160,7 @@ const FormType2 = () => {
     }
 
     const validateFields = (obj, required) => {
-        console.log('validateFields');
-
         const entries = Object.entries(obj);
-
-        console.log(entries);
-        console.log(required);
 
         if(entries.length !== required) {
             return false;
@@ -318,7 +313,7 @@ const FormType2 = () => {
                                               }}
                                            style={{
                                                height: inputHeight + 'px'
-                                           }} />:
+                                           }} /> :
                     <input className="input input--rendered"
                            onChange={(e) => {
                                 handleButtonUpdate(question, index, 'input', e.target.value, inputType);
@@ -370,7 +365,7 @@ const FormType2 = () => {
             }));
         }
         else if(questionType === 'input') {
-            if(validateNumber(value)) {
+            if(validateNumber(value) || !inputType) {
                 setSelectedButtons(selectedButtons.map((item, index) => {
                     if(index === question) {
                         return item.map((item, index) => {

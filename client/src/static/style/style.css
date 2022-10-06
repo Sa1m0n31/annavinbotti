@@ -3691,3 +3691,11 @@ textarea {
 .img--bigger--2 {
     transform: scale(1.2);
 }
+
+.shop__products__item__btn--showModel {
+    margin-top: 20px !important;
+}
+
+.colorModal__header--waitlist {
+    text-align: center;
+}

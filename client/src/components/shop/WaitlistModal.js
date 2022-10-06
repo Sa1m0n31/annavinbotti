@@ -70,8 +70,8 @@ const WaitlistModal = ({id, closeModalFunction}) => {
             </button>
 
             {!success ? <>
-                <h3 className="colorModal__header" ref={headerRef}>
-                    Zapisz się na listę kolejkową
+                <h3 className="colorModal__header colorModal__header--waitlist" ref={headerRef}>
+                    Powiadomimy Cię mailowo, gry produkt będzie ponownie dostępny
                 </h3>
                     <label>
                     <input className="input"
@@ -97,7 +97,7 @@ const WaitlistModal = ({id, closeModalFunction}) => {
 
                 <button className={loading ? "btn btn--changeColor hidden" : (error ? "btn btn--changeColor btn--marginTop" : "btn btn--changeColor")}
                                     onClick={() => { handleWaitlistRegister(); }}>
-                    Zapisz się
+                    Powiadom o dostępności
                 </button>
 
                 {loading ? <div className="center">

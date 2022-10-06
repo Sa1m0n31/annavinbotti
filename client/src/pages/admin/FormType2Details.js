@@ -92,6 +92,7 @@ const FormType2Details = () => {
                 <div className="admin__form">
                     <div className="admin__form__section--full">
                         {form?.map((item, index) => {
+                            console.log(item);
                             const type = item.type;
                             return <div className="formSection formSection--confirm" key={index}>
                                 <h2 className="formSection__header" dangerouslySetInnerHTML={{__html: item.question}}>

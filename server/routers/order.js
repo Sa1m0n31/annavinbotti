@@ -324,8 +324,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                 const query = `INSERT INTO order_status_changes VALUES ($1, $2, NOW() + INTERVAL '4 HOUR')`;
                 const values = [orderId, 1];
 
-                console.log(sells);
-
                 db.query(query, values, (err, res) => {
                     sells.forEach(async (item, index, array) => {
                         const query = `INSERT INTO sells VALUES (nextval('sells_seq'), $1, $2, $3) RETURNING id`;
@@ -344,10 +342,39 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
                                     const values = [sellsIds[indexParent], item];
 
                                     if((index === array.length-1) && (indexParent === arrayParent.length-1)) {
-                                        await db.query(query, values, (err, res) => {
+                                        db.query(query, values, (err, res) => {
                                             if(res) {
-                                                // Send mail
-                                                sendStatus1Mail(response, id, user.email);
+                                                // Send notification to admin
+                                                let mailOptions = {
+                                                    from: process.env.EMAIL_ADDRESS_WITH_NAME,
+                                                    to: process.env.ADMIN_MAIL_ADDRESS,
+                                                    subject: 'Ktoś złożył rezerwację',
+                                                    html: `<head>
+                                                        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+                                                        <style>
+                                                        * {
+                                                        font-family: 'Roboto', sans-serif;
+                                                        font-size: 16px;
+                                                        }
+                                                        </style>
+                                                        </head>
+                                                        <div style="background: #053A26; padding: 25px;">
+                                                            <p style="color: #B9A16B;">
+                                                                Ktoś złożył właśnie rezerwację na obuwie w sklepie Anna Vinbotti. Zaloguj się do panelu administratora, by sprawdzić szczegóły.
+                                                            </p>
+                                                            <p style="color: #B9A16B;">
+                                                                ${nip ? 'Klient prosi o fakturę VAT na swoje zamówienie.' : ''}
+                                                            </p>
+                                                            <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/vzh2sffqjn">
+                                                                Zaloguj się do panelu admina
+                                                            </a>
+                                                        </div>`
+                                                }
+
+                                                transporter.sendMail(mailOptions, function(error, info) {
+                                                    // Send status mail
+                                                    sendStatus1Mail(response, id, user.email);
+                                                });
                                             }
                                             else {
                                                 response.status(500).end();
@@ -599,8 +626,35 @@ font-size: 16px;
                     response.status(201).end();
                 }
                 else {
-                    response.status(200).send({
-                        status: 'ok'
+                    // Send notification to admin
+                    let mailOptions = {
+                        from: process.env.EMAIL_ADDRESS_WITH_NAME,
+                        to: process.env.ADMIN_MAIL_ADDRESS,
+                        subject: 'Zamówienie zostało opłacone przez klienta',
+                        html: `<head>
+                                                        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+                                                        <style>
+                                                        * {
+                                                        font-family: 'Roboto', sans-serif;
+                                                        font-size: 16px;
+                                                        }
+                                                        </style>
+                                                        </head>
+                                                        <div style="background: #053A26; padding: 25px;">
+                                                            <p style="color: #B9A16B;">
+                                                                Klient opłacił zamówienie o id ${orderId}. Aby sprawdzić szczegóły zamówienia, zaloguj się do panelu administratora.
+                                                            </p>
+                                                            <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/vzh2sffqjn">
+                                                                Zaloguj się do panelu admina
+                                                            </a>
+                                                        </div>`
+                    }
+
+                    transporter.sendMail(mailOptions, function(error, info) {
+                        // Response to payment gateway
+                        response.status(200).send({
+                            status: 'ok'
+                        });
                     });
                 }
             });

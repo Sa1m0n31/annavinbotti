@@ -18,7 +18,7 @@ const ExamplePage1 = () => {
                         <img className="img" src={img2} alt="przyklad" />
                     </figure>
                     <h4 className="example__header">
-                        Zdjęcie od boku wewnętrznego
+                        Zdjęcie od boku zewnętrznego
                     </h4>
                 </div>
                 <div className="example__item">
@@ -34,7 +34,7 @@ const ExamplePage1 = () => {
                         <img className="img" src={img3} alt="przyklad" />
                     </figure>
                     <h4 className="example__header">
-                        Zdjęcie od boku zewnętrznego
+                        Zdjęcie od boku wewnętrznego
                     </h4>
                 </div>
             </div>
