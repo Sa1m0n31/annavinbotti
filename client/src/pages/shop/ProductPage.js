@@ -139,6 +139,10 @@ const ProductPage = () => {
         console.log(addons);
     }, [addons]);
 
+    useEffect(() => {
+        console.log(addons);
+    }, [addons]);
+
     const convertArrayToObject = (array) => {
         const initialValue = {};
         return array.reduce((obj, item) => {
@@ -380,11 +384,10 @@ const ProductPage = () => {
                     Wybierz dodatki
                 </h3>
                 {addons?.map((item, index) => {
+                    console.log(item);
                     const ad = item[1];
                     const conditionIf = ad[0]?.show_if;
                     const conditionIsEqual = ad[0]?.is_equal;
-
-                    console.log(ad);
 
                     if(ad && ((conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf))) {
                         return <div className="addon" key={index}>

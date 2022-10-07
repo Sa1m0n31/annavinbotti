@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import { Editor } from "react-draft-wysiwyg";
-import { convertFromRaw, EditorState } from 'draft-js';
+import {convertFromRaw, convertToRaw, EditorState} from 'draft-js';
 import {
     addAddonsForProduct,
     addProduct, deleteAddonsForProduct,
@@ -16,7 +16,8 @@ import RUG from 'react-upload-gallery'
 import settings from "../../static/settings";
 import imageIcon from '../../static/img/image-gallery.svg'
 import Waiting from "../../components/admin/Loader";
-import {scrollToTop} from "../../helpers/others";
+import {createSlug, scrollToTop} from "../../helpers/others";
+import draftToHtml from "draftjs-to-html";
 
 const AddProduct = () => {
     const [namePl, setNamePl] = useState("");
@@ -45,6 +46,7 @@ const AddProduct = () => {
     const [currentAddonOptions, setCurrentAddonOptions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [updateDefaultAddonOption, setUpdateDefaultAddonOption] = useState(-1);
+    const [addonsData, setAddonsData] = useState([]);
 
     const containerRef = useRef(null);
     const inputRef = useRef(null);
@@ -110,6 +112,8 @@ const AddProduct = () => {
                 .then((res) => {
                     if(res?.status === 200) {
                         const addonsLocal = res?.data?.result;
+                        console.log(addonsLocal);
+                        setAddonsData(addonsLocal);
                         setAddons(addonsLocal?.sort((a, b) => (a.admin_name > b.admin_name ? 1 : -1)));
 
                         getAllAddonsOptions()
@@ -180,6 +184,7 @@ const AddProduct = () => {
                 .then((res) => {
                     if(res?.status === 200) {
                         const addonsLocal = res?.data?.result;
+                        setAddonsData(addonsLocal);
 
                         getAllAddonsOptions()
                             .then((res) => {
@@ -439,6 +444,63 @@ const AddProduct = () => {
         }
     }
 
+    const showPreview = () => {
+        if(updateMode) {
+            window.open(`${settings.WEBSITE_URL}/produkt/${createSlug(namePl)}`, '_blank');
+        }
+        else {
+            const addonsObject = addons.filter((item) => (item.active)).map((item) => {
+                const addonId = item.id;
+                const { conditionActive, priority, conditionIf, conditionThen } = item;
+
+                return [
+                    item.name,
+                    addonsOptions
+                        .filter((item) => (item.addon === addonId))
+                        .map((item) => {
+                            const currentAddonData = addonsData.find((item) => (item.id === addonId));
+
+                            return {
+                                ...item,
+                                id: addonId,
+                                addon_name_pl: currentAddonData.name_pl,
+                                addon_name_en: currentAddonData.name_pl,
+                                addon_option_id: item.id,
+                                priority: parseInt(priority),
+                                addon_option_name_pl: item.name_pl,
+                                addon_option_name_en: item.name_en,
+                                show_if: conditionActive ? parseInt(conditionIf) : null,
+                                is_equal: conditionActive ? parseInt(conditionThen) : null,
+                                addon_type: currentAddonData.addon_type,
+                                info_pl: currentAddonData.info_pl,
+                                info_en: currentAddonData.info_en
+                            }
+                        })
+                ]
+            });
+
+            const galleryArray = gallery.map((item) => {
+                return window.URL.createObjectURL(item.file);
+            });
+
+            console.log(galleryArray);
+
+            const productObject = {
+                namePl,
+                price,
+                descriptionPl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(descriptionPl?.getCurrentContent())))),
+                detailsPl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(detailsPl?.getCurrentContent())))),
+                addons: addonsObject,
+                mainImage,
+                gallery: galleryArray
+            }
+
+            localStorage.setItem('productObject', JSON.stringify(productObject));
+
+            window.open(`${settings.WEBSITE_URL}/podglad-produktu`, '_blank');
+        }
+    }
+
     return <div ref={containerRef} className="container container--admin container--addProduct">
         <AdminTop />
         <div className="admin">
@@ -691,9 +753,14 @@ const AddProduct = () => {
                 </div>
 
 
-                {loading ? <Waiting /> : <button className="btn btn--admin" onClick={() => { createNewProduct(); }}>
-                    {updateMode ? "Aktualizuj produkt" : "Dodaj produkt"}
-                </button>}
+                {loading ? <Waiting /> : <div>
+                    <button className="btn btn--admin btn--preview" onClick={() => { showPreview(); }}>
+                        Podgląd produktu
+                    </button>
+                    <button className="btn btn--admin" onClick={() => { createNewProduct(); }}>
+                        {updateMode ? "Aktualizuj produkt" : "Dodaj produkt"}
+                    </button>
+                </div>}
             </main>
         </div>
     </div>

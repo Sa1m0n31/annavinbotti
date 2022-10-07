@@ -3699,3 +3699,8 @@ textarea {
 .colorModal__header--waitlist {
     text-align: center;
 }
+
+.btn--preview {
+    font-size: 18px !important;
+    margin-bottom: 20px;
+}

@@ -337,8 +337,23 @@ const getFiletype = (mimetype) => {
     }
 }
 
+const createSlug = (name) => {
+    if(name) return name.toLowerCase()
+        .replace(/ /g, "-")
+        .replace(/ą/g, "a")
+        .replace(/ć/g, "c")
+        .replace(/ę/g, "e")
+        .replace(/ł/g, "l")
+        .replace(/ń/g, "n")
+        .replace(/ó/g, "o")
+        .replace(/ś/g, "s")
+        .replace(/ź/g, "z")
+        .replace(/ż/g, "z")
+    else return "";
+}
+
 export { scrollToTop, isPasswordStrong, sendMessageToSupport, isProductAvailable, isAddonAvailable,
     getNumberOfOptionInCart, isEmail, getDate, sendContactForm, isInteger, isAlphanumeric,
     isElementInArray, validatePhoneNumberChange, statusButtons, displayPrice, groupBy, getNumberOfFirstTypeForms,
     getNumberOfModelsWithTheSameStockInCart, getNumberOfSecondTypeForms, downloadData,
-    getFiletype, getTime, validatePostalCodeChange}
+    getFiletype, getTime, validatePostalCodeChange, createSlug}

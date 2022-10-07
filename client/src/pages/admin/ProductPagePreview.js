@@ -52,102 +52,31 @@ const ProductPagePreview = () => {
     const sliderGalleryRef = useRef(null);
 
     useEffect(() => {
-        const urlArray = window.location.href.split('/');
-        const slug = urlArray[urlArray.length-1];
+        const productObject = localStorage.getItem('productObject') ? JSON.parse(localStorage.getItem('productObject')) : null;
 
-        getProductBySlug(slug)
-            .then((res) => {
-                const r = res?.data?.result;
-                if(r) {
-                    setProduct(r[0]);
-                }
-            })
-            .catch((err) => {
-               window.location = '/sklep';
+        if(productObject) {
+            const { namePl, price, descriptionPl, detailsPl } = productObject;
+            setProduct({
+                name_pl: namePl,
+                name_en: namePl,
+                price: price,
+                description_pl: descriptionPl,
+                description_en: descriptionPl,
+                details_pl: detailsPl,
+                details_en: detailsPl
             });
 
-        if(localStorage.getItem('redirectionInfoModal') === 'true') {
-            setRedirectionInfoModal(true);
-            localStorage.removeItem('redirectionInfoModal');
+            setAddons(productObject.addons?.sort((a, b) => {
+                return a[1][0].priority >= b[1][0].priority ? 1 : -1;
+            }));
+            setGallery([productObject.mainImage].concat(productObject.gallery));
+            setRender(true);
+            setLoading(false);
         }
+        else {
+            window.location = '/panel';
+       }
     }, []);
-
-    useEffect(() => {
-        const id = product?.id;
-        if(id) {
-            if(product?.addons_not_available !== '0' || parseInt(product?.counter) <= 0) {
-                setWaitlistInputVisible(true);
-            }
-
-            getProductGallery(id)
-                .then((res) => {
-                   setLoading(false);
-                   const r = res?.data?.result;
-                   if(r) {
-                       setGallery([product?.main_image]?.concat(r?.map((item) => {
-                           return item.path;
-                       })));
-                   }
-                });
-
-            getProductAddons(id)
-                .then((res) => {
-                    const r = res?.data?.result;
-                    if(r) {
-                        const addonsToCheckAvailability = Object.entries(groupBy(r, 'addon_name_pl'))
-                            .map((item) => (item[1]))
-                            .flat()
-                            .map((item) => ({
-                                addon_option_id: item.addon_option_id,
-                                addon_id: item.id,
-                                addon_option_stock: item.stock
-                            }));
-
-                        if(!isProductAvailable(addonsToCheckAvailability, product.counter, product.id, product.stock_id, cartContent)) {
-                            setAddons(Object.entries(groupBy(r, 'addon_name_pl')).sort((a, b) => {
-                                return a[1][0].priority > b[1][0].priority ? 1 : -1;
-                            })?.map((item) => {
-                                return [
-                                    item[0],
-                                    item[1]
-                                ];
-                            }));
-
-                            setWaitlistInputVisible(true);
-                            setRender(true);
-                        }
-                        else {
-                            setAddons(Object.entries(groupBy(r, 'addon_name_pl')).sort((a, b) => {
-                                return a[1][0].priority > b[1][0].priority ? 1 : -1;
-                            })?.map((item) => {
-                                return [
-                                    item[0],
-                                    item[1].filter((item) => {
-                                        return isAddonAvailable(item.addon_option_id, item.stock, cartContent);
-                                    })
-                                ];
-                            }));
-
-                            setRender(true);
-                        }
-                    }
-                });
-        }
-    }, [product]);
-
-    useEffect(() => {
-        console.log(addons);
-    }, [addons]);
-
-    const convertArrayToObject = (array) => {
-        const initialValue = {};
-        return array.reduce((obj, item) => {
-            return {
-                ...obj,
-                [item[1][0]['id']]: null,
-            };
-        }, initialValue);
-    };
 
     useEffect(() => {
         if(addons) {
@@ -156,20 +85,8 @@ const ProductPagePreview = () => {
             })?.map((item) => {
                 return item[1][0].id
             }));
-            setSelectedAddons(convertArrayToObject(addons));
         }
     }, [addons]);
-
-    const groupBy = (items, key) => items.reduce(
-        (result, item) => ({
-            ...result,
-            [item[key]]: [
-                ...(result[item[key]] || []),
-                item,
-            ],
-        }),
-        {},
-    )
 
     const prevImage = () => {
         setGalleryIndex(galleryIndex === 0 ? gallery?.length-1 : galleryIndex-1);
@@ -190,8 +107,6 @@ const ProductPagePreview = () => {
     }
 
     const changeSelectedAddons = (addon, addon_option, e) => {
-        console.log(e);
-
         setRequiredAddons(addons?.filter((item) => {
             const showIf = item[1][0].show_if;
             const isEqual = item[1][0].is_equal;
@@ -217,28 +132,6 @@ const ProductPagePreview = () => {
         document.getElementById('productDetails').scrollIntoView({
             behavior: 'smooth'
         });
-    }
-
-    const buy = async () => {
-        const allAddonsSelected = requiredAddons.filter((item) => {
-            return !selectedAddons[item];
-        }).length === 0;
-
-        if(allAddonsSelected) {
-            if(await addToCart(product, Object.fromEntries(Object.entries(selectedAddons).filter((item) => {
-                return item[1];
-            })))) {
-                // Added to cart
-                window.location = '/zamowienie';
-            }
-            else {
-                // Product not available
-                setOutOfStock(true);
-            }
-        }
-        else {
-            setAddonsError(true);
-        }
     }
 
     const waitlist = () => {
@@ -316,7 +209,7 @@ const ProductPagePreview = () => {
                     {getGalleryMiniatures()?.map((item, index) => {
                         return <button className="product__gallery__miniatures__item"
                                        onClick={() => { galleryGoTo(index); }}>
-                            <img className="img" src={`${constans.IMAGE_URL}/media/products/${item}`} alt={product?.name_pl} />
+                            <img className="img" src={item} alt={product?.name_pl} />
                         </button>
                     })}
                 </div>
@@ -328,7 +221,7 @@ const ProductPagePreview = () => {
                     </button>
                     {gallery?.map((item, index) => {
                         return <figure key={index} className={index === galleryIndex ? "product__gallery__main__figure" : "product__gallery__main__figure product__gallery__main__figure--hidden"}>
-                            <img className="img" src={`${constans.IMAGE_URL}/media/products/${item}`} alt={product?.name_pl} />
+                            <img className="img" src={item} alt={product?.name_pl} />
                         </figure>
                     })}
                     <button className="product__gallery__btn product__gallery__btn--next" onClick={() => { nextImage(); }}>
@@ -352,7 +245,7 @@ const ProductPagePreview = () => {
                     <Slider ref={sliderGalleryRef} {...settings}>
                         {gallery?.map((item, index) => {
                             return <div className="fullScreenGallery__item center" key={index}>
-                                <img className="img" src={`${constans.IMAGE_URL}/media/products/${item}`} alt={product?.name_pl} />
+                                <img className="img" src={item} alt={product?.name_pl} />
                             </div>
                         })}
                     </Slider>
@@ -368,9 +261,7 @@ const ProductPagePreview = () => {
                     {displayPrice(product?.price)} zł
                 </h2>
                 <p className="product__shortDesc"
-                   dangerouslySetInnerHTML={{__html: draftToHtml(JSON.parse(
-                           language === 'pl' ? product?.description_pl : product?.description_en)
-                       )}}
+                   dangerouslySetInnerHTML={{__html: product.description_pl}}
                 >
 
                 </p>
@@ -384,7 +275,7 @@ const ProductPagePreview = () => {
                     const conditionIf = ad[0]?.show_if;
                     const conditionIsEqual = ad[0]?.is_equal;
 
-                    console.log(ad);
+                    console.log(item[1][0].priority);
 
                     if(ad && ((conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf))) {
                         return <div className="addon" key={index}>
@@ -470,7 +361,7 @@ const ProductPagePreview = () => {
                         Brak wystarczającej ilości produktu na stanie
                     </p> : ''}
 
-                    <button className="btn btn--productContent" onClick={() => { buy(); }}>
+                    <button className="btn btn--productContent">
                         Rezerwuję
                     </button>
                 </>}
@@ -492,9 +383,7 @@ const ProductPagePreview = () => {
                 Opis produktu
             </h4>
             <div dangerouslySetInnerHTML={{
-                __html: draftToHtml(JSON.parse(
-                    language === 'pl' ? product?.details_pl : product?.details_en)
-                )
+                __html: product?.details_pl
             }}>
 
             </div>
