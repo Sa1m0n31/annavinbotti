@@ -9,8 +9,9 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import trashIcon from '../../static/img/trash.svg'
 import {addBlogPost, generateImageLink, getBlogPost, updateBlogPost} from "../../helpers/blog";
 import imageIcon from "../../static/img/image-gallery.svg";
-import {scrollToTop} from "../../helpers/others";
+import {createSlug, scrollToTop} from "../../helpers/others";
 import Waiting from "../../components/admin/Loader";
+import draftToHtml from "draftjs-to-html";
 
 const AddPost = () => {
     const [id, setId] = useState(null);
@@ -168,6 +169,26 @@ const AddPost = () => {
             setLoading(false);
             setStatus(-2);
             scrollToTop();
+        }
+    }
+
+    const showPreview = () => {
+        if(updateMode) {
+            window.open(`${settings.WEBSITE_URL}/post/${createSlug(titlePl)}`, '_blank');
+        }
+        else {
+            const articleObject = {
+                title_pl: titlePl,
+                title_en: titleEn,
+                content_pl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(contentPl?.getCurrentContent())))),
+                content_en: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(contentPl?.getCurrentContent())))),
+                image: mainImage,
+                publication_date: new Date()
+            }
+
+            localStorage.setItem('articleObject', JSON.stringify(articleObject));
+
+            window.open(`${settings.WEBSITE_URL}/podglad-artykulu`, '_blank');
         }
     }
 
@@ -329,9 +350,14 @@ const AddPost = () => {
                         onEditorStateChange={(text) => { setContentEn(text); }}
                     />
                 </section>
-                {loading ? <Waiting /> : <button className="btn btn--admin btn--marginTop" onClick={() => { handleSubmit() }}>
-                    {updateMode ? "Aktualizuj artykuł" : "Dodaj artykuł"}
-                </button>}
+                {loading ? <Waiting /> : <div className="marginTop">
+                    <button className="btn btn--admin btn--preview" onClick={() => { showPreview(); }}>
+                        Podgląd artykułu
+                    </button>
+                    <button className="btn btn--admin btn--marginTop" onClick={() => { handleSubmit() }}>
+                        {updateMode ? "Aktualizuj artykuł" : "Dodaj artykuł"}
+                    </button>
+                </div>}
             </main>
         </div>
     </div>

@@ -28,6 +28,7 @@ router.post('/auth', (request, response) => {
    const values = [login, hash];
 
    db.query(query, values, (err, res) => {
+       console.log(res);
        if(res) {
            if(res?.rows?.length) {
                // Generate 2FA code
@@ -37,7 +38,8 @@ router.post('/auth', (request, response) => {
                const values = [login, authCode];
 
                db.query(query, values, (err, res) => {
-                  if(res) {
+                  console.log(res);
+                   if(res) {
                       // Send mail with 2FA code
                       let mailOptions = {
                           from: process.env.EMAIL_ADDRESS_WITH_NAME,

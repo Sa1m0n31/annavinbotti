@@ -413,7 +413,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
     }
 }
 
-router.get('/get-order-status-changes', basicAuth,  (request, response) => {
+router.get('/get-order-status-changes', basicAuth, (request, response) => {
    const { id } = request.query;
 
    if(id) {
@@ -655,7 +655,7 @@ font-size: 16px;
                                                         </head>
                                                         <div style="background: #053A26; padding: 25px;">
                                                             <p style="color: #B9A16B;">
-                                                                Klient opłacił zamówienie o id ${orderId}. Aby sprawdzić szczegóły zamówienia, zaloguj się do panelu administratora.
+                                                                Klient opłacił zamówienie o id #${orderId}. Aby sprawdzić szczegóły zamówienia, zaloguj się do panelu administratora.
                                                             </p>
                                                             <a style="color: #B9A16B; margin: 10px 0; text-decoration: underline;" href="${process.env.WEBSITE_URL}/vzh2sffqjn">
                                                                 Zaloguj się do panelu admina

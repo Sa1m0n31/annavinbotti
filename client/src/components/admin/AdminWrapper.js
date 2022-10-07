@@ -29,6 +29,7 @@ import {authAdmin} from "../../helpers/auth";
 import SendEmailToClients from "../../pages/admin/SendEmailToClients";
 import NewsletterMails from "../../pages/admin/NewsletterMails";
 import ProductPagePreview from "../../pages/admin/ProductPagePreview";
+import BlogPostPreview from "../../pages/shop/BlogPostPreview";
 
 const AdminWrapper = ({page}) => {
     const [loaded, setLoaded] = useState(false);
@@ -126,6 +127,9 @@ const AdminWrapper = ({page}) => {
                         break;
                     case 29:
                         setRenderPage(<ProductPagePreview />);
+                        break;
+                    case 30:
+                        setRenderPage(<BlogPostPreview />);
                         break;
                     default:
                         window.location = '/';

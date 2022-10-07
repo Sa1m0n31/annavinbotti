@@ -483,8 +483,6 @@ const AddProduct = () => {
                 return window.URL.createObjectURL(item.file);
             });
 
-            console.log(galleryArray);
-
             const productObject = {
                 namePl,
                 price,
