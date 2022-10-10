@@ -57,7 +57,7 @@ const InstructionType2 = () => {
 
             <article className="page__content page__content--instruction">
                 <p>
-                    Poniższe zasady mierzenia stopy dotyczą obuwia typu oficerki (naszego aktualnego modelu Oficerki I oraz Oficerki II). Zasady mierzenia stopy dla modelu czółenek znajdują się w zakładce „<a href="/jak-mierzyc-stope-czolenka">Czółenka – Jak mierzyć stopę?</a>”.
+                    Poniższe zasady mierzenia stopy dotyczą obuwia typu oficerki (naszego aktualnego modelu Oficerki I oraz Oficerki II). Zasady mierzenia stopy dla modelu czółenek znajdują się w zakładce „<a href="/jak-mierzyc-stope-czolenka">Jak mierzyć stopę - czółenka</a>”.
                 </p>
                 <p>
                     W celu zmierzeniu stopy potrzebne będą:
@@ -120,7 +120,7 @@ const InstructionType2 = () => {
                     Następnie podajemy wymiary stopy w centymetrach zgodnie z poniższym rysunkiem instruktażowym i opisanymi poniżej krokami.
                 </p>
                 <p className="bold">
-                    Przy mierzeniu obwodów stopy prosimy unikać zarówno mocnego ściskania stopy centymetrem oraz zbyt luźnego jej oplatania.
+                    Przy mierzeniu obwodów stopy prosimy unikać zarówno mocnego ściskania centymetrem oraz zbyt luźnego oplatania.
                 </p>
                 <p className="bold">
                     Przy mierzeniu obwodów prosimy o wykonanie zdjęć w taki sposób aby widoczny był wynik pomiaru na centymetrze.
@@ -376,7 +376,7 @@ const InstructionType2 = () => {
                     <img className="img--2" src={i40} alt="instrukcja" />
                 </div>
                 <p className="m1">
-                    b) Porównujemy wyznaczony obwód z obwodem łydki (z punktu 15). Jeżeli różnica między nimi jest większa niż 2 cm, to wówczas obniżamy lekko miejsce mierzenia tak aby znaleźć punkt w którym różnica od obwodu z punktu 15 wynosi maksymalnie 2 cm.
+                    c) Porównujemy wyznaczony obwód z obwodem łydki (z punktu 15). Jeżeli różnica między nimi jest większa niż 2 cm, to wówczas obniżamy lekko miejsce mierzenia tak aby znaleźć punkt w którym różnica od obwodu z punktu 15 wynosi maksymalnie 2 cm.
                 </p>
                 <p className="m1 instruction--example">
                     Przykład 1:<br/>
@@ -435,7 +435,7 @@ const InstructionType2 = () => {
                     W celu upewnienia się, że wszystkie wymiary zostały podane poprawnie, rekomendujemy ich weryfikacje poprzez ponowne wykonanie obrysu i wyznaczenie wszystkich wymiarów.
                 </p>
 
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/o71tr7vsY5g"
+                <iframe width="860" height={window.innerWidth < 768 ? "325" : "465"} src="https://www.youtube.com/embed/o71tr7vsY5g"
                         title="YouTube video player" frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen></iframe>

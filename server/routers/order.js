@@ -33,7 +33,7 @@ let transporter = nodemailer.createTransport(smtpTransport ({
 }));
 
 router.get('/all', basicAuth, (request, response) => {
-   const query = `SELECT o.id, COALESCE(a.first_name, u.first_name) as first_name, COALESCE(a.last_name, u.last_name) as last_name, o.date, o.status FROM orders o JOIN addresses a ON o.user_address = a.id JOIN users u ON u.id = o.user WHERE o.hidden = FALSE ORDER BY o.date DESC`;
+   const query = `SELECT o.id, COALESCE(o.first_name, a.first_name, u.first_name) as first_name, COALESCE(o.last_name, a.last_name, u.last_name) as last_name, o.date, o.status FROM orders o JOIN addresses a ON o.user_address = a.id JOIN users u ON u.id = o.user WHERE o.hidden = FALSE ORDER BY o.date DESC`;
 
    dbSelectQuery(query, [], response);
 });
@@ -42,7 +42,7 @@ router.get('/', basicAuth, (request, response) => {
    const id = request.query.id;
 
    if(id) {
-       const query = `SELECT o.id, s.id as sell_id, o.date, o.delivery_number, COALESCE(ua.first_name, u.first_name) as first_name, COALESCE(ua.last_name, u.last_name) as last_name, u.email, ua.phone_number, o.shipping, p.id as product_id,
+       const query = `SELECT o.id, s.id as sell_id, o.date, o.delivery_number, COALESCE(o.first_name, ua.first_name, u.first_name) as first_name, COALESCE(o.last_name, ua.last_name, u.last_name) as last_name, COALESCE(o.email, u.email) as email, COALESCE(o.phone_number, u.phone_number) as phone_number, o.shipping, p.id as product_id,
                     o.status, o.payment, da.city as delivery_city, da.street as delivery_street, da.postal_code as delivery_postal_code, da.building as delivery_building,
                     da.first_name as delivery_first_name, da.last_name as delivery_last_name, da.phone_number as delivery_phone_number,
                     da.flat as delivery_flat, ua.city as user_city, ua.street as user_street, ua.postal_code as user_postal_code, ua.building as user_building,
@@ -288,14 +288,14 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
         }
     }
 
-    console.log(addons);
+    console.log(user);
 
     // Validate stocks
     const productsAvailable = await validateStocks(oldSells, oldAddons);
 
     if(productsAvailable) {
-        const query = `INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW() + INTERVAL '4 HOUR', $7, NULL, NULL, NULL) RETURNING id`;
-        const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping];
+        const query = `INSERT INTO orders VALUES ($1, $2, $3, $4, $5, $6, 1, false, NOW() + INTERVAL '4 HOUR', $7, NULL, NULL, NULL, $8, $9, $10, $11) RETURNING id`;
+        const values = [id, user.id, userAddress, deliveryAddress, nip, companyName, shipping, user.firstName, user.lastName, user.phoneNumber, user.email];
 
         // Add to newsletter
         if(newsletter === 'true') {

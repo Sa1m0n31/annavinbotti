@@ -445,58 +445,58 @@ const AddProduct = () => {
     }
 
     const showPreview = () => {
-        if(updateMode) {
-            window.open(`${settings.WEBSITE_URL}/produkt/${createSlug(namePl)}`, '_blank');
-        }
-        else {
-            const addonsObject = addons.filter((item) => (item.active)).map((item) => {
-                const addonId = item.id;
-                const { conditionActive, priority, conditionIf, conditionThen } = item;
+        const addonsObject = addons.filter((item) => (item.active)).map((item) => {
+            const addonId = item.id;
+            const { conditionActive, priority, conditionIf, conditionThen } = item;
 
-                return [
-                    item.name,
-                    addonsOptions
-                        .filter((item) => (item.addon === addonId))
-                        .map((item) => {
-                            const currentAddonData = addonsData.find((item) => (item.id === addonId));
+            return [
+                item.name,
+                addonsOptions
+                    .filter((item) => (item.addon === addonId))
+                    .map((item) => {
+                        const currentAddonData = addonsData.find((item) => (item.id === addonId));
 
-                            return {
-                                ...item,
-                                id: addonId,
-                                addon_name_pl: currentAddonData.name_pl,
-                                addon_name_en: currentAddonData.name_pl,
-                                addon_option_id: item.id,
-                                priority: parseInt(priority),
-                                addon_option_name_pl: item.name_pl,
-                                addon_option_name_en: item.name_en,
-                                show_if: conditionActive ? parseInt(conditionIf) : null,
-                                is_equal: conditionActive ? parseInt(conditionThen) : null,
-                                addon_type: currentAddonData.addon_type,
-                                info_pl: currentAddonData.info_pl,
-                                info_en: currentAddonData.info_en
-                            }
-                        })
-                ]
-            });
+                        return {
+                            ...item,
+                            id: addonId,
+                            addon_name_pl: currentAddonData.name_pl,
+                            addon_name_en: currentAddonData.name_pl,
+                            addon_option_id: item.id,
+                            priority: parseInt(priority),
+                            addon_option_name_pl: item.name_pl,
+                            addon_option_name_en: item.name_en,
+                            show_if: conditionActive ? parseInt(conditionIf) : null,
+                            is_equal: conditionActive ? parseInt(conditionThen) : null,
+                            addon_type: currentAddonData.addon_type,
+                            info_pl: currentAddonData.info_pl,
+                            info_en: currentAddonData.info_en
+                        }
+                    })
+            ]
+        });
 
-            const galleryArray = gallery.map((item) => {
-                return window.URL.createObjectURL(item.file);
-            });
-
-            const productObject = {
-                namePl,
-                price,
-                descriptionPl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(descriptionPl?.getCurrentContent())))),
-                detailsPl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(detailsPl?.getCurrentContent())))),
-                addons: addonsObject,
-                mainImage,
-                gallery: galleryArray
+        const galleryArray = gallery.map((item) => {
+            if(!item.file) {
+                return item.source;
             }
+            else {
+                return window.URL.createObjectURL(item.file);
+            }
+        });
 
-            localStorage.setItem('productObject', JSON.stringify(productObject));
-
-            window.open(`${settings.WEBSITE_URL}/podglad-produktu`, '_blank');
+        const productObject = {
+            namePl,
+            price,
+            descriptionPl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(descriptionPl?.getCurrentContent())))),
+            detailsPl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(detailsPl?.getCurrentContent())))),
+            addons: addonsObject,
+            mainImage,
+            gallery: galleryArray
         }
+
+        localStorage.setItem('productObject', JSON.stringify(productObject));
+
+        window.open(`${settings.WEBSITE_URL}/podglad-produktu`, '_blank');
     }
 
     return <div ref={containerRef} className="container container--admin container--addProduct">

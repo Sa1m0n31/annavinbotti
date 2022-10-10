@@ -173,23 +173,18 @@ const AddPost = () => {
     }
 
     const showPreview = () => {
-        if(updateMode) {
-            window.open(`${settings.WEBSITE_URL}/post/${createSlug(titlePl)}`, '_blank');
+        const articleObject = {
+            title_pl: titlePl,
+            title_en: titleEn,
+            content_pl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(contentPl?.getCurrentContent())))),
+            content_en: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(contentPl?.getCurrentContent())))),
+            image: mainImage,
+            publication_date: new Date()
         }
-        else {
-            const articleObject = {
-                title_pl: titlePl,
-                title_en: titleEn,
-                content_pl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(contentPl?.getCurrentContent())))),
-                content_en: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(contentPl?.getCurrentContent())))),
-                image: mainImage,
-                publication_date: new Date()
-            }
 
-            localStorage.setItem('articleObject', JSON.stringify(articleObject));
+        localStorage.setItem('articleObject', JSON.stringify(articleObject));
 
-            window.open(`${settings.WEBSITE_URL}/podglad-artykulu`, '_blank');
-        }
+        window.open(`${settings.WEBSITE_URL}/podglad-artykulu`, '_blank');
     }
 
     return <div className="container container--admin container--addProduct">

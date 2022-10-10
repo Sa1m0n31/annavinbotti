@@ -458,7 +458,7 @@ const ProductPage = () => {
                     </button>
                 </>) : <>
                     <p className="productContent__info">
-                        Rezerwacja produktu oznacza, że masz 7 dni kalendarzowych na
+                        Rezerwacja produktu oznacza, że masz 7 dni roboczych na
                         podanie wymiarów stopy i przesłanie nam oryginalnych kartek z obrysem stopy prawej
                         i lewej na nasz adres korespondencyjny. Po ich podaniu oraz naszej weryfikacji
                         otrzymasz link do płatności. Zamówienie jest przyjęte do realizacji

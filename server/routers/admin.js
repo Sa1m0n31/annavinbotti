@@ -38,7 +38,6 @@ router.post('/auth', (request, response) => {
                const values = [login, authCode];
 
                db.query(query, values, (err, res) => {
-                  console.log(res);
                    if(res) {
                       // Send mail with 2FA code
                       let mailOptions = {

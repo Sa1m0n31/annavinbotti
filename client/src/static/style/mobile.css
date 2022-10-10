@@ -496,6 +496,43 @@
         display: none !important;
     }
 
+    .page table {
+        transform-origin: top left;
+        transform: scale(0.6);
+    }
+
+    .page table:first-of-type {
+        margin-bottom: -253px;
+        transform: scale(0.762);
+    }
+
+    .page table:nth-of-type(2) {
+        margin-bottom: -1640px;
+    }
+
+    .page table:nth-of-type(3) {
+        transform: scale(0.787);
+        margin-bottom: -170px;
+    }
+
+    .page table:nth-of-type(4) {
+        margin-bottom: -2020px;
+    }
+
+    .page table:nth-of-type(5) {
+        margin-bottom: -330px;
+        transform: scale(0.7);
+    }
+
+    .page table:nth-of-type(6) {
+        margin-bottom: -420px;
+    }
+
+    .page table:last-of-type {
+        transform: scale(0.4);
+        margin-bottom: -4310px;
+    }
+
     .instruction__row:first-child {
         margin-bottom: 10px;
     }

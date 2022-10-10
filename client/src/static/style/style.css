@@ -1047,6 +1047,10 @@ span.topHeader__menu__item:hover .topHeader__menu__submenu,
     min-height: 3px;
 }
 
+.productDetails *:not(.productDetails__header) {
+    line-height: 1.9em;
+}
+
 .product__gallery {
     position: sticky;
     top: 30px;
@@ -3703,4 +3707,14 @@ textarea {
 .btn--preview {
     font-size: 18px !important;
     margin-bottom: 20px;
+}
+
+.page table *,
+.page table {
+    border-color: #fff !important;
+    color: var(--secondary) !important;
+}
+
+.page table {
+    width: 100% !important;
 }

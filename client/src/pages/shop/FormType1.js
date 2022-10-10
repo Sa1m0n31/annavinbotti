@@ -80,7 +80,7 @@ const FormType1 = () => {
                             getFirstTypeFilledForm(order, type)
                                 .then((res) => {
                                     if(res?.data?.result?.length) {
-                                        setOldForm(res?.data?.result[0].form_data);
+                                        window.location = '/panel-klienta';
                                     }
                                     getForm(type, 1)
                                         .then((res) => {

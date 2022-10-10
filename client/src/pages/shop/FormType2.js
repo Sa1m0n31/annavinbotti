@@ -92,8 +92,7 @@ const FormType2 = () => {
             getSecondTypeFilledForm(orderId, modelId)
                 .then((res) => {
                     if(res?.data?.result?.length) {
-                        setRender(true);
-                        setOldForm(JSON.parse(res?.data?.result[0]?.form_data));
+                        window.location = '/panel-klienta';
                     }
                     else {
                         getForm(typeId, 2)

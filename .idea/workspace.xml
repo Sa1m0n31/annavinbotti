@@ -23,15 +23,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/BlogPostPreview.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/FormType1Boot1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/WaitlistModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/WaitlistModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddPost.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/AddProduct.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/admin/ProductPagePreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/admin/ProductPagePreview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/FormType1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/FormType1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/FormType2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/FormType2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ProductPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ProductPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/i21.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/i21.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/helpers/dbInsertQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/helpers/dbInsertQuery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routers/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/admin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routers/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/others.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routers/user.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,8 +86,8 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\shop" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\admin" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\admin" />
       <recent name="i11.jpg" />
       <recent name="i11" />
     </key>
@@ -180,7 +195,9 @@
       <workItem from="1664523938960" duration="1026000" />
       <workItem from="1664540720204" duration="221000" />
       <workItem from="1664789373118" duration="609000" />
-      <workItem from="1665060207092" duration="30599000" />
+      <workItem from="1665060207092" duration="31944000" />
+      <workItem from="1665402634962" duration="2244000" />
+      <workItem from="1665405209505" duration="11801000" />
     </task>
     <servers />
   </component>
@@ -200,14 +217,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1656589000856">
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1665155135138">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1656589000856" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1665130904105">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665130904105" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665155135138" />
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664288732578" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1664792587040" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1657530869472" />
@@ -240,11 +253,11 @@
     <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665095101348" />
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664383640416" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657058277045" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1665139213227">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1665418352376">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665139213227" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665072282633" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665418352376" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1657547908927" />
   </component>
 </project>

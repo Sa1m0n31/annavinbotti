@@ -71,7 +71,7 @@ const WaitlistModal = ({id, closeModalFunction}) => {
 
             {!success ? <>
                 <h3 className="colorModal__header colorModal__header--waitlist" ref={headerRef}>
-                    Powiadomimy Cię mailowo, gry produkt będzie ponownie dostępny
+                    Powiadomimy Cię mailowo, gdy produkt będzie ponownie dostępny
                 </h3>
                     <label>
                     <input className="input"
@@ -105,7 +105,7 @@ const WaitlistModal = ({id, closeModalFunction}) => {
                 </div> : ''}
             </> : <>
                 <h3 className="colorModal__header colorModal__header--success">
-                    Dziękujemy za zapisanie się na listę kolejkową
+                    Dziękujemy za zapisanie się na listę
                 </h3>
                 <span className="info info--success">
                     Poinformujemy Cię, gdy produkt będzie dostępny.

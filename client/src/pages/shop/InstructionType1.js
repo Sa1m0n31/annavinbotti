@@ -42,7 +42,7 @@ const InstructionType1 = () => {
 
             <article className="page__content page__content--instruction">
                 <p>
-                    Poniższe zasady mierzenia stopy dotyczą obuwia typu czółenka (naszych aktualnych modeli Czółenka T-Bar I, Czółenka T-Bar II, Czółenka Glamour I oraz Czółenka Glamour II). Zasady mierzenia stopy dla modelu oficerek znajdują się w zakładce „<a href="/jak-mierzyc-stope-oficerki">Oficerki – Jak mierzyć stopę?</a>”.
+                    Poniższe zasady mierzenia stopy dotyczą obuwia typu czółenka (naszych aktualnych modeli Czółenka T-Bar I, Czółenka T-Bar II, Czółenka Glamour I oraz Czółenka Glamour II). Zasady mierzenia stopy dla modelu oficerek znajdują się w zakładce „<a href="/jak-mierzyc-stope-oficerki">Jak mierzyć stopę - oficerki?</a>”.
                 </p>
                 <p>
                     W celu zmierzeniu stopy potrzebne będą:
@@ -259,10 +259,14 @@ const InstructionType1 = () => {
                     <img className="img" src={i30} alt="instrukcja" />
                 </div>
                 <p>
+                    13) Wszystkie powyższe punkty powtarzamy dla stopy lewej
+                </p>
+
+                <p>
                     W celu upewnienia się, że wszystkie wymiary zostały podane poprawnie, rekomendujemy ich weryfikacje poprzez ponowne wykonanie obrysu i wyznaczenie wszystkich wymiarów.
                 </p>
 
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/krzKh9sREkE"
+                <iframe width="860" height={window.innerWidth < 768 ? "325" : "465"} src="https://www.youtube.com/embed/krzKh9sREkE"
                         title="YouTube video player" frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen></iframe>

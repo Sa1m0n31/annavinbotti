@@ -41,6 +41,7 @@ import PageWithDownload from "./pages/shop/PageWithDownload";
 import InstructionType1 from "./pages/shop/InstructionType1";
 import InstructionType2 from "./pages/shop/InstructionType2";
 import Warranty from "./pages/shop/Warranty";
+import PrivacyPolicy from "./pages/shop/PrivacyPolicy";
 
 axios.defaults.headers.common['Authorization'] = `Basic ${process.env.REACT_APP_API_KEY}`;
 
@@ -294,9 +295,7 @@ function App() {
               title={language === 'pl' ? 'Regulamin' : 'Terms of Service'} />
       </Route>
       <Route path="/polityka-prywatnosci">
-        <Page field="privacy_policy"
-              width100={true}
-              title={language === 'pl' ? 'Polityka prywatności' : 'Privacy policy'} />
+        <PrivacyPolicy />
       </Route>
 
       {/* USER */}
