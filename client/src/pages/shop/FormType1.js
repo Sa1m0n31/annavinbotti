@@ -13,6 +13,7 @@ import checkIcon from '../../static/img/check.svg'
 import settings from "../../static/settings";
 import Loader from "../../components/shop/Loader";
 import {isLoggedIn} from "../../helpers/auth";
+import {isFormOpen} from "../../helpers/orders";
 
 const FormType1 = () => {
     const { language } = useContext(ContentContext);
@@ -80,7 +81,18 @@ const FormType1 = () => {
                             getFirstTypeFilledForm(order, type)
                                 .then((res) => {
                                     if(res?.data?.result?.length) {
-                                        window.location = '/panel-klienta';
+                                        const formData = res?.data?.result[0].form_data;
+
+                                        // Check if form declined
+                                        isFormOpen(order)
+                                            .then((res) => {
+                                                if(res?.data?.result) {
+                                                    setOldForm(formData);
+                                                }
+                                                else {
+                                                    window.location = '/panel-klienta';
+                                                }
+                                            })
                                     }
                                     getForm(type, 1)
                                         .then((res) => {

@@ -50,7 +50,6 @@ router.post('/verify', (request, response) => {
                const values = [email];
 
                db.query(query, values, (err, res) => {
-                  console.log(err);
                   if(res) {
                      let mailOptions = {
                         from: process.env.EMAIL_ADDRESS_WITH_NAME,

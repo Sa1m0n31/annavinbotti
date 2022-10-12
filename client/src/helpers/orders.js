@@ -96,6 +96,14 @@ const updateDeliveryNumber = (orderId, deliveryNumber) => {
     });
 }
 
+const isFormOpen = (id) => {
+    return axios.get(`/orders/is-form-open`, {
+        params: {
+            id
+        }
+    });
+}
+
 export { getAllOrders, getOrderById, changeOrderStatus, getOrderForms, deleteOrder, payOrder,
     addToWaitlist, updateDeliveryNumber, getOrderStatuses, getFormDetails, addOrder,
-    getNumberOfFirstTypeFormsByOrder, getNumberOfSecondTypeFormsByOrder, getOrderStatusChanges }
+    getNumberOfFirstTypeFormsByOrder, getNumberOfSecondTypeFormsByOrder, getOrderStatusChanges, isFormOpen }

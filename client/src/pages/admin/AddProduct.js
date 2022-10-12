@@ -51,6 +51,10 @@ const AddProduct = () => {
     const containerRef = useRef(null);
     const inputRef = useRef(null);
 
+    useEffect(() => {
+        console.log(mainImage);
+    }, [mainImage]);
+
     const handleMainImageUpload = (e) => {
         const file = e.target.files[0];
         const fileUrl = window.URL.createObjectURL(file);
@@ -490,7 +494,7 @@ const AddProduct = () => {
             descriptionPl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(descriptionPl?.getCurrentContent())))),
             detailsPl: draftToHtml(JSON.parse(JSON.stringify(convertToRaw(detailsPl?.getCurrentContent())))),
             addons: addonsObject,
-            mainImage,
+            mainImage: mainImage ? mainImage : `${settings.API_URL}/image?url=/media/products/${oldMainImage}`,
             gallery: galleryArray
         }
 

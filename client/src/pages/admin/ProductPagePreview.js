@@ -69,6 +69,7 @@ const ProductPagePreview = () => {
             setAddons(productObject.addons?.sort((a, b) => {
                 return a[1][0].priority >= b[1][0].priority ? 1 : -1;
             }));
+            console.log(productObject);
             setGallery([productObject.mainImage].concat(productObject.gallery));
             setRender(true);
             setLoading(false);

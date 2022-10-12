@@ -279,7 +279,7 @@ const InstructionType2 = () => {
                     Następnie podajemy obwody oraz wysokości w kostce oraz łydce. Poniższa część nie wymaga przygotowania obrysu.
                 </p>
                 <p className="bold">
-                    Przy mierzeniu obwodów łydki i kostki prosimy unikać zarówno mocnego ściskania stopy centymetrem oraz zbyt luźnego jej oplatania.
+                    Przy mierzeniu obwodów łydki i kostki prosimy unikać zarówno mocnego ściskania centymetrem oraz zbyt luźnego oplatania.
                 </p>
                 <p className="bold">
                     Obwody i wysokości mierzymy w postawie siedzącej, tak aby kolano z łydką tworzyły kąt prosty.

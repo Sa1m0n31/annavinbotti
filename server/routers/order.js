@@ -1340,4 +1340,26 @@ font-family: 'Roboto', sans-serif;
    });
 });
 
+router.get('/is-form-open', (request, response) => {
+   const id = request.query.id;
+
+   const query = `SELECT * FROM orders o
+JOIN order_status_changes s ON o.id = s.order
+WHERE s.order = $1 AND s.status = 2`;
+   const values = [id];
+
+   db.query(query, values, (err, res) => {
+       if(res?.rows?.length) {
+           response.send({
+               result: 1
+           });
+       }
+       else {
+           response.send({
+               result: 0
+           });
+       }
+   });
+});
+
 module.exports = router;

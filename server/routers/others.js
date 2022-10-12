@@ -117,6 +117,7 @@ const newsletterTemplate = (content, includeBottom = true) => {
     }
     
     * {
+        color: #B9A16B !important;
         text-align: justify !important;
     }
 </style>
