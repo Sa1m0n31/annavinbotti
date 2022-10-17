@@ -499,7 +499,7 @@ const FormType1 = () => {
                         </span>
                     </p>
                     <p className="formPage__info__bottom">
-                        Instrukcja: <a href={`https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/jak-mierzyc-stope-${type === 'Czółenka' ? 'czolenka' : 'oficerki'}`}
+                        Instrukcja: <a href={`https://anna-vinbotti.com/jak-mierzyc-stope-${type === 'Czółenka' ? 'czolenka' : 'oficerki'}`}
                                        target="_blank">
                         Jak mierzyć stopę - {type}
                     </a>
