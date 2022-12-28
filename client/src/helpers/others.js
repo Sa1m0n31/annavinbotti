@@ -236,7 +236,6 @@ const getNumberOfOptionInCart = (optionId, cart) => {
 }
 
 const isAddonAvailable = (addonOption, addonOptionStock, cart) => {
-    console.log(addonOption, addonOptionStock, getNumberOfOptionInCart(addonOption, cart), addonOptionStock - getNumberOfOptionInCart(addonOption, cart) > 0);
     return addonOptionStock - getNumberOfOptionInCart(addonOption, cart) > 0;
 }
 
@@ -291,14 +290,9 @@ async function downloadData(files, formContent, orderId, secondForm = false) {
     let img = zip.folder('zdjecia');
     zip.file('formularz.txt', formContent.join('\n'));
 
-    console.log(files);
-
     for(const file of files) {
-        console.log(file.url);
         // Fetch the image and parse the response stream as a blob
         const imageBlob = await fetch(file.url).then(response => response.blob());
-
-        console.log(imageBlob);
 
         // create a new file from the blob object
         const imgData = new File([imageBlob], 'filename.jpg');

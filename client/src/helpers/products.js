@@ -30,7 +30,6 @@ const getProductGallery = (id) => {
 }
 
 const getAddonsWithOptions = (ids) => {
-    console.log(ids.join(','));
     return axios.get(`/addons/get-addons-with-options`, {
         params: {
             id: ids.join(',')

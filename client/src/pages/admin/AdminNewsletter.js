@@ -10,7 +10,12 @@ const AdminNewsletter = () => {
     useEffect(() => {
         getAllNewsletterSubscribers()
             .then((res) => {
-                setEmails(res?.data?.result);
+                setEmails(res?.data?.result?.sort((a, b) => {
+                    const dateA = getDate(a?.register_date)?.split('.');
+                    const dateB = getDate(b?.register_date)?.split('.');
+
+                    return new Date(`${dateA[2]}-${dateA[1]}-${dateA[0]}`) < new Date(`${dateB[2]}-${dateB[1]}-${dateB[0]}`) ? 1 : -1;
+                }));
             });
     }, []);
 

@@ -28,7 +28,6 @@ router.post('/auth', (request, response) => {
    const values = [login, hash];
 
    db.query(query, values, (err, res) => {
-       console.log(res);
        if(res) {
            if(res?.rows?.length) {
                // Generate 2FA code

@@ -57,7 +57,7 @@ const InstructionType2 = () => {
 
             <article className="page__content page__content--instruction">
                 <p>
-                    Poniższe zasady mierzenia stopy dotyczą obuwia typu oficerki (naszego aktualnego modelu Oficerki I oraz Oficerki II). Zasady mierzenia stopy dla modelu czółenek znajdują się w zakładce „<a href="/jak-mierzyc-stope-czolenka">Jak mierzyć stopę - czółenka</a>”.
+                    Poniższe zasady mierzenia stopy dotyczą obuwia typu oficerki (naszego aktualnego modelu Oficerki I oraz Oficerki II). Zasady mierzenia stopy dla modelu czółenek znajdują się w zakładce „<a className="notBold" href="/jak-mierzyc-stope-czolenka">Jak mierzyć stopę - czółenka</a>”.
                 </p>
                 <p>
                     W celu zmierzeniu stopy potrzebne będą:
@@ -69,6 +69,9 @@ const InstructionType2 = () => {
                     <li>Przedmiot, który pozwoli wyznaczyć kąt prosty, np. ekierka, teczka tekturowa,</li>
                     <li>Telefon do wykonania zdjęć.</li>
                 </ul>
+                <p>
+                    Wykonanie wszystkich czynności powinno zająć około 1h.
+                </p>
                 <p>
                     Poniżej znajduje się dokładna instrukcja wraz z ilustracjami i zdjęciami pokazującymi jak zmierzyć stopę i wykonać jej obrys oraz filmik instruktażowy.
                 </p>
@@ -111,7 +114,7 @@ const InstructionType2 = () => {
                     <img className="img--2" src={i9} alt="instrukcja" />
                 </div>
                 <p>
-                    6) Zdejmujemy stopę z kartki, a następnie w prawym górnym rogu kartki wpisujemy literkę „P” (P od prawej stopy, dla stopy lewej wpisujemy „L”).
+                    6) Zdejmujemy stopę z kartki, a następnie w prawym górnym rogu kartki wpisujemy literkę „P” („P” dla prawej stopy, „L” dla lewej stopy).
                 </p>
                 <div className="page__images">
                     <img className="img" src={i10} alt="instrukcja" />
@@ -418,7 +421,7 @@ const InstructionType2 = () => {
                     18)  L - Wysokość pod kolanem (2 palce pod zgięciem kolana)
                 </p>
                 <p className="m1">
-                    a) Mierzymy wysokość od pięty do miejsca, w którym łydka jest węższa od najszerszego obwodu w łydce o 2cm (miejsce wyznaczone w punkcie 17c niniejszej instrukcji)
+                    a) Mierzymy wysokość od pięty do miejsca, w którym łydka jest węższa od najszerszego obwodu w łydce o 2 cm (miejsce wyznaczone w punkcie 17c niniejszej instrukcji)
                 </p>
                 <div className="page__images m1">
                     <img className="img" src={i45} alt="instrukcja" />
@@ -441,7 +444,7 @@ const InstructionType2 = () => {
                         allowFullScreen></iframe>
 
                 <p>
-                    Po złożeniu rezerwacji na parę obuwia w naszym sklepie internetowym, czekamy 7 dni roboczych na wypełnienie formularza mierzenia stopy znajdującego się w panelu klienta (w którym podajemy wymiary wraz ze zdjęciami stopy) oraz na przesłanie kartki z obrysem stopy lewej oraz prawej na nasz adres korespondencyjny
+                    Po złożeniu rezerwacji na parę obuwia w naszym sklepie internetowym, czekamy 7 dni roboczych na wypełnienie Formularza Mierzenia Stopy znajdującego się w panelu klienta (w którym podajemy wymiary wraz ze zdjęciami stopy) oraz na przesłanie kartki z obrysem stopy lewej oraz prawej na nasz adres korespondencyjny
                 </p>
                 <p className="text-center">
                     Sklep Anna Vinbotti<br/>
@@ -449,7 +452,7 @@ const InstructionType2 = () => {
                     20 – 601 Lublin
                 </p>
                 <p>
-                    wraz z dołączona informacją o numerze rezerwacji. W przypadku jakichkolwiek wątpliwości dotyczących instrukcji, prosimy o kontakt z nami poprzez formularz kontaktowy, telefoniczny, lub bezpośrednio na adres mailowy office@anna-vinbotti.com.
+                    wraz z dołączona informacją o numerze rezerwacji. W przypadku jakichkolwiek wątpliwości dotyczących instrukcji, prosimy o kontakt z nami poprzez formularz kontaktowy, telefonicznie, lub bezpośrednio na adres mailowy office@anna-vinbotti.com.
                 </p>
             </article>
         </main>

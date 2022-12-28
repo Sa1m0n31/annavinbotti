@@ -69,7 +69,6 @@ const ProductPagePreview = () => {
             setAddons(productObject.addons?.sort((a, b) => {
                 return a[1][0].priority >= b[1][0].priority ? 1 : -1;
             }));
-            console.log(productObject);
             setGallery([productObject.mainImage].concat(productObject.gallery));
             setRender(true);
             setLoading(false);
@@ -275,8 +274,6 @@ const ProductPagePreview = () => {
                     const ad = item[1];
                     const conditionIf = ad[0]?.show_if;
                     const conditionIsEqual = ad[0]?.is_equal;
-
-                    console.log(item[1][0].priority);
 
                     if(ad && ((conditionIf && (selectedAddons[conditionIf] === conditionIsEqual)) || (!conditionIf))) {
                         return <div className="addon" key={index}>

@@ -135,14 +135,6 @@ const ProductPage = () => {
         }
     }, [product]);
 
-    useEffect(() => {
-        console.log(addons);
-    }, [addons]);
-
-    useEffect(() => {
-        console.log(addons);
-    }, [addons]);
-
     const convertArrayToObject = (array) => {
         const initialValue = {};
         return array.reduce((obj, item) => {
@@ -194,8 +186,6 @@ const ProductPage = () => {
     }
 
     const changeSelectedAddons = (addon, addon_option, e) => {
-        console.log(e);
-
         setRequiredAddons(addons?.filter((item) => {
             const showIf = item[1][0].show_if;
             const isEqual = item[1][0].is_equal;
@@ -384,7 +374,6 @@ const ProductPage = () => {
                     Wybierz dodatki
                 </h3>
                 {addons?.map((item, index) => {
-                    console.log(item);
                     const ad = item[1];
                     const conditionIf = ad[0]?.show_if;
                     const conditionIsEqual = ad[0]?.is_equal;

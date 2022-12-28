@@ -42,7 +42,6 @@ router.post('/send-message-to-support', (request, response) => {
 
 router.post('/change-admin-password', (request, response) => {
     const { oldPassword, newPassword, id } = request.body;
-    // const id = request.user;
 
     const oldPasswordHash = crypto.createHash('sha256').update(oldPassword).digest('hex');
     const newPasswordHash = crypto.createHash('sha256').update(newPassword).digest('hex');
@@ -60,7 +59,6 @@ router.post('/change-admin-password', (request, response) => {
             }
         }
         else {
-            console.log(err);
             response.status(500).end();
         }
     });

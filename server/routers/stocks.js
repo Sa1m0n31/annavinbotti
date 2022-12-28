@@ -46,15 +46,10 @@ const checkWaitlists = (response) => {
                     }
                 }
 
-                console.log('distinct products');
-                console.log(distinctProducts);
-
                 // For each product
                 for(const product of distinctProducts) {
                     let distinctAddons = [];
                     let distinctAvailableAddons = [];
-
-                    console.log(`product: ${product}`);
 
                     // Get number of addons
                     for(const row of bigTable) {
@@ -64,12 +59,6 @@ const checkWaitlists = (response) => {
                     }
                     const numberOfAddonsInProduct = distinctAddons.length;
 
-                    console.log(`number of addons: ${numberOfAddonsInProduct}`);
-
-                    console.log(bigTable);
-                    console.log('---');
-                    console.log(rowsAvailable);
-
                     // Get number of available addons
                     for(const row of rowsAvailable) {
                         if(!distinctAvailableAddons.includes(row.addon) && row.id === product) {
@@ -77,8 +66,6 @@ const checkWaitlists = (response) => {
                         }
                     }
                     const numberOfAvailableAddonsInProduct = distinctAvailableAddons.length;
-
-                    console.log(`number of available addons: ${numberOfAvailableAddonsInProduct}`);
 
                     // If addons for product available
                     if(numberOfAddonsInProduct === numberOfAvailableAddonsInProduct) {
@@ -314,7 +301,6 @@ router.post('/add-product-stock', (request, response) => {
            });
        }
        catch(err) {
-           console.log(err);
            response.status(500).end();
        }
    }

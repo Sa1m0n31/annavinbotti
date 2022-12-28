@@ -17,28 +17,18 @@ const Faq = () => {
                     const r = res?.data?.result[0];
                     setSections(JSON.parse(language === 'pl' ? r.value_pl : r.value_en));
                 }
-                else {
-                    // window.location = '/';
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                // window.location = '/';
             });
     }, []);
 
     useEffect(() => {
         if(sections?.length) {
             setVisibleQuestions(sections?.map((item) => {
-                console.log(item.questions);
                 return item?.questions?.map(() => false);
             }));
         }
     }, [sections]);
 
     const changeVisibleQuestions = (section, question) => {
-        console.log(visibleQuestions);
-
         setVisibleQuestions(visibleQuestions?.map((item, index) => {
             if(index === section) {
                 return item.map((item, index) => {

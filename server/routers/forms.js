@@ -542,7 +542,6 @@ router.post('/send-form', upload.fields([
                            });
                        }
                        else {
-                           console.log(err);
                            response.status(500).end();
                        }
                    });
@@ -568,7 +567,6 @@ router.post('/send-working-form', upload.fields([
     const values = [orderId];
 
     db.query(query, values, (err, res) => {
-        console.log(err);
         const selectedUser = res?.rows[0]?.user;
 
         if(selectedUser) {
@@ -616,7 +614,6 @@ router.post('/send-working-form', upload.fields([
                     const values = [type, orderId];
 
                     db.query(query, values, (err, res) => {
-                        console.log(err);
                         if(res) {
                             const sells = res?.rows?.map((item) => {
                                 return item.id;
@@ -628,7 +625,6 @@ router.post('/send-working-form', upload.fields([
                                 const values = [item, formJSON];
 
                                 db.query(query, values, (err, res) => {
-                                    console.log(err);
                                     if(index === array.length-1) {
                                         if(res) {
                                             response.status(201).end();

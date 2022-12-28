@@ -153,10 +153,8 @@ const SendNewsletter = () => {
     }
 
     const saveWork = () => {
-        console.log('witam');
         saveNewsletter(title, content)
             .then((res) => {
-                console.log(res?.status);
                 if(res?.status === 201) {
                     setStatus(3);
                     setLoading(false);
@@ -167,7 +165,6 @@ const SendNewsletter = () => {
                 }
             })
             .catch((err) => {
-                console.log(err);
                 setStatus(-1);
                 setLoading(false);
             });

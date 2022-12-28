@@ -9,7 +9,6 @@ const dbSelectQuery = (query, values, response) => {
                 });
             }
             else {
-                console.log(err);
                 response.send({
                     result: 0
                 });

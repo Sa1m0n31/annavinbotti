@@ -55,7 +55,7 @@ const sendMailToClients = (title, content) => {
 
     return axios.post(`/newsletter-api/send-email-to-clients`, {
         title,
-        newsletterContent
+        content: newsletterContent
     });
 }
 

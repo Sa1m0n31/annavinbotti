@@ -43,7 +43,6 @@ const CartContent = ({nextStep}) => {
                 let tmpAddons = [];
                 for(const cartItem of cartContent) {
                     const r = await getProductAddons(cartItem.product.id);
-                    console.log(r);
 
                     if(r) {
                         if(tmpAddons.findIndex((item) => (item.product === cartItem.product.id)) === -1) {
@@ -68,10 +67,6 @@ const CartContent = ({nextStep}) => {
             getProductsAddons();
         }
     }, [cartContent]);
-
-    useEffect(() => {
-        console.log(productsAddons);
-    }, [productsAddons]);
 
     useEffect(() => {
         if(addonsWithOptions?.length && cartContent?.length) {

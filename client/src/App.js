@@ -180,24 +180,13 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('lang', language);
-
-    // TODO
-    // getCustomFields(language)
-    //     .then((res) => {
-    //       const r = res?.data?.result[0];
-    //       if(r) {
-    //         console.log(r);
-    //         setContent(r);
-    //         setRender(true);
-    //       }
-    //     });
   }, [language]);
 
   return render ? <CartContext.Provider value={{cartContent, addToCart, removeFromCart,
     decrementFromCart, orderReceived, setOrderReceived}}>
     <ContentContext.Provider value={{content, language, setLanguage}}>
 
-      <script id="CookieDeclaration" src="https://consent.cookiebot.com/2078d6f6-502a-4a67-88a4-8578b7204f5b/cd.js" type="text/javascript" async></script>
+      {/*<script id="CookieDeclaration" src="https://consent.cookiebot.com/2078d6f6-502a-4a67-88a4-8578b7204f5b/cd.js" type="text/javascript" async></script>*/}
 
       <Router>
       {/* GLOBAL */}
@@ -275,18 +264,18 @@ function App() {
       </Route>
       <Route path="/oswiadczenie-reklamacyjne">
         <PageWithDownload field="page_8"
-                          text="Oświadczenie reklamacyjne do pobrania znajduje się pod poniższym linkiem."
+                          text="Plik do pobrania znajduje się pod poniższym linkiem."
                           buttonText="Pobierz oświadczenie reklamacyjne"
                           downloadName="Oswiadczenie_reklamacyjne.docx"
-                          link="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/Oswiadczenie_reklamacyjne.docx"
+                          link="https://anna-vinbotti.com/image?url=/media/static/Oswiadczenie_reklamacyjne.docx"
                           title={language === 'pl' ? 'Oświadczenie reklamacyjne' : 'Gwarancja'} />
       </Route>
         <Route path="/odstapienie-od-umowy">
           <PageWithDownload field="page_9"
-                            text="Odstąpienie od umowy sprzedaży do pobrania znajduje się pod poniższym linkiem."
+                            text="Plik do pobrania znajduje się pod poniższym linkiem."
                             buttonText="Pobierz odstąpienie od umowy sprzedaży"
                             downloadName="Oswiadczenie_o_odstapieniu_od_umowy_sprzedazy.docx"
-                            link="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/Oswiadczenie_o_odstapieniu_od_umowy_sprzedazy.docx"
+                            link="https://anna-vinbotti.com/image?url=/media/static/Oswiadczenie_o_odstapieniu_od_umowy_sprzedazy.docx"
                             title={language === 'pl' ? 'Odstąpienie od umowy sprzedaży' : 'Gwarancja'} />
         </Route>
       <Route path="/regulamin">

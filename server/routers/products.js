@@ -267,7 +267,7 @@ router.patch('/update', upload.fields([
       }
    }
    catch(err) {
-      console.log(err);
+      response.status(500).end();
    }
 });
 

@@ -1,17 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import { Editor } from "react-draft-wysiwyg";
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import Dropzone from "react-dropzone-uploader";
-import settings from "../../static/settings";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import trashIcon from '../../static/img/trash.svg'
-import {addBlogPost, generateImageLink, getBlogPost, updateBlogPost} from "../../helpers/blog";
-import imageIcon from "../../static/img/image-gallery.svg";
 import {scrollToTop} from "../../helpers/others";
 import Waiting from "../../components/admin/Loader";
-import {sendMailToClients, sendNewsletter} from "../../helpers/newsletter";
+import {sendMailToClients} from "../../helpers/newsletter";
 
 const SendEmailToClients = () => {
     const [title, setTitle] = useState("");

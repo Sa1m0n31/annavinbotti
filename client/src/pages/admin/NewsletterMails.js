@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import AdminTop from "../../components/admin/AdminTop";
 import AdminMenu from "../../components/admin/AdminMenu";
 import {getAllNewsletters} from "../../helpers/newsletter";
-import {stateToHTML} from "draft-js-export-html";
-import {convertFromRaw} from "draft-js";
 import eyeIcon from '../../static/img/eye.svg'
 import {getDate, getTime} from "../../helpers/others";
 

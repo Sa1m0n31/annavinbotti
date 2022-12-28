@@ -51,10 +51,6 @@ const AddProduct = () => {
     const containerRef = useRef(null);
     const inputRef = useRef(null);
 
-    useEffect(() => {
-        console.log(mainImage);
-    }, [mainImage]);
-
     const handleMainImageUpload = (e) => {
         const file = e.target.files[0];
         const fileUrl = window.URL.createObjectURL(file);
@@ -116,7 +112,6 @@ const AddProduct = () => {
                 .then((res) => {
                     if(res?.status === 200) {
                         const addonsLocal = res?.data?.result;
-                        console.log(addonsLocal);
                         setAddonsData(addonsLocal);
                         setAddons(addonsLocal?.sort((a, b) => (a.admin_name > b.admin_name ? 1 : -1)));
 

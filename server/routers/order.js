@@ -156,18 +156,18 @@ font-size: 16px;
                 <p style="color: #B9A16B;">
                     Można go również otworzyć poprzez Panel Klienta:
                 </p>
-                <img src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/screen1.png" 
+                <img src="https://anna-vinbotti.com/image?url=/media/static/screen1.png" 
                 style="display: block; margin: 30px auto; max-width: 90%;" alt="anna-vinbotti" />
                                 
                 <p style="color: #B9A16B;">
                     Przy wypełnianiu Formularza Mierzenia Stopy, prosimy postępować krok po kroku tak jak jest to opisane w artykułach na naszej stronie www:
                     
-                    <a href="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/jak-mierzyc-stope-czolenka" 
+                    <a href="https://anna-vinbotti.com/jak-mierzyc-stope-czolenka" 
                         target="_blank" 
                         style="text-decoration: underline; display: block; margin: 15px 0; text-transform: uppercase; color: #B9A16B; font-weight: 700;">
                         Jak mierzyć stopę - czółenka
                     </a>
-                    <a href="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/jak-mierzyc-stope-oficerki" 
+                    <a href="https://anna-vinbotti.com/jak-mierzyc-stope-oficerki" 
                         target="_blank" 
                         style="text-decoration: underline; display: block; margin: 15px 0; text-transform: uppercase; color: #B9A16B; font-weight: 700;">
                         Jak mierzyć stopę - oficerki
@@ -288,8 +288,6 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
         }
     }
 
-    console.log(user);
-
     // Validate stocks
     const productsAvailable = await validateStocks(oldSells, oldAddons);
 
@@ -336,7 +334,7 @@ const addOrder = async (user, userAddress, deliveryAddress, nip, companyName, sh
 
                         const insertSellResult = await db.query(query, values);
                         sellsIds.push(insertSellResult.rows[0].id);
-                        console.log(sellsIds);
+
                         let j = 0;
 
                         // When all sells inserted
@@ -464,7 +462,6 @@ router.post('/add', basicAuth,  (request, response) => {
                                             addOrder(user, userAddress, deliveryAddress, nip, companyName, shipping, sells, addons, newsletter, response);
                                         }
                                         else {
-                                            console.log(err);
                                             response.status(500).end();
                                         }
                                     });
@@ -474,13 +471,11 @@ router.post('/add', basicAuth,  (request, response) => {
                                 }
                             }
                             else {
-                                console.log(err);
                                 response.status(500).end();
                             }
                         });
                     }
                     else {
-                        console.log(err);
                         response.status(500).end();
                     }
                 });
@@ -507,7 +502,7 @@ router.post('/add', basicAuth,  (request, response) => {
             }
         }
         catch(err) {
-            console.log(err)
+            response.status(500).end();
         }
     }
     else {
@@ -761,7 +756,7 @@ font-size: 16px;
                 
                  ${formsLinks}
                  
-                 <img src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/screen2.png" 
+                 <img src="https://anna-vinbotti.com/image?url=/media/static/screen2.png" 
                 style="display: block; margin: 30px auto; max-width: 90%;" alt="anna-vinbotti" />
                 
                 <p style="color: #B9A16B;">

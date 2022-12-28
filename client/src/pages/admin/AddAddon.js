@@ -142,10 +142,6 @@ const AddAddon = () => {
     }, []);
 
     useEffect(() => {
-        console.log(options);
-    }, [options]);
-
-    useEffect(() => {
         if(status) {
             setLoading(false);
         }

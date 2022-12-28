@@ -38,8 +38,6 @@ const AdminWrapper = ({page}) => {
     useEffect(() => {
         authAdmin()
             .then((res) => {
-                console.log(res);
-
                 switch(page) {
                     case 1:
                         setRenderPage(<AdminStart />);

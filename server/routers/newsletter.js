@@ -56,8 +56,8 @@ router.post('/verify', (request, response) => {
                         to: email,
                         subject: 'Dziękujemy, że jesteś z nami',
                         html: `<div style="background: #053A26; padding: 25px;">
-                          <img style="margin: 10px auto 30px; width: 90%; display: block;" src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/newsletter-po-zapisie.JPG" alt="anna-vinbotti" />  
-                          <img style="margin: 0 auto 30px; width: 90%; max-width: 250px; display: block;" src="https://3539440eeef81ec8ea0242ac120002.anna-vinbotti.com/image?url=/media/static/logo.png" alt="logo" />
+                          <img style="margin: 10px auto 30px; width: 90%; display: block;" src="https://anna-vinbotti.com/image?url=/media/static/newsletter-po-zapisie.JPG" alt="anna-vinbotti" />  
+                          <img style="margin: 0 auto 30px; width: 90%; max-width: 250px; display: block;" src="https://anna-vinbotti.com/image?url=/media/static/logo.png" alt="logo" />
                           <p style="color: #B9A16B;">
                               Dziękujemy, że razem z nami chcesz odkrywać skarby, jakie może zaoferować prawdziwe szewskie rękodzieło. Dawne rękodzieło to przede wszystkim kilkudziesięcioletnie doświadczenie, kilka dni pracy nad jedną parą obuwia oraz przedwojenna technika wykonania, już niemalże zapomniana.
                           </p>
@@ -376,6 +376,8 @@ router.post('/send-email-to-clients', (request, response) => {
       db.query(query, [], (err, res) => {
          if(res) {
             const emails = res?.rows?.map((item) => (item.email));
+
+            console.log(emails);
 
             let mailOptions = {
                from: process.env.EMAIL_ADDRESS_WITH_NAME,

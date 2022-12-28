@@ -182,138 +182,138 @@ const AdminTerms = ({lang}) => {
                         onEditorStateChange={(text) => { setTerms(text); }}
                     />
                 </section>
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Polityka prywatności*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={policy}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPolicy(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        O nas*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page1}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage1(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Nasze wartości*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page2}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage2(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Jak powstają*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page3}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage3(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Jak zamawiać*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page4}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage4(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Jak mierzyć stopę - czółenka*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page5}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage5(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Jak mierzyć stopę - oficerki*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page11}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage11(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Jak pielęgnować*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page6}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage6(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Gwarancja*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page7}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage7(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Oświadczenie reklamacyjne*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page8}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage7(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
-                {/*<section className="admin__editorWrapper">*/}
-                {/*    <h3 className="editorWrapper__header">*/}
-                {/*        Adres korespondencyjny*/}
-                {/*    </h3>*/}
-                {/*    <Editor*/}
-                {/*        editorState={page10}*/}
-                {/*        toolbarClassName="toolbarClassName"*/}
-                {/*        wrapperClassName="wrapperClassName"*/}
-                {/*        editorClassName="editor"*/}
-                {/*        onEditorStateChange={(text) => { setPage10(text); }}*/}
-                {/*    />*/}
-                {/*</section>*/}
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Polityka prywatności
+                    </h3>
+                    <Editor
+                        editorState={policy}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPolicy(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        O nas
+                    </h3>
+                    <Editor
+                        editorState={page1}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage1(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Nasze wartości
+                    </h3>
+                    <Editor
+                        editorState={page2}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage2(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak powstają
+                    </h3>
+                    <Editor
+                        editorState={page3}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage3(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak zamawiać
+                    </h3>
+                    <Editor
+                        editorState={page4}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage4(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak mierzyć stopę - czółenka
+                    </h3>
+                    <Editor
+                        editorState={page5}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage5(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak mierzyć stopę - oficerki
+                    </h3>
+                    <Editor
+                        editorState={page11}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage11(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Jak pielęgnować
+                    </h3>
+                    <Editor
+                        editorState={page6}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage6(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Gwarancja
+                    </h3>
+                    <Editor
+                        editorState={page7}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage7(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Oświadczenie reklamacyjne
+                    </h3>
+                    <Editor
+                        editorState={page8}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage7(text); }}
+                    />
+                </section>
+                <section className="admin__editorWrapper">
+                    <h3 className="editorWrapper__header">
+                        Adres korespondencyjny
+                    </h3>
+                    <Editor
+                        editorState={page10}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editor"
+                        onEditorStateChange={(text) => { setPage10(text); }}
+                    />
+                </section>
                 <button className="btn btn--admin btn--marginTop" onClick={() => { handleSubmit() }}>
                     Aktualizuj podstrony
                 </button>

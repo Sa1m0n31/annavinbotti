@@ -36,6 +36,10 @@ ul {
     font-weight: 700;
 }
 
+.notBold {
+    font-weight: 400 !important;
+}
+
 .btn {
     background: var(--secondary);
     color: #fff;
@@ -3717,4 +3721,8 @@ textarea {
 
 .page table {
     width: 100% !important;
+}
+
+.notUnderline {
+    text-decoration: none !important;
 }
