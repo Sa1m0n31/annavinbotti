@@ -84,7 +84,7 @@ const NewsletterSection = () => {
                     <span></span>
                 </button>
                 <span className="checkboxText">
-                        Oświadczam, że zapoznałem/-am się z <a href="/polityka-prywatnosci" target="_blank">Polityką prywatności</a> *
+                        Oświadczam, że zapoznałem/-am się z <a href="/regulamin" target="_blank">Regulaminem</a> i <a href="/polityka-prywatnosci" target="_blank">Polityką prywatności</a> oraz akceptuję ich postanowienia *
                     </span>
             </label>
 
