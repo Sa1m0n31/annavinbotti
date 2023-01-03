@@ -70,8 +70,8 @@ function App() {
     }
   }, [cartContent]);
 
-  useEffect(() => {// TODO
-    if(cartContent?.length && !cartStocksUpdated && 0) {
+  useEffect(() => {
+    if(cartContent?.length && !cartStocksUpdated) {
       const ids = cartContent.map((item) => {
         return item.product.id;
       });
