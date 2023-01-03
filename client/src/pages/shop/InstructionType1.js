@@ -283,7 +283,7 @@ const InstructionType1 = () => {
                     20 – 601 Lublin
                 </p>
                 <p>
-                    wraz z dołączona informacją o numerze rezerwacji. W przypadku jakichkolwiek wątpliwości dotyczących instrukcji, prosimy o kontakt z nami poprzez formularz kontaktowy, telefonicznie, lub bezpośrednio na adres mailowy office@anna-vinbotti.com.
+                    wraz z dołączona informacją o numerze rezerwacji. W przypadku jakichkolwiek wątpliwości dotyczących instrukcji, prosimy o kontakt z nami poprzez formularz kontaktowy, telefonicznie lub bezpośrednio na adres mailowy office@anna-vinbotti.com.
                 </p>
             </article>
         </main>

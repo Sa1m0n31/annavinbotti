@@ -23,10 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/pages/shop/TermsOfServie.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/NewsletterSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/NewsletterSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/Warranty.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/Warranty.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -205,6 +211,10 @@
       <workItem from="1671889578484" duration="41000" />
       <workItem from="1672241241945" duration="6333000" />
       <workItem from="1672247858866" duration="29000" />
+      <workItem from="1672257802791" duration="39000" />
+      <workItem from="1672351652055" duration="826000" />
+      <workItem from="1672413889495" duration="4056000" />
+      <workItem from="1672742444263" duration="7940000" />
     </task>
     <servers />
   </component>
@@ -224,11 +234,11 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1672247688888">
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1672417986673">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672247688888" />
-    <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1671651751064" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672417986673" />
+    <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1672357151605" />
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666894128590" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1664792587040" />
     <state x="-1401" y="117" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1672244005159">
@@ -246,16 +256,16 @@
     <state x="-1253" y="253" width="585" height="558" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1671842744568" />
     <state x="534" y="200" width="549" height="534" key="find.popup/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1671650616283" />
     <state x="-1253" y="253" width="1101" height="558" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666008710402" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1665095101348">
+    <state x="-1304" y="240" width="672" height="677" key="run.anything.popup" timestamp="1672751126833">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665095101348" />
+    <state x="-1304" y="240" width="672" height="677" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672751126833" />
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664383640416" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1672247860567">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1672747514061">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672247860567" />
-    <state x="498" y="178" width="672" height="538" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1671650054125" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672747514061" />
+    <state x="498" y="178" width="672" height="538" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1672351720450" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666960945486" />
   </component>
 </project>

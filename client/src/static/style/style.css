@@ -3588,9 +3588,25 @@ textarea {
     border-bottom: 1px solid var(--secondary);
 }
 
+.page__content a u {
+    font-weight: 400;
+}
+
+#termsOfService .indent {
+    text-align: left !important;
+    display: block !important;
+    padding-left: 20px !important;
+}
+
 .page__content h4,
 #terms_of_service h4 {
     text-align: center;
+}
+
+.page__content h5 {
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
 }
 
 .instruction {
@@ -3726,4 +3742,9 @@ textarea {
 
 .notUnderline {
     text-decoration: none !important;
+}
+
+.page table:nth-of-type(4) {
+    margin-top: 40px;
+    border-top: 2px solid #fff;
 }

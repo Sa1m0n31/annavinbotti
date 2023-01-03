@@ -72,9 +72,6 @@ const Footer = () => {
                 <a className="footer__link" href="/polityka-prywatnosci">
                     Polityka prywatności
                 </a>
-                <a className="footer__link" href="/oswiadczenie-reklamacyjne">
-                    Oświadczenie reklamacyjne
-                </a>
                 <a className="footer__link" href="/odstapienie-od-umowy">
                     Odstąpienie od umowy
                 </a>

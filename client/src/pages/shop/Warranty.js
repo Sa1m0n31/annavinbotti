@@ -12,15 +12,15 @@ const Warranty = () => {
 
             <article className="page__content page__content--warranty">
                 <p>
-                    1. Niniejszy dokument (dalej: „Oświadczenie gwarancyjne”) określa zasady i warunki gwarancji (dalej: „Gwarancja”) obejmującej obuwie (dalej: „Towar”) sprzedane lub wykonane przez <b>Annę Kot</b>, prowadzącą działalność gospodarczą pod firmą „Anna Kot” (adres stałego miejsca wykonywania działalności gospodarczej: ul. Stawki 21/18, 01-040 Warszawa), wpisaną do Centralnej Ewidencji i Informacji o Działalności Gospodarczej, posiadającą numer NIP: 7132964715, numer REGON: 388283299 (dalej: „Gwarant”).<br/>
+                    1. Niniejszy dokument (dalej: <b>„Oświadczenie gwarancyjne”</b>) określa zasady i warunki gwarancji (dalej: <b>„Gwarancja”</b>) obejmującej obuwie (dalej: <b>„Towar”</b>) sprzedane lub wykonane przez <b>Annę Kot</b>, prowadzącą działalność gospodarczą pod firmą „Anna Kot” (adres stałego miejsca wykonywania działalności gospodarczej: ul. Stawki 21/18, 01-040 Warszawa), wpisaną do Centralnej Ewidencji i Informacji o Działalności Gospodarczej, posiadającą numer NIP: 7132964715, numer REGON: 388283299 (dalej: <b>„Gwarant”</b>).<br/>
                     2. Podmiotem odpowiedzialnym z tytułu udzielonej Gwarancji jest Gwarant.<br/>
-                    3. Czas trwania ochrony gwarancyjnej wynosi 2 (dwa) lata od dnia wydania Towaru kupującemu (dalej: „Kupujący”).<br/>
+                    3. Czas trwania ochrony gwarancyjnej wynosi 2 (dwa) lata od dnia wydania Towaru kupującemu (dalej: <b>„Kupujący”</b>).<br/>
                     4. Terytorialny zasięg ochrony gwarancyjnej obejmuje wyłącznie terytorium Rzeczypospolitej Polskiej. Gwarant nie jest zobowiązany do wykonywania świadczeń wynikających z Gwarancji poza terytorium Rzeczypospolitej Polskiej.<br/>
-                    5. Gwarant oświadcza, że Towar powinien zostać wydany Kupującemu godnym z dotyczącą go umową sprzedaży lub umową o dzieło (dalej łącznie: <b>„Umowa”</b>). W przypadku ujawnienia niezgodności Towaru z dotyczącą go Umową (dalej: <b>„Niezgodność”</b>), Gwarant zobowiązany jest do:<br/>
+                    5. Gwarant oświadcza, że Towar powinien zostać wydany Kupującemu w stanie zgodnym z dotyczącą go umową sprzedaży lub umową o dzieło (dalej łącznie: <b>„Umowa”</b>). W przypadku ujawnienia niezgodności Towaru z dotyczącą go Umową (dalej: <b>„Niezgodność”</b>), Gwarant zobowiązany jest do:<br/>
                 </p>
                 <p className="m1">
                     1) naprawy Towaru albo<br/>
-                    2) wymiany wadliwego Towaru<br/>
+                    2) wymiany Towaru albo<br/>
                     3) zwrotu ceny zapłaconej za Towar.
                 </p>
                 <p>
@@ -36,7 +36,7 @@ const Warranty = () => {
                     c) uszkodzeń skóry oblekającej obcasy;
                 </p>
                 <p className="m1">
-                    3) uszkodzeń wynikających z nieprawidłowego używania (w tym z używania w sposób prowadzących do powstania uszkodzeń mechanicznych) lub konserwowania i pielęgnacji Towaru, w szczególności:
+                    3) uszkodzeń wynikających z nieprawidłowego używania (w tym z używania w sposób prowadzący do powstania uszkodzeń mechanicznych) lub konserwowania i pielęgnacji Towaru, w szczególności:
                 </p>
                 <p className="m2">
                     a) rozcięć,<br/>
@@ -48,9 +48,9 @@ const Warranty = () => {
                 <p>
                     7. Wyboru konkretnego świadczenia spośród świadczeń wskazanych w ust. 5 powyżej dokonuje Gwarant.<br/>
                     8. Koszt wykonania świadczeń wskazanych w ust.  5 powyżej ponosi Gwarant.<br/>
-                    9. Kupujący zobowiązany jest zawiadomić Gwaranta o ujawnionej niezgodności Towaru w terminie 14 (czternastu) dni od dnia jej stwierdzenia. Do zachowania terminu wskazanemu w zdaniu poprzedzającym, wystarczy wysłanie zawiadomienia przed jego upływem.<br/>
+                    9. Kupujący zobowiązany jest zawiadomić Gwaranta o ujawnionej niezgodności Towaru w terminie 14 (czternastu) dni od dnia jej stwierdzenia. Do zachowania terminu wskazanego w zdaniu poprzedzającym, wystarczy wysłanie zawiadomienia przed jego upływem.<br/>
                     10. W przypadku uchybienia przez Kupującego terminowi wskazanemu w ust. 9 powyżej, traci on uprawnienia wynikające z Gwarancji.<br/>
-                    11. Zawiadomienie, o którym mowa w ust. 9 powyżej (dalej: „Zawiadomienie”), dokonywane jest za pomocą poczty elektronicznej, pod adresem: office@anna-vinbotti.com.<br/>
+                    11. Zawiadomienie, o którym mowa w ust. 9 powyżej (dalej: <b>„Zawiadomienie”</b>), dokonywane jest za pomocą poczty elektronicznej, pod adresem: office@anna-vinbotti.com.<br/>
                     12. Zawiadomienie powinno zawierać:
                 </p>
                 <p className="m1">
@@ -58,7 +58,7 @@ const Warranty = () => {
                     2) adres do korespondencji lub adres poczty elektronicznej;<br/>
                     3) numer telefonu;<br/>
                     4) datę dostarczenia Towaru;<br/>
-                    5) datę ujawnienia Niezgoności;<br/>
+                    5) datę ujawnienia Niezgodności;<br/>
                     6) opis Niezgodności;<br/>
                     7) propozycję Kupującego w zakresie wyboru konkretnego świadczenia Gwaranta (Gwarant nie jest jednak związany propozycją Kupującego).
                 </p>
@@ -85,7 +85,7 @@ const Warranty = () => {
                 </p>
                 <p className="m1">
                     1) w przypadku naprawy Towaru – 30 (trzydzieści) dni;<br/>
-                    2) w przypadku wymiany Towaru – 30 (trzydzieści dni);<br/>
+                    2) w przypadku wymiany Towaru – 30 (trzydzieści) dni;<br/>
                     3) w przypadku zwrotu zapłaconej ceny – 14 (czternaście) dni.
                 </p>
                 <p>

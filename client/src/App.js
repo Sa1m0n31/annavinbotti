@@ -42,6 +42,7 @@ import InstructionType1 from "./pages/shop/InstructionType1";
 import InstructionType2 from "./pages/shop/InstructionType2";
 import Warranty from "./pages/shop/Warranty";
 import PrivacyPolicy from "./pages/shop/PrivacyPolicy";
+import TermsOfServie from "./pages/shop/TermsOfServie";
 
 axios.defaults.headers.common['Authorization'] = `Basic ${process.env.REACT_APP_API_KEY}`;
 
@@ -69,8 +70,8 @@ function App() {
     }
   }, [cartContent]);
 
-  useEffect(() => {
-    if(cartContent?.length && !cartStocksUpdated) {
+  useEffect(() => {// TODO
+    if(cartContent?.length && !cartStocksUpdated && 0) {
       const ids = cartContent.map((item) => {
         return item.product.id;
       });
@@ -279,9 +280,7 @@ function App() {
                             title={language === 'pl' ? 'Odstąpienie od umowy sprzedaży' : 'Gwarancja'} />
         </Route>
       <Route path="/regulamin">
-        <Page field="terms_of_service"
-              width100={true}
-              title={language === 'pl' ? 'Regulamin' : 'Terms of Service'} />
+        <TermsOfServie width100={true} />
       </Route>
       <Route path="/polityka-prywatnosci">
         <PrivacyPolicy />
