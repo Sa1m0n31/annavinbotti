@@ -279,9 +279,11 @@ function App() {
                             link="https://anna-vinbotti.com/image?url=/media/static/Oswiadczenie_o_odstapieniu_od_umowy_sprzedazy.docx"
                             title={language === 'pl' ? 'Odstąpienie od umowy sprzedaży' : 'Gwarancja'} />
         </Route>
-      <Route path="/regulamin">
-        <TermsOfServie width100={true} />
-      </Route>
+        <Route path="/regulamin">
+          <Page field="terms_of_service"
+                width100={true}
+                title={language === 'pl' ? 'Regulamin' : 'Terms of Service'} />
+        </Route>
       <Route path="/polityka-prywatnosci">
         <PrivacyPolicy />
       </Route>

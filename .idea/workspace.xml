@@ -24,26 +24,9 @@
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/Footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/shop/OrderInstruction.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/OrderInstruction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ContactPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/Shop.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/Shop.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/TermsOfServie.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/TermsOfServie.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-1.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-10.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-10.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-3.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-3.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-4.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-5.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-5.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-7.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-7.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-8.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-8.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-9.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-9.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,18 +55,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/sajmo/Desktop/Programowanie/Projekty/annavinbotti",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sajmo/Desktop/Programowanie/Projekty/annavinbotti&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
