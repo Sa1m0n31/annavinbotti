@@ -73,7 +73,7 @@ function App() {
   useEffect(() => {
     if(cartContent?.length && !cartStocksUpdated) {
       const ids = cartContent.map((item) => {
-        return item.product.id;
+        return item?.product?.id;
       });
 
       updateStocksInCart(ids)

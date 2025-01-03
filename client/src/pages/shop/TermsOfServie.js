@@ -31,7 +31,7 @@ const TermsOfServie = ({width100}) => {
                     - poczty elektronicznej  - pod adresem: office@anna-vinbotti.com;
                 </p>
                 <p>
-                    - poczty tradycyjnej  - pod adresem: ul. Tomasza Zana 43 lok. 2.1, 20-601 Lublin;
+                    - poczty tradycyjnej  - pod adresem: ul. Stawki 21/18, 01-040 Warszawa;
                 </p>
                 <p>
                     - telefonu  - pod numerem: 570 272 901,
@@ -577,7 +577,7 @@ const TermsOfServie = ({width100}) => {
                 </p>
 
                 <p>
-                    7. Po dokonaniu czynności wskazanych w ust. 4 powyżej, Kupujący zobowiązany jest wysłać Sprzedawcy Formularz Mierzenia Stopy (wraz z dołączoną dokumentacją fotograficzną) za pomocą Konta oraz doręczyć Sprzedawcy na własny koszt wykonane obrysy stóp przesyłką pocztową lub kurierską pod adres: ul.Tomasza Zana 43 lok. 2.1, 20-601 Lublin; w terminie 7 (siedmiu) Dni roboczych od dnia dokonania rezerwacji.
+                    7. Po dokonaniu czynności wskazanych w ust. 4 powyżej, Kupujący zobowiązany jest wysłać Sprzedawcy Formularz Mierzenia Stopy (wraz z dołączoną dokumentacją fotograficzną) za pomocą Konta oraz doręczyć Sprzedawcy na własny koszt wykonane obrysy stóp przesyłką pocztową lub kurierską pod adres: ul. Stawki 21/18, 01-040 Warszawa; w terminie 7 (siedmiu) Dni roboczych od dnia dokonania rezerwacji.
                 </p>
 
                 <p>
@@ -974,8 +974,8 @@ const TermsOfServie = ({width100}) => {
 
                 <h4>
                     Sklep Anna Vinbotti<br/>
-                    ul. Tomasza Zana 43 lok. 2.1<br/>
-                    20-601 Lublin;
+                    ul. Stawki 21/18,<br/>
+                    01-040 Warszawa;
                 </h4>
 
             <p>
@@ -1265,8 +1265,8 @@ const TermsOfServie = ({width100}) => {
 
            <h4>
                Sklep Anna Vinbotti<br/>
-               ul. Tomasza Zana 43 lok. 2.1<br/>
-               20-601 Lublin
+               ul. Stawki 21/18, 01-040 Warszawa<br/>
+               01-040 Warszawa
            </h4>
 
         <p>

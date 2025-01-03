@@ -60,6 +60,10 @@ const InstructionType2 = () => {
                     Poniższe zasady mierzenia stopy dotyczą obuwia typu oficerki (naszego aktualnego modelu Oficerki I oraz Oficerki II). Zasady mierzenia stopy dla modelu czółenek znajdują się w zakładce „<a className="notBold" href="/jak-mierzyc-stope-czolenka">Jak mierzyć stopę - czółenka</a>”.
                 </p>
                 <p>
+                    Instrukcja mierzenia stopy zawiera dużą ilość zdjęć i rysunków, aby dokładnie wytłumaczyć i przeprowadzić Państwa
+                    przez proces mierzenia stopy, który nie jest skomplikowany.
+                </p>
+                <p>
                     W celu zmierzeniu stopy potrzebne będą:
                 </p>
                 <ul>
@@ -70,16 +74,19 @@ const InstructionType2 = () => {
                     <li>Telefon do wykonania zdjęć.</li>
                 </ul>
                 <p>
-                    Wykonanie wszystkich czynności powinno zająć około 1 godzinę.
+                    Wszystkie kroki należy wykonać dokładnie i bez pośpiechu, dlatego też warto zarezerwować 1 godzinę.
                 </p>
                 <p>
-                    Poniżej znajduje się dokładna instrukcja wraz z ilustracjami i zdjęciami pokazującymi jak zmierzyć stopę i wykonać jej obrys oraz filmik instruktażowy.
+                    Poniżej znajduje się dokładna instrukcja wraz z ilustracjami i zdjęciami pokazującymi jak zmierzyć stopę i wykonać jej obrys oraz filmik instruktażowy. Zostały one przedstawione dla stopy prawej. Dla lewej stopy prosimy postępować analogicznie.
                 </p>
+
+                <iframe width="860" height={window.innerWidth < 768 ? "325" : "465"} src="https://www.youtube.com/embed/o71tr7vsY5g"
+                        title="YouTube video player" frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen></iframe>
+
                 <p>
                     Proszę postępować krok po kroku zgodnie z poniższymi punktami:
-                </p>
-                <p>
-                    Poniższa instrukcja została przedstawiona dla stopy prawej. Dla lewej stopy prosimy postępować analogicznie.
                 </p>
                 <p>
                     1) Kładziemy kartkę papieru na podłodze i stawiamy na niej prawą stopę (stopa powinna być w cielistych skarpetkach/rajstopach/pończochach lub bez żadnych skarpetek).
@@ -438,18 +445,13 @@ const InstructionType2 = () => {
                     W celu upewnienia się, że wszystkie wymiary zostały podane poprawnie, rekomendujemy ich weryfikacje poprzez ponowne wykonanie obrysu i wyznaczenie wszystkich wymiarów.
                 </p>
 
-                <iframe width="860" height={window.innerWidth < 768 ? "325" : "465"} src="https://www.youtube.com/embed/o71tr7vsY5g"
-                        title="YouTube video player" frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen></iframe>
-
                 <p>
                     Po złożeniu rezerwacji na parę obuwia w naszym sklepie internetowym, czekamy 7 dni roboczych na wypełnienie Formularza Mierzenia Stopy znajdującego się w panelu klienta (w którym podajemy wymiary wraz ze zdjęciami stopy) oraz na przesłanie kartki z obrysem stopy lewej oraz prawej na nasz adres korespondencyjny
                 </p>
                 <p className="text-center">
                     Sklep Anna Vinbotti<br/>
-                    Ul. Tomasza Zana 43 / lok. 2.1<br/>
-                    20 – 601 Lublin
+                    Ul. Stawki 21/18<br/>
+                    01-040 Warszawa
                 </p>
                 <p>
                     wraz z dołączona informacją o numerze rezerwacji. W przypadku jakichkolwiek wątpliwości dotyczących instrukcji, prosimy o kontakt z nami poprzez formularz kontaktowy, telefonicznie lub bezpośrednio na adres mailowy office@anna-vinbotti.com.

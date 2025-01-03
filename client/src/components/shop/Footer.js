@@ -40,10 +40,10 @@ const Footer = () => {
                         Sklep Anna Vinbotti
                     </p>
                     <p className="contact__top__section__data">
-                        Ul. Tomasza Zana 43 / lok. 2.1
+                        Ul. Stawki 21/18
                     </p>
                     <p className="contact__top__section__data">
-                        20 – 601 Lublin
+                        01-040 Warszawa
                     </p>
                 </div>
             </div>

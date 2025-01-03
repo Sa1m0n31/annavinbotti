@@ -26,8 +26,23 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/OrderInstruction.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/OrderInstruction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ContactPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/InstructionType2.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/Shop.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/Shop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/TermsOfServie.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/TermsOfServie.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-1.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-10.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-10.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-3.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-3.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-4.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-5.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-5.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-7.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-7.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-8.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-8.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/img/info-9.svg" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/info-9.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/settings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +61,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="27sMIrX4NCB5gOec5bJgBjCfoPZ" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -54,28 +72,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
-    <property name="javascript.nodejs.core.library.typings.version" value="16.11.41" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/sajmo/Desktop/Programowanie/Projekty/annavinbotti",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\media\static" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\build" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\public" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\shop" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\pages\admin" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\server\media\static" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\annavinbotti\client\src\static\style" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -210,6 +229,24 @@
       <workItem from="1672351652055" duration="826000" />
       <workItem from="1672413889495" duration="4056000" />
       <workItem from="1672742444263" duration="10272000" />
+      <workItem from="1672769698434" duration="34000" />
+      <workItem from="1673475188066" duration="1718000" />
+      <workItem from="1673480863129" duration="11000" />
+      <workItem from="1673480877891" duration="13000" />
+      <workItem from="1674083883325" duration="1943000" />
+      <workItem from="1674786167636" duration="893000" />
+      <workItem from="1674831475268" duration="609000" />
+      <workItem from="1675029028261" duration="37000" />
+      <workItem from="1678319118157" duration="1712000" />
+      <workItem from="1678556207147" duration="1583000" />
+      <workItem from="1679667789628" duration="68000" />
+      <workItem from="1679667889378" duration="1119000" />
+      <workItem from="1679747038788" duration="20000" />
+      <workItem from="1687877729811" duration="1902000" />
+      <workItem from="1726467885000" duration="803000" />
+      <workItem from="1726469578706" duration="43000" />
+      <workItem from="1726474788291" duration="18000" />
+      <workItem from="1735906258273" duration="890000" />
     </task>
     <servers />
   </component>
@@ -226,41 +263,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1672417986673">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672417986673" />
-    <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1672357151605" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666894128590" />
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1664792587040" />
-    <state x="-1401" y="117" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1672244005159">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1401" y="117" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672244005159" />
-    <state x="-1401" y="117" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665576243573" />
-    <state x="-916" y="0" width="469" height="1027" key="dock-window-1" timestamp="1664286988474">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-916" y="0" width="469" height="1027" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664286988474" />
-    <state x="-1253" y="253" width="585" height="558" key="find.popup" timestamp="1672761242952">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1253" y="253" width="585" height="558" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672761242952" />
-    <state x="534" y="200" width="549" height="534" key="find.popup/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1671650616283" />
-    <state x="-1253" y="253" width="1101" height="558" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666008710402" />
-    <state x="-1304" y="240" width="672" height="677" key="run.anything.popup" timestamp="1672751126833">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1304" y="240" width="672" height="677" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672751126833" />
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664383640416" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1672761253060">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1672761253060" />
-    <state x="498" y="178" width="672" height="538" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1672351720450" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666960945486" />
   </component>
 </project>

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import PageHeader from "../../components/shop/PageHeader";
 import Footer from "../../components/shop/Footer";
 
@@ -42,7 +42,7 @@ const PrivacyPolicy = () => {
                         <p className="MsoListParagraphCxSpFirst" style={{marginBottom: '0in', textAlign: 'justify', textIndent: '-.25in', lineHeight: 'normal', textAutospace: 'ideograph-other', verticalAlign: 'baseline'}}><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>1) </span><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>poczty elektronicznej&nbsp; -
   pod adresem: office@</span><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>anna-vinbotti.com</span><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>;</span></p>
                         <p className="MsoListParagraphCxSpMiddle" style={{marginBottom: '0in', textAlign: 'justify', textIndent: '-.25in', lineHeight: 'normal', textAutospace: 'ideograph-other', verticalAlign: 'baseline'}}><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>2) </span><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>poczty tradycyjnej&nbsp; -
-  pod adresem: ul. Tomasza Zana 43 lok. 2.1, 20-601 Lublin;</span></p>
+  pod adresem: Ul. Stawki 21/18, 01-040 Warszawa;</span></p>
                         <p className="MsoListParagraphCxSpLast" style={{marginBottom: '0in', textAlign: 'justify', textIndent: '-.25in', lineHeight: 'normal', textAutospace: 'ideograph-other', verticalAlign: 'baseline'}}><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>3) </span><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>telefonu&nbsp; - pod numerem:
   </span><span lang="PL" style={{fontFamily: '"Calibri Light",sans-serif'}}>&nbsp;570&nbsp;272&nbsp;901.</span></p>
                         <p className="MsoNormal"><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>&nbsp;</span></p>
@@ -1103,7 +1103,7 @@ const PrivacyPolicy = () => {
                                 </td>
                             </tr>
                             <tr>
-                                <td width={104} rowSpan={2} style={{width: '77.75pt', border: 'solid windowtext 1.0pt', borderTop: 'none', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                <td width={104} rowSpan={10} style={{width: '77.75pt', border: 'solid windowtext 1.0pt', borderTop: 'none', padding: '0in 5.4pt 0in 5.4pt'}}>
                                     <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><b><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>Statystyczne </span></b></p>
                                 </td>
                                 <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
@@ -1137,7 +1137,192 @@ const PrivacyPolicy = () => {
                                 </td>
                             </tr>
                             <tr>
-                                <td width={104} rowSpan={17} style={{width: '77.75pt', border: 'solid windowtext 1.0pt', borderTop: 'none', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+                                        _hjAbsoluteSessionInProgress
+                                    </span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+    Hotjar
+                                    </span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie służy do liczenia, ile razy witryna została odwiedzona przez różnych odwiedzających (odbywa się to poprzez przypisanie odwiedzającemu identyfikatora, dzięki czemu odwiedzający nie jest rejestrowany dwukrotnie).
+
+                                    </span>
+                                    </p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+1 dzień
+                                    </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+_hjFirstSeen
+                                    </span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Hotjar
+                                    </span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie służy do ustalenia, czy odwiedzający odwiedzał witrynę już wcześniej, czy też jest odwiedza ją po raz pierwszy.
+                                    </span>
+                                    </p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+1 dzień
+                                    </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+_hjIncludedInPageviewSample
+                                    </span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Hotjar
+                                    </span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie służy do wykrywania, czy nawigacja i interakcje odwiedzającego w witrynie są uwzględniane w analizie danych witryny.
+                                    </span>
+                                    </p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+1 dzień
+                                    </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+_hjIncludedInSessionSample
+                                    </span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Hotjar
+                                    </span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie służy do rejestracji danych dotyczących zachowania odwiedzających witrynę w celu  wewnętrznej analizy i optymalizacji witryny.
+                                    </span>
+                                    </p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+1 dzień
+                                    </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+_hjRecordingLastActivity
+                                    </span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Hotjar
+                                    </span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie służy do nadawania odwiedzającym unikalnych identyfikatorów sesji. Dzięki temu witryna może pozyskiwać dane o zachowaniu odwiedzających w celach statystycznych.
+                                    </span>
+                                    </p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+sesyjny
+                                    </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+_hjSession_#
+                                    </span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Hotjar
+                                    </span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie służy do zbierania statystyk dotyczących wizyt odwiedzającego w witrynie, takich jak liczba odwiedzin, średni czas spędzony w witrynie oraz to, jakie zakładki w ramach witryny zostały przeczytane.
+                                    </span>
+                                    </p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+1 dzień
+                                    </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+_hjSessionUser_#
+                                    </span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Hotjar
+                                    </span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie służy do zbierania statystyk dotyczących wizyt odwiedzającego w witrynie, takich jak liczba odwiedzin, średni czas spędzony w witrynie oraz to, jakie zakładki w ramach witryny zostały przeczytane.
+                                    </span>
+                                    </p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+1 rok
+                                    </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+hjViewportId
+                                    </span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Hotjar
+                                    </span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie służy do nadawania odwiedzającym unikalnych identyfikatorów sesji. Dzięki temu witryna może pozyskiwać dane o zachowaniu odwiedzających w celach statystycznych.
+                                    </span>
+                                    </p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+sesyjny
+                                    </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={104} rowSpan={18} style={{width: '77.75pt', border: 'solid windowtext 1.0pt', borderTop: 'none', padding: '0in 5.4pt 0in 5.4pt'}}>
                                     <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><b><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>Marketingowe </span></b></p>
                                 </td>
                                 <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
@@ -1153,6 +1338,21 @@ const PrivacyPolicy = () => {
                                 </td>
                                 <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
                                     <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>3 miesiące </span></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width={142} style={{width: '106.3pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>_hjRecordingEnabled</span></p>
+                                </td>
+                                <td width={104} style={{width: '77.95pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>Hotjar</span></p>
+                                </td>
+                                <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>Ten plik cookie służy do o identyfikacji odwiedzającego oraz optymalizacji trafności kierowanych do niego reklam (na podstawie danych o innych witrynach, które odwiedził).
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </span></p>
+                                </td>
+                                <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>sesyjny</span></p>
                                 </td>
                             </tr>
                             <tr>
@@ -1274,8 +1474,8 @@ const PrivacyPolicy = () => {
                                     <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>Google</span></p>
                                 </td>
                                 <td width={213} style={{width: '160.0pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
-                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>Ten plik cookie (wykorzystywany przez YouTube)
-  służy do</span></p>
+                                    <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>
+Ten plik cookie (wykorzystywany przez YouTube) służy do przechowywania preferowanych przez odwiedzającego ustawień odtwarzacza video.  </span></p>
                                 </td>
                                 <td width={89} style={{width: '66.8pt', borderTop: 'none', borderLeft: 'none', borderBottom: 'solid windowtext 1.0pt', borderRight: 'solid windowtext 1.0pt', padding: '0in 5.4pt 0in 5.4pt'}}>
                                     <p className="MsoNormal" style={{textAlign: 'justify', layoutGridMode: 'char', verticalAlign: 'baseline'}}><span lang="PL" style={{fontSize: '11.0pt', fontFamily: '"Calibri Light",sans-serif'}}>nieokreślony (do momentu usunięcia)</span></p>

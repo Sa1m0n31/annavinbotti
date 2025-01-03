@@ -3628,13 +3628,17 @@ textarea {
     border-radius: 15px;
 }
 
-.instruction__row:first-child {
+.instruction__row:not(:last-of-type) {
     margin-bottom: 50px;
 }
 
 .instruction .img {
-    width: 10%;
+    width: 20%;
     height: auto;
+}
+
+.instruction--1 .img {
+    width: 10%;
 }
 
 .instruction .img--icon {
