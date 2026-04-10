@@ -67,25 +67,25 @@ const ContactPage = () => {
                     <p className="contact__top__section__data">
                         office@anna-vinbotti.com
                     </p>
-                    <p className="contact__top__section__data contact__top__section__data--phone">
-                        tel: +48 570 272 901<br/>
-                        (Obsługiwany od poniedziałku do piątku w godzinach 10:00 - 14:00)
-                    </p>
+                    {/*<p className="contact__top__section__data contact__top__section__data--phone">*/}
+                    {/*    tel: +48 570 272 901<br/>*/}
+                    {/*    (Obsługiwany od poniedziałku do piątku w godzinach 10:00 - 14:00)*/}
+                    {/*</p>*/}
                 </div>
-                <div className="contact__top__section">
-                    <h2 className="contact__top__section__header">
-                        Adres do korespondencji
-                    </h2>
-                    <p className="contact__top__section__data">
-                        Sklep Anna Vinbotti
-                    </p>
-                    <p className="contact__top__section__data">
-                        Ul. Stawki 21/18
-                    </p>
-                    <p className="contact__top__section__data">
-                        01-040 Warszawa
-                    </p>
-                </div>
+                {/*<div className="contact__top__section">*/}
+                {/*    <h2 className="contact__top__section__header">*/}
+                {/*        Adres do korespondencji*/}
+                {/*    </h2>*/}
+                {/*    <p className="contact__top__section__data">*/}
+                {/*        Sklep Anna Vinbotti*/}
+                {/*    </p>*/}
+                {/*    <p className="contact__top__section__data">*/}
+                {/*        Ul. Stawki 21/18*/}
+                {/*    </p>*/}
+                {/*    <p className="contact__top__section__data">*/}
+                {/*        01-040 Warszawa*/}
+                {/*    </p>*/}
+                {/*</div>*/}
             </div>
 
             <div className="contact__bottom">

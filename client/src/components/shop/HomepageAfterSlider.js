@@ -8,7 +8,7 @@ const HomepageAfterSlider = () => {
             Chcesz wiedzieć więcej?
         </h2>
         <div className="flex flex--afterSlider">
-            <a className="afterSlider__item" href="/jak-zamawiac">
+            <a className="afterSlider__item" href="#">
                 <figure>
                     <img className="img" src={img1} alt="img1" />
                 </figure>
@@ -16,7 +16,7 @@ const HomepageAfterSlider = () => {
                     Jak zamawiać buty?
                 </h3>
             </a>
-            <a className="afterSlider__item" href="/jak-powstaja">
+            <a className="afterSlider__item" href="#">
                 <figure>
                     <img className="img" src={img2} alt="img1" />
                 </figure>

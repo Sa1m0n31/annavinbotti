@@ -95,7 +95,7 @@ const NewsletterSection = () => {
                     <span></span>
                 </button>
                 <span className="checkboxText">
-                        Wyrażam zgodę na otrzymywanie informacji handlowych dotyczących bieżącej działalności sklepu Anna Vinbotti oraz aktualności ze świata mody, przesyłanych przez firmę „Anna Kot” pod podany przeze mnie adres poczty elektronicznej. *
+                        Wyrażam zgodę na otrzymywanie informacji handlowych dotyczących bieżącej działalności sklepu Anna Vinbotti oraz aktualności ze świata mody, przesyłanych przez firmę „Vinbotti Style Coach Anna Pietrak” pod podany przeze mnie adres poczty elektronicznej. *
                 </span>
             </label>
         </div> : ''}

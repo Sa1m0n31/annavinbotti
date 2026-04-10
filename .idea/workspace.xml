@@ -24,8 +24,12 @@
   <component name="ChangeListManager">
     <list default="true" id="40458e2d-1178-4d2c-8399-5d9068f14ac2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/AdminTerms.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/HomepageAfterSlider.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/HomepageAfterSlider.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/NewsletterSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/NewsletterSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/shop/TopHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/shop/TopHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/shop/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/ContactPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/shop/PrivacyPolicy.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +62,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sajmo/Desktop/Programowanie/Projekty/annavinbotti&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sajmo/Desktop/Programowanie/Projekty/topplon&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -230,6 +234,7 @@
       <workItem from="1726469578706" duration="43000" />
       <workItem from="1726474788291" duration="18000" />
       <workItem from="1735906258273" duration="890000" />
+      <workItem from="1762429610052" duration="1274000" />
     </task>
     <servers />
   </component>

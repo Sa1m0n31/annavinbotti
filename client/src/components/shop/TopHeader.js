@@ -99,22 +99,22 @@ const TopHeader = () => {
                 <img className="img" src={logo} alt="anna-vinbotti" />
             </a>
 
-            <div className="topHeader__firstRow__right flex d-desktop">
-                <a href="/moje-konto"
-                   className={loggedIn ? "topHeader__firstRow__right__link topHeader__firstRow__right__link--logoutOnHover" : "topHeader__firstRow__right__link"}>
-                    <img className="img" src={userIcon} alt="moje-konto" />
-                </a>
-                <button className="topHeader__logout"
-                        onClick={() => { logout(); }}>
-                    Wyloguj się
-                </button>
-                <a href="/zamowienie" className="topHeader__firstRow__right__link">
-                    <img className="img" src={cartIcon} alt="koszyk" />
-                    {cartContent?.length && !orderReceived ? <span className="cartCounter">
-                        {cartContent.length}
-                    </span> : ''}
-                </a>
-            </div>
+            {/*<div className="topHeader__firstRow__right flex d-desktop">*/}
+            {/*    <a href="/moje-konto"*/}
+            {/*       className={loggedIn ? "topHeader__firstRow__right__link topHeader__firstRow__right__link--logoutOnHover" : "topHeader__firstRow__right__link"}>*/}
+            {/*        <img className="img" src={userIcon} alt="moje-konto" />*/}
+            {/*    </a>*/}
+            {/*    <button className="topHeader__logout"*/}
+            {/*            onClick={() => { logout(); }}>*/}
+            {/*        Wyloguj się*/}
+            {/*    </button>*/}
+            {/*    <a href="/zamowienie" className="topHeader__firstRow__right__link">*/}
+            {/*        <img className="img" src={cartIcon} alt="koszyk" />*/}
+            {/*        {cartContent?.length && !orderReceived ? <span className="cartCounter">*/}
+            {/*            {cartContent.length}*/}
+            {/*        </span> : ''}*/}
+            {/*    </a>*/}
+            {/*</div>*/}
         </div>
 
         {/* DESKTOP */}
@@ -142,15 +142,15 @@ const TopHeader = () => {
             <button className="topHeader__menu--mobile__btn" onClick={() => { openMenu(); }}>
                 <img className="img" src={menuIcon} alt="menu" />
             </button>
-            <a className="topHeader__menu--mobile__btn" href="/moje-konto">
-                <img className="img" src={userIcon} alt="moje-konto" />
-            </a>
-            <a className="topHeader__menu--mobile__btn" href="/zamowienie">
-                <img className="img" src={cartIcon} alt="koszyk" />
-                {cartContent?.length ? <span className="cartCounter">
-                        {cartContent.length}
-                    </span> : ''}
-            </a>
+            {/*<a className="topHeader__menu--mobile__btn" href="/moje-konto">*/}
+            {/*    <img className="img" src={userIcon} alt="moje-konto" />*/}
+            {/*</a>*/}
+            {/*<a className="topHeader__menu--mobile__btn" href="/zamowienie">*/}
+            {/*    <img className="img" src={cartIcon} alt="koszyk" />*/}
+            {/*    {cartContent?.length ? <span className="cartCounter">*/}
+            {/*            {cartContent.length}*/}
+            {/*        </span> : ''}*/}
+            {/*</a>*/}
         </div>
 
         {/* MOBILE MENU */}

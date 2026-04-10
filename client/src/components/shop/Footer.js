@@ -25,43 +25,43 @@ const Footer = () => {
                 <span>
                     office@anna-vinbotti.com
                 </span>
-                <span className="footer__phoneNumber">
-                    tel. +48 570 272 901<br/>
-                    <span>
-                        (Obsługiwany od poniedziałku do piątku w godzinach 10:00 - 14:00)
-                    </span>
-                </span>
+                {/*<span className="footer__phoneNumber">*/}
+                {/*    tel. +48 570 272 901<br/>*/}
+                {/*    <span>*/}
+                {/*        (Obsługiwany od poniedziałku do piątku w godzinach 10:00 - 14:00)*/}
+                {/*    </span>*/}
+                {/*</span>*/}
 
-                <div className="contact__top__section">
-                    <h2 className="contact__top__section__header">
-                        Adres do korespondencji
-                    </h2>
-                    <p className="contact__top__section__data">
-                        Sklep Anna Vinbotti
-                    </p>
-                    <p className="contact__top__section__data">
-                        Ul. Stawki 21/18
-                    </p>
-                    <p className="contact__top__section__data">
-                        01-040 Warszawa
-                    </p>
-                </div>
+                {/*<div className="contact__top__section">*/}
+                {/*    <h2 className="contact__top__section__header">*/}
+                {/*        Adres do korespondencji*/}
+                {/*    </h2>*/}
+                {/*    <p className="contact__top__section__data">*/}
+                {/*        Sklep Anna Vinbotti*/}
+                {/*    </p>*/}
+                {/*    <p className="contact__top__section__data">*/}
+                {/*        Ul. Stawki 21/18*/}
+                {/*    </p>*/}
+                {/*    <p className="contact__top__section__data">*/}
+                {/*        01-040 Warszawa*/}
+                {/*    </p>*/}
+                {/*</div>*/}
             </div>
-            <div className="footer__col">
-                <h5 className="footer__col__header">
-                    Moje konto
-                </h5>
-                {!loggedIn ? <>
-                    <a className="footer__link" href="/moje-konto">
-                        Zaloguj się
-                    </a>
-                    <a className="footer__link" href="/moje-konto?sekcja=rejestracja">
-                        Zarejestruj się
-                    </a>
-                </> : <a className="footer__link" href="/panel-klienta?sekcja=zamowienia">
-                    Moje zamówienia
-                </a>}
-            </div>
+            {/*<div className="footer__col">*/}
+            {/*    <h5 className="footer__col__header">*/}
+            {/*        Moje konto*/}
+            {/*    </h5>*/}
+            {/*    {!loggedIn ? <>*/}
+            {/*        <a className="footer__link" href="/moje-konto">*/}
+            {/*            Zaloguj się*/}
+            {/*        </a>*/}
+            {/*        <a className="footer__link" href="/moje-konto?sekcja=rejestracja">*/}
+            {/*            Zarejestruj się*/}
+            {/*        </a>*/}
+            {/*    </> : <a className="footer__link" href="/panel-klienta?sekcja=zamowienia">*/}
+            {/*        Moje zamówienia*/}
+            {/*    </a>}*/}
+            {/*</div>*/}
             <div className="footer__col">
                 <h5 className="footer__col__header">
                     Informacje
@@ -72,15 +72,15 @@ const Footer = () => {
                 <a className="footer__link" href="/polityka-prywatnosci">
                     Polityka prywatności
                 </a>
-                <a className="footer__link" href="/odstapienie-od-umowy">
-                    Odstąpienie od umowy
-                </a>
-                <a className="footer__link" href="/gwarancja">
-                    Gwarancja
-                </a>
-                <a className="footer__link" href="/faq">
-                    Centrum pomocy / FAQ
-                </a>
+                {/*<a className="footer__link" href="/odstapienie-od-umowy">*/}
+                {/*    Odstąpienie od umowy*/}
+                {/*</a>*/}
+                {/*<a className="footer__link" href="/gwarancja">*/}
+                {/*    Gwarancja*/}
+                {/*</a>*/}
+                {/*<a className="footer__link" href="/faq">*/}
+                {/*    Centrum pomocy / FAQ*/}
+                {/*</a>*/}
             </div>
             <div className="footer__col">
                 <h5 className="footer__col__header">
